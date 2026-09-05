@@ -1,0 +1,2 @@
+
+Onboarding dökümanı oluşturulacak.

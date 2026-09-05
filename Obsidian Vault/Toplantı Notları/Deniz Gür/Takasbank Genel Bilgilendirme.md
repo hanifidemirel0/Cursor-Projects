@@ -15,8 +15,6 @@ tags:
 
 Wednesday, 2 September 2026, 4:18 pm
 
-Kaynak görüntü: ![[_sources/takasbank-genel-bilgilendirme.jpg]]
-
 ## Süreç
 
 Operasyon Kullanıcısı → Yeni talep → Bilgi İşlem → Uygulama Geliştirme (UG) → Yazılımcı + Analist → Test (SG Testi)

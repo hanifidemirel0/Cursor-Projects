@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Inmon vs Kimball.md",
+                "file": "Kendi Notlarım/Aktif Sorular.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Inmon vs Kimball"
+              "title": "Aktif Sorular"
             }
           }
         ]
@@ -206,23 +206,26 @@
   },
   "active": "f25f9fe3b1a096dd",
   "lastOpenFiles": [
+    "Toplantı Notları/Deniz Gür/Takasbank Genel Bilgilendirme 2.md",
+    "Toplantı Notları/Deniz Gür/Takasbank Genel Bilgilendirme.md",
     "Kendi Notlarım/Aktif Sorular.md",
+    "Kendi Notlarım/Rastgele Notlar.md",
+    "Kendi Notlarım/Proje Planı.md",
+    "Untitled.canvas",
+    "Toplantı Notları/Onur Karaca/Aktarım #1.md",
+    "Inmon vs Kimball.md",
     "_sources/aktarim-1.jpg",
     "_sources/takasbank-genel-bilgilendirme.jpg",
     "_sources/fiziksel-topoloji.jpg",
     "_sources/aktif-sorular.jpg",
-    "Inmon vs Kimball.md",
     "Home.md",
     "DWH.md",
     "2026-09-05.md",
     "Takasbank/Untitled/sdsd.md",
-    "Toplantı Notları/Onur Karaca/Aktarım #1.md",
-    "Toplantı Notları/Deniz Gür/Takasbank Genel Bilgilendirme.md",
     "Toplantı Notları/Onur Karaca",
     "Toplantı Notları/Deniz Gür",
     "Toplantı Notları",
     "ODS.md",
-    "Kendi Notlarım/Proje Planı.md",
     "Kendi Notlarım/Fiziksel Topoloji - Teknik Taraf.md",
     "Kendi Notlarım",
     "Kale.md",
@@ -230,7 +233,6 @@
     "_sources",
     "Takasbank/Untitled",
     "Takasbank",
-    "Untitled.canvas",
     "Welcome.md"
   ]
 }
