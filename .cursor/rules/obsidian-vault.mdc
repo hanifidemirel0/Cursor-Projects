@@ -1,0 +1,20 @@
+---
+description: This repo contains an Obsidian vault; read notes from disk, not via obsidian:// URIs.
+alwaysApply: true
+---
+
+# Obsidian vault in this repo
+
+Personal notes live in `Obsidian Vault/` (vault name: **Obsidian Vault**). Treat them as the user's knowledge base, not application source.
+
+## How to access notes
+
+- Read and edit the `.md` files on disk. Wikilink `[[Note Name]]` maps to a file named `Note Name.md` (search the vault if it is nested).
+- Do **not** rely on `obsidian://open?...` URIs. That scheme only opens inside the Obsidian app; agents cannot follow it.
+- Index / home note: `Obsidian Vault/Home.md`. Leave `.obsidian/` config alone unless the user asks to change Obsidian settings.
+
+## When working with the vault
+
+- Prefer updating existing notes over creating duplicates.
+- Keep vault markdown compatible with Obsidian (wikilinks, YAML frontmatter).
+- Do not commit secrets from notes. Do not dump the whole vault into a reply; open or cite the relevant note instead.
