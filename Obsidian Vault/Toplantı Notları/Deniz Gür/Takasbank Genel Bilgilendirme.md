@@ -43,6 +43,15 @@ Operasyon Kullanıcısı → Yeni talep → Bilgi İşlem → Uygulama Geliştir
 
 - [ ] ⭐ **DWH building steps belirlenmeli !!!**
 
+## Açık sorular
+
+- Kritik raporlar [[DWH]] üzerinden çıkmalı mı?
+- DWH inşa adımları nasıl olmalı?
+- DWH'den anlık rapor alınabilmeli mi?
+- DWH ingestion: [[Dataguard vs Goldengate]]
+
+Aynı liste: [[Aktif Sorular]]
+
 ## Piyasalar
 
 1. Merkezi karşı taraf: Risk ölçer, limitleri belirler. Risk hesaplamaları yapar.
