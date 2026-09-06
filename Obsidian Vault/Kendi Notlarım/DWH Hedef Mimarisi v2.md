@@ -55,10 +55,9 @@ Değiştirilen veya sınırlandırılan kararlar:
 4. **Accumulating snapshot tek denetim izi değildir.** Değişmez olay fact'i saklanır; süreç görünümü bunun üzerinden üretilir.
 5. **Mutabakat toleransı tek tip değildir.** Aynı grain ve para ölçeğinde beklenen kesin eşitlik ayrı; fiyatlama, değerleme ve zamanlama farkı versiyonlu iş kuralı ayrıdır.
 6. **200 TB donanım kapasite onayı değildir.** Kullanılabilir alan, büyüme, indeks, geçici alan, replika, yedek ve saklama süresi birlikte hesaplanır.
-7. **Bitmap indeks ve HCC blanket karar değildir.** Tablo hareketliliği, eşzamanlı DML ve sorgu profiliyle ölçülür.
-8. **ODS ile EDW aynı entegrasyonu iki kere yapmaz.** Güncel ODS görünümü kurumsal core sözleşmesinden türetilir.
-9. **`üye`, tek başına kurumsal ana boyut değildir.** Taraf, rol ve üyelik ayrılır.
-10. **Tek piyasa takas martı kesin pilot değildir.** İçeride önerilen üye-dosya projesiyle birlikte karar kapısında değerlendirilir.
+7. **ODS ile EDW aynı entegrasyonu iki kere yapmaz.** 
+8. **`üye`, tek başına kurumsal ana boyut değildir.** Taraf, rol ve üyelik ayrılır.
+9. **Tek piyasa takas martı kesin pilot değildir.** İçeride önerilen üye-dosya projesiyle birlikte karar kapısında değerlendirilir.
 
 ## Mimari ilkeler
 

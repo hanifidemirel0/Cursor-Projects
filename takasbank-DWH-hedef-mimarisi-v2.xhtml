@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="tr" lang="tr">
+<head>
+  <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+  <title>Takasbank DWH Hedef Mimarisi v2</title>
+  <style type="text/css">
+    body { margin: 0; background: #f5f6f8; color: #1f2937; font: 15px/1.55 Arial, sans-serif; }
+    #page { max-width: 1120px; margin: 0 auto; padding: 32px 24px 56px; }
+    h1 { margin: 0 0 6px; font-size: 28px; }
+    h2 { margin: 30px 0 10px; font-size: 21px; }
+    h3 { margin: 20px 0 8px; font-size: 16px; }
+    p { margin: 6px 0 12px; }
+    a { color: #175cd3; }
+    .subtitle, .caption { color: #667085; }
+    .caption { font-size: 12px; }
+    .hero { border-bottom: 1px solid #d0d5dd; padding-bottom: 20px; }
+    .badge { display: inline-block; margin-top: 10px; padding: 3px 8px; border: 1px solid #98a2b3; border-radius: 12px; font-size: 12px; }
+    .flow { display: table; width: 100%; margin: 18px 0 8px; table-layout: fixed; border-spacing: 8px; }
+    .flow-row { display: table-row; }
+    .node, .arrow { display: table-cell; vertical-align: middle; }
+    .node { padding: 12px; border: 1px solid #98a2b3; border-radius: 6px; background: #fff; }
+    .node strong, .node span { display: block; }
+    .node span { margin-top: 4px; color: #667085; font-size: 12px; }
+    .node.core { border-color: #175cd3; background: #eff8ff; }
+    .arrow { width: 18px; color: #667085; text-align: center; }
+    .callout { margin: 16px 0; padding: 12px 14px; border-left: 4px solid #175cd3; background: #eff8ff; }
+    .callout.warning { border-color: #dc6803; background: #fffaeb; }
+    .callout.success { border-color: #039855; background: #ecfdf3; }
+    .callout strong { display: block; margin-bottom: 4px; }
+    table { width: 100%; border-collapse: collapse; margin: 10px 0 20px; background: #fff; }
+    th, td { padding: 9px 10px; border: 1px solid #d0d5dd; text-align: left; vertical-align: top; }
+    th { background: #eaecf0; font-size: 13px; }
+    tr:nth-child(even) td { background: #f9fafb; }
+    code { font-family: Consolas, monospace; font-size: 0.92em; }
+    details { margin: 10px 0; border: 1px solid #d0d5dd; border-radius: 6px; background: #fff; }
+    summary { padding: 12px 14px; cursor: pointer; font-weight: bold; }
+    details div.body { padding: 0 14px 14px; }
+    ol.steps li { margin: 6px 0; }
+    .sources { margin-top: 34px; padding-top: 14px; border-top: 1px solid #d0d5dd; font-size: 12px; color: #667085; }
+  </style>
+</head>
+<body>
+  <div id="page">
+    <div class="hero">
+      <h1>Takasbank DWH Hedef Mimarisi v2</h1>
+      <p class="subtitle">Kurumsal anlamı merkezileştiren, veri ürünlerini dikey teslim eden ve her yayını kalite kapısından geçiren hedef tasarım.</p>
+      <span class="badge">Önerilen hedef · iteratif kurumsal core + Kimball veri ürünleri</span>
+    </div>
+
+    <h2>Hedef desen</h2>
+    <p>Kaynak verisi değişmez landing'e alınır; iş kimlikleri ve olaylar bitemporal core'da çözülür. ODS güncel durum, martlar analitik tüketim, PUB ise sözleşmeli yayın sağlar.</p>
+    <div class="flow">
+      <div class="flow-row">
+        <div class="node"><strong>Kaynaklar</strong><span>Oracle · dış sistem · dosya/mesaj</span></div>
+        <div class="arrow">→</div>
+        <div class="node"><strong>LND</strong><span>Değişmez kanıt ve replay</span></div>
+        <div class="arrow">→</div>
+        <div class="node core"><strong>CORE</strong><span>Kurumsal anlam ve tarihçe</span></div>
+        <div class="arrow">→</div>
+        <div class="node"><strong>ODS / DM</strong><span>Güncel durum / analitik</span></div>
+        <div class="arrow">→</div>
+        <div class="node"><strong>PUB</strong><span>Sözleşmeli tüketim</span></div>
+      </div>
+    </div>
+    <p class="caption">Metadata, lineage, kalite, güvenlik ve orkestrasyon kontrol düzlemi bütün akışı keser.</p>
+
+    <div class="callout">
+      <strong>Temel sınır</strong>
+      DWH canlı takas, ödeme veya teminat defterinin yerine geçmez. Denetlenebilir analiz, yeniden üretim ve yayın platformudur.
+    </div>
+
+    <h2>Mimari ilkeler</h2>
+    <table>
+      <thead><tr><th>İlke</th><th>Mimari karşılığı</th></tr></thead>
+      <tbody>
+        <tr><td>Grain önce</td><td>Her satırın temsil ettiği iş olayı veya durum açıkça tanımlanır.</td></tr>
+        <tr><td>Olay kanıttır</td><td>Durum ve snapshot, değişmez olay geçmişinden türetilir.</td></tr>
+        <tr><td>Bitemporal</td><td>İş geçerlilik zamanı ile DWH'ın bilgiyi gördüğü zaman ayrılır.</td></tr>
+        <tr><td>Eleman bazlı otorite</td><td>Golden source tabloya değil veri elemanı ve bağlama atanır.</td></tr>
+        <tr><td>Sözleşmeli yayın</td><td>Tüketici fiziksel tabloya değil sürümlü veri ürününe bağlanır.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Operasyonel raporun servis noktası</h2>
+    <table>
+      <thead><tr><th>Raporun görevi</th><th>Doğru nokta</th><th>Gerekçe</th></tr></thead>
+      <tbody>
+        <tr><td>Canlı işlemi yürütür</td><td>Kaynak uygulama</td><td>Saniyelik doğruluk, write-back veya işlem başlatma gerekir.</td></tr>
+        <tr><td>Güncel operasyonu izler</td><td><code>ODS_*</code></td><td>Current-state görünümü ve intraday yenileme gerekir.</td></tr>
+        <tr><td>Operasyonu açıklar veya kanıtlar</td><td><code>DM_* / PUB_*</code></td><td>Tarihçe, çok kaynak, mutabakat veya sertifikalı ölçü gerekir.</td></tr>
+        <tr><td>Yasal veya dış teslimattır</td><td><code>PUB_*</code></td><td>İlk gönderim, düzeltme, kabul/ret ve teslimat izi korunur.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Katman sözleşmeleri</h2>
+    <details open="open">
+      <summary>LND — Immutable landing / PSA</summary>
+      <div class="body">Kaynağın teslim ettiğini dönüştürmeden kanıtlar. Append-only ham teslimat, checkpoint, hash, şema sürümü ve yükleme kimliği taşır. Replay'in kaynağıdır.</div>
+    </details>
+    <details>
+      <summary>STG — Geçici standardizasyon</summary>
+      <div class="body">Tip düzeltme, kod normalizasyonu, teknik deduplication ve set-based yük hazırlığı içindir. Kalıcı kurumsal tarihçenin sahibi değildir.</div>
+    </details>
+    <details open="open">
+      <summary>CORE — Bitemporal kurumsal core</summary>
+      <div class="body">Ortak party, rol, üyelik, hesap, piyasa, hizmet, varlık ve olay anlamının sahibidir. İş zamanı ve sistem zamanını ayrı taşır.</div>
+    </details>
+    <details>
+      <summary>ODS — Current-state projection</summary>
+      <div class="body">Core'un düşük gecikmeli güncel-durum projeksiyonudur. Kale aynası veya ikinci entegrasyon katmanı değildir; tam tarihçenin sahibi olmaz.</div>
+    </details>
+    <details>
+      <summary>DM — Dimensional marts</summary>
+      <div class="body">MSTR ve analitik tüketim için grain'i açık yıldız şemalardır. Fact başka bir fact veya marttan iş ana verisi üretmez.</div>
+    </details>
+    <details>
+      <summary>PUB — Yayın ve veri ürünleri</summary>
+      <div class="body">MSTR, düzenleyici rapor, üye dosyası, API ve amaçla sınırlandırılmış AI görünümleri için immutable, SLA'lı ve lineage'lı yayın sürümleri sağlar.</div>
+    </details>
+
+    <h2>Gecikme sınıfları</h2>
+    <table>
+      <thead><tr><th>Sınıf</th><th>Beklenti</th><th>Tipik yöntem</th></tr></thead>
+      <tbody>
+        <tr><td>S0</td><td>Kanıtlanmış olay-yakın gerçek zamanlı SLA</td><td>Log veya mesaj tabanlı CDC</td></tr>
+        <tr><td>S1</td><td>Dakika/saat ölçeğinde gün içi</td><td>Checkpoint'li mikro-batch</td></tr>
+        <tr><td>S2</td><td>Otoritatif gün sonu</td><td>Tamamlanma olayından sonra batch</td></tr>
+        <tr><td>S3</td><td>Planlı dış besleme</td><td>Dosya veya harici yayın penceresi</td></tr>
+        <tr><td>S4</td><td>Replay, düzeltme, backfill</td><td>Talep üzerine yeniden işleme</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Kontrol düzlemi ve yayın kapısı</h2>
+    <table>
+      <thead><tr><th>Seviye</th><th>Soru</th><th>Örnek kontrol</th></tr></thead>
+      <tbody>
+        <tr><td>Teslimat</td><td>Eksiksiz teslim alındı mı?</td><td>Checkpoint, checksum, duplicate</td></tr>
+        <tr><td>Teknik</td><td>Kayıt yapısı geçerli mi?</td><td>PK, nullable, referential kurallar</td></tr>
+        <tr><td>Dönüşüm</td><td>Grain değişimi doğru mu?</td><td>Tutar, adet, distinct party</td></tr>
+        <tr><td>İş / dış otorite</td><td>İş sonucu doğru mu?</td><td>Alt defter, bakiye, kabul edilmiş gönderim</td></tr>
+      </tbody>
+    </table>
+    <div class="callout success">
+      <strong>Yayın kapısı</strong>
+      Kalite ve mutabakat yeşil değilse yeni sürüm açılmaz. Önceki sertifikalı sürüm kalabilir; bayatlık görünür biçimde işaretlenir.
+    </div>
+
+    <h2>Gün sonu zinciri</h2>
+    <ol class="steps">
+      <li>İş tarihi, run ve source snapshot taşıyan otoritatif tamamlanma sinyali</li>
+      <li>Landing yükü ve teslimat/teknik mutabakat</li>
+      <li>Bitemporal core yükü ve kimlik kuralları</li>
+      <li>Otorite matrisiyle iş mutabakatı</li>
+      <li>ODS ve mart yenileme</li>
+      <li>Sertifikalı immutable yayın sürümü</li>
+    </ol>
+
+    <h2>Dikey teslimat ve fiziksel karar kapısı</h2>
+    <p>Her veri ürünü; iş sonucu, grain, otorite, kaynak sözleşmesi, landing, gerekli core varlıkları, gerekiyorsa ODS, mart/yayın, mutabakat, güvenlik ve SLA ile birlikte tamamlanır.</p>
+    <div class="callout warning">
+      <strong>Kapasite uyarısı</strong>
+      200 TB bilgisi tek başına kapasite onayı değildir. Raw/core/mart çoğaltması, indeks, temp, replika, yedek, retention ve büyüme birlikte ölçülmelidir.
+    </div>
+
+    <div class="sources">
+      Kaynak: <a href="Obsidian Vault/Kendi Notlarım/DWH Hedef Mimarisi v2.md">DWH Hedef Mimarisi v2</a> ·
+      <a href="Obsidian Vault/Kendi Notlarım/Proje Planı.md">Proje Planı</a> ·
+      <a href="Obsidian Vault/Kendi Notlarım/Aktif Sorular.md">Aktif Sorular</a>
+    </div>
+  </div>
+</body>
+</html>

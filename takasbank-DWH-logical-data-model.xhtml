@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="tr" lang="tr">
+<head>
+  <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+  <title>Takasbank DWH Logical Data Model</title>
+  <style type="text/css">
+    body { margin: 0; background: #f5f6f8; color: #1f2937; font: 15px/1.55 Arial, sans-serif; }
+    #page { max-width: 1120px; margin: 0 auto; padding: 32px 24px 56px; }
+    h1 { margin: 0 0 6px; font-size: 28px; }
+    h2 { margin: 30px 0 10px; font-size: 21px; }
+    h3 { margin: 20px 0 8px; font-size: 16px; }
+    p { margin: 6px 0 12px; }
+    a { color: #175cd3; }
+    code { font-family: Consolas, monospace; font-size: 0.92em; }
+    .hero { border-bottom: 1px solid #d0d5dd; padding-bottom: 20px; }
+    .subtitle, .caption { color: #667085; }
+    .caption { font-size: 12px; }
+    .badge { display: inline-block; margin-top: 10px; padding: 3px 8px; border: 1px solid #98a2b3; border-radius: 12px; font-size: 12px; }
+    .domains { display: table; width: 100%; table-layout: fixed; border-spacing: 9px; margin: 14px 0; }
+    .domain-row { display: table-row; }
+    .domain { display: table-cell; padding: 12px; border: 1px solid #98a2b3; border-radius: 6px; background: #fff; }
+    .domain strong, .domain span { display: block; }
+    .domain span { margin-top: 4px; color: #667085; font-size: 11px; }
+    .domain.fund { border-color: #175cd3; background: #eff8ff; }
+    .callout { margin: 16px 0; padding: 12px 14px; border-left: 4px solid #175cd3; background: #eff8ff; }
+    .callout.warning { border-color: #dc6803; background: #fffaeb; }
+    .callout strong { display: block; margin-bottom: 4px; }
+    table { width: 100%; border-collapse: collapse; margin: 10px 0 20px; background: #fff; }
+    th, td { padding: 9px 10px; border: 1px solid #d0d5dd; text-align: left; vertical-align: top; }
+    th { background: #eaecf0; font-size: 13px; }
+    tr:nth-child(even) td { background: #f9fafb; }
+    details { margin: 10px 0; border: 1px solid #d0d5dd; border-radius: 6px; background: #fff; }
+    summary { padding: 12px 14px; cursor: pointer; font-weight: bold; }
+    details div.body { padding: 0 14px 14px; }
+    .lifecycle { display: table; width: 100%; table-layout: fixed; border-spacing: 7px; margin: 16px 0; }
+    .life-row { display: table-row; }
+    .step, .arrow { display: table-cell; vertical-align: middle; }
+    .step { padding: 10px; border: 1px solid #98a2b3; border-radius: 6px; background: #fff; }
+    .step.highlight { border-color: #175cd3; background: #eff8ff; }
+    .step strong, .step span { display: block; }
+    .step span { color: #667085; font-size: 10px; margin-top: 4px; }
+    .arrow { width: 15px; text-align: center; color: #667085; }
+    .sources { margin-top: 34px; padding-top: 14px; border-top: 1px solid #d0d5dd; font-size: 12px; color: #667085; }
+  </style>
+</head>
+<body>
+  <div id="page">
+    <div class="hero">
+      <h1>Takasbank DWH Logical Data Model</h1>
+      <p class="subtitle">Kurumsal veri omurgası ve ilk ayrıntılı dikey alan olarak Fon Bilgilendirme modeli.</p>
+      <span class="badge">Logical model · teknoloji ve fiziksel yerleşimden bağımsız</span>
+    </div>
+
+    <h2>Kurumsal domain haritası</h2>
+    <p>Paketler bağımsız silo değildir. Party, account, market, service, asset, currency, unit ve calendar kimliklerini paylaşır.</p>
+    <div class="domains">
+      <div class="domain-row">
+        <div class="domain"><strong>Party</strong><span>kimlik · rol · hesap</span></div>
+        <div class="domain"><strong>Reference</strong><span>market · service · asset</span></div>
+        <div class="domain"><strong>Trading</strong><span>trade · contract · position</span></div>
+        <div class="domain"><strong>Settlement</strong><span>netting · obligation · movement</span></div>
+      </div>
+      <div class="domain-row">
+        <div class="domain"><strong>Risk</strong><span>margin · collateral · default</span></div>
+        <div class="domain"><strong>Custody</strong><span>holding · corporate action</span></div>
+        <div class="domain fund"><strong>Fund</strong><span>submission · calculation · publication</span></div>
+        <div class="domain"><strong>Publish</strong><span>delivery · regulatory response</span></div>
+      </div>
+    </div>
+    <p class="caption">Quality, reconciliation, lineage, authority ve security bütün domainleri kesen kontrol düzlemidir.</p>
+
+    <div class="callout">
+      <strong>Logical model sınırı</strong>
+      Entity, ilişki, grain, business key, zaman ve bütünlük kuralları burada tanımlanır. Oracle tablo, partition, indeks, compression ve tablespace fiziksel model aşamasındadır.
+    </div>
+
+    <h2>Entity türleri ve ortak kurallar</h2>
+    <table>
+      <thead><tr><th>Tür</th><th>Ne temsil eder?</th><th>Örnek</th></tr></thead>
+      <tbody>
+        <tr><td>Master</td><td>Kalıcı iş kimliği</td><td>Party, account, market, instrument, fund</td></tr>
+        <tr><td>Relationship</td><td>Zaman içinde değişen ilişki</td><td>Membership, account-party role</td></tr>
+        <tr><td>Event</td><td>Gerçekleşmiş ve geri alınmayan olay</td><td>Trade event, movement, correction</td></tr>
+        <tr><td>Snapshot</td><td>Belirli as-of anındaki durum</td><td>Position, holding, exposure</td></tr>
+        <tr><td>Rule</td><td>Yürürlük tarihli iş kuralı</td><td>Settlement, validation, calculation</td></tr>
+        <tr><td>Run</td><td>Tek çalıştırma ve girdileri</td><td>Netting, valuation, reconciliation</td></tr>
+      </tbody>
+    </table>
+    <ul>
+      <li>Kaynak PK kurumsal PK yapılmaz; kaynak kimlikleri XREF/SOURCE_IDENTIFIER ile bağlanır.</li>
+      <li>Mutable master, relationship ve rule entity'leri valid time ile system time taşır.</li>
+      <li>Event append-only tutulur; snapshot mutlaka <code>as_of_ts</code> taşır.</li>
+      <li>Tutar para birimi, miktar ölçü birimi, fiyat ise kaynak ve gözlem zamanı olmadan anlamlı değildir.</li>
+    </ul>
+
+    <h2>Kurumsal model paketleri</h2>
+    <details open="open">
+      <summary>1 — Party, rol, üyelik ve hesap</summary>
+      <div class="body">
+        <p><code>PARTY · PARTY_IDENTIFIER · PARTY_ROLE_ASSIGNMENT · MEMBERSHIP · ACCOUNT · ACCOUNT_PARTY_ROLE</code></p>
+        <p>Kimlik, rol ve üyelik ayrı entity'lerdir. Kaynak üye kodu kurumsal PK değildir; aynı kişi veya kurum farklı piyasalarda farklı roller üstlenebilir.</p>
+      </div>
+    </details>
+    <details>
+      <summary>2 — Piyasa, hizmet, takvim ve varlık</summary>
+      <div class="body">
+        <p><code>PLATFORM · MARKET · SERVICE · ASSET · INSTRUMENT · CASH_ASSET · PRICE_OBSERVATION · SETTLEMENT_RULE</code></p>
+        <p>Piyasa, platform ve hizmet ayrıdır. ASSET nakit ile finansal araç için ortak üst tiptir. Takas çevrimi kolon değil, yürürlük tarihli kuraldır.</p>
+      </div>
+    </details>
+    <details>
+      <summary>3 — İşlem, sözleşme ve pozisyon</summary>
+      <div class="body">
+        <p><code>TRADE · TRADE_PARTY_ROLE · CCP_LEG · CONTRACT · POSITION_SNAPSHOT</code></p>
+        <p>Ekonomik işlem, MKT sonucu oluşan yasal bacak ve as-of pozisyon aynı satır değildir. İptal ve düzeltme yaşam döngüsü olayıdır.</p>
+      </div>
+    </details>
+    <details open="open">
+      <summary>4 — Netleştirme, yükümlülük ve hareket</summary>
+      <div class="body">
+        <p><code>NETTING_RUN · NETTING_INPUT · SETTLEMENT_OBLIGATION · SETTLEMENT_INSTRUCTION · MOVEMENT</code></p>
+        <p>Netleştirme girdileri tüketir ve yükümlülük üretir; talimatlar gerçekleşen hareketlerle kapanır. Bir obligation birden fazla kısmi movement ile kapanabilir.</p>
+      </div>
+    </details>
+    <details>
+      <summary>5 — Risk, teminat ve temerrüt</summary>
+      <div class="body">
+        <p><code>RISK_EXPOSURE · MARGIN_REQUIREMENT · COLLATERAL_LOT · COLLATERAL_VALUATION · DEFAULT_CASE</code></p>
+        <p>Risk hesabı, çağrı olayı, teminat hareketi ve değerleme ayrıdır. Aynı teminat lotu hareket etmeden birçok kez değerlenebilir.</p>
+      </div>
+    </details>
+    <details>
+      <summary>6 — Saklama ve kurumsal aksiyon</summary>
+      <div class="body">
+        <p><code>HOLDING_SNAPSHOT · CUSTODY_MOVEMENT · CORPORATE_ACTION · ENTITLEMENT</code></p>
+        <p>As-of bakiye, debit/credit hareketi, hak doğuran olay ve ödeme ayrılır. Dış bakiye core kaydını sessizce ezmez.</p>
+      </div>
+    </details>
+    <details>
+      <summary>7 — Yayın, kalite ve mutabakat</summary>
+      <div class="body">
+        <p><code>DATA_PRODUCT · PUBLICATION_VERSION · OUTBOUND_DELIVERY · QUALITY_RESULT · RECONCILIATION_RUN</code></p>
+        <p>Her yayın immutable sürüm, her dış gönderim ayrı attempt, her kabul/ret ayrı response'tur.</p>
+      </div>
+    </details>
+
+    <h2>İşlemden mutabakata grain zinciri</h2>
+    <table>
+      <thead><tr><th>Sıra</th><th>Entity</th><th>Bir satırın anlamı</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td><code>TRADE</code></td><td>Tek ekonomik işlem</td></tr>
+        <tr><td>2</td><td><code>CCP_LEG</code></td><td>MKT sonucu oluşan tek yasal bacak</td></tr>
+        <tr><td>3</td><td><code>NETTING_INPUT</code></td><td>Trade veya leg'in tek netting run'a katkısı</td></tr>
+        <tr><td>4</td><td><code>SETTLEMENT_OBLIGATION</code></td><td>Party-account-asset-date-direction yükümlülüğü</td></tr>
+        <tr><td>5</td><td><code>SETTLEMENT_INSTRUCTION</code></td><td>Dış veya iç sisteme gönderilen tek talimat sürümü</td></tr>
+        <tr><td>6</td><td><code>MOVEMENT</code></td><td>Hesaptaki tek cash/asset debit-credit olayı</td></tr>
+        <tr><td>7</td><td><code>RECONCILIATION_DIFFERENCE</code></td><td>Tek karşılaştırma anahtarı ve metrik farkı</td></tr>
+      </tbody>
+    </table>
+    <div class="callout warning">
+      <strong>Grain uyarısı</strong>
+      Trade, CCP leg, netting run, obligation, instruction ve movement tek “takas akışı” satırına sıkıştırılmaz.
+    </div>
+
+    <h2>Fon Bilgilendirme süreç zinciri</h2>
+    <p>Bir dönemde birden fazla original/correction submission; her submission üzerinde birden fazla validation ve calculation run bulunabilir.</p>
+    <div class="lifecycle">
+      <div class="life-row">
+        <div class="step"><strong>Dönem</strong><span>fund + date + cycle</span></div>
+        <div class="arrow">→</div>
+        <div class="step highlight"><strong>Bildirim</strong><span>original / correction</span></div>
+        <div class="arrow">→</div>
+        <div class="step"><strong>Doğrulama</strong><span>run + rule result</span></div>
+        <div class="arrow">→</div>
+        <div class="step"><strong>Hesaplama</strong><span>input + price + rule</span></div>
+        <div class="arrow">→</div>
+        <div class="step highlight"><strong>Yayın</strong><span>selected certified run</span></div>
+        <div class="arrow">→</div>
+        <div class="step"><strong>Teslimat</strong><span>CSV / API attempt</span></div>
+      </div>
+    </div>
+
+    <h3>Fon logical entity seti</h3>
+    <table>
+      <thead><tr><th>Entity</th><th>Grain</th><th>Kritik sorumluluk</th></tr></thead>
+      <tbody>
+        <tr><td><code>FUND_REPORTING_PERIOD</code></td><td>Fund + iş tarihi + cycle</td><td>Kesim ve restatement bağlamı</td></tr>
+        <tr><td><code>FUND_SUBMISSION</code></td><td>Tek original/correction bildirim</td><td>Önceki submission'ı silmeden düzeltir</td></tr>
+        <tr><td><code>FUND_SUBMISSION_FILE</code></td><td>Tek fiziksel dosya veya mesaj</td><td>Hash, schema, kanal ve karantina</td></tr>
+        <tr><td><code>FUND_PORTFOLIO_LINE</code></td><td>Submission içindeki tek kaynak satırı</td><td>Varlık, miktar, fiyat ve raw ref</td></tr>
+        <tr><td><code>FUND_VALIDATION_RUN</code></td><td>Submission + rule set version</td><td>Accepted/rejected kararının kanıtı</td></tr>
+        <tr><td><code>FUND_CALCULATION_RUN</code></td><td>Accepted submission + rule set + as-of</td><td>Her correction yeni run üretir</td></tr>
+        <tr><td><code>FUND_CALCULATION_INPUT</code></td><td>Run'da kullanılan satır veya fiyat</td><td>Sonuçtan input'a kesin lineage</td></tr>
+        <tr><td><code>FUND_VALUATION_RESULT</code></td><td>Run + metric + currency</td><td>NAV, unit price, portfolio value</td></tr>
+        <tr><td><code>FUND_RETURN_RESULT</code></td><td>Run + horizon + method</td><td>Getiri sonucu</td></tr>
+        <tr><td><code>FUND_PUBLICATION</code></td><td>Period için seçilen run</td><td>Sertifikalı yayın kararı</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Düzeltme ve yayın davranışı</h3>
+    <table>
+      <thead><tr><th>Aşama</th><th>Sürüm 1</th><th>Sürüm 2</th></tr></thead>
+      <tbody>
+        <tr><td>Submission</td><td>Original</td><td>Correction → Original</td></tr>
+        <tr><td>Calculation</td><td>Run V1</td><td>Run V2</td></tr>
+        <tr><td>Publication</td><td>Published V1</td><td>V2 supersedes V1</td></tr>
+      </tbody>
+    </table>
+    <p>Current, business-time as-of, system-time as-known, originally published ve restated sorguları farklıdır. Düzeltme eski satırı değiştirmez; yeni run ve publication üretir.</p>
+
+    <h3>Fon mart fact'leri</h3>
+    <table>
+      <thead><tr><th>Mart fact</th><th>Grain</th></tr></thead>
+      <tbody>
+        <tr><td><code>fact_fund_submission</code></td><td>Bir submission</td></tr>
+        <tr><td><code>fact_fund_portfolio_snapshot</code></td><td>Fund + period + portfolio line</td></tr>
+        <tr><td><code>fact_fund_validation</code></td><td>Validation run + rule + scope</td></tr>
+        <tr><td><code>fact_fund_valuation</code></td><td>Calculation run + metric + currency</td></tr>
+        <tr><td><code>fact_fund_return</code></td><td>Calculation run + horizon + method</td></tr>
+        <tr><td><code>fact_fund_publication</code></td><td>Fund + period + publication version</td></tr>
+        <tr><td><code>fact_outbound_delivery</code></td><td>Publication + recipient + channel + attempt</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Logical-to-physical geçiş kapıları</h2>
+    <table>
+      <thead><tr><th>Karar alanı</th><th>Onaylanacak bilgi</th><th>Fiziksel etkisi</th></tr></thead>
+      <tbody>
+        <tr><td>Kimlik</td><td>Grain, business key, source identifier</td><td>PK ve unique index</td></tr>
+        <tr><td>İlişki</td><td>Cardinality, optionality, referential davranış</td><td>FK ve yük sırası</td></tr>
+        <tr><td>Zaman</td><td>Valid/system time, event/as-of semantiği</td><td>Historization tasarımı</td></tr>
+        <tr><td>Yaşam döngüsü</td><td>Correction, delete, late-arriving davranışı</td><td>Merge veya append stratejisi</td></tr>
+        <tr><td>Hacim</td><td>Günlük değişim, retention, büyüme</td><td>Partition ve compression</td></tr>
+        <tr><td>Güvenlik</td><td>Hassasiyet, amaç, izinli tüketici</td><td>Masking ve erişim</td></tr>
+        <tr><td>Otorite</td><td>Eleman bazlı authority ve mutabakat</td><td>Kalite kapısı</td></tr>
+        <tr><td>SLA</td><td>Yük, sorgu, freshness, RPO/RTO</td><td>MV, indeks ve yerleşim</td></tr>
+      </tbody>
+    </table>
+    <div class="callout warning">
+      <strong>Fon için açık model kararları</strong>
+      Kurumsal fund business key'i, dosya cardinality'si, portfolio line grain'i, correction sırası, hesaplama otoritesi ve API sözleşmesi kaynak analiziyle kapanmalıdır.
+    </div>
+
+    <div class="sources">
+      Kaynak: <a href="Obsidian Vault/Kendi Notlarım/DWH Logical Data Model.md">DWH Logical Data Model</a> ·
+      <a href="Obsidian Vault/Kendi Notlarım/DWH Hedef Mimarisi v2.md">DWH Hedef Mimarisi v2</a> ·
+      <a href="Obsidian Vault/Kendi Notlarım/Aktif Sorular.md">Aktif Sorular</a>
+    </div>
+  </div>
+</body>
+</html>
