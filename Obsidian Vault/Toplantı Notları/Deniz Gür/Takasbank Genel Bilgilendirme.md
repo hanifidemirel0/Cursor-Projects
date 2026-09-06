@@ -71,4 +71,4 @@ Borsa → Emir eşleşmesi (t günü) → Takasbank üye bilgisi (t günü) → 
 - Hazine ekibi hazırlıyor mesela. Maliye Bakanlığı'na gidiyor.
 - İleride hepsini MSTR ve DWH üzerinden gönderme hedefleniyor.
 
-İlgili notlar: [[Aktif Sorular]] · [[Aktarım #1]]
+İlgili notlar: [[Aktif Sorular]] · [[Aktarım #1]] · [[Takasbank Genel Bilgilendirme 2]]

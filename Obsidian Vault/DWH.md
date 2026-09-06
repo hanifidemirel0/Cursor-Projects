@@ -15,13 +15,18 @@ Takasbank veri ambarı. OneNote notlarından derlenen amaç ve açık sorular.
 2. Yapay zeka: veriyi DWH'dan okumak daha hızlı ve temiz olacak. Semantik layer ileride AI için faydalı.
 3. MSTR'da self-servis BI (sürükle-bırak) henüz yok; grain'i düzgün tablolarla önü açılacak.
 
+## Mevcut raporlama
+
+Operasyonel kullanıcılar (iş birimleri) **Team Developer** kullanıyor; raporlar peyderpey UG'nin yönettiği web tarafına aktarılıyor. Nihai hedef MSTR. Üyelerin terminal ekranlarına açılan raporlar da var. ([[Takasbank Genel Bilgilendirme 2]])
+
+## Mimari
+
+[[DWH Mimari Tasarım]]
+
 ## Açık sorular
 
-[[Aktif Sorular]] sayfasından:
+[[Aktif Sorular]]
 
-- Kritik raporlar DWH üzerinden verilmeli mi?
-- İnşa adımları parça parça mı, topyekün mü? [[Inmon vs Kimball]]
-- Anlık rapor alınabilmeli mi?
-- [[ODS]] nasıl konumlanmalı; Kale haricinde hangi kaynaklar?
+## Plan
 
-Aksiyon: [[Takasbank Genel Bilgilendirme]] içinde *DWH building steps belirlenmeli*.
+[[Proje Planı]]

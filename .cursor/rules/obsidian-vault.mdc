@@ -1,5 +1,5 @@
 ---
-description: This repo contains an Obsidian vault; read notes from disk, not via obsidian:// URIs.
+description: Obsidian vault in this repo; read notes from disk, and write each fact once on its owner note.
 alwaysApply: true
 ---
 
@@ -12,9 +12,26 @@ Personal notes live in `Obsidian Vault/` (vault name: **Obsidian Vault**). Treat
 - Read and edit the `.md` files on disk. Wikilink `[[Note Name]]` maps to a file named `Note Name.md` (search the vault if it is nested).
 - Do **not** rely on `obsidian://open?...` URIs. That scheme only opens inside the Obsidian app; agents cannot follow it.
 - Index / home note: `Obsidian Vault/Home.md`. Leave `.obsidian/` config alone unless the user asks to change Obsidian settings.
+- Keep markdown Obsidian-compatible (wikilinks, YAML frontmatter). Prefer updating existing notes over creating duplicates.
+- Do not commit secrets from notes. Do not dump the whole vault into a reply; cite the relevant note instead.
 
-## When working with the vault
+## One fact, one note
 
-- Prefer updating existing notes over creating duplicates.
-- Keep vault markdown compatible with Obsidian (wikilinks, YAML frontmatter).
-- Do not commit secrets from notes. Do not dump the whole vault into a reply; open or cite the relevant note instead.
+Each fact has exactly one **owner** note. Write it there. Everywhere else, only `[[wikilink]]`.
+
+- Meeting note in `Toplantı Notları/` — owns what was said in that meeting. Never copy another meeting into it.
+- Concept note (`DWH`, `Kale`, `ODS`, `PowerDesigner`, …) — owns the durable definition of that thing.
+- `Fiziksel Topoloji - Teknik Taraf` — owns environments, databases, tooling.
+- `Aktif Sorular` — owns open questions. Other notes link here instead of restating a question.
+- `Proje Planı` — owns plan and action items. `Home.md` — index only.
+
+When the user adds a meeting note, paste, or any new fact, **do not stop at that one file**. Treat the vault as one notebook.
+When new information arrives:
+
+1. Write it on the owner note, then stop.
+2. Do not restate a fact "for context" on a related note; the wikilink *is* the context.
+3. Touch a second note only when that note's own job changed: a new question, a new plan item, a new `Home.md` entry, or a backlink to a newly created note.
+4. If two notes disagree, keep both and say they are not reconciled yet.
+
+❌ BAD: "Kale ~%90" copied onto DWH, ODS, Aktif Sorular, topology, and PowerDesigner.
+✅ GOOD: "Kale ~%90" only on `[[Kale]]`; notes that already link Kale stay untouched.

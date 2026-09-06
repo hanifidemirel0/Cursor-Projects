@@ -37,4 +37,6 @@ Her mart kendi başına işe yarar. Mart’lar **conformed dimension** ile bağl
 
 Takasbank sorusuna denk gelen taraf: **parça parça** — önce öncelikli mart, sonra diğerleri; tutarlılık dimension sözleşmesine bağlıdır.
 
+Taslak karar (hibrit): [[DWH Mimari Tasarım]]
+
 İlgili notlar: [[DWH]] · [[Aktif Sorular]] · [[Takasbank Genel Bilgilendirme]]
