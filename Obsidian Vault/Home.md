@@ -6,7 +6,11 @@ title: Home
 - [[Aktif Sorular]]
 - [[Fiziksel Topoloji - Teknik Taraf]]
 - [[Proje Planı]]
-- [[DWH Mimari Tasarım]]
+- [[DWH Hedef Mimarisi v2]]
+- [[DWH Logical Data Model]]
+- [[DWH Mimari Tasarım|DWH Mimari Tasarım — ilk taslak]]
+- [[DWH Sunum Temmuz 2025]]
+- [[DWH Mimari Hafıza - Temmuz 2025 Sunumu]]
 
 ## Toplantı Notları
 
@@ -17,4 +21,4 @@ title: Home
 
 ## Kavramlar
 
-- [[DWH]] · [[Kale]] · [[ODS]] · [[PowerDesigner]] · [[Dataguard vs Goldengate]] · [[Inmon vs Kimball]]
+- [[DWH]] · [[Takasbank İş Alanları ve Temel Varlıklar]] · [[Kale]] · [[ODS]] · [[PowerDesigner]] · [[Dataguard vs Goldengate]] · [[Inmon vs Kimball]]

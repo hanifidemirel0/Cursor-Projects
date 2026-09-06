@@ -8,7 +8,7 @@ tags:
 
 # Dataguard vs Goldengate
 
-Bu not **veri alma (ingestion) aracı** kararının sahibidir. Kaynak listesi [[ODS]], katman sözleşmesi [[DWH Mimari Tasarım]], ortam gerçekleri [[Fiziksel Topoloji - Teknik Taraf]] notlarında.
+Bu not **veri alma (ingestion) aracı** kararının sahibidir. ODS tanımı [[ODS]], katman sözleşmesi [[DWH Hedef Mimarisi v2]], ortam gerçekleri [[Fiziksel Topoloji - Teknik Taraf]] notlarındadır.
 
 > [!note] Not başlığı içeriğinden dar
 > Artık sadece Dataguard/GoldenGate karşılaştırması değil; genel araç kararını taşıyor. `Veri Alma Araçları` adına taşınması gündemde.
@@ -20,7 +20,7 @@ Bu not **veri alma (ingestion) aracı** kararının sahibidir. Kaynak listesi [[
 
 ## Soru artık ya/ya değil
 
-[[ODS]] çok kaynaklı tanımlandığı için karşılaştırma yeniden çerçevelendi:
+[[DWH Hedef Mimarisi v2]] birden çok kaynak türünü landing'e aldığı için karşılaştırma yeniden çerçevelendi:
 
 - **Dataguard yalnızca Oracle→Oracle.** Postgre, MSSQL ve CSV kaynaklarını **hiç** alamaz; en fazla Kale bacağını kapatır.
 - **GoldenGate heterojen kaynakları destekliyor** (Postgre, SQL Server dahil).
@@ -69,7 +69,7 @@ Bunlar alternatif değil, **farklı rollerde** araçlar. Oracle da ikisini birli
 - **GoldenGate = CDC / replikasyon.** Log tabanlı, satır seviyesi, düşük gecikme. Dönüşüm yapmaz, iş akışı yönetmez.
 - **ODI = ELT / orkestrasyon.** Batch, dönüşüm yapar, küme bazlı SQL üretip **hedef veritabanında** çalıştırır. Dosya ve JDBC kaynaklarını doğrudan destekler.
 
-Kaynak listesine ([[ODS]]) göre kapsama:
+Doğrulanması gereken kaynak adaylarına göre kapsama:
 
 | Kaynak | GoldenGate | ODI |
 |---|---|---|
@@ -78,7 +78,7 @@ Kaynak listesine ([[ODS]]) göre kapsama:
 | BIST DB | Pratikte hayır (başka kurumun log'una erişim) | Zamanlanmış çekim — doğal yer |
 | CSV / FTP | **Yok** — GG kaynak olarak transaction log okur | Native dosya desteği |
 | Postgre / MSSQL | Var | JDBC ile var |
-| L0→L1→L2→L3 dönüşümleri | Yok | Asıl işi |
+| LND→CORE→ODS/DM/PUB dönüşümleri | Yok | Asıl işi |
 
 Sonuç: **GoldenGate tek başına yetmez** (dosya bacağını ve tüm dönüşümü kapatamaz). **ODI tek başına yetebilir**; tek zayıf noktası prod Kale'de log tabanlı CDC.
 
@@ -97,13 +97,25 @@ Sonuç: **GoldenGate tek başına yetmez** (dosya bacağını ve tüm dönüşü
 
 ODI'nin Kale'de GG'siz CDC seçenekleri trigger veya timestamp/watermark kolonu. Prod Exadata OLTP'sine trigger koymak kötü fikir; watermark ise kaynakta güvenilir değişiklik tarihi olmasını gerektirir — geçmiş dataya update gelebildiği için ([[Aktif Sorular]]) bu Kale'de şüpheli.
 
-Ama üçüncü bir yol var: **`sur` üstündeki replikadan batch okuma**. Dataguard zaten Enterprise Edition'ın içinde; ODI replikayı batch okursa Kale CDC problemi büyük ölçüde ortadan kalkar. Gecikme = replika lag + batch penceresi; T+1 bir ambar için yeterli.
+Ama üçüncü bir yol var: **`sur` üstündeki replikadan batch okuma**. Dataguard zaten Enterprise Edition'ın içinde; ODI replikayı batch okursa Kale CDC problemi büyük ölçüde ortadan kalkar. Gecikme = replika lag + batch penceresi; gün sonu sınıfındaki bir veri ürünü için yeterli olabilir.
 
 Dolayısıyla **GoldenGate kararı, gecikme gereksinimi netleşmeden verilmemeli**: [[Aktif Sorular]] madde 3 (DWH'dan anlık rapor alınabilmeli mi?) bu kararın kapısı.
 
+## Gecikme sınıfı araçtan önce gelir
+
+[[DWH Hedef Mimarisi v2]] her veri ürününü ayrı sınıflandırır:
+
+- **S0:** olay yakın gerçek zamanlı,
+- **S1:** gün içi mikro-batch,
+- **S2:** gün sonu,
+- **S3:** planlı dosya/harici besleme,
+- **S4:** backfill/replay.
+
+GoldenGate veya başka CDC ürünü yalnızca S0/S1 gereksinimi kaynak ve iş SLA'sıyla kanıtlanan akışlarda değerlendirilir. Bir kritik raporun saat bazında SLA'sı olması, bütün DWH'ın streaming olması gerektiği anlamına gelmez.
+
 ## Öneri: tek karar değil, iki paralel yol
 
-**A — Pilotu şimdi "yeni lisans yok" yoluyla başlat.** Kale bacağı Dataguard replikasından, CSV bacağı external table ile, dönüşümler **dbt Core** ile — böylece lineage ve testler ilk günden var, sonradan eklenmeye çalışılmaz. Faz 1 ve `üye` conformed dimension'ı hiçbir satın almayı beklemeden ilerler; bütçe istendiğinde gösterilecek somut bir şey oluşur.
+**A — Pilotu şimdi "yeni lisans yok" yoluyla başlat.** Kale bacağı Dataguard replikasından, CSV bacağı external table ile, dönüşümler **dbt Core** ile — böylece lineage ve testler ilk günden var, sonradan eklenmeye çalışılmaz. Kontrol, landing, gerekli party/üyelik core'u ve seçilen rapor/dosya aynı dikey dilimde kurulur; satın alma beklenmeden iş sonucu gösterilir.
 
 **B — Hedef durum aracını paralelde değerlendir; GoldenGate'e karşı değil, geniş listeye karşı.** ODI mimari gerekçelerle (Exadata pushdown, tek tedarikçi desteği) hâlâ öneri, ama iki şey önce doğrulanmalı:
 
@@ -117,6 +129,6 @@ Gün içi gereksinimi gerçek çıkarsa: GoldenGate'i varsayılan kabul etmek ye
 - Prod Kale'ye **trigger** veya **materialized view log** koymak — ikisi de canlı işlem sistemine yazma yükü ekler.
 - Prod Kale'yi **doğrudan dblink** ile sorgulamak.
 
-Her yol `sur` üstündeki replikayı okur.
+Kale'yi okuyan her yol `sur` üstündeki replikayı kullanır; diğer kaynaklar kendi onaylı landing yolundan gelir.
 
-İlgili notlar: [[ODS]] · [[DWH Mimari Tasarım]] · [[Fiziksel Topoloji - Teknik Taraf]] · [[Aktif Sorular]] · [[Proje Planı]] ([[Ortamlar hakkında]])
+İlgili notlar: [[ODS]] · [[DWH Hedef Mimarisi v2]] · [[DWH Mimari Tasarım]] · [[Fiziksel Topoloji - Teknik Taraf]] · [[Aktif Sorular]] · [[Proje Planı]] ([[Ortamlar hakkında]])

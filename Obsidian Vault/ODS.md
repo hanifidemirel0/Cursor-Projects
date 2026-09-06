@@ -8,7 +8,7 @@ tags:
 
 # ODS
 
-Operational Data Store. Takasbank'ta **tüm kaynakların toplandığı** entegre operasyonel katman.
+Operational Data Store. Takasbank hedef mimarisinde kurumsal core'un **güncel-durum projeksiyonu**.
 
 ## Kapsam kararı
 
@@ -18,21 +18,29 @@ ODS yeniden tanımlandı: Kale'nin aynası değil, **çok kaynaklı** entegre ka
 
 Kaynaklar: [[Kale]] · Arşiv · ÇekDB · **BIST DB** (Borsa'nın veri ambarı) · **FTP ile gelen CSV dosyaları** · muhtemel Postgre / MSSQL kaynakları.
 
-## İki ayrı katman
+## Katman sınırları
 
-"Her şeyin durduğu yer" ile "entegre operasyonel katman" aynı şey değil; ikisi ayrı sözleşme:
+Üç farklı sorumluluk birbirine karıştırılmaz:
 
-- **Landing (`LND_<kaynak>`)** — kaynak şeklinde, dönüşümsüz, kaynak başına ayrı şema. Tam tarihçe, append-only (PSA). Sadece ETL erişir.
-- **ODS (`ODS_*`)** — entegre, güncel değerli, temizlenmiş; `üye` burada bir kez çözülür.
+- **Landing (`LND_<kaynak>`)** — Kaynağın ne teslim ettiğini kanıtlar ve replay sağlar.
+- **Kurumsal core (`CORE_*`)** — Entegre anlamı, kimlik çözümlemeyi ve bitemporal tarihçeyi sahiplenir.
+- **ODS (`ODS_*`)** — Core'un şu anda geçerli kaydını operasyonel tüketim için projekte eder.
 
-Detaylı katman sözleşmesi ve yükleme desenleri: [[DWH Mimari Tasarım]]
+Detaylı katman sözleşmesi ve yükleme desenleri: [[DWH Hedef Mimarisi v2]]
 
 ## Kararlar
 
-- **ODS rapor verir.** "Güncel veri lazım, tarihçe lazım değil" sınıfı raporların cevabı ODS. Hangi raporun buradan çıkacağı rapor envanteriyle netleşir: [[Proje Planı]]
-- **Landing tam tarihçe tutar** (immutable, append-only). Gerekçe: geçmiş dataya update gelebiliyor ([[Aktif Sorular]]), dolayısıyla mart'ları sıfırdan yeniden üretebilmek gerekiyor. Exadata'da HCC bu maliyeti taşıyabilir.
-- **Kale replikası silinmiyor, mimari katman olmaktan çıkıyor.** `sur` üstündeki replika ODS beslemesinin **okuma kaynağı** olur; böylece ETL prod Kale'ye hiç dokunmaz.
-- **Yerleşim değişmeli:** çok kaynaklı ve büyüyen bir ODS, yükünü azaltmaya çalıştığımız kale Exadata'sında kalamaz. Mevcut yerleşim: [[Fiziksel Topoloji - Teknik Taraf]]
+- **ODS koşullu rapor verir.** "Güncel veri lazım, tam tarihçe lazım değil" sınıfı raporlar adaydır. Rapor envanteri ve SLA olmadan ODS tablosu açılmaz: [[Proje Planı]].
+- **Current view tarihçe değildir.** “Dün saat 10'da ne biliyorduk?” sorusu ODS'den değil bitemporal core'dan cevaplanır.
+- **ODS mart değildir.** Yoğun aggregate, metrik ve yıldız şema `DM_*` katmanına aittir.
+- **ODS işlem sistemi değildir.** Canlı takas/ödeme/teminat defterine yazmaz ve kaynak uygulamanın komut işlevini üstlenmez.
+- **Fiziksel yerleşim açık karardır.** Hedef; kapasite, HA, workload ve gecikme testiyle belirlenir: [[Aktif Sorular]].
+
+## Kaynak kapsamı
+
+Kaynak adayları ve ingestion yolları [[Dataguard vs Goldengate]], hassasiyet/sahiplik bilgisi [[PowerDesigner]], kurum içi kapsam boşlukları [[Aktif Sorular]] notlarındadır.
+
+Kaynak türü ODS'e doğrudan bağlantı vermez. Bütün veri önce landing ve kurumsal sözleşmeden geçer. Dış kurum ambarından gelen besleme, sunduğu grain ve yayın penceresiyle alınır; ODS onu yapay biçimde işlem seviyesine dönüştürmez.
 
 ## Sonuçları
 

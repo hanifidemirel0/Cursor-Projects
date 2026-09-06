@@ -38,7 +38,8 @@ Kaynak görüntü: ![[_sources/fiziksel-topoloji.jpg]]
 Kaynak: [[Ortamlar hakkında]]
 
 - **kale** Exadata: makinenin adı da kale, DB'nin adı da kale. [[ODS]] şu an bu makinede.
-- **sur** Exadata: [[DWH]] bu makinede.
+- **sur** Exadata: [[DWH]] bu makinede. Aynı makinede DSS, PREPROD, TRUVA, LAMBDA, EFES; ayrıca SUR, CEKSUR, ALPHA, GAMMA, BETA, OMEGA, PATARA, EPSILON, KARTAL.
+- **hisar** Exadata: HISAR, TABYA, CEKDB, ARSIVDB. Sunumda ODVM ODS HISAR altında, ODVM DWH ARSIVDB altında gösterilmiş: [[DWH Sunum Temmuz 2025]].
 - 1 Exadata yaklaşık **200 TB**; kaledb yaklaşık **10 TB**.
 - kaledb'nin 2 replikası daha var: biri kale Exadata üstünde, diğeri sur Exadata üstünde.
 

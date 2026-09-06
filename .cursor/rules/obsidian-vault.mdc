@@ -25,13 +25,4 @@ Each fact has exactly one **owner** note. Write it there. Everywhere else, only 
 - `Aktif Sorular` — owns open questions. Other notes link here instead of restating a question.
 - `Proje Planı` — owns plan and action items. `Home.md` — index only.
 
-When the user adds a meeting note, paste, or any new fact, **do not stop at that one file**. Treat the vault as one notebook.
-When new information arrives:
-
-1. Write it on the owner note, then stop.
-2. Do not restate a fact "for context" on a related note; the wikilink *is* the context.
-3. Touch a second note only when that note's own job changed: a new question, a new plan item, a new `Home.md` entry, or a backlink to a newly created note.
-4. If two notes disagree, keep both and say they are not reconciled yet.
-
-❌ BAD: "Kale ~%90" copied onto DWH, ODS, Aktif Sorular, topology, and PowerDesigner.
-✅ GOOD: "Kale ~%90" only on `[[Kale]]`; notes that already link Kale stay untouched.
+ Treat the vault as one notebook.

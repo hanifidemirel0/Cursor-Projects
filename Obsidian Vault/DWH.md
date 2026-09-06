@@ -21,7 +21,12 @@ Operasyonel kullanıcılar (iş birimleri) **Team Developer** kullanıyor; rapor
 
 ## Mimari
 
-[[DWH Mimari Tasarım]]
+- Güncel hedef: [[DWH Hedef Mimarisi v2]]
+- Korunan ilk taslak: [[DWH Mimari Tasarım]]
+
+İş alanları ve kurumsal varlık modeli: [[Takasbank İş Alanları ve Temel Varlıklar]]
+
+Mantıksal veri modeli: [[DWH Logical Data Model]]
 
 ## Açık sorular
 
