@@ -24,12 +24,10 @@ Takasbank [[DWH]] için kurumsal hedef veri mimarisi. İş alanları ve kalıcı
 
 Önerilen yaklaşım: **iteratif kurumsal core + Kimball veri ürünleri**.
 
-- Kaynak verisi, değişmez ve yeniden oynatılabilir landing'e alınır.
-- İş kavramları, olaylar ve ilişkiler tek bir bitemporal kurumsal core'da çözülür.
-- ODS, bağımsız ikinci bir entegrasyon katmanı değil; core'un düşük gecikmeli güncel-durum projeksiyonudur.
-- Analitik tüketim, grain'i açık yıldız şemalar ve sertifikalı veri ürünleri üzerinden yapılır.
-- MSTR, yasal rapor, üye dosyası ve AI erişimi aynı yayın sözleşmesi, lineage ve mutabakat kapısından geçer.
-- Olay geçmişi asıl kanıttır; güncel durum ve accumulating snapshot'lar olaylardan üretilir.
+- Kaynak verisi, ods'de tutulacak. ods, dwh ile aynı veritabanında tutulacak. her kaynak sistem için ayrı şemalar oluşturulacak.
+- anlık rapor ve operasyonel rapor talepleri ods'den sağlanacak.
+- MSTR, yasal rapor, analitik raporlar dwh üzerinden verilecek.
+- 
 
 Bu model; bir yandan birden fazla kaynakta bulunan `üye` ve hesap kimliklerini birleştirir, diğer yandan bütün kurumu modellemeyi beklemeden seçilen bir iş sonucunu uçtan uca teslim eder.
 

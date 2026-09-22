@@ -52,6 +52,7 @@ Friday, 4 September 2026, 2:41 pm
 12. Otoritatif gün sonu tamamlanma sinyali nedir?
     1. Deniz'in 21:30–~06:00 anlatımı ile Ozan'ın ~03:00 bitiş / 04:00–07:00 flashback anlatımı tek timeline'da nasıl birleşiyor? [[Fiziksel Topoloji - Teknik Taraf]]
     2. Mail dışında iş tarihi, koşu kimliği ve snapshot/SCN taşıyan DB flag veya batch-control kaydı üretilebilir mi?
+13. Lineage konusu nasıl halledilebilir?
 
 ## Fon Bilgilendirme logical model
 

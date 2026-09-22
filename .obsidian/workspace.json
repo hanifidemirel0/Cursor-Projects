@@ -1,0 +1,220 @@
+{
+  "main": {
+    "id": "ffbd7a43f7292977",
+    "type": "split",
+    "children": [
+      {
+        "id": "f564ef0da963fe58",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "69b2244852cd9009",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Obsidian Vault/Kendi Notlarım/Rastgele Notlar.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Rastgele Notlar"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "b04eabb696127b06",
+    "type": "split",
+    "children": [
+      {
+        "id": "c00b82e0dc35149d",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "f2fff7df7d135416",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Dosya Gezgini"
+            }
+          },
+          {
+            "id": "d8e14ec652503af0",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Ara"
+            }
+          },
+          {
+            "id": "c78211c853fdd997",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-bookmark",
+              "title": "Yer İmleri"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "33d23977d7b70e85",
+    "type": "split",
+    "children": [
+      {
+        "id": "fe36d09aa8c7e1f0",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "29cb7890f36fe1e5",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Obsidian Vault/Kendi Notlarım/Rastgele Notlar.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Geri Bağlantılar"
+            }
+          },
+          {
+            "id": "96ffeb4c228436fa",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Obsidian Vault/Kendi Notlarım/Rastgele Notlar.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Giden bağlantılar"
+            }
+          },
+          {
+            "id": "c8454017aa218fc9",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Etiketler"
+            }
+          },
+          {
+            "id": "12a0158f3cca78fa",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "Tüm özellikler"
+            }
+          },
+          {
+            "id": "2cd7d60aa1159112",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Obsidian Vault/Kendi Notlarım/Rastgele Notlar.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Anahat"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Hızlı geçişi aç": false,
+      "graph:Grafik görünümünü aç": false,
+      "canvas:Yeni tuval oluşturun": false,
+      "daily-notes:Bugünün Notunu Aç": false,
+      "templates:Şablon ekle": false,
+      "command-palette:Komut paletini aç": false,
+      "bases:Yeni taban oluştur": false
+    }
+  },
+  "active": "69b2244852cd9009",
+  "lastOpenFiles": [
+    "Obsidian Vault/Takasbank/Obase Takasbank Değerlendirme Raporu Ağustos 2024.md",
+    "Obsidian Vault/_sources/Obase Değerlendirme Raporu/oneri-mimarisi.jpg",
+    "Obsidian Vault/_sources/Obase Değerlendirme Raporu/kale-entegrasyonlari.jpg",
+    "Obsidian Vault/_sources/Obase Değerlendirme Raporu/mevcut-veri-akisi.jpg",
+    "Obsidian Vault/_sources/Obase Değerlendirme Raporu/page-16.jpg",
+    "Obsidian Vault/_sources/Obase Değerlendirme Raporu/page-15.jpg",
+    "Obsidian Vault/_sources/Obase Değerlendirme Raporu/page-14.jpg",
+    "Obsidian Vault/_sources/Obase Değerlendirme Raporu/page-13.jpg",
+    "Obsidian Vault/_sources/Obase Değerlendirme Raporu/page-12.jpg",
+    "Obsidian Vault/_sources/Obase Değerlendirme Raporu/page-11.jpg",
+    "Obsidian Vault/_sources/Obase Değerlendirme Raporu/page-10.jpg",
+    "Obsidian Vault/_sources/Obase Değerlendirme Raporu",
+    "Obsidian Vault/Takasbank/Komtaş Future-Ready Data Platform Teklifi Ağustos 2026.md",
+    "Obsidian Vault/_sources/Komtaş Toplantısı",
+    "Obsidian Vault/Takasbank/Firmalarla Yapılan DWH Görüşmeleri.md",
+    "Obsidian Vault/Takasbank/DWH Sunum Eylül 2024.md",
+    "Obsidian Vault/_sources/Firmalarla Yapılan DWH Görüşmeleri",
+    "Obsidian Vault/Takasbank/DWH Sunum Aralık 2024.md",
+    "Obsidian Vault/_sources/DWH Toplantı Aralık 2024",
+    "Obsidian Vault/Takasbank/DWH Sunum Temmuz 2025.md",
+    "Obsidian Vault/_sources/DWH Toplantı Eylül 2024",
+    "Obsidian Vault/Kendi Notlarım/DWH Mimari Hafıza - Temmuz 2025 Sunumu.md",
+    "Obsidian Vault/Kendi Notlarım/DWH Logical Data Model.md",
+    "Obsidian Vault/Kendi Notlarım/DWH Hedef Mimarisi v2.md",
+    "Obsidian Vault/Kendi Notlarım/Aktif Sorular.md",
+    "Obsidian Vault/Dataguard vs Goldengate.md"
+  ]
+}
