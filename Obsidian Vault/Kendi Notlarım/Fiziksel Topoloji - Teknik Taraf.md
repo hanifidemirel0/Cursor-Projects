@@ -19,6 +19,7 @@ Kaynak görüntü: ![[_sources/fiziksel-topoloji.jpg]]
 - Kaynak sistem kataloğu: [[PowerDesigner]]
 - [[Dataguard vs Goldengate]]
 - **DSS:** DWH tarafındaki POC sürecinde kullanılmak üzere oluşturulmuş bir ortam. Prod'un eşleniği; read-only senkron. DSS'de test yapılmıyor. ([[Ortamlar hakkında]])
+- **DWH POC Oracle kullanıcısı:** Yazma hedefi DSS değil, SUR üzerindeki DWH. Yetki paketi: [[DWH Oracle POC Yetkileri]]
 - **Data maskeleme:** **Informatica TDM** ürünü aracılığıyla yapılıyor. ([[Ortamlar hakkında]])
   - Informatica tarafında **TDM dışında lisans yok**; veri alma aracı seçenekleri GoldenGate ve ODI: [[Dataguard vs Goldengate]]
 - **Automic:** Scheduling için kullanan ekipler var; DWH tarafında da kullanılabilir. ([[Takasbank Genel Bilgilendirme 2]])
