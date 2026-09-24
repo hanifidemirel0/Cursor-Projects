@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Obsidian Vault/Kendi Notlarım/Rastgele Notlar.md",
+                "file": "Obsidian Vault/Takasbank/Takas UG.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Rastgele Notlar"
+              "title": "Takas UG"
             }
           }
         ]
@@ -99,7 +99,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Obsidian Vault/Kendi Notlarım/Rastgele Notlar.md",
+                "file": "Obsidian Vault/Kendi Notlarım/DWH Mimari Tasarım.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -118,7 +118,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Obsidian Vault/Kendi Notlarım/Rastgele Notlar.md",
+                "file": "Obsidian Vault/Kendi Notlarım/DWH Mimari Tasarım.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
@@ -161,7 +161,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Obsidian Vault/Kendi Notlarım/Rastgele Notlar.md",
+                "file": "Obsidian Vault/Kendi Notlarım/DWH Mimari Tasarım.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -190,6 +190,15 @@
   },
   "active": "69b2244852cd9009",
   "lastOpenFiles": [
+    "Obsidian Vault/Takasbank/Toplantı Notları/Enerji UG.md",
+    "Obsidian Vault/Takasbank/Takas UG.md",
+    "Obsidian Vault/Takasbank/Toplantı Notları/Onur Karaca/Aktarım #1.md",
+    "Obsidian Vault/Takasbank/Toplantı Notları/Banka Ug.md",
+    "Obsidian Vault/Kendi Notlarım/DWH Mimari Tasarım.md",
+    "Obsidian Vault/Kendi Notlarım/Proje Planı.md",
+    "Obsidian Vault/Kendi Notlarım/DWH Hedef Mimarisi v2.md",
+    "Obsidian Vault/Takasbank/DWH Sunum Aralık 2024.md",
+    "Obsidian Vault/Kendi Notlarım/Rastgele Notlar.md",
     "Obsidian Vault/Takasbank/Obase Takasbank Değerlendirme Raporu Ağustos 2024.md",
     "Obsidian Vault/_sources/Obase Değerlendirme Raporu/oneri-mimarisi.jpg",
     "Obsidian Vault/_sources/Obase Değerlendirme Raporu/kale-entegrasyonlari.jpg",
@@ -207,13 +216,11 @@
     "Obsidian Vault/Takasbank/Firmalarla Yapılan DWH Görüşmeleri.md",
     "Obsidian Vault/Takasbank/DWH Sunum Eylül 2024.md",
     "Obsidian Vault/_sources/Firmalarla Yapılan DWH Görüşmeleri",
-    "Obsidian Vault/Takasbank/DWH Sunum Aralık 2024.md",
     "Obsidian Vault/_sources/DWH Toplantı Aralık 2024",
     "Obsidian Vault/Takasbank/DWH Sunum Temmuz 2025.md",
     "Obsidian Vault/_sources/DWH Toplantı Eylül 2024",
     "Obsidian Vault/Kendi Notlarım/DWH Mimari Hafıza - Temmuz 2025 Sunumu.md",
     "Obsidian Vault/Kendi Notlarım/DWH Logical Data Model.md",
-    "Obsidian Vault/Kendi Notlarım/DWH Hedef Mimarisi v2.md",
     "Obsidian Vault/Kendi Notlarım/Aktif Sorular.md",
     "Obsidian Vault/Dataguard vs Goldengate.md"
   ]

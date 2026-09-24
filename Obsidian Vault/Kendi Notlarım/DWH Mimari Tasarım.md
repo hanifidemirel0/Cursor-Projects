@@ -22,6 +22,7 @@ Takasbank [[DWH]] için katman mimarisi, modelleme yaklaşımı ve yükleme dese
 [[Inmon vs Kimball]] sorusuna cevap: **ikisi birlikte**. Normalize bir entegrasyon katmanı + üzerine Kimball star mart'ları.
 
 Gerekçe: [[Kale]]'de aynı kavramın (özellikle `üye`) birden fazla şemada farklı tabloları var. Doğrudan mart üretmek bu tutarsızlığı mart'lara kopyalar. Entegrasyon katmanı `üye`yi bir kez çözer, mart'lar oradan beslenir.
+doğrudan inmon yaklaşımını benimsemek de çok vakit kaybettirir. çok fazla farklı business var.
 
 Teslimat yine parça parça: her fazda **bir konu alanı** dikey olarak baştan sona (kaynak → mart → MSTR) tamamlanır. Topyekün entegrasyon beklenmez; entegrasyon katmanı konu alanı geldikçe büyür.
 
@@ -35,7 +36,7 @@ Teslimat yine parça parça: her fazda **bir konu alanı** dikey olarak baştan 
 | L3 | `DM_<konu>` | Star schema: fact + dimension | Fact'te olay tarihçesi | MSTR, raporlar |
 | L4 | — | MSTR semantik katmanı, metrik tanımları | — | Son kullanıcı |
 
-- **L0 kaynak başına ayrı şema:** `LND_KALE`, `LND_BIST`, `LND_CEK`, `LND_FILE`… Bürokrasi değil — çelişen birden fazla `üye` tablosunun, kimse erken bir kazanan seçmek zorunda kalmadan inebilmesi için. L0'da dönüşüm mantığı **yasak**.
+- **L0 kaynak başına ayrı şema:** `LND_KALE`, `LND_BIST`, `LND_CEK`, `LND_FILE`…  L0'da dönüşüm mantığı **yasak**.
 - **L0 neden tam tarihçe:** Geçmiş dataya update gelebiliyor ([[Aktif Sorular]]); mart'ı sıfırdan yeniden üretebilmek için kaynağın o an ne dediğini saklamak gerekiyor. Aynı zamanda denetim izi. Exadata'da HCC bu maliyeti taşır.
 - **L0 → L1 sınırı:** L0 kaynak şeklindedir, L1 entegredir. Bu sınır korunmazsa operasyonel kullanıcılar ham kaynak tablolarını sorgulamaya başlar ve `üye` problemi çözülmek yerine aşağıya taşınır. Kapsam kararı: [[ODS]]
 - **L1 rapor verir:** "Güncel veri lazım, tarihçe lazım değil" sınıfı raporların cevabı L1.
