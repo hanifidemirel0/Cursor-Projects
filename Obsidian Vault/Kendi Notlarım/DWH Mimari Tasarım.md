@@ -21,10 +21,13 @@ Takasbank [[DWH]] için katman mimarisi, modelleme yaklaşımı ve yükleme dese
 
 [[Inmon vs Kimball]] sorusuna cevap: **ikisi birlikte**. Normalize bir entegrasyon katmanı + üzerine Kimball star mart'ları.
 
-Gerekçe: [[Kale]]'de aynı kavramın (özellikle `üye`) birden fazla şemada farklı tabloları var. Doğrudan mart üretmek bu tutarsızlığı mart'lara kopyalar. Entegrasyon katmanı `üye`yi bir kez çözer, mart'lar oradan beslenir.
+Gerekçe: [[Kale]]'de aynı kavramın (mesela `üye`) birden fazla şemada farklı tabloları var. Doğrudan mart üretmek bu tutarsızlığı mart'lara kopyalar. Entegrasyon katmanı `üye`yi bir kez çözer, mart'lar oradan beslenir.
 doğrudan inmon yaklaşımını benimsemek de çok vakit kaybettirir. çok fazla farklı business var.
 
 Teslimat yine parça parça: her fazda **bir konu alanı** dikey olarak baştan sona (kaynak → mart → MSTR) tamamlanır. Topyekün entegrasyon beklenmez; entegrasyon katmanı konu alanı geldikçe büyür.
+Hangi ekiplerle sürece başlanacağını belirlemek çok kritik.
+İlk başta party gibi yapıları modelleyebileceğimiz, çekirdek diyebileceğimiz ekiplerle görüşüp onların datalarını modelleyerek başlamak lazım.
+
 
 ## Katmanlar
 
