@@ -17,7 +17,6 @@ Personal notes live in `Obsidian Vault/` (vault name: **Obsidian Vault**). Treat
 
 ## One fact, one note
 
-Each fact has exactly one **owner** note. Write it there. Everywhere else, only `[[wikilink]]`.
 
 - Meeting note in `Toplantı Notları/` — owns what was said in that meeting. Never copy another meeting into it.
 - Concept note (`DWH`, `Kale`, `ODS`, `PowerDesigner`, …) — owns the durable definition of that thing.
@@ -25,4 +24,3 @@ Each fact has exactly one **owner** note. Write it there. Everywhere else, only 
 - `Aktif Sorular` — owns open questions. Other notes link here instead of restating a question.
 - `Proje Planı` — owns plan and action items. `Home.md` — index only.
 
- Treat the vault as one notebook.

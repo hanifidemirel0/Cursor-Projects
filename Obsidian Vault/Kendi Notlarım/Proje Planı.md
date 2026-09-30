@@ -13,6 +13,10 @@ status: partial
 
 Hedef mimari: [[DWH Hedef Mimarisi v2]]. Eski taslak geçmiş karşılaştırması için korunuyor: [[DWH Mimari Tasarım]].
 
+Sahiplik, karar yetkileri, uyuşmazlık ve işletim sorumlulukları için önerilen standart: [[DWH Ownership Operating Model]] (kurum onayı bekleyen taslak).
+
+Araç değerlendirme matrisi, PoC protokolü ve tedarikçi soru seti: [[ETL Tool Evaluation]] (nihai ürün seçimi yapılmadı).
+
 > [!info] Teslimat ilkesi
 > Her faz **dikey** ilerler ve çalışan bir iş sonucu bırakır. Kurumsal `party`, hesap veya araç modeli tek başına aylar süren ön proje yapılmaz; seçilen veri ürününün ihtiyaç duyduğu kapsamda kurulup sonraki dilimlerde genişletilir.
 
