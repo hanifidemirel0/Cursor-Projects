@@ -61,6 +61,7 @@ Araç değerlendirme matrisi, PoC protokolü ve tedarikçi soru seti: [[ETL Tool
 - [ ] İlk üç aday konu alanı için günlük değişim, initial history, retention ve büyüme ölçümü yap.
 - [ ] Raw/core/mart, indeks, temp, backup ve DR dahil kapasite modeli çıkar.
 - [ ] Automic kontrol zinciri ve servis hesabı modelini güvenlik ekibiyle onayla.
+- [ ] DWH POC Oracle kullanıcısı: [[DWH Oracle POC Yetkileri]] — DBA talebi (kendi şemasında DDL/DML, Kale replikası salt okuma, `DBA`/`SELECT ANY` yok).
 
 > [!failure] Faz 0 çıkış kapısı
 > Rapor sahibi, pilot iş çıktısı, kaynak grain'i, otorite, SLA, hassasiyet ve mutabakat referansı belli değilse fiziksel mart tasarımına başlanmaz.

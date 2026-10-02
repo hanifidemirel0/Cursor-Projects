@@ -5,6 +5,7 @@ title: Home
 
 - [[Aktif Sorular]]
 - [[Fiziksel Topoloji - Teknik Taraf]]
+- [[DWH Oracle POC Yetkileri]]
 - [[Proje Planı]]
 - [[DWH Ownership Operating Model]]
 - [[DWH Document Register]]

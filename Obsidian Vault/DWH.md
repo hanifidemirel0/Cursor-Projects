@@ -35,3 +35,5 @@ Mantıksal veri modeli: [[DWH Logical Data Model]]
 ## Plan
 
 [[Proje Planı]]
+
+POC Oracle yetkileri: [[DWH Oracle POC Yetkileri]]
