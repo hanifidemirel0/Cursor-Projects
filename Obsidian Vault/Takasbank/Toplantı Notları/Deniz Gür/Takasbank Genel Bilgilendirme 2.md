@@ -18,11 +18,11 @@ Sunday, 6 September 2026, 1:59 am
 
 ## Kaynak sistem kataloğu
 
-[[PowerDesigner]] üzerinde tutuluyor. ER yok; veri gizliliği bilgisi, açıklama, primary key vb. var. Aytaç toplantısı: [[PowerDesigner Bilgilendirme]]
+[[Sistemler ve Servisler#5. PowerDesigner|PowerDesigner]] üzerinde tutuluyor. ER yok; veri gizliliği bilgisi, açıklama, primary key vb. var. Aytaç toplantısı: [[PowerDesigner Bilgilendirme]]
 
 BT mimari tarafında ilgili kontak: **Aytaç**.
 
-## [[ODS]]
+## [[Sistemler ve Servisler#4. ODS|ODS]]
 
 ODS için **tvsods** DB'si oluşturulmuş.
 
@@ -47,13 +47,13 @@ Takasbank'ta operasyonel ekipler aslında iş birimleri demektir.
 
 ## Pilot
 
-[[DWH]]'e taşımak için pilot proje adayı: üyelere çok fazla dosya göndermeyi gerektiren bir proje var.
+[[Sistemler ve Servisler#1. DWH|DWH]]'e taşımak için pilot proje adayı: üyelere çok fazla dosya göndermeyi gerektiren bir proje var.
 
 ## Açık sorular
 
 - Üst yönetime nasıl raporlar veriliyor?
 - SPK, MASAK raporları: kritik ve saat bazında SLA var. Birçok farklı piyasadan veriler birleştiriliyor. (Kaynak seçimiyle ilişkili.)
-- Hangi raporlar [[Kale]]'den verilmeli, hangileri [[ODS]]'den, hangileri [[DWH]]'den? Tek tek analiz etmek lazım. Öncesinde ilgili UG ve operasyonel ekiplerle görüşmek lazım.
+- Hangi raporlar [[Sistemler ve Servisler#3. Kale|Kale]]'den verilmeli, hangileri [[Sistemler ve Servisler#4. ODS|ODS]]'den, hangileri [[Sistemler ve Servisler#1. DWH|DWH]]'den? Tek tek analiz etmek lazım. Öncesinde ilgili UG ve operasyonel ekiplerle görüşmek lazım.
 - En çok kullanılan raporlar nasıl çıkartılabilir?
 
 İlgili notlar: [[Takasbank Genel Bilgilendirme]] · [[Aktif Sorular]] · [[Fiziksel Topoloji - Teknik Taraf]] · [[PowerDesigner Bilgilendirme]]

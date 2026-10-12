@@ -260,4 +260,4 @@ Kurum içi kaynak sistemlerinin bu alanlara eşlemesi henüz doğrulanmadı: [[A
 - [MKK transfer hizmetleri](https://www.mkk.com.tr/en/depository-services/transfer-services)
 - [Borsa İstanbul T+1 geçiş hazırlığı duyurusu](https://www.borsaistanbul.com/files/duyuru-38907-TR.pdf)
 
-İlgili notlar: [[DWH]] · [[DWH Hedef Mimarisi v2]] · [[Aktif Sorular]]
+İlgili notlar: [[Sistemler ve Servisler#1. DWH|DWH]] · [[DWH Hedef Mimarisi v2]] · [[Aktif Sorular]]

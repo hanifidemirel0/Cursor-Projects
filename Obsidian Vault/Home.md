@@ -24,4 +24,4 @@ title: Home
 
 ## Kavramlar
 
-- [[DWH]] · [[Takasbank İş Alanları ve Temel Varlıklar]] · [[Kale]] · [[ODS]] · [[PowerDesigner]] · [[Dataguard vs Goldengate]] · [[Inmon vs Kimball]]
+- [[Sistemler ve Servisler]] · [[Takasbank İş Alanları ve Temel Varlıklar]] · [[Inmon vs Kimball]]

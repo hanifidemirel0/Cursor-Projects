@@ -22,9 +22,9 @@ Takasbank iç sunumu **Takasbank Data Warehouse Alt Yapısı Oluşturma Çalış
 
 ## Toplantı özeti
 
-- İşlem ve raporlama yükünün [[Kale]] üzerinde birleşmesi, büyüyen veri hacmi ve tarihsel verinin saklanması DWH/ODS çalışmasının başlıca gerekçeleridir.
+- İşlem ve raporlama yükünün [[Sistemler ve Servisler#3. Kale|Kale]] üzerinde birleşmesi, büyüyen veri hacmi ve tarihsel verinin saklanması DWH/ODS çalışmasının başlıca gerekçeleridir.
 - Hedeflenen faydalar: raporlama yükünü ayırmak, semantik katmanla rapor üretimini kolaylaştırmak, farklı piyasalardaki ortak verileri birleştirmek ve detaylı analiz yapabilmek.
-- **Obase**, ihtiyaçların DWH yerine **[[ODS]]** ile daha etkili karşılanabileceğini değerlendirmiştir. **Ondata**, BES veya TEFAS gibi büyük veri hacimli bir alanda **POC** önermiştir.
+- **Obase**, ihtiyaçların DWH yerine **[[Sistemler ve Servisler#4. ODS|ODS]]** ile daha etkili karşılanabileceğini değerlendirmiştir. **Ondata**, BES veya TEFAS gibi büyük veri hacimli bir alanda **POC** önermiştir.
 - Direktörler ve UG ekipleriyle yöntemlerin değerlendirilmesi, ortak yol haritası ve eğitim planlaması sunumda sonraki adımlar olarak ele alınmıştır.
 - Fotoğraflarda kesin araç seçimi, onaylanmış proje takvimi, kişi bazında sorumlu veya termin belirtilmemiştir.
 
@@ -120,7 +120,7 @@ Diyagram iki yapıyı yan yana gösterir:
 1. **React / Pusula → KALE ve Arşiv.**
 2. **React / Pusula → KALE, DSS ve Arşiv**; KALE'den DSS'e aktarım **Dataguard (t-1)** olarak etiketlenmiştir.
 
-Bu slaytta iki yapının devreye alınma tarihleri veya geçişin tamamlanma durumu belirtilmemiştir. Araç karşılaştırması için: [[Dataguard vs Goldengate]].
+Bu slaytta iki yapının devreye alınma tarihleri veya geçişin tamamlanma durumu belirtilmemiştir. Araç karşılaştırması için: [[Sistemler ve Servisler#2. Goldengate|Goldengate]].
 
 ## Slayt 9 — Takasbank ve veri ambarı: gerekçeler
 
@@ -239,4 +239,4 @@ Orijinal HEIC dosyaları değiştirilmemiştir. Aşağıdaki bağlantılar foto�
 - [[_sources/DWH Toplantı Eylül 2024/IMG_7762.jpg|IMG_7762 — Slayt 13–16]]
 - [[_sources/DWH Toplantı Eylül 2024/IMG_7763.jpg|IMG_7763 — Slayt 17]]
 
-İlgili notlar: [[DWH Sunum Temmuz 2025]] · [[DWH]] · [[ODS]] · [[Kale]] · [[Dataguard vs Goldengate]] · [[Proje Planı]] · [[Aktif Sorular]] · [[Fiziksel Topoloji - Teknik Taraf]]
+İlgili notlar: [[DWH Sunum Temmuz 2025]] · [[Sistemler ve Servisler#1. DWH|DWH]] · [[Sistemler ve Servisler#4. ODS|ODS]] · [[Sistemler ve Servisler#3. Kale|Kale]] · [[Sistemler ve Servisler#2. Goldengate|Goldengate]] · [[Proje Planı]] · [[Aktif Sorular]] · [[Fiziksel Topoloji - Teknik Taraf]]

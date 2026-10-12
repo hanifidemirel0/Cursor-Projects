@@ -15,7 +15,7 @@ tags:
 
 Sunday, 6 September 2026, 2:14 am
 
-[[PowerDesigner]] sadece **veri sahiplendirme süreci** için kullanılıyor. (ER modeli değil.)
+[[Sistemler ve Servisler#5. PowerDesigner|PowerDesigner]] sadece **veri sahiplendirme süreci** için kullanılıyor. (ER modeli değil.)
 
 Her UG'nin PowerDesigner üzerinde kendi veri modeli var. Kurumsal mimari ekibi düzenli olarak **fark raporu** alarak PowerDesigner'ı güncel tutuyor.
 
@@ -23,6 +23,6 @@ Her UG'nin PowerDesigner üzerinde kendi veri modeli var. Kurumsal mimari ekibi 
 
 ## Açık sorular
 
-- Maskeli veriler [[DWH]]'e alınmalı mı?
+- Maskeli veriler [[Sistemler ve Servisler#1. DWH|DWH]]'e alınmalı mı?
 
 İlgili notlar: [[Takasbank Genel Bilgilendirme 2]] · [[Aktif Sorular]] · [[Fiziksel Topoloji - Teknik Taraf]]

@@ -39,14 +39,14 @@ Takasbank iç sunumu **Takasbank Data Warehouse Alt Yapısı Oluşturma Çalış
 
 ![[_sources/DWH Toplantı Aralık 2024/slide-02.jpg]]
 
-- [[ODS]]'in **KALE isimli Exadata** üzerinde konumlandırılabileceği belirtilmiştir. KALE, ARSIV ve CEKDB yanında **dördüncü veri tabanı** olarak eklenebilir.
+- [[Sistemler ve Servisler#4. ODS|ODS]]'in **KALE isimli Exadata** üzerinde konumlandırılabileceği belirtilmiştir. KALE, ARSIV ve CEKDB yanında **dördüncü veri tabanı** olarak eklenebilir.
 - **DWH'ın SUR**, **ODS'in KALE** üzerinde konumlandırılabileceği belirtilmiştir.
 - ODS'in **SUR'da kurulması durumunda performans testlerinde sorun olabileceği** belirtilmiş; **KALE'de konumlandırılması uygun görülmüştür**.
 - **ETL** bağımsız bir sunucuda da olabilir; ancak **ODS'in konumlandırıldığı yerde** olmasının daha uygun olduğu ifade edilmiştir.
 - **DSS ortamının ODS ortamı olarak kullanılabileceği** belirtilmiştir.
 - ODS devreye alınıp **son servis kapanana kadar DSS'in yaşatılabileceği** belirtilmiştir. Bu süreçte **T-1 datası** görülmeye devam edilebilir.
 
-İlgili notlar: [[ODS]] · [[Fiziksel Topoloji - Teknik Taraf]].
+İlgili notlar: [[Sistemler ve Servisler#4. ODS|ODS]] · [[Fiziksel Topoloji - Teknik Taraf]].
 
 ## Slayt 3 — Exadata yerleşimi
 
@@ -250,4 +250,4 @@ Orijinal HEIC dosyaları değiştirilmemiştir. Tam kare JPEG kopyaları:
 - [[_sources/DWH Toplantı Aralık 2024/IMG_7766.jpg|IMG_7766 — Slayt 9–12]]
 - [[_sources/DWH Toplantı Aralık 2024/IMG_7767.jpg|IMG_7767 — Slayt 13–15]]
 
-İlgili notlar: [[DWH Sunum Eylül 2024]] · [[DWH Sunum Temmuz 2025]] · [[DWH]] · [[ODS]] · [[Kale]] · [[Dataguard vs Goldengate]] · [[Proje Planı]] · [[Aktif Sorular]] · [[Fiziksel Topoloji - Teknik Taraf]]
+İlgili notlar: [[DWH Sunum Eylül 2024]] · [[DWH Sunum Temmuz 2025]] · [[Sistemler ve Servisler#1. DWH|DWH]] · [[Sistemler ve Servisler#4. ODS|ODS]] · [[Sistemler ve Servisler#3. Kale|Kale]] · [[Sistemler ve Servisler#2. Goldengate|Goldengate]] · [[Proje Planı]] · [[Aktif Sorular]] · [[Fiziksel Topoloji - Teknik Taraf]]

@@ -281,4 +281,4 @@ Orijinal JPEG dosyaları değiştirilmemiştir. Vault içine alınan tam kare ko
 - [[_sources/Firmalarla Yapılan DWH Görüşmeleri/IMG_7783.JPEG|IMG_7783 — Sayfa 5]]
 - [[_sources/Firmalarla Yapılan DWH Görüşmeleri/IMG_7784.JPEG|IMG_7784 — Sayfa 6]]
 
-İlgili notlar: [[DWH Sunum Eylül 2024]] · [[DWH Sunum Aralık 2024]] · [[DWH Sunum Temmuz 2025]] · [[DWH]] · [[ODS]] · [[Kale]] · [[Dataguard vs Goldengate]] · [[Proje Planı]] · [[Aktif Sorular]] · [[Fiziksel Topoloji - Teknik Taraf]]
+İlgili notlar: [[DWH Sunum Eylül 2024]] · [[DWH Sunum Aralık 2024]] · [[DWH Sunum Temmuz 2025]] · [[Sistemler ve Servisler#1. DWH|DWH]] · [[Sistemler ve Servisler#4. ODS|ODS]] · [[Sistemler ve Servisler#3. Kale|Kale]] · [[Sistemler ve Servisler#2. Goldengate|Goldengate]] · [[Proje Planı]] · [[Aktif Sorular]] · [[Fiziksel Topoloji - Teknik Taraf]]

@@ -38,13 +38,13 @@ Detaylı katman sözleşmesi ve yükleme desenleri: [[DWH Hedef Mimarisi v2]]
 
 ## Kaynak kapsamı
 
-Kaynak adayları ve ingestion yolları [[Dataguard vs Goldengate]], hassasiyet/sahiplik bilgisi [[PowerDesigner]], kurum içi kapsam boşlukları [[Aktif Sorular]] notlarındadır.
+Kaynak adayları ve ingestion yolları [[Goldengate]], hassasiyet/sahiplik bilgisi [[PowerDesigner]], kurum içi kapsam boşlukları [[Aktif Sorular]] notlarındadır.
 
 Kaynak türü ODS'e doğrudan bağlantı vermez. Bütün veri önce landing ve kurumsal sözleşmeden geçer. Dış kurum ambarından gelen besleme, sunduğu grain ve yayın penceresiyle alınır; ODS onu yapay biçimde işlem seviyesine dönüştürmez.
 
 ## Sonuçları
 
-- **Replikasyon:** Dataguard sadece Oracle→Oracle; Postgre/MSSQL/CSV'yi hiç alamaz. Yani heterojen bir yol her hâlükârda gerekiyor: [[Dataguard vs Goldengate]]
+- **Replikasyon:** Dataguard sadece Oracle→Oracle; Postgre/MSSQL/CSV'yi hiç alamaz. Yani heterojen bir yol her hâlükârda gerekiyor: [[Goldengate]]
 - **Maskeleme sınırı yukarı taşındı:** hassas veri artık DWH değil **ODS** sınırında iniyor. Her kaynağın PowerDesigner hassasiyet eşlemesi landing'den önce yapılmalı: [[PowerDesigner]] · [[Aktif Sorular]]
 - **BIST DB bir OLTP kaynağı değil**, başka bir kurumun ambarı: grain'ini ve tazeleme penceresini devralırsın, real-time alınamaz. Conformed dış besleme olarak ele alınır.
 

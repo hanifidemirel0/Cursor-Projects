@@ -12,7 +12,7 @@ status: draft
 
 # DWH Mimari Tasarım
 
-Takasbank [[DWH]] için katman mimarisi, modelleme yaklaşımı ve yükleme desenleri. Bu not **tasarım kararlarının** sahibidir; ortam/donanım gerçekleri [[Fiziksel Topoloji - Teknik Taraf]], açık sorular [[Aktif Sorular]], faz planı [[Proje Planı]] notlarında.
+Takasbank [[Sistemler ve Servisler#1. DWH|DWH]] için katman mimarisi, modelleme yaklaşımı ve yükleme desenleri. Bu not **tasarım kararlarının** sahibidir; ortam/donanım gerçekleri [[Fiziksel Topoloji - Teknik Taraf]], açık sorular [[Aktif Sorular]], faz planı [[Proje Planı]] notlarında.
 
 > [!warning] Taslak
 > Aşağıdaki kararlar iş birimleriyle (UG + operasyonel ekipler) doğrulanmadı. Rapor yerleşimi analizi yapılmadan kesinleşmez: [[Aktif Sorular]].
@@ -21,7 +21,7 @@ Takasbank [[DWH]] için katman mimarisi, modelleme yaklaşımı ve yükleme dese
 
 [[Inmon vs Kimball]] sorusuna cevap: **ikisi birlikte**. Normalize bir entegrasyon katmanı + üzerine Kimball star mart'ları.
 
-Gerekçe: [[Kale]]'de aynı kavramın (mesela `üye`) birden fazla şemada farklı tabloları var. Doğrudan mart üretmek bu tutarsızlığı mart'lara kopyalar. Entegrasyon katmanı `üye`yi bir kez çözer, mart'lar oradan beslenir.
+Gerekçe: [[Sistemler ve Servisler#3. Kale|Kale]]'de aynı kavramın (mesela `üye`) birden fazla şemada farklı tabloları var. Doğrudan mart üretmek bu tutarsızlığı mart'lara kopyalar. Entegrasyon katmanı `üye`yi bir kez çözer, mart'lar oradan beslenir.
 doğrudan inmon yaklaşımını benimsemek de çok vakit kaybettirir. çok fazla farklı business var.
 
 Teslimat yine parça parça: her fazda **bir konu alanı** dikey olarak baştan sona (kaynak → mart → MSTR) tamamlanır. Topyekün entegrasyon beklenmez; entegrasyon katmanı konu alanı geldikçe büyür.
@@ -41,7 +41,7 @@ Hangi ekiplerle sürece başlanacağını belirlemek çok kritik.
 
 - **L0 kaynak başına ayrı şema:** `LND_KALE`, `LND_BIST`, `LND_CEK`, `LND_FILE`…  L0'da dönüşüm mantığı **yasak**.
 - **L0 neden tam tarihçe:** Geçmiş dataya update gelebiliyor ([[Aktif Sorular]]); mart'ı sıfırdan yeniden üretebilmek için kaynağın o an ne dediğini saklamak gerekiyor. Aynı zamanda denetim izi. Exadata'da HCC bu maliyeti taşır.
-- **L0 → L1 sınırı:** L0 kaynak şeklindedir, L1 entegredir. Bu sınır korunmazsa operasyonel kullanıcılar ham kaynak tablolarını sorgulamaya başlar ve `üye` problemi çözülmek yerine aşağıya taşınır. Kapsam kararı: [[ODS]]
+- **L0 → L1 sınırı:** L0 kaynak şeklindedir, L1 entegredir. Bu sınır korunmazsa operasyonel kullanıcılar ham kaynak tablolarını sorgulamaya başlar ve `üye` problemi çözülmek yerine aşağıya taşınır. Kapsam kararı: [[Sistemler ve Servisler#4. ODS|ODS]]
 - **L1 rapor verir:** "Güncel veri lazım, tarihçe lazım değil" sınıfı raporların cevabı L1.
 - **L2 tek gerçek:** Bir kavramın tanımı burada bir kez yaşar. Mart'lar L2'yi okur, birbirini okumaz.
 - **L3 mart sınırı:** Bir mart bir konu alanı + bir grain. İki UG'nin farklı `üye` tanımını aynı mart'ta karıştırmak yasak.
@@ -49,15 +49,15 @@ Hangi ekiplerle sürece başlanacağını belirlemek çok kritik.
 
 ## Kaynak başına giriş yolu
 
-Kaynak listesi ve ODS kapsam kararı: [[ODS]]. Araç seçenekleri (GoldenGate / ODI) ve rol ayrımı: [[Dataguard vs Goldengate]].
+Kaynak listesi ve ODS kapsam kararı: [[Sistemler ve Servisler#4. ODS|ODS]]. Araç seçenekleri (GoldenGate / ODI) ve rol ayrımı: [[Sistemler ve Servisler#2. Goldengate|Goldengate]].
 
 | Kaynak | Yol | Not |
 |---|---|---|
-| [[Kale]] | `sur` üstündeki replikadan okuma → `LND_KALE` | ETL prod Kale'ye hiç dokunmaz |
+| [[Sistemler ve Servisler#3. Kale\|Kale]] | `sur` üstündeki replikadan okuma → `LND_KALE` | ETL prod Kale'ye hiç dokunmaz |
 | Arşiv, ÇekDB | Oracle replikasyon veya batch extract | Tazeleme ihtiyacı henüz belirsiz |
 | BIST DB | Zamanlanmış çekim, conformed dış besleme | Başka kurumun ambarı: grain'i ve penceresi devralınır, real-time yok |
 | CSV / FTP | External table veya `SQL*Loader` → `LND_FILE` | Aşağıdaki dosya sözleşmesi |
-| Postgre / MSSQL | ODI (JDBC) veya GoldenGate | Dataguard bu kaynakları **hiç** alamaz: [[Dataguard vs Goldengate]] |
+| Postgre / MSSQL | ODI (JDBC) veya GoldenGate | Dataguard bu kaynakları **hiç** alamaz: [[Sistemler ve Servisler#2. Goldengate\|Goldengate]] |
 
 ### Dosya sözleşmesi (CSV / FTP)
 
@@ -82,7 +82,7 @@ Mart'ları birbirine bağlayan şey bu liste. Bir mart bu dimension'ların kendi
 | `dim_hesap` | `hesap_sk` | SCD2 | Saklama hesapları, üye alt hesapları |
 | `dim_para_birimi` | `para_sk` | SCD1 | `doviz` şemasıyla hizalı |
 
-`üye` kimlik çözümlemesi (`uye_xref`) projenin en kritik tek parçası. Hangi şemadaki üye tablosunun otorite olduğu **PowerDesigner veri sahibi** bilgisinden türetilir: [[PowerDesigner]].
+`üye` kimlik çözümlemesi (`uye_xref`) projenin en kritik tek parçası. Hangi şemadaki üye tablosunun otorite olduğu **PowerDesigner veri sahibi** bilgisinden türetilir: [[Sistemler ve Servisler#5. PowerDesigner|PowerDesigner]].
 
 ## Pilot mart: `DM_TAKAS` (tek piyasa)
 
@@ -114,7 +114,7 @@ Grain: **gün sonu × üye × hesap × kıymet**. Gün sonu bakiyeleri ve tarih�
 ## Yükleme desenleri
 
 - **Initial load:** Partition exchange ile yığın yükleme, paralel DML, sonra istatistik toplama.
-- **Incremental:** Kaynak CDC → L0 → L1 → L2 delta merge → L3 partition refresh. Karar için: [[Dataguard vs Goldengate]].
+- **Incremental:** Kaynak CDC → L0 → L1 → L2 delta merge → L3 partition refresh. Karar için: [[Sistemler ve Servisler#2. Goldengate|Goldengate]].
 - **L0 yeniden oynatma (replay):** L0 tam tarihçe tuttuğu için mart bir kaynağa tekrar gitmeden yeniden üretilebilir. Yeniden üretimin okuma kaynağı **her zaman L0'dır**, kaynak sistem değil.
 - **SCD2:** `gecerli_baslangic` / `gecerli_bitis` / `aktif_mi`. Değişiklik tespiti hash kolonuyla.
 - **Geriye dönük düzeltme:** Historic dataya update gelebiliyor ([[Aktif Sorular]] madde 7). Bu yüzden mart'lar **yeniden üretilebilir** olmalı: ilgili partition'ı silip yeniden hesaplama her fact için desteklenir. Append-only varsayımı yapılmaz.
@@ -124,7 +124,7 @@ Grain: **gün sonu × üye × hesap × kıymet**. Gün sonu bakiyeleri ve tarih�
 
 Takas kurumunda kaynağıyla tutmayan rapor yanlış raporla aynı şey. Bu yüzden mutabakat pilotun sonundaki bir kontrol kalemi değil, **her yükün parçası olan ayrı bir katman**. Faz planı: [[Proje Planı]].
 
-Otorite her zaman **kaynak sistemdir** ([[Kale]] / gün sonu bakiyesi), DWH değil. Fark çıktığında DWH yanlıştır sayılır — tersini kanıtlamak gerekir.
+Otorite her zaman **kaynak sistemdir** ([[Sistemler ve Servisler#3. Kale|Kale]] / gün sonu bakiyesi), DWH değil. Fark çıktığında DWH yanlıştır sayılır — tersini kanıtlamak gerekir.
 
 ### Üç seviye
 
@@ -158,7 +158,7 @@ DWH `sur` Exadata üzerinde ([[Fiziksel Topoloji - Teknik Taraf]]).
 - Fact tabloları `takas_tarih_sk` üzerinden **RANGE partition** (aylık veya günlük).
 - Geçmiş partition'larda **HCC** (`COLUMN STORE COMPRESS FOR QUERY HIGH`); aktif partition sıkıştırmasız.
 - **L0 arşiv partition'ları HCC `ARCHIVE HIGH`** — tam tarihçeli landing'in maliyetini taşıyan şey bu; sadece yeniden üretimde okunur.
-- **Kapasite:** L0 tam tarihçe + çok kaynak, ODS'i kaledb'nin ~10 TB'ından hızla büyütür. 1 Exadata ≈ 200 TB olduğu için yer var, ama yerleşim kararı bunu gerektiriyor: [[ODS]].
+- **Kapasite:** L0 tam tarihçe + çok kaynak, ODS'i kaledb'nin ~10 TB'ından hızla büyütür. 1 Exadata ≈ 200 TB olduğu için yer var, ama yerleşim kararı bunu gerektiriyor: [[Sistemler ve Servisler#4. ODS|ODS]].
 - Fact FK'larında **bitmap index**, `star_transformation_enabled` açık.
 - Dimension PK'ları enforced; fact FK'ları `RELY DISABLE NOVALIDATE` (optimizer bilsin, yük yavaşlamasın).
 - MSTR'ın sık çektiği toplamlar için **materialized view + query rewrite**.
@@ -169,12 +169,12 @@ Automic ([[Fiziksel Topoloji - Teknik Taraf]]). Zincir gün sonu bitişine bağl
 
 ## Güvenlik
 
-Hassas veri ve veri sahibi bilgisi [[PowerDesigner]]'dan gelir. Alınacak her kolon bu katalogla eşleştirilir.
+Hassas veri ve veri sahibi bilgisi [[Sistemler ve Servisler#5. PowerDesigner|PowerDesigner]]'dan gelir. Alınacak her kolon bu katalogla eşleştirilir.
 
-Sınır **L0'dır, DWH değil**: çok kaynaklı landing'le hassas veri artık en dışta iniyor, dolayısıyla eşleme dosya/tablo landing'e inmeden önce yapılmalı. Gerekçe: [[ODS]]. Maskeli verinin alınıp alınmayacağı hâlâ açık: [[Aktif Sorular]] madde 6.
+Sınır **L0'dır, DWH değil**: çok kaynaklı landing'le hassas veri artık en dışta iniyor, dolayısıyla eşleme dosya/tablo landing'e inmeden önce yapılmalı. Gerekçe: [[Sistemler ve Servisler#4. ODS|ODS]]. Maskeli verinin alınıp alınmayacağı hâlâ açık: [[Aktif Sorular]] madde 6.
 
 ## Bu tasarımın bağlı olduğu açık kararlar
 
 Hepsi [[Aktif Sorular]] notunda: replikasyon aracı, ODS konumlandırması, kritik raporların (SPK/MASAK) kaynağı, anlık rapor beklentisi, maskeleme, mutabakatın otorite kaynağı.
 
-İlgili notlar: [[DWH]] · [[Inmon vs Kimball]] · [[ODS]] · [[Kale]] · [[Proje Planı]]
+İlgili notlar: [[Sistemler ve Servisler#1. DWH|DWH]] · [[Inmon vs Kimball]] · [[Sistemler ve Servisler#4. ODS|ODS]] · [[Sistemler ve Servisler#3. Kale|Kale]] · [[Proje Planı]]

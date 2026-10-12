@@ -22,7 +22,7 @@ Araç değerlendirme matrisi, PoC protokolü ve tedarikçi soru seti: [[ETL Tool
 
 ## Başarı ölçütleri
 
-- [[Kale]] üzerindeki raporlama yükünde ölçülebilir azalma.
+- [[Sistemler ve Servisler#3. Kale|Kale]] üzerindeki raporlama yükünde ölçülebilir azalma.
 - Seçilen rapor/dosyanın eski çıktıyla onaylı mutabakatı.
 - Kaynaktan MSTR/dış teslimata kolon seviyesinde lineage.
 - Aynı yükün tekrar koşmasında idempotent sonuç.
@@ -57,7 +57,7 @@ Araç değerlendirme matrisi, PoC protokolü ve tedarikçi soru seti: [[ETL Tool
 
 ### Araç ve kapasite
 
-- [ ] [[Dataguard vs Goldengate]] değerlendirmesini onaylı latency sınıflarıyla sonuçlandır.
+- [ ] [[Sistemler ve Servisler#2. Goldengate|Goldengate]] değerlendirmesini onaylı latency sınıflarıyla sonuçlandır.
 - [ ] İlk üç aday konu alanı için günlük değişim, initial history, retention ve büyüme ölçümü yap.
 - [ ] Raw/core/mart, indeks, temp, backup ve DR dahil kapasite modeli çıkar.
 - [ ] Automic kontrol zinciri ve servis hesabı modelini güvenlik ekibiyle onayla.

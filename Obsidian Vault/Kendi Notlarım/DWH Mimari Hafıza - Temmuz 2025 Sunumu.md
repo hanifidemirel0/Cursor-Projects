@@ -138,4 +138,4 @@ Temmuz 2025'te değerlendirilmiş seçeneklerdir; güncel hedef karar değildir.
 
 Bu soruların kalıcı sahibi: [[Aktif Sorular]].
 
-İlgili notlar: [[DWH Sunum Temmuz 2025]] · [[DWH Hedef Mimarisi v2]] · [[DWH Logical Data Model]] · [[Proje Planı]] · [[Aktif Sorular]] · [[ODS]]
+İlgili notlar: [[DWH Sunum Temmuz 2025]] · [[DWH Hedef Mimarisi v2]] · [[DWH Logical Data Model]] · [[Proje Planı]] · [[Aktif Sorular]] · [[Sistemler ve Servisler#4. ODS|ODS]]

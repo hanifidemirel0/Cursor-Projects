@@ -7,11 +7,11 @@ tags:
 
 # Inmon vs Kimball
 
-[[DWH]] inşa yaklaşımı. [[Aktif Sorular]]: parça parça (öncelik nasıl?) vs topyekün.
+[[Sistemler ve Servisler#1. DWH|DWH]] inşa yaklaşımı. [[Aktif Sorular]]: parça parça (öncelik nasıl?) vs topyekün.
 
 Kısaca: **Inmon** önce kurumun tek, entegre ambarını kurar; **Kimball** önce iş biriminin kullanacağı rapor tablolarını kurar.
 
-**Data mart:** tek bir iş konusu veya birim için hazırlanmış, raporlamaya yönelik veri kümesi. [[DWH]]’ın tamamı değil; örneğin bir piyasa veya UG ekibinin tabloları. Inmon’da ambarın üzerine çıkar; Kimball’da ambar bu mart’ların birleşimidir.
+**Data mart:** tek bir iş konusu veya birim için hazırlanmış, raporlamaya yönelik veri kümesi. [[Sistemler ve Servisler#1. DWH|DWH]]’ın tamamı değil; örneğin bir piyasa veya UG ekibinin tabloları. Inmon’da ambarın üzerine çıkar; Kimball’da ambar bu mart’ların birleşimidir.
 
 **Domain ile aynı değil.** Domain iş sınırı / sahiplik (bu konu kimin, anlamı kim tanımlıyor — ör. hisse piyasası, UG ekibi). Data mart teslimat: o konu için rapor tabloları. Pratikte sık örtüşürler (bir piyasa → bir mart), ama birebir değil: bir domain’de birden fazla mart olabilir (farklı grain: takas vs risk); bir mart iki domain’in `üye` tanımını karıştırmamalı.
 
@@ -100,4 +100,4 @@ Kimball: Doğrudan mart üret; kurumsal uyumu conformed dimension’larla sağla
 Önerilen: İş sonucunu hemen seç, fakat martın altında ihtiyaç kadar kurumsal ve tarihçeli core oluştur.
 Böylece ne uzun süre çıktı üretmeyen topyekûn EDW projesine ne de birbirinden kopuk martlara dönüşen hızlı raporlama projelerine saplanılmış olur.
 
-İlgili notlar: [[DWH]] · [[DWH Hedef Mimarisi v2]] · [[Aktif Sorular]] · [[Takasbank Genel Bilgilendirme]]
+İlgili notlar: [[Sistemler ve Servisler#1. DWH|DWH]] · [[DWH Hedef Mimarisi v2]] · [[Aktif Sorular]] · [[Takasbank Genel Bilgilendirme]]

@@ -149,4 +149,4 @@ Orijinal JPEG dosyaları değiştirilmedi. Tam kare kopyalar:
 - [[_sources/Obase Değerlendirme Raporu/IMG_7791.JPEG|IMG_7791 — PDF sayfa 13–14]]
 - [[_sources/Obase Değerlendirme Raporu/IMG_7792.JPEG|IMG_7792 — PDF sayfa 15–16]]
 
-İlgili notlar: [[Firmalarla Yapılan DWH Görüşmeleri]] · [[DWH Sunum Eylül 2024]] · [[DWH Sunum Aralık 2024]] · [[DWH Sunum Temmuz 2025]] · [[DWH]] · [[ODS]] · [[Kale]] · [[Dataguard vs Goldengate]] · [[Proje Planı]] · [[Aktif Sorular]]
+İlgili notlar: [[Firmalarla Yapılan DWH Görüşmeleri]] · [[DWH Sunum Eylül 2024]] · [[DWH Sunum Aralık 2024]] · [[DWH Sunum Temmuz 2025]] · [[Sistemler ve Servisler#1. DWH|DWH]] · [[Sistemler ve Servisler#4. ODS|ODS]] · [[Sistemler ve Servisler#3. Kale|Kale]] · [[Sistemler ve Servisler#2. Goldengate|Goldengate]] · [[Proje Planı]] · [[Aktif Sorular]]

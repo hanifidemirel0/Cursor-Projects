@@ -16,13 +16,12 @@ Friday, 4 September 2026, 12:44 pm
 
 Kaynak görüntü: ![[_sources/fiziksel-topoloji.jpg]]
 
-- Kaynak sistem kataloğu: [[PowerDesigner]]
-- [[Dataguard vs Goldengate]]
+- Kaynak sistem kataloğu: [[Sistemler ve Servisler#5. PowerDesigner|PowerDesigner]]
+- [[Sistemler ve Servisler#2. Goldengate|Goldengate]]
 - **DSS:** DWH tarafındaki POC sürecinde kullanılmak üzere oluşturulmuş bir ortam. Prod'un eşleniği; read-only senkron. DSS'de test yapılmıyor. ([[Ortamlar hakkında]])
 - **Data maskeleme:** **Informatica TDM** ürünü aracılığıyla yapılıyor. ([[Ortamlar hakkında]])
-  - Informatica tarafında **TDM dışında lisans yok**; veri alma aracı seçenekleri GoldenGate ve ODI: [[Dataguard vs Goldengate]]
-- **Automic:** Scheduling için kullanan ekipler var; DWH tarafında da kullanılabilir. ([[Takasbank Genel Bilgilendirme 2]])
-- **[[ODS]] / tvsods:** ODS için `tvsods` DB'si oluşturulmuş. Şu an [[Kale]] ile anlık senkron. ([[Ortamlar hakkında]]) → Bu senkron kopyanın mimari katman olmaktan çıkması ve yerleşimin bu makineden taşınması kararlaştırıldı: [[ODS]]
+  - Informatica tarafında **TDM dışında lisans yok**; veri alma aracı seçenekleri GoldenGate ve ODI: [[Sistemler ve Servisler#2. Goldengate|Goldengate]]
+- **[[Sistemler ve Servisler#4. ODS|ODS]] / tvsods:** ODS için `tvsods` DB'si oluşturulmuş. Şu an [[Sistemler ve Servisler#3. Kale|Kale]] ile anlık senkron. ([[Ortamlar hakkında]]) → Bu senkron kopyanın mimari katman olmaktan çıkması ve yerleşimin bu makineden taşınması kararlaştırıldı: [[Sistemler ve Servisler#4. ODS|ODS]]
 - **tvstruva:** Bakımı düzgün yapılan test ortamı. Gün sonu işlemleri burada da yapılıyor. Erişim için ~1 hafta geçerli şifre alınabiliyor.
 - **PREPROD** ([[Aktarım #1]]): T-1 datası, gece 4'te backup alınıyor. Preprod ve Test aynı instance üzerinde. Son testler PREPROD'da yapılıyor. ([[Ortamlar hakkında]])
 - **PREPROD gün sonu** ([[Takasbank Genel Bilgilendirme 2]]): Her akşam 9:30'da üyelerin bağlantıları kesiliyor; gün sonu başlıyor. Snapshot'lar alınıp tarihçelendiriliyor; özet tablolar ve bazı komisyon hesaplamaları besleniyor. Sabah ~6'da doluyor, her sabah eziliyor; erişim için her gün şifre almak lazım.
@@ -37,8 +36,8 @@ Kaynak görüntü: ![[_sources/fiziksel-topoloji.jpg]]
 
 Kaynak: [[Ortamlar hakkında]]
 
-- **kale** Exadata: makinenin adı da kale, DB'nin adı da kale. [[ODS]] şu an bu makinede.
-- **sur** Exadata: [[DWH]] bu makinede. Aynı makinede DSS, PREPROD, TRUVA, LAMBDA, EFES; ayrıca SUR, CEKSUR, ALPHA, GAMMA, BETA, OMEGA, PATARA, EPSILON, KARTAL.
+- **kale** Exadata: makinenin adı da kale, DB'nin adı da kale. [[Sistemler ve Servisler#4. ODS|ODS]] şu an bu makinede.
+- **sur** Exadata: [[Sistemler ve Servisler#1. DWH|DWH]] bu makinede. Aynı makinede DSS, PREPROD, TRUVA, LAMBDA, EFES; ayrıca SUR, CEKSUR, ALPHA, GAMMA, BETA, OMEGA, PATARA, EPSILON, KARTAL.
 - **hisar** Exadata: HISAR, TABYA, CEKDB, ARSIVDB. Sunumda ODVM ODS HISAR altında, ODVM DWH ARSIVDB altında gösterilmiş: [[DWH Sunum Temmuz 2025]].
 - 1 Exadata yaklaşık **200 TB**; kaledb yaklaşık **10 TB**.
 - kaledb'nin 2 replikası daha var: biri kale Exadata üstünde, diğeri sur Exadata üstünde.

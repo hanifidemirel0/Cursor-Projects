@@ -11,7 +11,7 @@ tags:
 
 # DWH Sunum Temmuz 2025
 
-Takasbank iç sunumu *DWH Sunum_Temmuz2025* (25 slayt). Bu not **sunumun söylediklerinin** sahibidir. Ortam gerçekleri [[Fiziksel Topoloji - Teknik Taraf]], ODS kapsamı [[ODS]], faz/pilot [[Proje Planı]], açık kararlar [[Aktif Sorular]].
+Takasbank iç sunumu *DWH Sunum_Temmuz2025* (25 slayt). Bu not **sunumun söylediklerinin** sahibidir. Ortam gerçekleri [[Fiziksel Topoloji - Teknik Taraf]], ODS kapsamı [[Sistemler ve Servisler#4. ODS|ODS]], faz/pilot [[Proje Planı]], açık kararlar [[Aktif Sorular]].
 
 > [!info] Kaynak
 > Fotoğraflar ekrandan çekildi; tarayıcı çubuğu da karede. PDF yolu: `Documents/DWH/4 - DWHSunum_Temmuz2025.pdf`. Gizlilik: **Kurum İçi**. Logo: TAKAS ISTANBUL (sol üst), Borsa İstanbul Grubu (sağ alt).
@@ -23,8 +23,8 @@ Takasbank iç sunumu *DWH Sunum_Temmuz2025* (25 slayt). Bu not **sunumun söyled
 
 ![[_sources/DWH Sunum Temmuz 2025/slide-04.jpg]]
 
-- [[DWH]] yapısı kurulurken [[ODS]] ara katmanının da kurulması değerlendirilmiş olup **ODS kurulmasına** karar verilmiştir.
-- [[Kale]] databaseindeki datanın **replikasının ODS** ortamına taşınması amacıyla kullanılabilecek araçların neler olabileceği tartışılmıştır. (Dataguard, Goldengate vb.) — [[Dataguard vs Goldengate]]
+- [[Sistemler ve Servisler#1. DWH|DWH]] yapısı kurulurken [[Sistemler ve Servisler#4. ODS|ODS]] ara katmanının da kurulması değerlendirilmiş olup **ODS kurulmasına** karar verilmiştir.
+- [[Sistemler ve Servisler#3. Kale|Kale]] databaseindeki datanın **replikasının ODS** ortamına taşınması amacıyla kullanılabilecek araçların neler olabileceği tartışılmıştır. (Dataguard, Goldengate vb.) — [[Sistemler ve Servisler#2. Goldengate|Goldengate]]
 - **DSS** veri tabanının **ODS** ortamı olarak kullanılabileceği değerlendirilmiştir.
 - **Realtime** datanın **ODS** katmanında, **T-1** datasının **DWH** katmanında tutulması değerlendirilmiştir.
 - ODS'nin **KALE isimli exadata** üzerinde konumlandırılabileceği belirtilmiştir. KALE, ARSIV, CEKDB yanında 4. bir veritabanı olarak eklenebilir.
@@ -135,7 +135,7 @@ flowchart TB
 
 - Yeni yapıyla birlikte DWH database'inde, her bir mesaj için **tek satırda kayıt** oluşturulacak şekilde özet bilginin tutulduğu tablo yaratılacaktır. (Böylece 2 milyar satırlı datanın yaklaşık **24 milyon satıra** düşürülmesi mümkün olabilmektedir.)
 - Bu şekilde kayıt sayısı azaltılacak, aranan datanın filtrelenmiş data içinden taranması sağlanmış olacak ve raporların daha performanslı çalışması sağlanacaktır.
-- [[Kale]] veri tabanındaki SWIFT mesajları [[ODS]] ortamına aktarıldıktan sonra günsonunda ETL aracı çalıştırılarak DWH ortamındaki özet tablolara yazılacaktır.
+- [[Sistemler ve Servisler#3. Kale|Kale]] veri tabanındaki SWIFT mesajları [[Sistemler ve Servisler#4. ODS|ODS]] ortamına aktarıldıktan sonra günsonunda ETL aracı çalıştırılarak DWH ortamındaki özet tablolara yazılacaktır.
 
 ## Slayt 14 — SWIFT akış diyagramı
 
@@ -241,7 +241,7 @@ ODS → DWH: ETL çalıştırılır; hesaplanan data özet tablolara yazılır.
 **BISTECH Piyasalarına İlişkin SPK Raporlarının DWH Ortamında Oluşturulması**
 
 - Mevcut durumda SPK'ya **13 adet rapor** verilmektedir.
-- Raporlara konu datanın bir kısmı Takasbank [[Kale]] veri tabanında **NOMX** şemasında, bir kısmı Borsa tarafında **Replica BIDB** şemasında bulunmaktadır.
+- Raporlara konu datanın bir kısmı Takasbank [[Sistemler ve Servisler#3. Kale|Kale]] veri tabanında **NOMX** şemasında, bir kısmı Borsa tarafında **Replica BIDB** şemasında bulunmaktadır.
 - **5 rapor için:** Kaynak = Replica BIDB → Hedef = KALE
 - **7 rapor için:** Kaynak = KALE Nomx şeması → Hedef = KALE
 - **1 rapor için:** Kaynak = KALE Nomx şeması ve Replica BIDB → Hedef = KALE
@@ -271,4 +271,4 @@ flowchart LR
 
 DWH çıktısı: **T-1 datası**.
 
-İlgili notlar: [[DWH]] · [[ODS]] · [[Kale]] · [[Proje Planı]] · [[Aktif Sorular]] · [[Fiziksel Topoloji - Teknik Taraf]]
+İlgili notlar: [[Sistemler ve Servisler#1. DWH|DWH]] · [[Sistemler ve Servisler#4. ODS|ODS]] · [[Sistemler ve Servisler#3. Kale|Kale]] · [[Proje Planı]] · [[Aktif Sorular]] · [[Fiziksel Topoloji - Teknik Taraf]]

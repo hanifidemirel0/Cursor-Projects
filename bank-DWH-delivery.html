@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Bank DWH — Delivery proposal</title>
+<style>
+:root{color-scheme:light dark;--bg:#fff;--text:#202a32;--muted:#5c6872;--line:#dce1e5;--panel:#f3f5f7;--accent:#17648b;--button-text:#fff}
+@media(prefers-color-scheme:dark){:root{--bg:#171b20;--text:#e4e9ed;--muted:#a9b3bd;--line:#39424b;--panel:#232a32;--accent:#8ac9ea;--button-text:#15232b}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif}.page{max-width:1120px;margin:0 auto;padding:28px}.stack{display:flex;flex-direction:column}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}h1,h2,p{margin:0}h1{font-size:24px;line-height:1.3}h2{font-size:18px;line-height:1.4}.small{font-size:13px}.muted{color:var(--muted)}.strong{font-weight:600}.accent{color:var(--accent)}hr{border:0;border-top:1px solid var(--line);width:100%;margin:0}.output-panel{padding:18px;background:var(--panel)}.phase-buttons{display:flex;flex-wrap:wrap;gap:8px}button{font:inherit;font-size:14px;cursor:pointer;padding:9px 15px;border:1px solid var(--line);border-radius:5px;background:var(--panel);color:var(--text)}button[aria-selected="true"]{background:var(--accent);color:var(--button-text);border-color:var(--accent)}button:focus-visible{outline:3px solid var(--accent);outline-offset:3px}ul{margin:0;padding-left:20px;line-height:1.8}.table-scroll{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:14px;text-align:left}th,td{padding:12px;vertical-align:top;border-bottom:1px solid var(--line)}th{font-weight:600;background:var(--panel)}td:first-child{font-weight:500;width:24%}td:nth-child(2){width:35%}@media(max-width:650px){.page{padding:20px}.grid{grid-template-columns:1fr}table{min-width:650px}}@media print{:root{--bg:#fff;--text:#000;--muted:#444;--line:#ccc;--panel:#f5f5f5;--accent:#174c68}.page{max-width:none;padding:0}.phase-buttons{display:none}.table-scroll{overflow:visible}table{min-width:0}h2{break-after:avoid}tr,.output-panel{break-inside:avoid}}
+</style></head><body><main><div class="stack page" style="gap:22px">
+    <div class="stack" style="gap:8px">
+      <p class="small muted ">ARCHITECT'S PROPOSAL · 28 SEPTEMBER 2026 · ON PREMISES</p>
+      <h1>Deliver trusted reporting, one business process at a time</h1>
+      <p class="">Two coordinated workstreams: reduce operational reporting load and establish reusable enterprise history. Repository notes inform this proposal; internal facts and service levels still require validation.</p>
+    </div>
+    <div class="grid">
+      <div class="stack" style="gap:8px">
+        <h2>Operational serving</h2>
+        <p class="">Sources → supported replication / ingestion → current-state read models → operational reports and application APIs.</p>
+        <p class="small muted ">A replica may be enough for unchanged queries. Add ODS integration only where it provides value. Transactional decisions need appropriate consistency.</p>
+      </div>
+      <div class="stack" style="gap:8px">
+        <h2>Enterprise history</h2>
+        <p class="">Sources → replayable ingestion → integrated atomic history → dimensional marts → MicroStrategy, APIs and controlled files.</p>
+        <p class="small muted ">Share identifiers, reference data and approved transformations across both paths. ODS is not a mandatory dependency for every EDW feed.</p>
+      </div>
+    </div>
+    <hr>
+    <div class="stack" style="gap:12px">
+      <h2>Delivery sequence and exit conditions</h2>
+      <p class="small muted ">Indicative windows from mobilization, not contractual delivery dates. Access, staffing, procurement and acceptance govern the schedule.</p>
+      <div><div id="phase-buttons" class="phase-buttons" role="tablist" aria-label="Delivery phase"></div></div>
+      <div class="grid">
+        <div class="stack" style="gap:8px">
+          <h2 id="phase-title"></h2>
+          <ul id="phase-work"></ul>
+        </div>
+        <div class="stack output-panel" style="gap:12px">
+          <p class="strong ">Reviewable outputs</p><p id="phase-outputs"></p>
+          <p class="strong accent">Exit condition</p><p id="phase-gate"></p>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <div class="stack" style="gap:10px">
+      <h2>Report placement policy</h2>
+      <div class="table-scroll" id="routes"></div>
+      <p class="small muted ">Source: architect's proposed policy, informed by September 2026 meeting notes and July 2025 use cases. Freshness and availability targets remain to be agreed per output.</p>
+    </div>
+    <div class="grid">
+      <div class="stack" style="gap:8px">
+        <h2>Provisional first pilot</h2>
+        <p class="">A bounded SWIFT historical-enquiry workload: one message family, an agreed period and an authoritative comparison output. Prove performance and traceability before extending scope.</p>
+        <p class="small muted ">Confirm search semantics, repeated fields, source completeness, owner and actual resource savings. Select another bounded report family if these conditions fail.</p>
+      </div>
+      <div class="stack" style="gap:8px">
+        <h2>Production acceptance</h2>
+        <p class="">Approved reconciliation; explicit business cutoff; correction history; repeatable loads; monitored freshness; access isolation; tested recovery; versioned publication; staffed support; measured source-load reduction.</p>
+        <p class="small muted ">Protect short-lived source data early. The 2025 notes describe fund contracts being purged after five days; verify the current policy and approved capture scope.</p>
+      </div>
+    </div>
+    <hr>
+    <div class="stack" style="gap:10px">
+      <h2>Evidence and validation boundaries</h2>
+      <div class="table-scroll" id="evidence"></div>
+      <p class="small muted ">Local sources: Takasbank Genel Bilgilendirme; Takasbank Genel Bilgilendirme 2; Ortamlar hakkında; DWH Sunum Temmuz 2025; Obase assessment; Komtaş proposal. This proposal does not replace the existing vault's architecture or project-plan notes.</p>
+    </div>
+  </div></main>
+<script>
+const phases = [
+  {name:'Days 1–30', title:'Establish facts and select a deliverable', work:['Agree business outcomes and name accountable owners.', 'Inventory report families and measure source workload.', 'Verify source lineage, business-day completion, corrections and retention.', 'Choose one bounded pilot and agree acceptance criteria.'], outputs:'Report register; source/owner map; performance baseline; conceptual model; pilot charter; architecture decisions.', gate:'A business owner can define correct, complete and on time for the pilot.'},
+  {name:'Days 31–60', title:'Build one complete path', work:['Prove extraction under representative source load.', 'Implement replayable ingestion, reconciliation and controlled publication.', 'Model atomic history and a dimensional serving model.', 'Deliver the pilot output with lineage, access controls and monitoring.'], outputs:'Working source-to-report slice; reusable ingestion pattern; automated controls; deployment and recovery procedures.', gate:'The output reconciles, catches late corrections and can be rebuilt without duplicates.'},
+  {name:'Days 61–90', title:'Prove production readiness', work:['Run old and new outputs in parallel over representative business cycles.', 'Exercise delayed feeds, failed loads, schema changes and recovery.', 'Verify freshness, user access, concurrency and source workload reduction.', 'Cut over only after acceptance; retire the replaced execution path.'], outputs:'Accepted pilot if readiness permits; operating ownership; measured benefits; funded next-domain backlog.', gate:'Business, operations and technology owners accept accuracy, service levels and recovery.'},
+  {name:'Subsequent waves', title:'Expand reusable business coverage', work:['Group reports by shared business processes and data.', 'Extend member, account, market, currency and calendar definitions.', 'Migrate deadline-bound and cross-market outputs after proving controls.', 'Retire duplicate jobs and source queries after each accepted migration.'], outputs:'An expanding EDW, operational reporting services and certified semantic models.', gate:'Every wave reuses enterprise definitions and demonstrates business benefit.'},
+];
+const routes = [
+  ['Transaction-linked monitoring', 'Transactional service / supported operational read path', 'Require current committed state or read-after-write correctness; validate before an operational action.'],
+  ['Lag-tolerant operational reports', 'Read replica or governed ODS', 'Agreed maximum staleness, concurrency and availability; expose freshness and failure state.'],
+  ['Finalized daily / historical analysis', 'EDW and dimensional marts', 'Business-day completion, historical corrections, reconciliation and certified metrics.'],
+  ['Regulatory / member delivery', 'Controlled publication from validated serving data', 'Route by deadline and consistency needs; retain exact published version, approvals and delivery evidence.'],
+];
+const evidence = [
+  ['September 2026 meeting notes', 'Reporting pressure on KALE; many operational reports; member data spread across schemas.', 'Validate with telemetry, SQL and business owners.'],
+  ['September 2026 environment notes', 'TVSODS shares KALE hardware; historical updates occur; end-of-day timing needs reconciliation.', 'Confirm current topology and machine-readable completion signals.'],
+  ['July 2025 presentation notes', 'SWIFT enquiries, fund information, fund ledgers and 13 SPK reports are candidate workloads.', 'Historical proposals, not confirmed current implementation.'],
+  ['August 2024 / August 2026 vendor notes', 'Assessment and design proposals contain capacity, tooling and delivery assumptions.', 'Revalidate; do not treat proposals as bank approvals or current inventories.'],
+];
+
+
+function table(id,headers,rows){const t=document.createElement('table');const head=t.createTHead().insertRow();headers.forEach(v=>{const th=document.createElement('th');th.scope='col';th.textContent=v;head.append(th)});const b=t.createTBody();rows.forEach(row=>{const r=b.insertRow();row.forEach(v=>{r.insertCell().textContent=v})});document.getElementById(id).append(t)}
+table('routes',['Workload','Proposed serving route','Decision criterion'],routes);table('evidence',['Repository evidence','Reported context','How I would use it'],evidence);
+const buttons=document.getElementById('phase-buttons');
+function selectPhase(i){const p=phases[i];document.getElementById('phase-title').textContent=p.title;const list=document.getElementById('phase-work');list.replaceChildren(...p.work.map(w=>{const li=document.createElement('li');li.textContent=w;return li}));document.getElementById('phase-outputs').textContent=p.outputs;document.getElementById('phase-gate').textContent=p.gate;Array.from(buttons.children).forEach((b,j)=>{b.setAttribute('aria-selected',String(i===j));b.tabIndex=i===j?0:-1})}
+phases.forEach((p,i)=>{const b=document.createElement('button');b.type='button';b.role='tab';b.textContent=p.name;b.addEventListener('click',()=>selectPhase(i));b.addEventListener('keydown',e=>{let n;if(e.key==='ArrowRight')n=(i+1)%phases.length;else if(e.key==='ArrowLeft')n=(i+phases.length-1)%phases.length;else if(e.key==='Home')n=0;else if(e.key==='End')n=phases.length-1;else return;e.preventDefault();selectPhase(n);buttons.children[n].focus()});buttons.append(b)});selectPhase(0);
+</script></body></html>

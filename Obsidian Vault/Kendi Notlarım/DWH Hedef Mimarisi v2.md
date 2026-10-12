@@ -15,7 +15,7 @@ supersedes:
 
 # DWH Hedef Mimarisi v2
 
-Takasbank [[DWH]] için kurumsal hedef veri mimarisi. İş alanları ve kalıcı iş kavramları [[Takasbank İş Alanları ve Temel Varlıklar]], entity ve ilişkiler [[DWH Logical Data Model]], ortam gerçekleri [[Fiziksel Topoloji - Teknik Taraf]], veri alma aracı [[Dataguard vs Goldengate]], uygulama sırası [[Proje Planı]], cevap bekleyen kararlar [[Aktif Sorular]] notlarındadır.
+Takasbank [[Sistemler ve Servisler#1. DWH|DWH]] için kurumsal hedef veri mimarisi. İş alanları ve kalıcı iş kavramları [[Takasbank İş Alanları ve Temel Varlıklar]], entity ve ilişkiler [[DWH Logical Data Model]], ortam gerçekleri [[Fiziksel Topoloji - Teknik Taraf]], veri alma aracı [[Sistemler ve Servisler#2. Goldengate|Goldengate]], uygulama sırası [[Proje Planı]], cevap bekleyen kararlar [[Aktif Sorular]] notlarındadır.
 
 > [!warning] Önerilen hedef
 > Bu tasarım, resmî kamu kaynakları ve mevcut toplantı notlarından türetilmiştir. İç kaynak-grain-SLA envanteri henüz tamamlanmadığı için fiziksel tablo tasarımları konu alanı analizi sırasında doğrulanmalıdır.
@@ -41,7 +41,7 @@ Korunan doğru kararlar:
 - conformed dimension disiplini,
 - kaynak → katman → iş çıktısı mutabakatı,
 - mutabakat yeşil olmadan yayın yapmama,
-- prod [[Kale]]'yi doğrudan sorgulamama,
+- prod [[Sistemler ve Servisler#3. Kale|Kale]]'yi doğrudan sorgulamama,
 - dosya sözleşmesi ve karantina,
 - gün sonunu sabit saat yerine tamamlanma olayına bağlama.
 
@@ -214,7 +214,7 @@ Amaç: “Şimdi geçerli durum nedir?” sorgularına düşük gecikme ve basit
 - Materialized view, hızlı yenilenen tablo veya servis görünümü olabilir; fiziksel yöntem SLA testiyle seçilir.
 - ODS raporu kaynak işlem sisteminin yazma işlevini devralmaz.
 
-Mevcut `tvsods` kopyasının hedef ODS ile aynı şey olmadığına ilişkin karar [[ODS]] notundadır.
+Mevcut `tvsods` kopyasının hedef ODS ile aynı şey olmadığına ilişkin karar [[Sistemler ve Servisler#4. ODS|ODS]] notundadır.
 
 ### `DM_<konu>` — dimensional marts
 
@@ -458,7 +458,7 @@ Tek kurumsal “real-time / batch” kararı yoktur. Her veri ürünü aşağıd
 - **S3 — planlı dosya/harici besleme:** Kaynağın yayın penceresine bağlı.
 - **S4 — talep üzerine/backfill:** Replay, düzeltme ve tarihsel yük.
 
-Araç seçimi [[Dataguard vs Goldengate]] notundadır. Mantıksal sözleşme araçtan bağımsızdır.
+Araç seçimi [[Sistemler ve Servisler#2. Goldengate|Goldengate]] notundadır. Mantıksal sözleşme araçtan bağımsızdır.
 
 ### Kaynak desenleri
 
@@ -703,4 +703,4 @@ Bu tasarımın uygulanmasını bloke eden veya fiziksel seçimi değiştiren kon
 
 onaylanmadan ilgili fiziksel karar kesinleştirilmez.
 
-İlgili notlar: [[DWH]] · [[DWH Logical Data Model]] · [[DWH Mimari Tasarım]] · [[Takasbank İş Alanları ve Temel Varlıklar]] · [[ODS]] · [[Proje Planı]] · [[Aktif Sorular]]
+İlgili notlar: [[Sistemler ve Servisler#1. DWH|DWH]] · [[DWH Logical Data Model]] · [[DWH Mimari Tasarım]] · [[Takasbank İş Alanları ve Temel Varlıklar]] · [[Sistemler ve Servisler#4. ODS|ODS]] · [[Proje Planı]] · [[Aktif Sorular]]

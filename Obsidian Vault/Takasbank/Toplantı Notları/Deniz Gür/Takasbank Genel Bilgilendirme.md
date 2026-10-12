@@ -25,7 +25,7 @@ Operasyon Kullanıcısı → Yeni talep → Bilgi İşlem → Uygulama Geliştir
 
 ## DB'ler
 
-- [[Kale]]
+- [[Sistemler ve Servisler#3. Kale|Kale]]
 - Arşiv
 - ÇekDB
 
@@ -38,17 +38,17 @@ Operasyon Kullanıcısı → Yeni talep → Bilgi İşlem → Uygulama Geliştir
 ## DWH'ın amacı
 
 1. Kale'deki yükü azaltmak. Sürekli Exadata'yı büyütmek çözüm değil.
-2. Yapay zeka: Veriyi [[DWH]]'dan okumak daha hızlı ve daha temiz olacak. Semantik layer da ileride AI için çok faydalı olacak.
+2. Yapay zeka: Veriyi [[Sistemler ve Servisler#1. DWH|DWH]]'dan okumak daha hızlı ve daha temiz olacak. Semantik layer da ileride AI için çok faydalı olacak.
 3. MSTR üzerinden self-servis BI şu anda tam olarak yok. Sürükle bırak yapılmıyor. Bunun da önü açılmış olacak. Elimizde grain'i düzgün modellenmiş tablolar olacak.
 
 - [ ] ⭐ **DWH building steps belirlenmeli !!!**
 
 ## Açık sorular
 
-- Kritik raporlar [[DWH]] üzerinden çıkmalı mı?
+- Kritik raporlar [[Sistemler ve Servisler#1. DWH|DWH]] üzerinden çıkmalı mı?
 - DWH inşa adımları nasıl olmalı?
 - DWH'den anlık rapor alınabilmeli mi?
-- DWH ingestion: [[Dataguard vs Goldengate]]
+- DWH ingestion: [[Sistemler ve Servisler#2. Goldengate|Goldengate]]
 
 Aynı liste: [[Aktif Sorular]]
 

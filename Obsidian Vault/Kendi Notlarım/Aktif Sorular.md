@@ -14,7 +14,7 @@ tags:
 
 Friday, 4 September 2026, 2:41 pm
 
-1. Kritik raporlar [[DWH]] üzerinden verilmeli mi?
+1. Kritik raporlar [[Sistemler ve Servisler#1. DWH|DWH]] üzerinden verilmeli mi?
     1. SPK, MASAK raporları: kritik ve saat bazında SLA var; birçok farklı piyasadan veriler birleştiriliyor. ([[Takasbank Genel Bilgilendirme 2]])
     2. Üst yönetime nasıl raporlar veriliyor?
     3. Düzenleyici raporlar için `as originally reported` ve düzeltilmiş sürüm kaç yıl, hangi kabul/ret cevabıyla saklanmalı?
@@ -25,13 +25,13 @@ Friday, 4 September 2026, 2:41 pm
     4. En çok kullanılan raporlar nasıl çıkartılabilir?
     5. İlk pilot hangisi: [[Takasbank Genel Bilgilendirme 2|üye-dosya projesi]] mi, eski taslaktaki tek piyasa takas martı mı, Temmuz 2025 sunumundaki 4 örnek uygulamadan biri mi ([[DWH Sunum Temmuz 2025]])? Sahip, mevcut çıktı, mutabakat referansı ve 6–12 haftalık teslim edilebilirlikle puanlanmalı: [[Proje Planı]].
     6. Pilot kaynakta atomik işlem → MKT bacağı → netleştirme → yükümlülük → talimat → hareket lineage'ı var mı, yoksa yalnızca net yükümlülük mü tutuluyor?
-3. DWH'dan anlık rapor alınabilmeli mi? → **GoldenGate kararının kapısı**: gün içi beklenti yoksa replikadan batch okuma yetiyor ([[Dataguard vs Goldengate]])
+3. DWH'dan anlık rapor alınabilmeli mi? → **GoldenGate kararının kapısı**: gün içi beklenti yoksa replikadan batch okuma yetiyor ([[Sistemler ve Servisler#2. Goldengate|Goldengate]])
     1. Her veri ürünü için yakın gerçek zamanlı / gün içi / gün sonu / dosya / backfill sınıfı ve maksimum bayatlık nedir?
-4. [[ODS]]'i nasıl konumlandırmalı? → mantıksal kapsam kararı verildi: kurumsal core'un, yalnızca operasyonel SLA gereken konularda açılan güncel-durum projeksiyonu. Fiziksel hedef açık: [[ODS]]
-    1. [[Kale]] haricinde hangi kaynaklar alınmalı? → Arşiv, ÇekDB, BIST DB, FTP/CSV, muhtemel Postgre/MSSQL
+4. [[Sistemler ve Servisler#4. ODS|ODS]]'i nasıl konumlandırmalı? → mantıksal kapsam kararı verildi: kurumsal core'un, yalnızca operasyonel SLA gereken konularda açılan güncel-durum projeksiyonu. Fiziksel hedef açık: [[Sistemler ve Servisler#4. ODS|ODS]]
+    1. [[Sistemler ve Servisler#3. Kale|Kale]] haricinde hangi kaynaklar alınmalı? → Arşiv, ÇekDB, BIST DB, FTP/CSV, muhtemel Postgre/MSSQL
     2. Hangi raporlar Kale'den, hangileri ODS'den, hangileri DWH'den verilmeli? **Açık.** Tek tek analiz; önce ilgili UG ve operasyonel ekiplerle (iş birimleri) görüşmek lazım.
     3. ODS'in fiziksel yerleşimi: kale Exadata'sından taşınması gerekiyor, hedef makine kararlaşmadı.
-5. [[Dataguard vs Goldengate]] — soru yeniden çerçevelendi: eldeki seçenekler GoldenGate ve ODI; farklı roller, GG tek başına yetmiyor. Karar madde 3'e bağlı.
+5. [[Sistemler ve Servisler#2. Goldengate|Goldengate]] — soru yeniden çerçevelendi: eldeki seçenekler GoldenGate ve ODI; farklı roller, GG tek başına yetmiyor. Karar madde 3'e bağlı.
 6. Maskeli veriler DWH'e alınmalı mı? ([[PowerDesigner Bilgilendirme]])
     1. Üretimde doğruluk için açık ama erişim kontrollü/tokenized veri, non-prod'da Informatica TDM ile maskeleme yaklaşımı onaylanıyor mu?
     2. Gerçek kişi/BES/escrow verilerinin izinli kullanım amacı ve satır/kolon erişim modeli nedir?
