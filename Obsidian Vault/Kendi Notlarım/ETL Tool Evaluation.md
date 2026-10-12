@@ -17,8 +17,8 @@ Compare five complete solutions against the same requirements for the bank’s o
 
 Keep the comparison detailed and the scoring at section level. The workbook has three sheets:
 
-- **Scorecard:** eight criteria, weights, ratings for five candidates, mandatory requirements and calculated results.
-- **Comparison:** ten sections comparing the five solutions side by side. Each section covers the approach, dependencies/limits, implications for the bank and required evidence or tests.
+- **Scorecard:** ten criteria, weights, ratings for five candidates, mandatory requirements and calculated results.
+- **Comparison:** thirteen sections: the original ten evaluations, a feature-by-feature matrix, AI integration, and open-source licensing and flexibility. Product descriptions identify dependencies, limitations and required evidence.
 - **Sources:** official documentation links, version/access limitations and internal references.
 
 The agreed sections are:
@@ -33,8 +33,11 @@ The agreed sections are:
 8. **Development, testing and change management:** review, Git, automated tests, environment promotion and rollback.
 9. **Operating model, support and lifecycle:** staffing, on-call coverage, incident ownership, patching/upgrades and handover.
 10. **Five-year cost and exit effort:** comparable complete costs and dependencies when moving to another solution.
+11. **Product feature comparison:** 36 features across all five products, including connectivity, transformation, data correctness, orchestration, security, development/operations, AI and open source. This is supporting evidence, not a separate weighted total.
+12. **AI integration:** locally hosted development assistance, model integration, ML workloads and controlled, traceable inference. Weight **8%**.
+13. **Open-source licensing and flexibility:** core/component licensing, source access, extension rights and practical ability to rebuild, maintain or replace components. Weight **7%**.
 
-Sections 03–10 receive weighted ratings. Their weights derive from regrouping the original twelve criteria and total 100%. Development/support and recovery/operations, previously combined in the simplified version, are now separate. The workbook contains the current weights and their mapping to the original criteria. These remain proposed weights, not committee-approved values.
+Sections 03–10, 12 and 13 receive weighted ratings. The user approved AI at 8% and open-source licensing and flexibility at 7% on 12 October 2026. The previous eight weights are multiplied by 0.85, preserving their relative importance and allocating them 85% in total. All ten weights sum to 100%. The workbook owns the current values; user agreement does not substitute for the bank's selection-committee approval.
 
 A strong subfeature must not conceal a critical gap. Section 02 owns minimum acceptance conditions. Section 08 assesses the ability to implement changes; section 09 assesses the people and support sustaining the service. Section 06 evaluates recovery/delivery capability; section 10 evaluates cost. Do not reward the same finding twice for the same reason.
 
@@ -45,7 +48,7 @@ The workbook owns current weights, ratings and comparison content. This note own
 1. **Fix the scope.** Compare the same sources, data, business rules, deadlines and outputs. This evaluation assumes the common EDW/serving target remains Oracle Exadata. Changing that target is a separate architecture decision.
 2. **Approve weights before testing.** Amber weight cells are editable. They must total 100 and apply equally to every candidate.
 3. **Enter a rating from 0 to 5 per criterion.** Blank means unassessed. Do not invent a rating when prices or test results are missing.
-4. **Reference the evidence record.** Use one record per candidate containing the rationale for all eight ratings, test results and a comparable cost calculation. Enter its filename, record ID or internal link.
+4. **Reference the evidence record.** Use one record per candidate containing the rationale for all ten ratings, test results, component/license assessment and a comparable cost calculation. Enter its filename, record ID or internal link.
 5. **Resolve mandatory requirements.** Select Pending, Pass or Fail for each group. The approval record must identify the relevant approvers and dates.
 6. **Compare eligible candidates.** Test whether reasonable weight changes alter the preference, then record the decision and rationale.
 
@@ -60,7 +63,7 @@ Rating scale:
 
 Fractional ratings are allowed when the evidence explains them. For cost, a higher rating means lower total cost for the same scope. Agree cost bands before evaluation.
 
-**Weighted score = Σ(weight × rating) / 5.** If every rating is 3, the result is 60/100. Excel suppresses the total until all eight ratings are valid, valid weights total 100 and an evidence reference is present. Zero is a real rating, not a missing value.
+**Weighted score = Σ(weight × rating) / 5.** If every rating is 3, the result is 60/100. Excel suppresses the total until all ten ratings are valid, valid weights total 100 and an evidence reference is present. Zero is a real rating, not a missing value. Weight cells accept decimals; a small numerical tolerance handles spreadsheet arithmetic.
 
 “Ready to compare” requires all three requirement groups to pass, an approval reference and complete ratings/evidence. Excel does not inspect record contents; reviewers must do so. This status is not procurement approval or production acceptance.
 
@@ -73,6 +76,35 @@ Fractional ratings are allowed when the evidence explains them. For cost, a high
 **3. Correctness, deadlines and recovery tests.** Accept business reconciliation, historical corrections, source-load limits, delivery deadlines, replay, DR and traceable/controlled publication. This groups original gates G03, G04, G05 and G07. Test that publication stops when required quality checks fail.
 
 Select Pass only when **every subcondition** in a group is satisfied. A failed subcondition makes the group Fail; an unresolved subcondition keeps it Pending. A high weighted score never compensates for a failed mandatory requirement.
+
+## Using the feature comparison
+
+Section 11 of Comparison contains **180 product-feature assessments**: 36 features for five candidates. Each cell has a classification, a concise explanation and source IDs. Read the qualifications together with the classification:
+
+- **Built-in:** the selected product provides the capability; normal configuration and testing are still required.
+- **Implement:** the solution needs bank-specific SQL, code or workflow design.
+- **Add-on:** another component or service is required; include its license, infrastructure, operation and support.
+- **Limited:** the capability covers only part of the stated feature.
+- **Validate:** evidence is insufficient to confirm the selected offer.
+- **Out of scope:** the baseline product does not provide the feature.
+
+Licensing uses **Open source**, **Proprietary** or **Mixed**, with explicit component qualifications. These labels are architectural classifications informed by documentation, not vendor certifications, test outcomes or numeric ratings. A configurable built-in function may still fail the bank's requirements. A well-supported integration may meet them.
+
+Use the feature IDs to reference demonstrations and gaps in the candidate evidence record. Feed the resulting evidence into the relevant section rating. Do not count built-in features or average these classifications to generate a second score.
+
+## AI integration and open-source evaluation
+
+**AI integration (8%).** Test two distinct use cases: an assistant helps develop/review/test a pipeline change, and a production pipeline calls a model hosted inside the bank. Also assess feature engineering and ML scoring where required. The model, assistant/client, MCP server if used, orchestration, prompts, data, metadata, model artifacts and logs must stay on premises. A local process that calls a cloud model does not meet the locality gate. A cloud-only optional feature receives no credit; a solution that requires it fails the gate.
+
+Run a common demonstration with outbound access blocked. Pin the model and software versions. Measure accepted developer output, integration effort, throughput, resource consumption and operational effort. Exercise model timeout, throttling, authentication failure and retries; prove that reruns cannot duplicate published results. Retain the model/prompt version and accepted output because repeated inference may not reproduce the same response. Require review and testing before AI-generated changes reach production.
+
+An AI rating of **3** requires both agreed local use cases to pass with repeatable operation. Define measurable improvements for **4** and **5** before demonstrations. **0** applies when no eligible local solution is available; incomplete evidence stays blank. Generic API access alone does not establish a working AI integration. Section 12 records each candidate's proposed approach and dependencies. In particular, [dbt's self-hosted MCP](https://docs.getdbt.com/docs/dbt-ai/about-mcp) and [Cloudera's on-premises inference service](https://docs.cloudera.com/machine-learning/1.5.5/setup-cloudera-ai-inference/topics/ml-caii-prerequisites-set-up.html) are separate integration/service components to validate, while [Spark MLlib](https://spark.apache.org/docs/latest/ml-guide.html) addresses ML workloads rather than LLM serving.
+
+**Open-source licensing and flexibility (7%).** Review the exact processing engine, adapter/connectors, scheduler, catalog, AI runtime/models and other required components. Record source availability, license, modification/redistribution rights, dependency notices, access to binaries/security fixes and any commercial dependency. Core v1 and its Oracle adapter are open source, but the fixed Oracle/Exadata target remains proprietary. Cloudera must be assessed component by component rather than classified as one wholly open or closed product. See the workbook's L1–L6 and D4 sources.
+
+Use these anchors consistently: **0** for a closed core with no meaningful supported extension/export path; **1** for a closed core with limited extension; **2** for substantial documented extension of a closed core; **3** when main processing source is accessible but material closed dependencies or replacement limits remain; **4** for open core/connectors with reproducible builds and substantial replacement options, with a material proprietary dependency remaining; **5** when open critical processing components can demonstrably be rebuilt, patched and replaced under the documented rights. Incomplete license evidence stays blank. Treat the fixed Oracle target consistently for every option, documenting it separately from the tool-specific components.
+
+Demonstrate an offline installation/rebuild and a representative extension or component replacement. Open-source status alone earns no automatic maximum score. Assess rights and practical flexibility here, staffing/support in section 09, and price plus migration effort in section 10. This prevents the same cost saving or support benefit from earning points twice.
 
 ## Boundaries of the five candidates
 
@@ -124,4 +156,4 @@ Official sources were **rechecked on 12 October 2026**. Some PowerCenter pages r
 - [Cloudera on-premises reference architecture](https://docs.cloudera.com/cdp-reference-architectures/latest/cdp-pvc-base-ra/topics/ra-cdpdc-abstract.html).
 - [Spark JDBC](https://spark.apache.org/docs/latest/sql-data-sources-jdbc.html).
 
-The English version preserves the ten sections, eight weights and calculation method. Formula checks covered all five candidates, changed ratings/weights, missing evidence/approval, zero/out-of-range ratings and failed mandatory conditions. Temporary test values were removed and saved evaluation inputs preserved. The three sheets and comparison sections were visually reviewed. Checks used the authoring tool’s calculation engine; execution in native Microsoft Excel has not been tested. Translation does not constitute new product testing or commercial verification.
+The feature update preserves the original ten comparison sections, existing ratings and evidence records. It adds section 11 with 36 features and sections 12–13 with the two new weighted criteria; their ratings remain unassessed. The original weights are scaled to 85%, with 8% for AI and 7% for openness. Formula checks cover all five candidates, the new weight contributions, missing evidence/approval, missing or out-of-range new ratings, zero ratings and failed gates. Temporary test values were removed. Checks use the authoring tool's calculation engine; native Microsoft Excel execution has not been tested. Documentation review does not constitute bank product testing or commercial verification.
