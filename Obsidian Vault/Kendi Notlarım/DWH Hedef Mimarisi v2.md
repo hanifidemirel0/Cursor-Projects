@@ -48,7 +48,7 @@ Korunan doğru kararlar:
 Değiştirilen veya sınırlandırılan kararlar:
 
 1. **`T+2` sabit değildir.** Takas kuralı piyasa, ürün ve geçerlilik dönemine göre versiyonlanır.
-2. **PowerDesigner veri otoritesini kanıtlamaz.** Sahiplik, hassasiyet ve teknik katalog sağlar; hangi veri elemanının hangi kayıtta otorite olduğu ayrıca belirlenir.
+2. **PowerDesigner sahiplik ve erd bilgisi tutar
 3. **Kaynak sistem otomatik olarak otorite değildir.** İşlem için BISTECH, kıymet bakiyesi için MKK/TCMB, nakit için TCMB/muhabir, resmî bildirim için kabul edilmiş gönderim farklı otoriteler olabilir.
 4. **Accumulating snapshot tek denetim izi değildir.** Değişmez olay fact'i saklanır; süreç görünümü bunun üzerinden üretilir.
 5. **Mutabakat toleransı tek tip değildir.** Aynı grain ve para ölçeğinde beklenen kesin eşitlik ayrı; fiyatlama, değerleme ve zamanlama farkı versiyonlu iş kuralı ayrıdır.

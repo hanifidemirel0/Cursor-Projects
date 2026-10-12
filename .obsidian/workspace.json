@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Obsidian Vault/Kendi Notlarım/ETL Selection Decision Record.md",
+                "file": "Obsidian Vault/Kendi Notlarım/ETL Proof of Concept and Acceptance.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "ETL Selection Decision Record"
+              "title": "ETL Proof of Concept and Acceptance"
             }
           }
         ]
@@ -190,10 +190,13 @@
   },
   "active": "69b2244852cd9009",
   "lastOpenFiles": [
+    "outputs/01a0e6cb-7e1f-7113-8240-55bc8904e0f2/etl-evaluation/~$ETL-Arac-Degerlendirme.xlsx",
+    "outputs/01a0e6cb-7e1f-7113-8240-55bc8904e0f2/etl-evaluation/ETL-Arac-Degerlendirme.xlsx.inspect.ndjson",
+    "Obsidian Vault/Kendi Notlarım/DWH Hedef Mimarisi v2.md",
+    "Obsidian Vault/Kendi Notlarım/ETL Selection Decision Record.md",
     "Obsidian Vault/Kendi Notlarım/Rastgele Notlar.md",
     "Obsidian Vault/Inmon vs Kimball.md",
     "Obsidian Vault/Kendi Notlarım/DWH Document Register.md",
-    "Obsidian Vault/Kendi Notlarım/DWH Hedef Mimarisi v2.md",
     "Obsidian Vault/Kendi Notlarım/DWH Mimari Tasarım.md",
     "Obsidian Vault/Kendi Notlarım/DWH Mimari Hafıza - Temmuz 2025 Sunumu.md",
     "Obsidian Vault/Kendi Notlarım/Proje Planı.md",
@@ -219,14 +222,10 @@
     "outputs/system-notes-merge-backup-20261012-115356/Takasbank/Toplantı Notları",
     "outputs/system-notes-merge-backup-20261012-115356/Takasbank/Obase Takasbank Değerlendirme Raporu Ağustos 2024.md",
     "outputs/system-notes-merge-backup-20261012-115356/Takasbank/Firmalarla Yapılan DWH Görüşmeleri.md",
-    "outputs/system-notes-merge-backup-20261012-115356/Takasbank/DWH Sunum Temmuz 2025.md",
-    "outputs/system-notes-merge-backup-20261012-115356/Takasbank/DWH Sunum Eylül 2024.md",
     "outputs/system-notes-merge-backup-20261012-115356/Takasbank",
     "outputs/system-notes-merge-backup-20261012-115356/Kendi Notlarım",
     "outputs/system-notes-merge-backup-20261012-115356",
     "merge_system_notes.py",
-    "outputs/01a0e6cb-7e1f-7113-8240-55bc8904e0f2/etl-evaluation/~$ETL-Arac-Degerlendirme.xlsx",
-    "outputs/01a0e6cb-7e1f-7113-8240-55bc8904e0f2/etl-evaluation/ETL-Arac-Degerlendirme.xlsx.inspect.ndjson",
     "Obsidian Vault/_sources/Obase Değerlendirme Raporu/oneri-mimarisi.jpg",
     "Obsidian Vault/_sources/Obase Değerlendirme Raporu/kale-entegrasyonlari.jpg",
     "Obsidian Vault/_sources/Obase Değerlendirme Raporu/mevcut-veri-akisi.jpg",
