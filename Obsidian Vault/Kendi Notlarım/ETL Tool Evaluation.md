@@ -1,5 +1,5 @@
 ---
-title: ETL Araç Değerlendirmesi
+title: ETL Tool Evaluation
 aliases: [ETL Araç Değerlendirmesi]
 created: 2026-09-28
 updated: 2026-10-12
@@ -7,121 +7,121 @@ status: proposed-evaluation-framework
 tags: [dwh, etl, procurement, architecture]
 ---
 
-# ETL Araç Değerlendirmesi
+# ETL Tool Evaluation
 
-Bankanın kurum içi veri ambarı ve operasyonel raporlaması için beş çözümü aynı gereksinimler üzerinden karşılaştırıyoruz. Değerlendirme; ürünün yanında gerekli bileşenleri, ekibi, desteği ve toplam maliyeti kapsar.
+Compare five complete solutions against the same requirements for the bank’s on-premises enterprise data warehouse and operational reporting. Include the product, dependent components, staffing, support and total cost.
 
-**[Türkçe değerlendirme matrisini aç](../../outputs/01a0e6cb-7e1f-7113-8240-55bc8904e0f2/etl-evaluation/ETL-Arac-Degerlendirme.xlsx).**
+**[Open the current English evaluation workbook](../../outputs/01a0e6cb-7e1f-7113-8240-55bc8904e0f2/etl-evaluation/ETL-Tool-Comparison.xlsx).**
 
-## Kararlaştırılan yapı
+## Agreed structure
 
-Karşılaştırma ayrıntılı, puanlama bölüm düzeyinde tutulur. Excel üç sekmeden oluşur:
+Keep the comparison detailed and the scoring at section level. The workbook has three sheets:
 
-- **Puanlama:** sekiz ölçüt, ağırlıklar, beş adayın puanları, zorunlu koşullar ve otomatik sonuç.
-- **Karşılaştırma:** on bölümde beş çözüm yan yana. Her bölümde yaklaşım, ek bileşen/sınır, banka açısından sonuç ve istenecek kanıt/test anlatılır.
-- **Kaynaklar:** resmî belge bağlantıları, sürüm ve erişim sınırlamaları ile kurum içi dayanaklar.
+- **Scorecard:** eight criteria, weights, ratings for five candidates, mandatory requirements and calculated results.
+- **Comparison:** ten sections comparing the five solutions side by side. Each section covers the approach, dependencies/limits, implications for the bank and required evidence or tests.
+- **Sources:** official documentation links, version/access limitations and internal references.
 
-Kullanıcıyla kararlaştırılan bölümler:
+The agreed sections are:
 
-1. **Çözüm kapsamı ve mimari:** ürün, sürüm, bileşenler, işlem yeri ve sorumluluk sınırları. Puan dışı.
-2. **Zorunlu koşullar:** kurum içi çalışma, desteklenebilir/güvenli işletim ve kabul edilen veri teslimi. Geçer/kalır; puan dışı.
-3. **Kaynak entegrasyonu ve veri hareketi:** ilk yük, değişiklik yakalama, silmeler, dosyalar/API ve kaynak koruması.
-4. **Dönüşüm ve Exadata verimliliği:** SQL/motor yürütme, veri hareketi, toplam süre ve kaynak rekabeti.
-5. **Veri doğruluğu, tarihçe ve mutabakat:** geç düzeltme, mükerrerlik, iş tarihi, tutar ve kontrollü yeniden yayın.
-6. **Zamanlama, operasyonel raporlar ve kurtarma:** iş takvimi, hazır sinyali, teslim süresi, restart ve felaket kurtarma.
-7. **Güvenlik, metaveri ve denetlenebilirlik:** erişim, sırlar, hassas veri, denetim ve kaynaktan rapora iz.
-8. **Geliştirme, test ve değişiklik yönetimi:** review, Git, otomatik test, ortam geçişi ve geri dönüş.
-9. **İşletim modeli, destek ve yaşam döngüsü:** ekip, nöbet, olay sahipliği, yama/yükseltme ve devir.
-10. **Beş yıllık maliyet ve çıkış eforu:** aynı kapsamda maliyet ve başka çözüme geçiş bağımlılıkları.
+1. **Solution scope and architecture:** product, release, components, execution location and accountability boundaries. Not scored.
+2. **Mandatory requirements:** local operation, supportable/secure operations and accepted data delivery. Pass/fail, outside the weighted score.
+3. **Source integration and data movement:** initial loads, change capture, deletes, files/APIs and source protection.
+4. **Transformation and Exadata efficiency:** SQL/engine execution, movement, total time and resource contention.
+5. **Data correctness, history and reconciliation:** late corrections, duplicates, business dates, amounts and controlled republication.
+6. **Scheduling, operational reporting and recovery:** calendars, readiness signals, delivery deadlines, restart and disaster recovery.
+7. **Security, metadata and auditability:** access, secrets, sensitive data, audit and source-to-report traceability.
+8. **Development, testing and change management:** review, Git, automated tests, environment promotion and rollback.
+9. **Operating model, support and lifecycle:** staffing, on-call coverage, incident ownership, patching/upgrades and handover.
+10. **Five-year cost and exit effort:** comparable complete costs and dependencies when moving to another solution.
 
-03–10 numaralı bölümler ağırlıklı puanlanır. Ağırlıklar ilk 12 ölçütün yeniden gruplanmasıyla türetildi; toplam %100. Önceki sade sürümde birlikte tutulan geliştirme/destek ve kurtarma/işletim başlıkları ayrıldı. Güncel ağırlıklar ve eski ölçütlerle eşleştirme Excel’de yer alır; henüz kurul onayı değildir.
+Sections 03–10 receive weighted ratings. Their weights derive from regrouping the original twelve criteria and total 100%. Development/support and recovery/operations, previously combined in the simplified version, are now separate. The workbook contains the current weights and their mapping to the original criteria. These remain proposed weights, not committee-approved values.
 
-Bir bölümün güçlü alt özelliği kritik eksiğini gizlememeli. Asgari kabul koşulları ikinci bölümde ele alınır. Sekizinci bölüm değişiklik yapmanın niteliğini, dokuzuncu bölüm hizmeti sürdürecek ekibi ve desteği ölçer. Altıncı bölüm kurtarma/teslim kabiliyetini, onuncu bölüm bunun maliyetini ölçer; aynı bulguya farklı başlıklarda aynı gerekçeyle tekrar puan vermeyin.
+A strong subfeature must not conceal a critical gap. Section 02 owns minimum acceptance conditions. Section 08 assesses the ability to implement changes; section 09 assesses the people and support sustaining the service. Section 06 evaluates recovery/delivery capability; section 10 evaluates cost. Do not reward the same finding twice for the same reason.
 
-Ağırlık ve puanların güncel kaydı Excel’dir. Bu not yöntemi açıklar. [Önceki ayrıntılı İngilizce Excel](../../outputs/01a0e6cb-7e1f-7113-8240-55bc8904e0f2/etl-evaluation/ETL-Tool-Evaluation.xlsx) referans ve ayrıntılı maliyet/test şablonu olarak korunmuştur. İki dosya otomatik eşitlenmez; güncel özet değerlendirmeyi Türkçe dosyada yürütün.
+The workbook owns current weights, ratings and comparison content. This note owns the method. The [original detailed English workbook](../../outputs/01a0e6cb-7e1f-7113-8240-55bc8904e0f2/etl-evaluation/ETL-Tool-Evaluation.xlsx) remains a reference for detailed test and cost templates. The earlier Turkish file is a superseded language version. Files do not synchronize automatically; use **ETL-Tool-Comparison.xlsx** for the current evaluation.
 
-## Nasıl kullanılır?
+## How to use it
 
-1. **Kapsamı sabitleyin.** Aynı kaynaklar, veri, iş kuralları, teslim süresi ve hedef çıktı ile karşılaştırın. Bu çalışma, ana veri ambarı/hedefin Oracle Exadata olarak kaldığı varsayımını kullanır. Başka hedef mimarisi ayrı karardır.
-2. **Ağırlıkları testten önce onaylayın.** Sarı ağırlık hücreleri değiştirilebilir. Toplam 100 olmalı; tüm adaylar aynı ağırlıklarla değerlendirilmelidir.
-3. **Her ölçüte 0–5 puan girin.** Boş hücre değerlendirilmedi demektir. Fiyat veya test sonucu bilinmiyorsa tahmini puanla doldurmayın.
-4. **Dayanak kaydını ekleyin.** Her araç için sekiz puanın gerekçesini, ilgili test sonuçlarını ve karşılaştırılabilir maliyet hesabını içeren tek bir değerlendirme kaydı kullanın. Dosya adı, kayıt numarası veya kurum içi bağlantısını Excel’e girin.
-5. **Zorunlu koşulları sonuçlandırın.** Her grup için “Bekliyor”, “Uygun” veya “Uygun değil” seçin. Onay kaydı, ilgili kişiler ve tarihleri içersin.
-6. **Uygun adayların sonuçlarını karşılaştırın.** Ağırlıklarda makul değişiklikler yapıldığında tercih değişiyor mu inceleyin; kararı ve gerekçeyi kaydedin.
+1. **Fix the scope.** Compare the same sources, data, business rules, deadlines and outputs. This evaluation assumes the common EDW/serving target remains Oracle Exadata. Changing that target is a separate architecture decision.
+2. **Approve weights before testing.** Amber weight cells are editable. They must total 100 and apply equally to every candidate.
+3. **Enter a rating from 0 to 5 per criterion.** Blank means unassessed. Do not invent a rating when prices or test results are missing.
+4. **Reference the evidence record.** Use one record per candidate containing the rationale for all eight ratings, test results and a comparable cost calculation. Enter its filename, record ID or internal link.
+5. **Resolve mandatory requirements.** Select Pending, Pass or Fail for each group. The approval record must identify the relevant approvers and dates.
+6. **Compare eligible candidates.** Test whether reasonable weight changes alter the preference, then record the decision and rationale.
 
-Puan ölçeği:
+Rating scale:
 
-- **0:** gereksinimi karşılamıyor.
-- **1:** ciddi eksikler veya sürdürülemeyen çözümler var.
-- **2:** kısmen karşılıyor; önemli manuel iş veya kısıt var.
-- **3:** gereksinimi desteklenebilir, tekrar edilebilir şekilde karşılıyor.
-- **4:** önceden tanımlanmış, ölçülebilir bir iyileşme sağlıyor.
-- **5:** önceden tanımlanmış üstün sonucu temsilî yük ve hata koşullarında kanıtlıyor.
+- **0:** demonstrably does not meet the requirement.
+- **1:** major gaps or unsustainable workarounds.
+- **2:** partially meets; significant manual work or constraints remain.
+- **3:** meets the requirement through supported, repeatable operation.
+- **4:** demonstrates a useful, measurable improvement agreed in advance.
+- **5:** demonstrates the pre-agreed superior result under representative load and failure conditions.
 
-Ondalıklı puan kullanılabilir; gerekçesi kayıtta bulunmalıdır. Maliyet için yüksek puan, aynı kapsamda daha düşük toplam maliyet anlamına gelir. Maliyet bantlarını değerlendirme öncesinde belirleyin.
+Fractional ratings are allowed when the evidence explains them. For cost, a higher rating means lower total cost for the same scope. Agree cost bands before evaluation.
 
-**Sonuç = Σ(ağırlık × puan) / 5.** Örneğin tüm ölçütler 3 ise sonuç 60/100 olur. Excel, sekiz geçerli puan, toplamı 100 olan geçerli ağırlıklar ve dayanak referansı tamamlanmadan toplamı göstermez. Sıfır, gerçek bir puandır.
+**Weighted score = Σ(weight × rating) / 5.** If every rating is 3, the result is 60/100. Excel suppresses the total until all eight ratings are valid, valid weights total 100 and an evidence reference is present. Zero is a real rating, not a missing value.
 
-“Karşılaştırılabilir” durumu, üç koşul grubunun uygun olması, onay referansı ve puanların tamamlanmasıyla oluşur. Kayıt içeriğini Excel denetlemez; değerlendiriciler inceler. Bu durum satın alma veya üretime geçiş onayı değildir.
+“Ready to compare” requires all three requirement groups to pass, an approval reference and complete ratings/evidence. Excel does not inspect record contents; reviewers must do so. This status is not procurement approval or production acceptance.
 
-## Üç zorunlu koşul grubu
+## Three mandatory requirement groups
 
-**1. Tamamen kurum içinde çalışma.** Kullanıcının 28.09.2026 tarihinde teyit ettiği şart: çalıştırma, yönetim/kontrol, metaveri ve loglar kurum içinde kalacak. Telemetri, geliştirme araçları, zamanlayıcı, katalog, CI/CD, gizli bilgiler, lisans doğrulama, teşhis, yedek ve felaket kurtarma dahil değerlendirin. Yerel ajanla bulut yönetimine bağlanan çözüm bu şartı sağlamaz.
+**1. Fully on-premises operation.** The user confirmed on 28 September 2026 that runtime, management/control plane, metadata and logs must remain on premises. Assess telemetry, developer tools, scheduler, catalog, CI/CD, secrets, license validation, diagnostics, backup and DR as well. A local agent connected to cloud management does not meet this boundary.
 
-**2. Güvenlik, destek ve işletim onayı.** Kesin ürün/sürüm/bileşen listesi ve lisanslar, yazılı destek kapsamı, erişim ve denetim kontrolleri, işletim ekibi, sorumlular ve çalışma talimatları kabul edilmiş olmalı. Önceki G02, G06 ve G08 bu gruptadır.
+**2. Security, support and operating acceptance.** The exact product/release/component inventory and licensing, written support scope, access/audit controls, operating team, accountable owners and runbooks must be accepted. This groups original gates G02, G06 and G08.
 
-**3. Doğruluk, süre ve kurtarma testleri.** İş mutabakatı, geçmiş düzeltmeler, kaynak yük sınırı, teslim süresi, yeniden çalıştırma, felaket kurtarma ve izlenebilir/kontrollü yayın testleri kabul edilmiş olmalı. Önceki G03, G04, G05 ve G07 bu gruptadır. Başarısız kalite kontrolünde yayının durması da test edilir.
+**3. Correctness, deadlines and recovery tests.** Accept business reconciliation, historical corrections, source-load limits, delivery deadlines, replay, DR and traceable/controlled publication. This groups original gates G03, G04, G05 and G07. Test that publication stops when required quality checks fail.
 
-Her grubun **bütün alt koşulları** sağlanmadan “Uygun” seçilmez. Bir alt koşul başarısızsa grup “Uygun değil”; çözülmemişse “Bekliyor” kalır. Yüksek puan, başarısız koşulu telafi etmez.
+Select Pass only when **every subcondition** in a group is satisfied. A failed subcondition makes the group Fail; an unresolved subcondition keeps it Pending. A high weighted score never compensates for a failed mandatory requirement.
 
-## Beş adayın kapsamı
+## Boundaries of the five candidates
 
-- **Informatica:** tamamen yerel PowerCenter teklifi. Bulut yönetimli ürünler kapsam dışıdır. Mevcut Informatica TDM kullanımı PowerCenter veya CDC lisansı bulunduğunu göstermez.
-- **ODI:** yerel ajanlar/depolar ve seçilen bilgi modülleri dahil çözüm. Gerekirse CDC ayrıca fiyatlanır; GoldenGate dahil varsayılmaz.
-- **dbt + Exadata:** önceki araştırmada belirlenen dbt Core v1 ve dbt-oracle yolu. Veri alımı, zamanlama ve işletim bileşenleri ayrıca tanımlanır. Kesin sürüm uyumu ve destek sorumlusu doğrulanır; farklı dbt dağıtımları ayrıca değerlendirilir.
-- **Cloudera:** kesin kurum içi ürün paketi ve servisleri. Dağıtık platformun ek maliyeti ve Oracle hedefe yükleme yolu dahil edilir.
-- **Spark:** kurum içi işleme motoru ile gerekli veri alımı, zamanlama, depolama, güvenlik, izleme ve destek bileşenlerinin tamamı.
+- **Informatica:** a fully local PowerCenter offer. Cloud-managed products are outside scope. Existing Informatica TDM usage does not establish PowerCenter or CDC entitlements.
+- **ODI:** local agents/repositories and selected Knowledge Modules. Price CDC separately where needed; do not assume GoldenGate is included.
+- **dbt + Exadata:** the dbt Core v1 and dbt-oracle path established in the research. Define ingestion, scheduling and operations separately. Verify exact-release compatibility and support ownership; assess other dbt distributions separately.
+- **Cloudera:** the exact on-premises product bundle and services. Include additional distributed-platform costs and loading into the Oracle target.
+- **Spark:** the local processing engine plus all required ingestion, orchestration, storage, security, monitoring and support components.
 
-Araçların ayrıntılı karşılaştırması için ikinci sekmeyi kullanın. “Banka açısından” satırları mimari yorumdur; ek bileşen ve test satırları istenen çözüm/kanıtı tarif eder. Bunlar ölçülmüş ürün sonucu değildir. Ürünlere henüz banka testi, fiyat veya nihai puan atanmamıştır.
+Use Comparison for the detailed analysis. “Bank implications” rows are architectural assessments; dependency and test rows specify the proposed solution/evidence required. They are not measured product results. No bank acceptance results, prices or final ratings have been assigned.
 
-## Kanıt kaydı ve bölüm puanı
+## Evidence records and section ratings
 
-Her adayın değerlendirme kaydı şu bilgileri içermeli:
+Each candidate’s evaluation record should contain:
 
-- Kesin ürün/sürüm/bileşen listesi ve kullanılan üretim/test/DR kaynakları.
-- Bölüm numarası, bankanın gereksinimi ve test öncesinde kabul edilen 3/4/5 puan eşikleri.
-- Test veya teklif referansı, gözlenen sonuç, sınırlar, bölüm puanı ve gerekçesi.
-- Zorunlu koşulların her alt maddesi için sonuç, onaylayan kişi ve tarih.
-- Açık eksikler, giderme planı ve önerilen bileşen değişirse etkilenen test/maliyetler.
+- Exact product/release/component inventory and production/test/DR resources used.
+- Section ID, bank requirement and 3/4/5 rating thresholds agreed before testing.
+- Test or quotation reference, observed result, limitations, section rating and rationale.
+- Outcome, approver and date for every mandatory subcondition.
+- Open gaps, remediation plans and affected tests/costs if proposed components change.
 
-Ortak testlerde iş verisi, kaynak erişimi, çıktı tanımı ve teslim hedefi sabit tutulur. Banka ekibinin gerçekleştirdiği değişiklik ve kurtarma tatbikatı da kanıt sayılır. Tedarikçinin sunumu ölçülmüş performans veya banka kabulü yerine geçmez. Eşikler henüz kararlaştırılmamıştır; bu matris bir kazanan ilan etmez.
+Hold business data, source access, output definitions and deadlines constant in common tests. Changes and recovery exercises performed by the bank’s own team also provide evidence. A vendor presentation does not replace measured performance or bank acceptance. Thresholds remain to be agreed; this matrix does not declare a winner.
 
-## Adil karşılaştırma ve sorumluluk
+## Fair comparison and accountability
 
-Süre ve maliyet hesabına veri alımı, taşıma, dönüşüm, kontroller ve yayın dahil edilir. Yalnızca dönüşüm süresini karşılaştırmayın. Her adaya eşdeğer uzman ayar süresi tanıyın; üretim, test ve felaket kurtarma kapsamlarını eşitleyin.
+Include ingestion, transfer, transformation, checks and publication in elapsed time and cost. Do not compare transformation time alone. Give each candidate equivalent expert tuning time and align production, test and DR scope.
 
-Toplam maliyet; başlangıç kurulumu ve sonraki beş yılın lisans, bağlayıcı/CDC, altyapı, personel, destek, güvenlik, eğitim, yükseltme ve çıkış maliyetlerini kapsar. Aynı para birimi ve varsayımlar kullanılmalı. Açık kaynak lisansı toplam hizmet maliyetinin sıfır olduğu anlamına gelmez; mevcut Exadata kapasitesi de sınırsız kabul edilmez.
+Total cost includes initial implementation plus five years of licenses, connectors/CDC, infrastructure, staffing, support, security, training, upgrades and exit. Use a common currency and assumptions. Open-source licensing does not mean zero service cost; existing Exadata capacity is not unlimited.
 
-Mimari ekip kapsamı ve teknik öneriyi, iş/veri sahipleri doğruluğu, kaynak sahipleri ve DBA’ler kaynak etkisini, güvenlik ekibi yerellik ve erişimi, hizmet sahibi işletim/kurtarmayı değerlendirir. Satın alma ve finans teklif/maliyeti doğrular. Yetkili karar mercii seçimi onaylar. Roller için [[DWH Ownership Operating Model]], kurum bağlamı için [[Fiziksel Topoloji - Teknik Taraf]] ve [[PowerDesigner Bilgilendirme]] kullanılır.
+Architecture owns scope equivalence and the technical recommendation. Business/data owners approve correctness. Source owners and DBAs approve source impact. Security assesses locality and access. The service owner accepts operations/recovery. Procurement and Finance validate quotations/costs. The delegated decision authority approves the selection. Use [[DWH Ownership Operating Model]] for roles and [[Fiziksel Topoloji - Teknik Taraf]] and [[PowerDesigner Bilgilendirme]] for bank context.
 
-## Gerektiğinde ayrıntıya inmek için
+## Supporting documents
 
-Aşağıdaki mevcut İngilizce ekler, test ve satın alma çalışmasında ayrıntı gerektiğinde kullanılabilir. Bu not ve Türkçe Excel, sade değerlendirme akışının güncel tarifidir.
+Use the existing detailed appendices when carrying out tests and procurement. This note and the current English workbook define the current comparison and scoring structure.
 
-- [[ETL Proof of Concept and Acceptance]] — test senaryoları ve kabul koşulları.
-- [[ETL Vendor RFI and Commercial Evaluation]] — tedarikçi soruları ve maliyet kapsamı.
-- [[ETL Selection Decision Record]] — karar, gerekçe ve onay kaydı.
+- [[ETL Proof of Concept and Acceptance]] — test scenarios and acceptance conditions.
+- [[ETL Vendor RFI and Commercial Evaluation]] — vendor questions and cost scope.
+- [[ETL Selection Decision Record]] — decision, rationale and approvals.
 
-Program aksiyonları [[Proje Planı]], kurumsal açık sorular [[Aktif Sorular]] içinde tutulur.
+Programme actions belong in [[Proje Planı]]; institutional open questions belong in [[Aktif Sorular]].
 
-## Kaynaklar ve kontrol
+## Sources and verification
 
-Karşılaştırmanın resmî kaynakları **12.10.2026 tarihinde yeniden incelendi**. PowerCenter’ın bazı sayfaları doğrudan erişimde 403 döndürdüğü için arama dizininden doğrulandı; bu sınırlama kaynak kaydında belirtilir. Eski sürüme ait belgeler ve “latest” bağlantıları teklif edilen sürümün desteği olarak kabul edilmez. Resmî destek matrisi, lisans ve fiyat için yazılı teklif gerekir. Bölüm/aday bazındaki kaynak kodları Excel’in Kaynaklar sekmesine bağlanır. Başlıca bağlantılar:
+Official sources were **rechecked on 12 October 2026**. Some PowerCenter pages returned 403 on direct access and were checked through the search index; the source register records this limitation. Older-release documents and “latest” links do not establish support for the exact offered version. Require official support matrices and written commercial terms. Section/candidate source IDs refer to the workbook’s Sources sheet. Principal references include:
 
-- [ODI mimarisi](https://docs.oracle.com/en/middleware/fusion-middleware/data-integrator/14.1.2/odiun/overview-oracle-data-integrator.html).
-- [PowerCenter Oracle dönüşüm davranışı](https://docs.informatica.com/data-integration/powercenter/10-5-9/advanced-workflow-guide/pushdown-optimization-and-transformations/update-strategy-transformation.html).
-- [dbt Oracle kurulumu](https://docs.getdbt.com/docs/local/connect-data-platform/oracle-setup), [Oracle adaptörü](https://github.com/oracle/dbt-oracle).
-- [Cloudera kurum içi referans mimarisi](https://docs.cloudera.com/cdp-reference-architectures/latest/cdp-pvc-base-ra/topics/ra-cdpdc-abstract.html).
+- [ODI architecture](https://docs.oracle.com/en/middleware/fusion-middleware/data-integrator/14.1.2/odiun/overview-oracle-data-integrator.html).
+- [PowerCenter Oracle transformation behaviour](https://docs.informatica.com/data-integration/powercenter/10-5-9/advanced-workflow-guide/pushdown-optimization-and-transformations/update-strategy-transformation.html).
+- [dbt Oracle setup](https://docs.getdbt.com/docs/local/connect-data-platform/oracle-setup), [Oracle adapter](https://github.com/oracle/dbt-oracle).
+- [Cloudera on-premises reference architecture](https://docs.cloudera.com/cdp-reference-architectures/latest/cdp-pvc-base-ra/topics/ra-cdpdc-abstract.html).
 - [Spark JDBC](https://spark.apache.org/docs/latest/sql-data-sources-jdbc.html).
 
-Excel formülleri beş adayın tamamında; puan/ağırlık değişimi, eksik dayanak/onay, sıfır ve aralık dışı puan ile başarısız zorunlu koşul senaryolarıyla kontrol edildi. Üç sekmenin ve on karşılaştırma bölümünün görünümü incelendi; geçici test girişleri temizlendi. Kontroller dosyayı oluşturan aracın hesaplama motorunda yapıldı; Microsoft Excel uygulamasında çalışma ayrıca test edilmedi.
+The English version preserves the ten sections, eight weights and calculation method. Formula checks covered all five candidates, changed ratings/weights, missing evidence/approval, zero/out-of-range ratings and failed mandatory conditions. Temporary test values were removed and saved evaluation inputs preserved. The three sheets and comparison sections were visually reviewed. Checks used the authoring tool’s calculation engine; execution in native Microsoft Excel has not been tested. Translation does not constitute new product testing or commercial verification.
