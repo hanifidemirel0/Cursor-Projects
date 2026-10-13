@@ -10,6 +10,7 @@ title: Home
 - [[DWH Ownership Operating Model]]
 - [[DWH Document Register]]
 - [[ETL Tool Evaluation]]
+- [[ETL Tool Comparison]]
 - [[DWH Hedef Mimarisi v2]]
 - [[DWH Logical Data Model]]
 - [[DWH Mimari Tasarım|DWH Mimari Tasarım — ilk taslak]]
