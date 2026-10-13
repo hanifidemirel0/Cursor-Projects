@@ -3,6 +3,7 @@ title: Home
 ---
 ## Kendi Notlarım
 
+- [[Başlangıç Yaklaşımı]]
 - [[Aktif Sorular]]
 - [[Fiziksel Topoloji - Teknik Taraf]]
 - [[Proje Planı]]

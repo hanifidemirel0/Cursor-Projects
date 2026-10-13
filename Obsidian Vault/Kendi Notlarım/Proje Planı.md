@@ -13,6 +13,8 @@ status: partial
 
 Hedef mimari: [[DWH Hedef Mimarisi v2]]. Eski taslak geçmiş karşılaştırması için korunuyor: [[DWH Mimari Tasarım]].
 
+Başlangıç duruşu, faz amaçları, yönlendirme kararları ve risk kaydı: [[Başlangıç Yaklaşımı]]. Bu not yalnızca eylem maddelerini tutar.
+
 Sahiplik, karar yetkileri, uyuşmazlık ve işletim sorumlulukları için önerilen standart: [[DWH Ownership Operating Model]] (kurum onayı bekleyen taslak).
 
 Araç değerlendirme matrisi, PoC protokolü ve tedarikçi soru seti: [[ETL Tool Evaluation]] (nihai ürün seçimi yapılmadı).
@@ -32,10 +34,32 @@ Araç değerlendirme matrisi, PoC protokolü ve tedarikçi soru seti: [[ETL Tool
 
 ## Faz 0 — Keşif ve karar kapıları
 
+İlk 30 günün amacı ve çıkış kapısı: [[Başlangıç Yaklaşımı#Faz 0 — İlk 30 gün: gerçekler, mandat ve iki ucuz kazanım]].
+
+### Mandat ve ölçüm
+
+- [ ] İsimli sponsor, yönlendirme komitesi kadansı ve konu alanı başına "hangi sayı doğru" karar hakkını kur ([[DWH Ownership Operating Model]], bugün var olan rollere indirgenmiş).
+- [ ] Programın birincil KPI'ını yaz: raporlamaya atfedilen ölçülmüş Kale DB-time azalması ve gün sonu süresi; başlangıç değerini (baseline) ilk ayda kaydet.
+- [ ] **Kale yük çalışması:** 4 hafta AWR/ASH; DB-time'a göre en yüksek SQL'leri gün içi ekran, Team Developer, MSTR ve UG gün sonu prosedürü olarak ayır. Sonuç, neyin önce boşaltılacağını ve standby kazanımının büyüklüğünü belirler.
+- [ ] Standby üstünde kaynak profilleme: en büyük / en hızlı büyüyen tablolar (BES ~%80 iddiası), PK varlığı, güvenilir değişiklik zamanı, tarihçeye yerinde update, delete deseni, şema başına üye/hesap kopyaları.
+- [ ] Mimariyi değiştiren üç iddiayı DBA ile doğrula: ADG lisansı/açılış modu, GoldenGate lisansı, UG gün sonu prosedürlerinin standby'da koşabilirliği. Sorular: [[Aktif Sorular]] madde 14.
+
+### İki ucuz kazanım
+
+- [ ] **Gün sonu tamamlanma olayı:** iş tarihi, koşu kimliği ve SCN taşıyan batch-control kaydını operasyonla kur; mail yalnızca insan bildirimi kalır. Deniz (21:30–~06:00) ve Ozan (~03:00 bitiş / 04:00–07:00 flashback) anlatımlarını bu sırada tek zaman çizelgesine oturt.
+- [ ] **BIST fon sözleşme verisini hemen landing'e al** (9 milyon satır/gün, kaynakta 5 gün sonra siliniyor): `LND_BISTDWH` altında ham, dönüşümsüz, yükleme kimlikli. Modelleme beklenmez; yakalanmayan tarihçe kaybolur. Erişim sorusu: [[Aktif Sorular]] madde 15.3.
+
+### Ekip
+
+- [ ] 1 veri modelleyici, 2 Oracle-güçlü veri mühendisi, dilim başına dönüşümlü UG analisti ve DBA irtibat kişisini güvenceye al.
+- [ ] MSTR geliştiricilerine boyutsal modelleme eğitimi planla.
+- [ ] Danışmanlık modelini kararlaştır: pilotta birlikte inşa eden sınırlı ortak; yalnızca RFP üreten tasarım çalışması değil ([[Komtaş Future-Ready Data Platform Teklifi Ağustos 2026]]).
+
 ### Rapor ve veri ürünü envanteri
 
 - [ ] UG ve operasyon ekipleriyle rapor/dosya envanteri çıkar: sahibi, tüketicisi, sıklığı, SLA'sı, kritikliği, kaynakları ve bugünkü doğrulama yöntemi.
-- [ ] Team Developer, web ve MSTR kullanım loglarından en çok kullanılan çıktıları belirle.
+- [ ] Team Developer, web ve MSTR kullanım loglarından en çok kullanılan çıktıları belirle; envanteri anketle değil loglarla doldur.
+- [ ] Her çıktıyı yönlendirme kuralına göre etiketle: ham Kale yapısında gün içi güncel-durum → standby; gün sonundan türetilen özet → DWH hesaplar, geri sunar; tarihsel/analitik/çapraz piyasa/düzenleyici → mart + MSTR ([[Başlangıç Yaklaşımı#Faz 3 — Operasyonel rapor göçü ölçekte]]).
 - [ ] SPK, MASAK, üst yönetim ve üye teslimatlarını ayrı kritik sınıfta işaretle.
 - [ ] Her çıktı için Kale / ODS / DWH / kaynak uygulama hedef yerleşimini kararlaştır.
 
@@ -57,7 +81,9 @@ Araç değerlendirme matrisi, PoC protokolü ve tedarikçi soru seti: [[ETL Tool
 
 ### Araç ve kapasite
 
-- [ ] [[Sistemler ve Servisler#2. Goldengate|Goldengate]] değerlendirmesini onaylı latency sınıflarıyla sonuçlandır.
+- [ ] Pilotu satın alma gerektirmeyen araçla başlat (PL/SQL çerçevesi veya dbt-core + dbt-oracle; Git, otomatik test). ODI / Informatica değerlendirmesini paralel yürüt; **ürün kararı Pilot B çıkış kapısında** ([[#Faz 2 — Uçtan uca MVP]]).
+- [ ] DWH veritabanı yerleşimi için `sur` ve `hisar` IO/CPU izolasyon testini DBA ile planla; sonuç [[Fiziksel Topoloji - Teknik Taraf]]'a işlenir.
+- [ ] [[Sistemler ve Servisler#2. Goldengate|Goldengate]] değerlendirmesini onaylı latency sınıflarıyla sonuçlandır; GG yalnızca S0 kanıtlanan ürün ve lisans doğrulandıktan sonra.
 - [ ] İlk üç aday konu alanı için günlük değişim, initial history, retention ve büyüme ölçümü yap.
 - [ ] Raw/core/mart, indeks, temp, backup ve DR dahil kapasite modeli çıkar.
 - [ ] Automic kontrol zinciri ve servis hesabı modelini güvenlik ekibiyle onayla.
@@ -90,6 +116,16 @@ Hiçbiri henüz kesin pilot değildir. Adaylar 1–5 arasında puanlanır:
 
 Üye-dosya projesi; sahibi, alıcısı, mevcut çıktısı ve kabul kriteri netse ilk tercihtir. Bu şartlar sağlanmıyorsa tek piyasa ve tek rapor ailesiyle takas/mutabakat dilimi seçilir. Çok piyasayı veya bütün yasal raporları birleştiren çıktı ilk pilot yapılmaz.
 
+### Önerilen pilot çifti
+
+[[Başlangıç Yaklaşımı]] puanlama ilkesini iki ardışık pilota uygular; üye-dosya projesi ayrıntıları geldiğinde aynı puanlamayla karşılaştırılır.
+
+- **Pilot A — SWIFT yasal raporlar** ([[DWH Sunum Temmuz 2025#Slayt 11 — SWIFT yasal raporlar]]): tek kaynak şema, T-1 yeterli, 2 milyar satır / 170 GB görünür Kale kazanımı, güvenlik tasarımını zorlar, conformed boyut gerektirmez. Platform tesisatını (CTL/LND, SCN-tutarlı çıkarım, replay, Automic zinciri, `PUB` snapshot, VPD/audit) kanıtlar.
+- **Pilot B — BISTECH SPK 13 rapor** ([[DWH Sunum Temmuz 2025#Slayt 22 — BISTECH SPK raporları: kaynaklar]]): iki kaynak (NOMX + Replica BIDB), gün sonu sinyaline bağımlı, ilk gerçek `CORE` paketi (party, membership, account, instrument, market_service, calendar, versiyonlu settlement_rule), dblink tabanlı SPK erişimini `PUB` ile değiştirir, ilk MSTR yıldızı.
+- Fon işlem defterleri (Verda teslimatı) ve Fon Bilgilendirme (gün içi düzeltme, 10 yıl CSV/web servis) Faz 4'ün ilk dilimleridir; sözleşme verisinin yakalanması Faz 0'da başlar.
+
+- [ ] Pilot A ve B'yi yukarıdaki 1–5 puanlamasıyla üye-dosya adayına karşı puanla; sonucu bu bölüme işle.
+
 ## Faz 1 — Kontrol ve landing temeli
 
 - [ ] `CTL_` yükleme, checkpoint, veri sözleşmesi, lineage, kalite ve yayın kayıtlarını oluştur.
@@ -121,6 +157,11 @@ Entity, ilişki ve grain başlangıç modeli: [[DWH Logical Data Model]].
 - [ ] MSTR semantik modeli veya üye dosya sözleşmesini uçtan uca bağla.
 - [ ] Dosya teslimatında içerik hash'i, alıcı, sürüm, gönderim ve teslim kanıtını sakla.
 - [ ] Metrik tanımlarını rapor içinde tekrar yazmak yerine sertifikalı veri ürününde sahiplen.
+
+### Pilot B çıkış kapısı — araç kararı
+
+- [ ] İki pilotun kanıtıyla ETL seçimini kapat: PL/SQL veya dbt-core / ODI / Informatica, [[ETL Tool Evaluation]] puan kartı ve [[ETL Proof of Concept and Acceptance]] test seti üzerinden; kararı [[ETL Selection Decision Record]]'a yaz.
+- [ ] Pilot A'da ölçülen Kale DB-time azalmasını baseline ile karşılaştırıp yönlendirme komitesine raporla.
 
 ### Mutabakat ve operasyon
 
