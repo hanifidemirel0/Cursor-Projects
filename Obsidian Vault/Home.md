@@ -11,6 +11,7 @@ title: Home
 - [[DWH Document Register]]
 - [[ETL Tool Evaluation]]
 - [[ETL Tool Comparison]]
+- [[ETL Tool Comparison Matrix]]
 - [[DWH Hedef Mimarisi v2]]
 - [[DWH Logical Data Model]]
 - [[DWH Mimari Tasarım|DWH Mimari Tasarım — ilk taslak]]

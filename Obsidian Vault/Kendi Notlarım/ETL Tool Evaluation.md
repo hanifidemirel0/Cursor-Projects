@@ -141,6 +141,7 @@ Architecture owns scope equivalence and the technical recommendation. Business/d
 Use the existing detailed appendices when carrying out tests and procurement. This note and the current English workbook define the current comparison and scoring structure.
 
 - [[ETL Tool Comparison]] — narrative comparison of the five candidates and the architect's recommendation.
+- [[ETL Tool Comparison Matrix]] — grid view: weighted scorecard with point contributions, gates, capability matrix F01–F36, fit factors, risk heat map, PoC exposure.
 - [[ETL Proof of Concept and Acceptance]] — test scenarios and acceptance conditions.
 - [[ETL Vendor RFI and Commercial Evaluation]] — vendor questions and cost scope.
 - [[ETL Selection Decision Record]] — decision, rationale and approvals.
