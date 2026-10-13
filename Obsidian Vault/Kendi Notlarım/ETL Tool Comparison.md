@@ -230,7 +230,7 @@ Ratings are the workbook's provisional desk values (0–5). Commentary is the ar
 | 13 Open-source licensing & flexibility (7.0) | 2 | 2 | 4 | 3 | 4 |
 | **Provisional fit / 100, cost excluded (workbook formula)** | **67.3** | **59.2** | **58.6** | **54.1** | **47.6** |
 
-The fit score rescales the nine assessed criteria (91.5%) to 100 and excludes the unquoted cost criterion. Per-criterion point contributions, the capability grid F01–F36, risk heat map and PoC exposure are in [[ETL Tool Comparison Matrix]]. Cost **can change the order between PowerCenter and dbt** (0.6 points apart) but would need a near-maximal cost-rating gap to displace ODI ([[ETL Tool Comparison Matrix#A.1 Cost sensitivity]]), which is why the selection waits for quotes and PoC evidence rather than price alone. The spread between Cloudera/Spark and the top three is not a cost artefact; it comes from solution completeness and operating model.
+The fit score rescales the nine assessed criteria (91.5%) to 100 and excludes the unquoted cost criterion. Per-criterion point contributions, the capability grid F01–F36, risk heat map and PoC exposure are in the comparison matrix workbook [ETL-Tool-Comparison-Matrix.xlsx](../../outputs/01a0e6cb-7e1f-7113-8240-55bc8904e0f2/etl-evaluation/ETL-Tool-Comparison-Matrix.xlsx) (sheets A–G) and its interactive [canvas view](https://cursor.com/canvas/store-c51f9d48-85cf-4b41-b001-38182c25e2b0/f187495b-c946-4d33-9346-09a13473eda3). Cost **can change the order between PowerCenter and dbt** (0.6 points apart) but would need a near-maximal cost-rating gap to displace ODI (sheet *A1 Cost sensitivity*), which is why the selection waits for quotes and PoC evidence rather than price alone. The spread between Cloudera/Spark and the top three is not a cost artefact; it comes from solution completeness and operating model.
 
 ### 5.2 Criterion-by-criterion reading
 
@@ -339,4 +339,4 @@ Official documentation per product is registered on the workbook's *Sources* she
 
 Bank context: [[Fiziksel Topoloji - Teknik Taraf]] · [[Sistemler ve Servisler]] · [[Firmalarla Yapılan DWH Görüşmeleri]] · [[DWH Sunum Eylül 2024]] · [[DWH Sunum Aralık 2024]] · [[DWH Sunum Temmuz 2025]] · [[Obase Takasbank Değerlendirme Raporu Ağustos 2024]] · [[Başlangıç Yaklaşımı]].
 
-Related: [[ETL Tool Comparison Matrix]] · [[ETL Tool Evaluation]] · [[ETL Proof of Concept and Acceptance]] · [[ETL Vendor RFI and Commercial Evaluation]] · [[ETL Selection Decision Record]] · [[Proje Planı]] · [[Aktif Sorular]]
+Related: [ETL-Tool-Comparison-Matrix.xlsx](../../outputs/01a0e6cb-7e1f-7113-8240-55bc8904e0f2/etl-evaluation/ETL-Tool-Comparison-Matrix.xlsx) · [[ETL Tool Evaluation]] · [[ETL Proof of Concept and Acceptance]] · [[ETL Vendor RFI and Commercial Evaluation]] · [[ETL Selection Decision Record]] · [[Proje Planı]] · [[Aktif Sorular]]
