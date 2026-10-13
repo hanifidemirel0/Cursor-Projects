@@ -1,5 +1,5 @@
 ---
-description: Obsidian vault in this repo; read notes from disk, and write each fact once on its owner note.
+description: Obsidian vault in this repo
 alwaysApply: true
 ---
 
@@ -19,7 +19,6 @@ Personal notes live in `Obsidian Vault/` (vault name: **Obsidian Vault**). Treat
 
 
 - Meeting note in `Toplantı Notları/` — owns what was said in that meeting. Never copy another meeting into it.
-- Concept note (`DWH`, `Kale`, `ODS`, `PowerDesigner`, …) — owns the durable definition of that thing.
 - `Fiziksel Topoloji - Teknik Taraf` — owns environments, databases, tooling.
 - `Aktif Sorular` — owns open questions. Other notes link here instead of restating a question.
 - `Proje Planı` — owns plan and action items. `Home.md` — index only.

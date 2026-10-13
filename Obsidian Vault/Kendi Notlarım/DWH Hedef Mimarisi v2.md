@@ -78,9 +78,7 @@ Her tablo ve veri ürünü şu cümleyi tamamlamadan oluşturulmaz:
 
 Bu ayrım, “31 Ağustos'ta ne geçerliydi?” ve “5 Eylül'de 31 Ağustos için ne biliyorduk?” sorularını ayrı cevaplar.
 
-### Otorite veri elemanı bazındadır
 
-Bir tablonun tamamına “golden source” etiketi verilmez. Otorite; konu, veri elemanı, piyasa, süreç aşaması ve geçerlilik dönemiyle tanımlanır.
 
 ### DWH operasyonel defterin yerine geçmez
 
@@ -90,44 +88,7 @@ DWH; denetlenebilir analitik, raporlama, veri ürünü ve yeniden üretim platfo
 
 Hassasiyet sınıfı landing'den yayına kadar taşınır. Üretim doğruluğunu bozacak kör maskeleme yerine amaç bazlı erişim, şifreleme ve tokenization kullanılır; non-prod kopyalar maskelenir. Kesin politika [[Aktif Sorular]]'da onaylanmalıdır.
 
-## Hedef mantıksal mimari
 
-```mermaid
-flowchart LR
-    subgraph src [Kaynaklar]
-        Oracle[OracleKaynaklari]
-        External[DisSistemler]
-        Files[DosyaVeMesajlar]
-    end
-
-    subgraph data [VeriDuzlemi]
-        Landing[ImmutableLanding]
-        Core[BitemporalKurumsalCore]
-        ODS[CurrentStateODS]
-        Marts[DimensionalMarts]
-        Publish[YayinVeVeriUrunleri]
-    end
-
-    subgraph control [KontrolDuzlemi]
-        Metadata[MetadataVeLineage]
-        Quality[KaliteVeMutabakat]
-        Security[GuvenlikVeDenetim]
-        Ops[OrkestrasyonVeGozlem]
-    end
-
-    Oracle --> Landing
-    External --> Landing
-    Files --> Landing
-    Landing --> Core
-    Core --> ODS
-    Core --> Marts
-    ODS --> Publish
-    Marts --> Publish
-    Metadata -.-> data
-    Quality -.-> data
-    Security -.-> data
-    Ops -.-> data
-```
 
 ## Katman sözleşmeleri
 
