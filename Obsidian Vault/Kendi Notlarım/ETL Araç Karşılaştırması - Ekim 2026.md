@@ -27,7 +27,7 @@ Independent comparison of five candidate ETL/ELT technologies for the Takasbank 
 
 - Workbook with live scoring formulas: [Takasbank-ETL-Comparison.xlsx](../../outputs/etl-comparison-2026-10/Takasbank-ETL-Comparison.xlsx)
 - The numbers come from one file, `outputs/etl-comparison-2026-10/comparison_data.py`. Change a score or a weight there, then rebuild the workbook with `python3 build_workbook.py --json`.
-- The interactive canvas lets you re-weight the criteria live. Its source is `outputs/etl-comparison-2026-10/Takasbank-ETL-Comparison.canvas.tsx`.
+- The [interactive canvas](https://cursor.com/canvas/store-c51f9d48-85cf-4b41-b001-38182c25e2b0/f3289cee-ea17-4bbb-b867-d518bff85354) lets you re-weight the criteria live. Its source is `outputs/etl-comparison-2026-10/Takasbank-ETL-Comparison.canvas.tsx`.
 
 ## 1. Executive summary and recommendation
 
