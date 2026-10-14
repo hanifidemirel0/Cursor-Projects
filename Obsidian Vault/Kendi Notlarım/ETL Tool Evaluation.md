@@ -2,6 +2,7 @@
 title: ETL Tool Evaluation
 aliases: [ETL Araç Değerlendirmesi]
 created: 2026-09-28
+created by: cursor
 updated: 2026-10-12
 status: proposed-evaluation-framework
 tags: [dwh, etl, procurement, architecture]
