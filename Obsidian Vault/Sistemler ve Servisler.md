@@ -33,6 +33,7 @@ Operasyonel kullanıcılar (iş birimleri) **Team Developer** kullanıyor; rapor
 
 ### 1.3 Mimari
 
+- Başlangıç duruşu, fazlar ve yönlendirme kararları: [[Başlangıç Yaklaşımı]]
 - Güncel hedef: [[DWH Hedef Mimarisi v2]]
 - Korunan ilk taslak: [[DWH Mimari Tasarım]]
 
@@ -188,6 +189,15 @@ Kaynaklar: [[Sistemler ve Servisler#3. Kale|Kale]] · Arşiv · ÇekDB · **BIST
 Detaylı katman sözleşmesi ve yükleme desenleri: [[DWH Hedef Mimarisi v2]]
 
 ### 4.3 Kararlar
+
+> [!important] Başlangıç yaklaşımı kararı (Ekim 2026, onay bekliyor)
+> Kaynak: [[Başlangıç Yaklaşımı#Mimari duruş]] madde 2–3.
+>
+> - **`tvsods` kapatılır.** Entegre etmeyen, Kale'nin üçüncü kopyası olan ve boşaltılmaya çalışılan `kale` makinesinde duran bu veritabanı mimari katman değildir; taşınmaz, emekli edilir.
+> - **Ham güncel-durum standby'dan verilir.** Kale yapıları üstünde gün içi "izleme" tipi raporlar ve Team Developer sorguları, `sur` üstündeki Kale read-only replikasına yönlendirilir; yeni araç ve modelleme gerekmez. Ön koşul olan ADG/açılış modu doğrulaması: [[Aktif Sorular]] madde 14.1.
+> - **Ölçülmüş SLA gerektirene kadar ayrı fiziksel ODS yok.** Entegre güncel-durum, DWH içindeki core üstünde `ODS_*` view/MV projeksiyonudur ve yalnızca gerçek operasyonel SLA'sı kanıtlanan konu alanında açılır. Ayrı ODS veritabanı/makinesi sorusu (4.3 son madde ve [[Aktif Sorular]] madde 4.3) bu kanıt gelene kadar askıdadır.
+>
+> Bu karar [[Obase Takasbank Değerlendirme Raporu Ağustos 2024]]'nin "önce ODS" önerisini ve [[DWH Sunum Temmuz 2025]]'teki "ODS kale Exadata'da" yerleşimini değiştirir; [[DWH Hedef Mimarisi v2]]'nin "ODS = core projeksiyonu" tanımıyla uyumludur.
 
 - **ODS koşullu rapor verir.** "Güncel veri lazım, tam tarihçe lazım değil" sınıfı raporlar adaydır. Rapor envanteri ve SLA olmadan ODS tablosu açılmaz: [[Proje Planı]].
 - **Current view tarihçe değildir.** “Dün saat 10'da ne biliyorduk?” sorusu ODS'den değil bitemporal core'dan cevaplanır.

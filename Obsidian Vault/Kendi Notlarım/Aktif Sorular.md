@@ -53,6 +53,16 @@ Friday, 4 September 2026, 2:41 pm
     1. Deniz'in 21:30–~06:00 anlatımı ile Ozan'ın ~03:00 bitiş / 04:00–07:00 flashback anlatımı tek timeline'da nasıl birleşiyor? [[Fiziksel Topoloji - Teknik Taraf]]
     2. Mail dışında iş tarihi, koşu kimliği ve snapshot/SCN taşıyan DB flag veya batch-control kaydı üretilebilir mi?
 13. Lineage konusu nasıl halledilebilir?
+14. [[Başlangıç Yaklaşımı]]'nın dayandığı, DBA ile doğrulanacak lisans ve ortam gerçekleri:
+    1. `sur` üstündeki Kale replikası **Active Data Guard** lisanslı mı; standby **read-only açık** mı, redo apply gerçek zamanlı mı (real-time apply), tipik apply lag kaç saniye? Gün içi izleme ekranlarının standby'a yönlendirilmesi bu cevaba bağlı. Mevcut bilgi: [[Fiziksel Topoloji - Teknik Taraf#Kale replikası - doğrulanacak gerçekler]].
+    2. **GoldenGate lisansı** gerçekten var mı? [[Obase Takasbank Değerlendirme Raporu Ağustos 2024]] "mevcut" diyor, [[Sistemler ve Servisler#2. Goldengate|Goldengate]] notu "yeni lisans" sayıyor. Hangi sürüm, hangi CPU/cihaz kapsamı, destek sözleşmesi aktif mi?
+    3. UG ekiplerinin Kale'ye özet tablo yazan **gün sonu prosedürleri** standby üstünde read-only koşabilir mi (yalnızca okuma + sonucu DWH'a yazma)? Hangileri Kale'ye geri yazmak zorunda?
+    4. DWH veritabanı için **`hisar` mı `sur` mı**: ARSIVDB ile aynı makinede tarihçe toplamanın ve PREPROD/DSS/TRUVA ile paylaşılan `sur`'un IO/CPU izolasyon testi kim tarafından, hangi yük profiliyle yapılacak? Aday makineler: [[Fiziksel Topoloji - Teknik Taraf#Donanım / yerleşim]].
+    5. Tarihçe DWH'a geçtikten sonra Kale'nin **saklama penceresi** kaç ay/yıl olacak; `banka → banka_old → arşiv` yıllık devri ve ~3.000 backup tablosu hangi takvimle emekli edilecek; hangi UG/operasyon ekibi onaylıyor?
+15. Pilot adaylarının kaynak gerçekleri:
+    1. SWIFT mesaj detay tablolarındaki serbest alanlarda kimlik numarası arama **mevcut sorgu mantığı** nedir (regex, LIKE, önceden çıkarılmış alan)? Yeni özet tablo aynı sonucu vermek zorunda.
+    2. BISTECH SPK raporlarında Replica BIDB'den okunan 5+1 rapor için Replica BIDB'ye DWH'dan **doğrudan okuma izni** verilebilir mi, yoksa Kale'ye yazılmış kopya tek yol mu?
+    3. Borsa DWH'dan gelen fon sözleşme verisi (9 milyon/gün, kaynakta 5 gün saklanıyor) bugün hangi tabloda, hangi anahtarla; landing'e **hemen** almak için hangi erişim gerekiyor?
 
 
 İlgili notlar: [[DWH Hedef Mimarisi v2]]  · [[Proje Planı]] · [[Fiziksel Topoloji - Teknik Taraf]] · [[Takasbank Genel Bilgilendirme]] · [[Takasbank Genel Bilgilendirme 2]] · [[PowerDesigner Bilgilendirme]]
