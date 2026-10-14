@@ -54,21 +54,5 @@ Friday, 4 September 2026, 2:41 pm
     2. Mail dışında iş tarihi, koşu kimliği ve snapshot/SCN taşıyan DB flag veya batch-control kaydı üretilebilir mi?
 13. Lineage konusu nasıl halledilebilir?
 
-## Fon Bilgilendirme logical model
 
-Kaynak model: [[DWH Logical Data Model#Fon Bilgilendirme — ayrıntılı logical model]]
-
-1. Fund'un kurumsal business key'i ve otoritesi nedir?
-    1. Fon, fon sınıfı ve share class ayrımı kaynakta nasıl tutuluyor?
-2. Fon Bilgilendirme dosyasında gerçek satır grain'i nedir?
-    1. Cash, instrument ve türev pozisyon satırları aynı şemada mı?
-    2. Bir dosya yalnızca bir fund/submission mı içeriyor, yoksa batch dosyada birden fazla fon veya bildirim bulunabiliyor mu?
-3. Correction bütün dosyayı mı, yalnızca değişen satırları mı yeniden gönderiyor?
-    1. Cutoff sonrası correction restatement mı, ertesi iş günü girdisi mi?
-4. Reported price ile hesaplamada kullanılan price source aynı mı?
-    1. Değerleme ve getiri formülleri nerede, hangi yürürlük tarihleriyle versiyonlanıyor?
-5. Mevcut rapor tablosu otorite kaynak mı, kontrol çıktısı mı?
-6. CSV ve webservis aynı yayın kesimi ve authorization modelini mi kullanıyor?
-    1. On yıllık servis için sorgu grain'i, pagination ve maksimum cevap süresi nedir?
-
-İlgili notlar: [[DWH Hedef Mimarisi v2]] · [[DWH Logical Data Model]] · [[Proje Planı]] · [[Fiziksel Topoloji - Teknik Taraf]] · [[Takasbank Genel Bilgilendirme]] · [[Takasbank Genel Bilgilendirme 2]] · [[PowerDesigner Bilgilendirme]]
+İlgili notlar: [[DWH Hedef Mimarisi v2]]  · [[Proje Planı]] · [[Fiziksel Topoloji - Teknik Taraf]] · [[Takasbank Genel Bilgilendirme]] · [[Takasbank Genel Bilgilendirme 2]] · [[PowerDesigner Bilgilendirme]]

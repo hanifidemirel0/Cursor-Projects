@@ -19,14 +19,7 @@ Takasbank veri ambarı. OneNote notlarından derlenen amaç ve açık sorular.
 
 Operasyonel kullanıcılar (iş birimleri) **Team Developer** kullanıyor; raporlar peyderpey UG'nin yönettiği web tarafına aktarılıyor. Nihai hedef MSTR. Üyelerin terminal ekranlarına açılan raporlar da var. ([[Takasbank Genel Bilgilendirme 2]])
 
-## Mimari
 
-- Güncel hedef: [[DWH Hedef Mimarisi v2]]
-- Korunan ilk taslak: [[DWH Mimari Tasarım]]
-
-İş alanları ve kurumsal varlık modeli: [[Takasbank İş Alanları ve Temel Varlıklar]]
-
-Mantıksal veri modeli: [[DWH Logical Data Model]]
 
 ## Açık sorular
 

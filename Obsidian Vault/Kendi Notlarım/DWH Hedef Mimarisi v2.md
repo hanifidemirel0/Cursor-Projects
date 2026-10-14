@@ -13,6 +13,99 @@ supersedes:
   - "[[DWH Mimari Tasarım]]"
 ---
 
+# DWH Mimari Tasarım
+
+Takasbank [[Sistemler ve Servisler#1. DWH|DWH]] için katman mimarisi, modelleme yaklaşımı ve yükleme desenleri. Bu not **tasarım kararlarının** sahibidir; ortam/donanım gerçekleri [[Fiziksel Topoloji - Teknik Taraf]], açık sorular [[Aktif Sorular]], faz planı [[Proje Planı]] notlarında.
+
+> [!warning] Taslak
+> Aşağıdaki kararlar iş birimleriyle (UG + operasyonel ekipler) doğrulanmadı. Rapor yerleşimi analizi yapılmadan kesinleşmez: [[Aktif Sorular]].
+
+## Karar: hibrit yaklaşım
+
+[[Inmon vs Kimball]] sorusuna cevap: **ikisi birlikte**. Normalize bir entegrasyon katmanı + üzerine Kimball star mart'ları.
+
+Gerekçe: [[Sistemler ve Servisler#3. Kale|Kale]]'de aynı kavramın (mesela `üye`) birden fazla şemada farklı tabloları var. Doğrudan mart üretmek bu tutarsızlığı mart'lara kopyalar. Entegrasyon katmanı `üye`yi bir kez çözer, mart'lar oradan beslenir.
+doğrudan inmon yaklaşımını benimsemek de çok vakit kaybettirir. çok fazla farklı business var.
+
+Teslimat yine parça parça: her fazda **bir konu alanı** dikey olarak baştan sona (kaynak → mart → MSTR) tamamlanır. Topyekün entegrasyon beklenmez; entegrasyon katmanı konu alanı geldikçe büyür.
+Hangi ekiplerle sürece başlanacağını belirlemek çok kritik.
+İlk başta party gibi yapıları modelleyebileceğimiz, çekirdek diyebileceğimiz ekiplerle görüşüp onların datalarını modelleyerek başlamak lazım.
+
+
+## Katmanlar
+
+| Kod | Şema | İçerik | Tarihçe | Erişim |
+|---|---|---|---|---|
+| L0 | `LND_<kaynak>` | Kaynak şeklinde ham veri, dönüşüm yok | **Tam tarihçe, append-only (PSA)** | Sadece ETL |
+| L1 | `ODS_*` | Entegre, güncel değerli, temizlenmiş | Güncel değerli | Operasyonel sorgu + rapor |
+| L2 | `EDW` | Entegre, normalize, kurumsal tanım | Tam tarihçe (SCD2) | Sadece ETL + analist |
+| L3 | `DM_<konu>` | Star schema: fact + dimension | Fact'te olay tarihçesi | MSTR, raporlar |
+| L4 | — | MSTR semantik katmanı, metrik tanımları | — | Son kullanıcı |
+
+- **L0 kaynak başına ayrı şema:** `LND_KALE`, `LND_BIST`, `LND_CEK`, `LND_FILE`…  L0'da dönüşüm mantığı **yasak**.
+- **L0 neden tam tarihçe:** Geçmiş dataya update gelebiliyor ([[Aktif Sorular]]); mart'ı sıfırdan yeniden üretebilmek için kaynağın o an ne dediğini saklamak gerekiyor. Aynı zamanda denetim izi. Exadata'da HCC bu maliyeti taşır.
+- **L0 → L1 sınırı:** L0 kaynak şeklindedir, L1 entegredir. Bu sınır korunmazsa operasyonel kullanıcılar ham kaynak tablolarını sorgulamaya başlar ve `üye` problemi çözülmek yerine aşağıya taşınır. Kapsam kararı: [[Sistemler ve Servisler#4. ODS|ODS]]
+- **L1 rapor verir:** "Güncel veri lazım, tarihçe lazım değil" sınıfı raporların cevabı L1.
+- **L2 tek gerçek:** Bir kavramın tanımı burada bir kez yaşar. Mart'lar L2'yi okur, birbirini okumaz.
+- **L3 mart sınırı:** Bir mart bir konu alanı + bir grain. İki UG'nin farklı `üye` tanımını aynı mart'ta karıştırmak yasak.
+- **L4 metrik:** Hesaplanmış iş metrikleri (komisyon oranı, net yükümlülük) MSTR'da değil, mümkün olduğunca L3'te maddileşir. MSTR sadece sunar.
+
+## Kaynak başına giriş yolu
+
+Kaynak listesi ve ODS kapsam kararı: [[Sistemler ve Servisler#4. ODS|ODS]]. Araç seçenekleri (GoldenGate / ODI) ve rol ayrımı: [[Sistemler ve Servisler#2. Goldengate|Goldengate]].
+
+| Kaynak                                   | Yol                                           | Not                                                                                          |
+| ---------------------------------------- | --------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| [[Sistemler ve Servisler#3. Kale\|Kale]] | `sur` üstündeki replikadan okuma → `LND_KALE` | ETL prod Kale'ye hiç dokunmaz                                                                |
+| Arşiv, ÇekDB                             | Oracle replikasyon veya batch extract         | Tazeleme ihtiyacı henüz belirsiz                                                             |
+| BIST DB                                  | Zamanlanmış çekim, conformed dış besleme      | Başka kurumun ambarı: grain'i ve penceresi devralınır, real-time yok                         |
+| CSV / FTP                                | External table veya `SQL*Loader` → `LND_FILE` | Aşağıdaki dosya sözleşmesi                                                                   |
+| Postgre / MSSQL                          | GoldenGate                                    | Dataguard bu kaynakları **hiç** alamaz: [[Sistemler ve Servisler#2. Goldengate\|Goldengate]] |
+
+
+
+
+
+### Sahiplik
+
+Fark raporu sadece ETL ekibine gitmez, ilgili UG'ye de gider. Sahibi olmayan fark kapanmaz; kapanmayan fark birikince mutabakat gürültüye dönüşür ve kimse bakmaz.
+
+## Oracle / Exadata tarafı
+
+DWH `sur` Exadata üzerinde ([[Fiziksel Topoloji - Teknik Taraf]]).
+
+- Fact tabloları `takas_tarih_sk` üzerinden **RANGE partition** (aylık veya günlük).
+- Geçmiş partition'larda **HCC** (`COLUMN STORE COMPRESS FOR QUERY HIGH`); aktif partition sıkıştırmasız.
+- **L0 arşiv partition'ları HCC `ARCHIVE HIGH`** — tam tarihçeli landing'in maliyetini taşıyan şey bu; sadece yeniden üretimde okunur.
+- **Kapasite:** L0 tam tarihçe + çok kaynak, ODS'i kaledb'nin ~10 TB'ından hızla büyütür. 1 Exadata ≈ 200 TB olduğu için yer var, ama yerleşim kararı bunu gerektiriyor: [[Sistemler ve Servisler#4. ODS|ODS]].
+- Fact FK'larında **bitmap index**, `star_transformation_enabled` açık.
+- Dimension PK'ları enforced; fact FK'ları `RELY DISABLE NOVALIDATE` (optimizer bilsin, yük yavaşlamasın).
+- MSTR'ın sık çektiği toplamlar için **materialized view + query rewrite**.
+
+
+
+## Güvenlik
+
+Hassas veri ve veri sahibi bilgisi [[Sistemler ve Servisler#5. PowerDesigner|PowerDesigner]]'dan gelir. Alınacak her kolon bu katalogla eşleştirilir.
+
+Sınır **L0'dır, DWH değil**: çok kaynaklı landing'le hassas veri artık en dışta iniyor, dolayısıyla eşleme dosya/tablo landing'e inmeden önce yapılmalı. Gerekçe: [[Sistemler ve Servisler#4. ODS|ODS]]. Maskeli verinin alınıp alınmayacağı hâlâ açık: [[Aktif Sorular]] madde 6.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # DWH Hedef Mimarisi v2
 
 Takasbank [[Sistemler ve Servisler#1. DWH|DWH]] için kurumsal hedef veri mimarisi. İş alanları ve kalıcı iş kavramları [[Takasbank İş Alanları ve Temel Varlıklar]], entity ve ilişkiler [[DWH Logical Data Model]], ortam gerçekleri [[Fiziksel Topoloji - Teknik Taraf]], veri alma aracı [[Sistemler ve Servisler#2. Goldengate|Goldengate]], uygulama sırası [[Proje Planı]], cevap bekleyen kararlar [[Aktif Sorular]] notlarındadır.
@@ -38,11 +131,11 @@ Korunan doğru kararlar:
 - dikey dilimlerle teslimat,
 - kaynak başına dönüşümsüz landing,
 - replay ve idempotency,
-- conformed dimension disiplini,
-- kaynak → katman → iş çıktısı mutabakatı,
-- mutabakat yeşil olmadan yayın yapmama,
+
+
+
 - prod [[Sistemler ve Servisler#3. Kale|Kale]]'yi doğrudan sorgulamama,
-- dosya sözleşmesi ve karantina,
+
 - gün sonunu sabit saat yerine tamamlanma olayına bağlama.
 
 Değiştirilen veya sınırlandırılan kararlar:
@@ -67,9 +160,7 @@ Her tablo ve veri ürünü şu cümleyi tamamlamadan oluşturulmaz:
 
 İşlem, MKT bacağı, netleştirme grubu, yükümlülük, talimat ve hareket ayrı grain'lerdir. Aynı satıra sıkıştırılmaz.
 
-### Olay kanıttır, durum projeksiyondur
 
-İptal, düzeltme, kısmi kapanma, tekrar netleştirme ve geriye dönük değişiklik update ile yok edilmez. Yeni olay veya yeni sistem-zamanı sürümü olarak saklanır.
 
 ### İş zamanı ile sistem zamanı ayrıdır
 
@@ -92,16 +183,6 @@ Hassasiyet sınıfı landing'den yayına kadar taşınır. Üretim doğruluğunu
 
 ## Katman sözleşmeleri
 
-### `CTL_*` — kontrol düzlemi
-
-Veri katmanı dışında düşünülmez; her yükün zorunlu parçasıdır.
-
-- `ctl_yukleme`: yükleme kimliği, kaynak, pencere, başlangıç/bitiş, durum.
-- `ctl_checkpoint`: CDC SCN/LSN, watermark, dosya ve mesaj offset'i.
-- `ctl_veri_sozlesmesi`: şema sürümü, zorunlu alan, veri tipi, sahibiyet.
-- `ctl_lineage`: kaynak nesne → dönüşüm → hedef kolon bağı.
-- `ctl_kalite_sonuc`: kural, sürüm, eşik, sonuç ve örnek hatalar.
-- `ctl_yayin`: hangi fiziksel partition/snapshot'ın hangi tüketiciye açıldığı.
 
 ### `LND_<kaynak>` — immutable landing / PSA
 
@@ -213,319 +294,6 @@ erDiagram
     PARTY ||--o{ ACCOUNT_PARTY : relates
     ACCOUNT ||--o{ ACCOUNT_PARTY : assigned
 ```
-
-### `party_xref`
-
-Bir kaynaktaki `uye_no`, başka kaynaktaki kurum kodu ve varsa LEI/vergi kimliği tek kurumsal `party_id` ile ilişkilendirilir.
-
-Eşleme:
-
-1. kesin resmî tanımlayıcı,
-2. kaynaklar arası onaylı çapraz referans,
-3. deterministik eşleme kuralı,
-4. manuel veri sahipliği onayı
-
-önceliğiyle yapılır. Fuzzy eşleme otomatik golden record üretmez; inceleme kuyruğu açar.
-
-### Rol ve üyelik
-
-Bir taraf aynı anda farklı piyasalarda farklı rollere sahip olabilir. `üyelik`, taraf özelliği değil; taraf + piyasa/hizmet + rol + geçerlilik dönemi ilişkisidir.
-
-PowerDesigner'daki veri sahibi, eşlemeyi onaylayacak kişiyi bulmaya yardım eder; otorite kaydı doğrudan PowerDesigner'dan türetilmez.
-
-## İşlemden mutabakata iz
-
-```mermaid
-flowchart LR
-    Trade[IslemVeyaSozlesme] --> CcpLeg[MKTBacaklari]
-    Trade --> Gross[BrutKalemler]
-    CcpLeg --> Gross
-    Gross --> NetSet[NetlestirmeGrubuVeSurumu]
-    NetSet --> Obligation[Yukumluluk]
-    Obligation --> Instruction[Talimat]
-    Instruction --> Movement[NakitVeyaKiymetHareketi]
-    Movement --> Reconciliation[DisSistemMutabakati]
-```
-
-Asgari core grain'leri:
-
-- bir gerçekleşen işlem veya OTC sözleşme,
-- bir yasal MKT bacağı,
-- bir hesap-araç-zaman pozisyonu,
-- bir netleştirme koşusu ve sürümü,
-- bir brüt kalemin netleştirme koşusuna katılımı,
-- bir üye-hesap-varlık-takas tarihi-yön yükümlülüğü,
-- bir ödeme veya kıymet talimatı,
-- bir gerçekleşen/kısmi/başarısız hareket,
-- bir süreç durum olayı.
-
-DvP/PvP, `linked_leg_group_id` ile bağlanan ayrı nakit/kıymet veya iki para bacağıdır. Bir bacak tamamlanmadan diğerinin durumu ve atomiklik ihlali ölçülebilir.
-
-## Zaman, takvim ve kural modeli
-
-Tarih rolleri ayrı tutulur:
-
-- işlem tarihi ve zamanı,
-- MKT kabul zamanı,
-- netleştirme zamanı,
-- sözleşme/değer tarihi,
-- planlanan takas tarihi,
-- gerçekleşen takas zamanı,
-- iş tarihi,
-- kaynak işlem zamanı,
-- DWH'a alınma zamanı,
-- rapor kesim zamanı.
-
-`market_calendar` piyasa, para birimi ve takas sistemi bazında iş günü/yarım gün/tatil bilgisini taşır.
-
-`settlement_rule` en az şu kapsamla versiyonlanır:
-
-```text
-market_id
-service_id
-instrument_class_id
-currency_id
-valid_from
-valid_to
-cycle_type
-cycle_offset
-cutoff_rule_id
-calendar_id
-procedure_version
-```
-
-`T+1`, `T+2`, `T+0` veya değer tarihi kolon adı değildir; kural verisidir.
-
-## Olay fact'leri ve analitik projeksiyonlar
-
-### Asıl olay fact'i
-
-Bir olay satırı append-only tutulur:
-
-```text
-event_id
-aggregate_type
-aggregate_id
-event_type
-event_ts
-business_date
-source_sequence
-source_system
-payload_hash
-correlation_id
-causation_id
-yukleme_id
-```
-
-Kaynak payload landing'de kalır; core olay fact'i kurumsal anahtar ve anlam taşır.
-
-### Accumulating snapshot
-
-Süreç performansı ve açık kalem analizi için kullanılır. Örneğin yükümlülüğün oluşturulma, talimat, ilk kısmi gerçekleşme, tam kapanma ve temerrüt zamanlarını tek görünümde sunar. Update edilebilir, fakat olay fact'inin yerine geçmez.
-
-### Periodic snapshot
-
-Pozisyon, bakiye, teminat değeri, risk maruziyeti ve fon payı gibi belirli andaki durumlar için kullanılır. Snapshot'ın `as_of_ts`, kesim türü ve kaynak sürümü zorunludur.
-
-### Transaction fact
-
-İşlem, ödeme, teminat hareketi, çağrı, ücret tahakkuku veya kurumsal aksiyon ödemesi gibi tekil olayın ölçülerini taşır. Tutar için binary floating point kullanılmaz; para biriminin ölçeği ve yuvarlama kuralı korunur.
-
-## Önerilen analitik veri ürünleri
-
-### Taraf ve üyelik
-
-- `dim_party`
-- `dim_party_role`
-- `fact_membership_event`
-- `fact_member_limit_rating_snapshot`
-
-Bu ürün tek başına pilot değildir; seçilen dikey dilimin içinde ilk kez değer üretir.
-
-### İşlem ve pozisyon
-
-- `fact_trade`
-- `fact_ccp_leg`
-- `fact_position_snapshot`
-
-Order fact'i yalnızca Takasbank'ın order-level veriye sahip olduğu ve iş sorusu gerektirdiği platformlarda açılır.
-
-### Takas ve mutabakat
-
-- `fact_netting_run`
-- `bridge_netting_input`
-- `fact_settlement_obligation`
-- `fact_settlement_event`
-- `fact_settlement_process_snapshot`
-
-Tek bir `fact_takas_akis` bütün grain'leri içermez.
-
-### Risk, teminat ve temerrüt
-
-- `fact_risk_exposure_snapshot`
-- `fact_margin_requirement`
-- `fact_margin_call_event`
-- `fact_collateral_movement`
-- `fact_collateral_valuation_snapshot`
-- `fact_guarantee_fund_contribution`
-- `fact_default_event`
-- `fact_default_waterfall_usage`
-
-İskonto, uygunluk, konsantrasyon ve fiyat kaynağı sonuç fact'ine sürüm anahtarıyla bağlanır.
-
-### Saklama ve kurumsal aksiyon
-
-- `fact_holding_snapshot`
-- `fact_custody_movement`
-- `fact_corporate_action`
-- `fact_entitlement`
-- `fact_corporate_action_payment`
-
-### Fon ve emeklilik
-
-- `fact_fund_order`
-- `fact_fund_unit_event`
-- `fact_nav_valuation`
-- `fact_fund_compliance_result`
-- `fact_participant_holding_snapshot`
-
-Katılımcı anahtarı açık kimlik yerine privacy-preserving surrogate/token olabilir.
-
-### Ödeme, çek ve escrow
-
-- `fact_ledger_posting`
-- `fact_payment_message`
-- `fact_cheque_lifecycle_event`
-- `fact_escrow_instruction`
-- `fact_escrow_milestone`
-
-Operasyonel alt defter ile genel muhasebe bağı `accounting_reference` ve mutabakat koşusuyla kurulur.
-
-### Düzenleyici bildirim ve dış teslimat
-
-- `fact_regulatory_submission`
-- `fact_submission_response`
-- `fact_outbound_delivery`
-
-Her teslimatta içerik hash'i, şema sürümü, kesim zamanı, alıcı, kanal, şifreleme/anahtar referansı, gönderim ve teslim alındı zamanı tutulur. “As originally reported/delivered” ve düzeltilmiş sürüm birlikte korunur.
-
-## Veri alma ve gecikme sınıfları
-
-Tek kurumsal “real-time / batch” kararı yoktur. Her veri ürünü aşağıdaki sınıflardan birine atanır:
-
-- **S0 — olay yakın gerçek zamanlı:** Kanıtlanmış operasyonel/yasal SLA varsa log veya mesaj tabanlı CDC.
-- **S1 — gün içi mikro-batch:** Dakika/saat ölçeğinde kontrollü checkpoint.
-- **S2 — gün sonu:** Otoritatif gün sonu tamamlanma sinyalinden sonra.
-- **S3 — planlı dosya/harici besleme:** Kaynağın yayın penceresine bağlı.
-- **S4 — talep üzerine/backfill:** Replay, düzeltme ve tarihsel yük.
-
-Araç seçimi [[Sistemler ve Servisler#2. Goldengate|Goldengate]] notundadır. Mantıksal sözleşme araçtan bağımsızdır.
-
-### Kaynak desenleri
-
-- Oracle kaynakları: prod yerine doğrulanmış replika; checkpoint ve replika lag'i kaydedilir.
-- CSV/FTP: manifest, checksum, adlandırma, encoding, şema sürümü, tekrar gönderim ve karantina.
-- Mesaj/API: message id, correlation id, offset, retry ve dead-letter kaydı.
-- Dış kurum ambarı: sunulan grain ve tazeleme penceresi değiştirilmeden landing'e alınır.
-- Backfill: ayrı `yukleme_id`, aynı dönüşüm sürümü veya açıkça kayıtlı yeni sürüm.
-
-## Orkestrasyon ve gün sonu
-
-Automic aday orkestratördür: [[Fiziksel Topoloji - Teknik Taraf]].
-
-Gün sonu zinciri:
-
-```mermaid
-flowchart LR
-    Signal[OtoritatifTamamlanmaSinyali] --> Validate[SinyalVeKesimDogrula]
-    Validate --> Ingest[LandingYuku]
-    Ingest --> TechRec[TeknikMutabakat]
-    TechRec --> CoreLoad[CoreYuku]
-    CoreLoad --> BizRec[IsMutabakati]
-    BizRec --> MartLoad[MartVeODSYenile]
-    MartLoad --> PublishGate[YayinKapisi]
-```
-
-Mail, insan için bildirim olabilir; makine bağımlılığının tek kaynağı olmamalıdır. DB flag, batch-control kaydı veya imzalı tamamlanma olayı; iş tarihi, koşu kimliği ve kaynak snapshot'ını taşımalıdır.
-
-PREPROD için toplantı notlarında farklı saatler bulunduğundan tek timeline varsayılmaz. Çelişki [[Aktif Sorular]] kapanmadan schedule sabitlenmez.
-
-## Veri kalitesi ve mutabakat
-
-### Dört kontrol seviyesi
-
-1. **Teslimat:** Dosya/mesaj/checkpoint eksiksiz mi, duplicate var mı?
-2. **Teknik:** Satır sayısı, PK aralığı, hash, nullable ve referential kurallar doğru mu?
-3. **Dönüşüm:** Grain değişiminde tutar, adet, distinct taraf ve ilişki köprüsü beklenen sonucu veriyor mu?
-4. **İş ve dış otorite:** İşlem, yükümlülük, hareket, bakiye, muhasebe ve gönderilmiş rapor ilgili otoriteyle tutuyor mu?
-
-### Otorite matrisi
-
-Her mutabakat kuralı şunları taşır:
-
-```text
-konu_alani
-veri_elemani_veya_metrik
-kaynak_otorite
-karsilastirma_grain
-zaman_kesimi
-kural_surumu
-tolerans_tipi
-tolerans_degeri
-sahip
-gecerlilik_araligi
-```
-
-Örnek kontrol zincirleri:
-
-- borsa işlemi → MKT bacağı → net yükümlülük,
-- yükümlülük → nakit/kıymet talimatı → hareket,
-- kıymet alt defteri → MKK veya TCMB,
-- nakit alt defteri → TCMB veya muhabir banka,
-- operasyonel alt defter → genel muhasebe,
-- dış piyasa borç/alacağı → katılımcı mutabakatı,
-- teminat alt defteri → saklama bakiyesi,
-- düzenleyici veri ürünü → kabul edilmiş gönderim.
-
-Kesin tutar eşitliği gereken yerde tolerans sıfırdır. Değerleme zamanı, fiyat kaynağı veya mevzuatça tanımlı yuvarlama farkı varsa tolerans keyfî eşik değil, sürümlü iş kuralıdır.
-
-### Yayın kapısı
-
-- Kırmızı kalite/mutabakat durumunda yeni sürüm açılmaz.
-- Önceki sertifikalı sürüm erişimde kalabilir; bayatlık alarmı görünür olur.
-- Override yalnızca yetkili sahip, gerekçe, süre ve etkilenen ürün kaydıyla yapılır.
-- Hata düzeltildiğinde aynı fiziksel tablo üzerine sessiz update yapılmaz; yeni yayın sürümü oluşur.
-
-## Güvenlik ve mahremiyet
-
-### Sınıflandırma
-
-PowerDesigner'daki hassasiyet ve veri sahibi alanları başlangıç kataloğudur. Her kolon için:
-
-- sınıflandırma,
-- iş sahibi,
-- teknik steward,
-- işleme amacı,
-- izinli tüketici,
-- saklama süresi,
-- maskeleme/tokenization kuralı
-
-lineage boyunca taşınır.
-
-### Erişim
-
-- least privilege ve görevler ayrılığı,
-- şema/rol bazlı erişim,
-- gerektiğinde satır ve kolon bazlı güvenlik,
-- servis hesabı ile insan hesabının ayrılması,
-- bütün okuma ve dışa aktarımların audit'i,
-- MSTR ve AI için ayrı purpose-bound roller.
-
-Gerçek kişi, BES katılımcısı ve escrow tarafı verileri kurumsal üyelik verisinden daha sıkı ayrıştırılır. Non-prod'a üretim kimliği taşınmaz; Informatica TDM ile onaylı maskeleme uygulanır.
-
-### Kriptografi ve dış teslimat
-
-At-rest ve in-transit şifreleme, merkezi anahtar yönetimi ve anahtar rotasyonu gerekir. Üye dosyasında hassas veri düz metin FTP'ye bırakılmaz; alıcıya özel şifreleme, bütünlük hash'i ve teslimat kanıtı tutulur.
 
 ## Metadata, lineage ve veri sözleşmesi
 

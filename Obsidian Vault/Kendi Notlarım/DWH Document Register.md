@@ -1092,7 +1092,7 @@ Leave unknown owners/dates explicitly unassigned in the live register until appo
 
 - [[DWH Ownership Operating Model]] — proposed owner/RACI/process baseline for P01 and related procedures; assess and approve instead of duplicating.
 - [[Proje Planı]] — implementation planning input for M06/M07; this register adds document coverage rather than rewriting execution tasks.
-- [[DWH Hedef Mimarisi v2]] and [[DWH Logical Data Model]] — design inputs for D07/D09; reassess against approved requirements.
+- [[DWH Hedef Mimarisi v2]] — design inputs for D07/D09; reassess against approved requirements.
 - [[Fiziksel Topoloji - Teknik Taraf]] — environment discovery input for D02/D08.
 - [[Aktif Sorular]] — unresolved questions feeding M11 and discovery.
 - [[Takasbank Genel Bilgilendirme]], [[Takasbank Genel Bilgilendirme 2]], [[Ortamlar hakkında]] and [[PowerDesigner Bilgilendirme]] — reported current-state context, subject to validation.
