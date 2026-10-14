@@ -609,7 +609,7 @@ export default function EtlComparisonMatrix() {
   return (
     <Stack gap={20} style={{ padding: 24, color: theme.text.primary }}>
       <Stack gap={6}>
-        <H1>ETL Tool Comparison Matrix — Takasbank on-premises Exadata EDW</H1>
+        <H1>full repo ETL Tool Comparison Matrix — Takasbank on-premises Exadata EDW</H1>
         <Text tone="secondary">
           {TOOL_FULL.join(" · ")}
         </Text>
