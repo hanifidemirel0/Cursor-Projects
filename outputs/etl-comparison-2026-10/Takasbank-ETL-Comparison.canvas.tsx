@@ -986,7 +986,7 @@ export default function TakasbankEtlComparison() {
   return (
     <Stack gap={28} style={{ padding: 4 }}>
       <Stack gap={4}>
-        <H1>Takasbank ETL tool comparison</H1>
+        <H1>no earlier work Takasbank ETL tool comparison</H1>
         <Text tone="secondary">
           {`Oracle Data Integrator, Informatica PowerCenter, dbt, Cloudera Data Platform and Apache Spark for the on-prem enterprise DWH with operational and real-time reporting. Vendor facts as of ${DATA.asOf}.`}
         </Text>
