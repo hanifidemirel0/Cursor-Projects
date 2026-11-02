@@ -37,7 +37,7 @@ Friday, 4 September 2026, 2:41 pm
     7. `LND_` landing ve `CORE_` yüklemeleri `ODS_` şemalarından mı beslenecek, yoksa kaynaktan ayrı çıkarımla mı? Kaynaktaki delete ve tarihçeye gelen update'ler ODS'de yalnızca güncel durum olarak mı kalacak, değişiklik kaydı da tutulacak mı?
     8. Gün içi / operasyonel raporlar `ODS_` şemalarından mı verilecek ([[DWH Hedef Mimarisi v2#Yönetici özeti]] böyle diyor); `sur` standby'ın raporlama rolü kalıyor mu?
     9. `tvsods` hangi tarihte, hangi geçiş koşuluyla kapatılacak?
-5. [[Sistemler ve Servisler#2. Goldengate|Goldengate]] → ODS beslemesi için **GoldenGate kararlaştırıldı** (madde 4). GG'nin alamadığı kaynaklar ve DWH içi dönüşüm/ELT aracı ayrı karar: [[ETL Tool Comparison]].
+5. [[Sistemler ve Servisler#2. Goldengate|Goldengate]] → ODS beslemesi için **GoldenGate kararlaştırıldı** (madde 4). GG'nin alamadığı kaynaklar ve DWH içi dönüşüm/ELT aracı ayrı karar.
 6. Maskeli veriler DWH'e alınmalı mı? ([[PowerDesigner Bilgilendirme]])
     1. Üretimde doğruluk için açık ama erişim kontrollü/tokenized veri, non-prod'da Informatica TDM ile maskeleme yaklaşımı onaylanıyor mu?
     2. Gerçek kişi/BES/escrow verilerinin izinli kullanım amacı ve satır/kolon erişim modeli nedir?

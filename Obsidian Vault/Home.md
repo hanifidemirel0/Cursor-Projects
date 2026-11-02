@@ -9,7 +9,6 @@ title: Home
 - [[Proje Planı]]
 - [[DWH Ownership Operating Model]]
 - [[DWH Document Register]]
-- [[ETL Tool Comparison]] · [workbook (xlsx)](../outputs/etl-comparison/Takasbank-ETL-Tool-Comparison.xlsx) · canvas `takasbank-etl-tool-comparison.canvas.tsx`
 - [[DWH Hedef Mimarisi v2]]
 - [[DWH Logical Data Model]]
 - [[DWH Mimari Tasarım|DWH Mimari Tasarım — ilk taslak]]

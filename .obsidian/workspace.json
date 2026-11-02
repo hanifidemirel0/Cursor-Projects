@@ -11,10 +11,14 @@
             "id": "69b2244852cd9009",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "Obsidian Vault/Sistemler ve Servisler.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "Yeni sekme"
+              "title": "Sistemler ve Servisler"
             }
           }
         ]
@@ -95,7 +99,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Obsidian Vault/Kendi Notlarım/DWH Mimari Tasarım.md",
+                "file": "Obsidian Vault/Sistemler ve Servisler.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -170,8 +174,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -186,25 +189,30 @@
   },
   "active": "69b2244852cd9009",
   "lastOpenFiles": [
-    "outputs/etl-comparison/takasbank-etl-tool-comparison.canvas.tsx",
-    "outputs/etl-comparison/~$Takasbank-ETL-Tool-Comparison.xlsx",
     "Obsidian Vault/Kendi Notlarım/ETL Tool Comparison.md",
+    "Obsidian Vault/Home.md",
+    "outputs/etl-comparison/~$Takasbank-ETL-Tool-Comparison.xlsx",
+    "Obsidian Vault/Takasbank/DWH Sunum Kasım 2026.md",
+    "Obsidian Vault/Kendi Notlarım/Aktif Sorular.md",
+    "Obsidian Vault/Kendi Notlarım/DWH Mimari Hafıza - Temmuz 2025 Sunumu.md",
+    "Obsidian Vault/Kendi Notlarım/DWH Hedef Mimarisi v2.md",
+    "Obsidian Vault/Sistemler ve Servisler.md",
+    "Obsidian Vault/Takasbank İş Alanları ve Temel Varlıklar.md",
+    "Obsidian Vault/Kendi Notlarım/Başlangıç Yaklaşımı.md",
+    "outputs/etl-comparison/takasbank-etl-tool-comparison.canvas.tsx",
     "outputs/etl-comparison/Takasbank-ETL-Tool-Comparison.xlsx",
     "outputs/etl-comparison",
     "Obsidian Vault/Kendi Notlarım/ETL Proof of Concept and Acceptance.md",
     "outputs/01a0e6cb-7e1f-7113-8240-55bc8904e0f2/etl-evaluation/ETL-Tool-Comparison-Matrix.xlsx",
     "outputs/01a0e6cb-7e1f-7113-8240-55bc8904e0f2/etl-evaluation/ETL-Tool-Comparison-Matrix.html",
     "outputs/01a0e6cb-7e1f-7113-8240-55bc8904e0f2/etl-evaluation/ETL-Tool-Comparison-Matrix.canvas.tsx",
-    "Obsidian Vault/Kendi Notlarım/Başlangıç Yaklaşımı.md",
     "Obsidian Vault/Kendi Notlarım/ETL Selection Decision Record.md",
     "Obsidian Vault/Kendi Notlarım/ETL Tool Evaluation.md",
     "Obsidian Vault/Kendi Notlarım/ETL Vendor RFI and Commercial Evaluation.md",
     "outputs/01a0e6cb-7e1f-7113-8240-55bc8904e0f2/etl-evaluation/~$ETL-Tool-Comparison.xlsx",
-    "Obsidian Vault/Kendi Notlarım/DWH Hedef Mimarisi v2.md",
     "Obsidian Vault/Kendi Notlarım/DWH Mimari Tasarım.md",
     "outputs/system-notes-merge-backup-20261012-115356/Kendi Notlarım/DWH Hedef Mimarisi v2.md",
     "Obsidian Vault/Kendi Notlarım/DWH Document Register.md",
-    "Obsidian Vault/Kendi Notlarım/Aktif Sorular.md",
     "outputs/system-notes-merge-backup-20261012-115356/DWH.md",
     "outputs/system-notes-merge-backup-20261012-115356/Kendi Notlarım/Aktif Sorular.md",
     "outputs/system-notes-merge-backup-20261012-115356/Kendi Notlarım/Proje Planı.md",
@@ -212,7 +220,6 @@
     "fable_dwh_plan_v1.md",
     "outputs/01a1304c-359e-75c2-bf15-38aac422a6ae/etl-review/workbook-dump.txt",
     "outputs/01a0e6cb-7e1f-7113-8240-55bc8904e0f2/etl-evaluation/ETL-Tool-Comparison.xlsx.inspect.ndjson",
-    "outputs/01a1304c-359e-75c2-bf15-38aac422a6ae/etl-review/edit-manifest.json",
     "outputs/01a1304c-359e-75c2-bf15-38aac422a6ae/etl-review/sources.png",
     "outputs/01a1304c-359e-75c2-bf15-38aac422a6ae/etl-review/bank-conditions.png",
     "outputs/01a1304c-359e-75c2-bf15-38aac422a6ae/etl-review/recommendation.png",
@@ -227,10 +234,6 @@
     "outputs/01a1304c-359e-75c2-bf15-38aac422a6ae/etl-review/node_modules/playwright-core/lib/tools/skills/playwright-cli/references/tracing.md",
     "outputs/01a1304c-359e-75c2-bf15-38aac422a6ae/etl-review/node_modules/playwright-core/lib/tools/skills/playwright-cli/references/video-recording.md",
     "outputs/01a1304c-359e-75c2-bf15-38aac422a6ae/etl-review/node_modules/playwright-core/lib/tools/skills/playwright-cli/references/storage-state.md",
-    "outputs/01a1304c-359e-75c2-bf15-38aac422a6ae/etl-review/node_modules/playwright-core/lib/tools/skills/playwright-cli/references/test-generation.md",
-    "outputs/01a1304c-359e-75c2-bf15-38aac422a6ae/etl-review/node_modules/playwright-core/lib/tools/skills/playwright-cli/references/session-management.md",
-    "outputs/01a1304c-359e-75c2-bf15-38aac422a6ae/etl-review/node_modules/playwright-core/lib/tools/skills/playwright-cli/references/request-mocking.md",
-    "outputs/01a1304c-359e-75c2-bf15-38aac422a6ae/etl-review/node_modules/playwright-core/lib/tools/skills/playwright-cli/references/running-code.md",
     "outputs/01a1304c-359e-75c2-bf15-38aac422a6ae/etl-review/node_modules/playwright-core/lib/vite/dashboard/assets/safari-na3_-uQk.svg",
     "Obsidian Vault/Untitled.canvas"
   ]
