@@ -6,7 +6,7 @@ aliases:
   - ETL Proof of Concept and Acceptance
   - ETL Selection Decision Record
 created: 2026-10-14
-updated: 2026-10-14
+updated: 2026-11-02
 section: Kendi Notlarım
 status: desk-assessment-no-bank-tests
 language: en
@@ -31,17 +31,20 @@ This note **owns the narrative comparison, the evaluation method, the PoC protoc
 > [!warning] Status of the evidence
 > Desk assessment from official documentation and the bank's own notes, as of **14 October 2026**. No candidate has been installed, tested or quoted at Takasbank. Ratings are architect judgement on a 0–5 scale; gates are provisional until the PoC in §9 is executed. This is an input to the steering committee, not a procurement ranking.
 
+> [!important] Update 2 November 2026: Automic will not be the DWH scheduler
+> The scheduler is still under evaluation: [[Fiziksel Topoloji - Teknik Taraf#Zamanlayıcı|zamanlayıcı]], [[Aktif Sorular]] item 16. This note originally assumed Automic (H7) for every candidate; those references now say "the DWH scheduler (to be selected)". The C5 scores were not re-rated. The change weighs most on **dbt Core**, which has no scheduler of its own. ODI (load plans and agent scheduler) and PowerCenter (workflow scheduler) can schedule themselves.
+
 ## 1. Executive summary
 
 - **The decision is not "which ETL tool is best".** It is "which complete, supportable, fully on-premises service moves and transforms Oracle-heavy data into an Exadata EDW with the team Takasbank has, while intraday operational reporting is served from the Active Data Guard standby". Framed that way the field splits in two: tools that execute SQL **inside Exadata** (ODI, dbt, PowerCenter with pushdown) and platforms that move data **out** to a second compute estate and back (Cloudera, Spark).
 - **Weighted result (baseline weights):** ODI **74.0**, dbt Core package **71.2**, PowerCenter **68.2**, Cloudera **53.6**, Spark **45.0** out of 100. Under six weight scenarios ODI leads four, dbt leads two (cost-constrained, engineering-culture), Cloudera and Spark never lead.
 - **Lead commercial candidate: ODI.** Best architectural fit for an estate that is ~90% Oracle with a DBA/PL-SQL team: pure ELT pushdown, Oracle knowledge modules for MERGE/SCD/checks, Load Plans with restart, one vendor, local partners. Weaknesses: processor licence on Exadata cores, no log-based CDC without GoldenGate, a thin Git/test story, and Oracle's strategic investment sitting in OCI Data Integration rather than on-prem ODI.
-- **Lead no-procurement candidate: dbt Core + dbt-oracle + Oracle-native ingestion + Automic.** Right transformation discipline (SQL in Git, tests, documentation, lineage graph, zero licence), the only option that can start **this month**, and the lowest exit cost. It is not a complete ETL service on its own: ingestion, file outputs, scheduling/HA and the publication gate come from Oracle features and Automic, and the bank must own a small framework.
+- **Lead no-procurement candidate: dbt Core + dbt-oracle + Oracle-native ingestion + the DWH scheduler.** Right transformation discipline (SQL in Git, tests, documentation, lineage graph, zero licence), the only option that can start **this month**, and the lowest exit cost. It is not a complete ETL service on its own: ingestion, file outputs, scheduling/HA and the publication gate come from Oracle features and the DWH scheduler (to be selected), and the bank must own a small framework.
 - **Challenger with a hard condition: Informatica PowerCenter.** Broadest packaged connectivity and the most mature visual workflow, but the product's on-prem future is the single largest risk: BI Technology told the bank in 2024 that Informatica no longer sells on-prem, the strategic successor (CDI-PC / IDMC) uses a cloud control plane and fails the locality gate, the vendor changed hands (Salesforce), and the bank's only Informatica entitlement is TDM. Evaluate only against a **written five-year support commitment for a fully local edition**.
 - **Not for EDW/ETL: Cloudera Data Platform.** A capable, well-governed platform (Ranger, Atlas, NiFi, Spark) that solves problems Takasbank does not have: 10 TB of relational data, an Oracle target, no lake, streaming or distributed-ML programme with a business case. It adds a second estate, a cluster team and a round trip back into Exadata. Keep on file for a future, funded lake/AI programme.
 - **Not as a standalone product: Apache Spark.** Excellent engine primitives, but on its own it is not an integration service; everything around it (ingestion, CDC, orchestration, catalog, security, DR, support) is bank-built. At-least-once sinks into Oracle require engineering to avoid duplicate regulatory publications.
 - **Real-time reporting is decided separately from the ETL tool.** Raw intraday current-state screens go to the ADG read-only standby; integrated near-real-time (S0) products, if any prove an SLA, need GoldenGate regardless of ETL tool. None of the five candidates is a CDC product; the comparison scores how well each **consumes** change data.
-- **Recommended path (consistent with [[Başlangıç Yaklaşımı]]):** start Pilot A (SWIFT) now with the dbt/PL-SQL package and Automic; run the ODI PoC and commercial track in parallel on DSS; keep PowerCenter in the RFI only until its support horizon is answered in writing; close the selection at the **Pilot B exit gate** with measured evidence (§9) and record it in §11.
+- **Recommended path (consistent with [[Başlangıç Yaklaşımı]]):** start Pilot A (SWIFT) now with the dbt/PL-SQL package and the selected scheduler; run the ODI PoC and commercial track in parallel on DSS; keep PowerCenter in the RFI only until its support horizon is answered in writing; close the selection at the **Pilot B exit gate** with measured evidence (§9) and record it in §11.
 
 ## 2. What Takasbank needs from the tool
 
@@ -57,7 +60,7 @@ Derived from the vault, not from vendor material. Every statement is a requireme
 | H4 | Team is Oracle DBA + PL/SQL; IZV is 1 manager + 2 MSTR developers; no DWH/ETL experience; no 7/24 platform team; DBAs distrust GoldenGate | [[Obase Takasbank Değerlendirme Raporu Ağustos 2024]], [[Firmalarla Yapılan DWH Görüşmeleri]] |
 | H5 | Procurement is slow; the pilot must not wait for a purchase | [[Başlangıç Yaklaşımı]] |
 | H6 | Security from day one: PowerDesigner sensitivity flags, VPD/Redaction/TDE/audit in prod, Informatica TDM masking in non-prod, KVKK | [[DWH Hedef Mimarisi v2]] |
-| H7 | Scheduling standard is Automic | [[Takasbank Genel Bilgilendirme 2]] |
+| H7 | ~~Scheduling standard is Automic~~ Automic will not be the DWH scheduler; scheduler under evaluation (02.11.2026) | [[Takasbank Genel Bilgilendirme 2]], [[Fiziksel Topoloji - Teknik Taraf#Zamanlayıcı]] |
 
 ### 2.2 Workload profile
 
@@ -101,7 +104,7 @@ flowchart LR
     Ctl -.-> Lnd
     Ctl -.-> Core
     ETL[ETL / ELT tool under evaluation] -. orchestrates and transforms .-> dwh
-    Automic[Automic] --> ETL
+    Scheduler[DWH scheduler - to be selected] --> ETL
 ```
 
 The tool under evaluation owns **LND → CORE → ODS/DM → PUB** transformations and the file/landing legs; it does not own intraday raw reporting (standby) and it does not replace GoldenGate for S0.
@@ -127,7 +130,7 @@ A single Fail eliminates. Cloudera and Spark fail G2 and G3 **as the DWH transfo
 | C2 | Source connectivity and ingestion | 10 | Standby, ARSIV/ÇekDB, Replica BIDB, FTP/CSV, web services, Postgres/MSSQL, file outputs |
 | C3 | Change capture and latency classes | 10 | S0/S1/S2 coverage without touching prod Kale |
 | C4 | Transformation depth and data correctness | 12 | MERGE, SCD2/bitemporal, dedup, late corrections, DQ, reconciliation, idempotent replay |
-| C5 | Orchestration, operational-report SLA and recovery | 10 | Automic, end-of-day event, hour deadlines, restart, HA/DR |
+| C5 | Orchestration, operational-report SLA and recovery | 10 | DWH scheduler (to be selected), end-of-day event, hour deadlines, restart, HA/DR |
 | C6 | Security, metadata, lineage and audit | 10 | Oracle security integration, secrets, PowerDesigner flags, column lineage, immutable snapshots |
 | C7 | Developer experience and change management | 8 | Git, tests, CI/CD, environment promotion, rollback |
 | C8 | Team fit and skills | 10 | Fit with the Oracle team, learning curve, local skills market, knowledge concentration |
@@ -144,7 +147,7 @@ Each candidate is rated as the **complete solution it would be at Takasbank**, n
 |---|---|
 | ODI | ODI 12c EE; repositories in the DWH DB; standalone/JEE agents on Exadata or a VM pair; OEM plugin; GoldenGate only for proven S0 |
 | PowerCenter | PowerCenter 10.5.x fully on-prem; PowerExchange CDC for Oracle; Pushdown Optimization; local partner support |
-| dbt Core | dbt Core 1.x + dbt-oracle; Git; Automic as scheduler; ingestion via external tables, dblink from the ADG standby, SQL*Loader; PL/SQL file-writer package; Oracle Database Gateway only if Postgres/MSSQL confirmed |
+| dbt Core | dbt Core 1.x + dbt-oracle; Git; external scheduler (to be selected); ingestion via external tables, dblink from the ADG standby, SQL*Loader; PL/SQL file-writer package; Oracle Database Gateway only if Postgres/MSSQL confirmed |
 | Cloudera | CDP Private Cloud Base 7.x with NiFi (CFM), Spark, Hive/Impala, Ranger, Atlas, Knox, Kerberos; JDBC bridge to Exadata; DR cluster |
 | Spark | Spark 3.5/4.x on a bank-run cluster; Airflow; object/HDFS storage; Kafka if streaming; custom ingestion, catalog, secrets, monitoring |
 
@@ -186,7 +189,7 @@ Reading: the ranking between ODI and the dbt package is **not robust to prioriti
 
 **What it is.** Oracle's ELT tool: a metadata repository (master + work) in an Oracle schema, a thin agent that generates SQL from declarative mappings and knowledge modules (KM) and runs it in the target database, Load Plans for orchestration, ODI Studio for development, an Enterprise Manager plugin for operations.
 
-**How it would be deployed here.** Repositories in the DWH database on `sur` or `hisar`; two standalone agents (active/passive) or a JEE agent on WebLogic for HA; Studio on developer PCs; Oracle sources read from the `sur` standby via dblink/JDBC with `AS OF SCN`; files via LKM File to Oracle (external table); BIST Replica BIDB via dblink; outputs via IKM SQL to File. Automic calls `startloadplan` or the agent REST API after the end-of-day batch-control record.
+**How it would be deployed here.** Repositories in the DWH database on `sur` or `hisar`; two standalone agents (active/passive) or a JEE agent on WebLogic for HA; Studio on developer PCs; Oracle sources read from the `sur` standby via dblink/JDBC with `AS OF SCN`; files via LKM File to Oracle (external table); BIST Replica BIDB via dblink; outputs via IKM SQL to File. The DWH scheduler (or ODI's own agent scheduler) calls `startloadplan` or the agent REST API after the end-of-day batch-control record.
 
 **Strengths.**
 - Native pushdown: Exadata does the work; the agent moves no rows for Oracle-to-Oracle flows.
@@ -224,11 +227,11 @@ Reading: the ranking between ODI and the dbt package is **not robust to prioriti
 
 **Verdict.** Challenger only with a written five-year support commitment for a fully local edition and a competitive quote; otherwise drop at the RFI stage.
 
-### 5.3 dbt Core + dbt-oracle (with Oracle-native ingestion and Automic)
+### 5.3 dbt Core + dbt-oracle (with Oracle-native ingestion and an external scheduler)
 
 **What it is.** dbt Core is an Apache-2.0 transformation framework: SQL models with Jinja templating, dependency graph, incremental and snapshot (SCD2) materialisations, schema/data/unit tests, contracts, documentation and lineage generated from code. `dbt-oracle` is the adapter maintained by Oracle on GitHub (python-oracledb thin/thick). dbt does **no** ingestion, scheduling or HA.
 
-**How it would be deployed here.** Git repository per domain; dbt runs from an Automic agent host (Python venv, Instant Client or thin mode, wallet authentication) against the DWH database; landing is Oracle-native: external tables / SQL*Loader for files, dblink or scheduled extracts from the ADG standby with `AS OF SCN`, Database Gateway only if Postgres/MSSQL sources are confirmed; file outputs via a PL/SQL (`UTL_FILE`) package or a small service; dbt docs published on an internal web server; CI runs `dbt build` on PREPROD/DSS.
+**How it would be deployed here.** Git repository per domain; dbt runs from the scheduler's agent host (Python venv, Instant Client or thin mode, wallet authentication) against the DWH database; landing is Oracle-native: external tables / SQL*Loader for files, dblink or scheduled extracts from the ADG standby with `AS OF SCN`, Database Gateway only if Postgres/MSSQL sources are confirmed; file outputs via a PL/SQL (`UTL_FILE`) package or a small service; dbt docs published on an internal web server; CI runs `dbt build` on PREPROD/DSS.
 
 **Strengths.**
 - 100% pushdown SQL; nothing to operate beyond a CLI and Git; lowest exit cost (SQL + Jinja).
@@ -238,7 +241,7 @@ Reading: the ranking between ODI and the dbt package is **not robust to prioriti
 - Zero licence; cost is people and a partner contract.
 
 **Weaknesses.**
-- Not a complete ETL service: ingestion, file outputs, scheduler, HA and the publication gate must be assembled from Oracle features, Automic and a small framework the bank owns.
+- Not a complete ETL service: ingestion, file outputs, scheduler, HA and the publication gate must be assembled from Oracle features, an external scheduler (to be selected) and a small framework the bank owns.
 - No vendor SLA; adapter maintained by Oracle outside dbt Labs; the newer dbt Fusion engine does not cover Oracle, so the Oracle path stays on dbt Core (stable but not where dbt Labs/Fivetran invest).
 - Column-level lineage is a dbt Cloud/Fusion feature; Core gives model-level lineage, so regulator-grade column lineage needs an export step.
 - Code-first culture must be accepted by UG analysts; smaller local partner pool than ODI/Informatica.
@@ -290,7 +293,7 @@ Reading: the ranking between ODI and the dbt package is **not robust to prioriti
 | UC3 Fon Bilgilendirme (S1, 08:00–17:45 corrections) | Good | Good | Good | Fair | Fair | Micro-batch with recompute-by-fund keys; CDC not required if a reliable change timestamp exists — verify |
 | UC4 Fon İşlem Defterleri — Verda files (S1, twice daily per market) | Strong | Strong | Fair | Good | Fair | File-heavy; dbt needs a file writer; NiFi delivers files well but computation belongs in Oracle |
 | UC5 Intraday "izleme" screens, Team Developer (S0/S1 raw) | N/A | N/A | N/A | N/A | N/A | Not an ETL problem: ADG standby; GoldenGate only for a proven integrated S0 product |
-| UC6 Hour-SLA regulatory outputs (S2 hard deadline) | Strong | Good | Good | Fair | Weak | Deadline in Automic; restart and reconciliation gate decide |
+| UC6 Hour-SLA regulatory outputs (S2 hard deadline) | Strong | Good | Good | Fair | Weak | Deadline in the DWH scheduler; restart and reconciliation gate decide |
 | UC7 Member file deliveries (pilot candidate) | Strong | Strong | Fair | Good | Fair | As UC4 |
 | UC8 Archive offload banka → banka_old → arşiv into HCC (S2) | Strong | Fair | Strong | Poor | Poor | Oracle-to-Oracle bulk with partition exchange; a lake contradicts the target |
 | UC9 AI/ML feature preparation (future) | Fair | Fair | Good | Strong | Strong | Only area where cluster options lead; no business case yet; Oracle 23ai covers in-database ML at this scale |
@@ -301,7 +304,7 @@ The notes ask whether "anlık" reports can come from the DWH ([[Aktif Sorular]] 
 
 1. **Raw current state on Kale structures** (most "izleme" screens, Team Developer): Active Data Guard read-only standby on `sur`. Zero modelling, zero new tools; precondition is the ADG licence/open-mode verification ([[Aktif Sorular]] 14.1).
 2. **Integrated current state with a measured operational SLA** (an `ODS_*` projection over CORE): S1 micro-batch from the standby is the default; only if a product proves a sub-minute requirement does GoldenGate enter, and then as a landing feed for whichever ETL tool is chosen.
-3. **Intraday computed products** (Fon Bilgilendirme recomputes, Fon İşlem Defterleri): S1 micro-batch orchestrated by Automic; ODI, PowerCenter and dbt all handle this; cluster options add a round trip.
+3. **Intraday computed products** (Fon Bilgilendirme recomputes, Fon İşlem Defterleri): S1 micro-batch orchestrated by the DWH scheduler; ODI, PowerCenter and dbt all handle this; cluster options add a round trip.
 
 Consequence for the comparison: C3 rewards how well a tool **consumes** change data and runs micro-batches, not whether it ships its own CDC. PowerCenter scores highest because PowerExchange is a credible log-based CDC route; ODI and dbt both depend on GoldenGate for S0.
 
@@ -357,7 +360,7 @@ Run on **DSS** (prod-equivalent, read-only sync) with the ADG standby as the Ora
 | P08 | File-heavy workload (W4) | Ledger files byte-compare with legacy output; delivery proof recorded |
 | P09 | Security integration | Least-privilege service account; VPD/Redaction respected; secret rotation; audit export |
 | P10 | Lineage export | Column-level source-to-report lineage for one SPK report generated, not hand-written |
-| P11 | Automic integration and end-of-day event | Start/stop/status round trip; failure visible in Automic within 1 minute |
+| P11 | Scheduler integration and end-of-day event | Start/stop/status round trip; failure visible in the DWH scheduler within 1 minute |
 | P12 | Operate for 10 days | Bank DBA team runs the chain daily with the runbook, without vendor; MTTR recorded |
 
 Gate mapping: G1 ← P01; G2 ← P03; G3 ← P12; G4 ← P09. Results are entered in the workbook sheet **PoC Plan**.
@@ -376,7 +379,7 @@ Full list with answer columns: workbook sheet **Vendor Questions**.
 
 ### 11.1 Recommendation
 
-1. **Start Pilot A (SWIFT) now with the no-procurement package**: dbt Core + dbt-oracle (or the PL/SQL framework if the team prefers), Git, Automic, external tables, SCN-consistent extraction from the standby. This proves the platform plumbing ([[Proje Planı]] Faz 1) without waiting for a purchase.
+1. **Start Pilot A (SWIFT) now with the no-procurement package**: dbt Core + dbt-oracle (or the PL/SQL framework if the team prefers), Git, the selected scheduler, external tables, SCN-consistent extraction from the standby. This proves the platform plumbing ([[Proje Planı]] Faz 1) without waiting for a purchase.
 2. **Run the ODI track in parallel**: RFI answers, quote with the Exadata core definition, PoC P01–P12 on DSS using W1 and W2. ODI is the only commercial candidate that is eligible on all four gates today.
 3. **Keep PowerCenter in the RFI only until the support-horizon question is answered in writing.** Without a five-year fully-local commitment it leaves the shortlist.
 4. **Close Cloudera and Spark for this programme** and record why (G2/G3). Keep the Cloudera profile on file for a future lake/AI programme with its own business case.
