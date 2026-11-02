@@ -35,7 +35,7 @@ tags:
 | 11–12 | Önerilen hedef mimari, katmanlar | [[Başlangıç Yaklaşımı]], [[DWH Hedef Mimarisi v2]] |
 | 13 | Rapor yerleşim ilkesi | [[Başlangıç Yaklaşımı#Faz 3 — Operasyonel rapor göçü ölçekte]] |
 | 14 | Fiziksel yerleşim ve kapasite | [[Fiziksel Topoloji - Teknik Taraf#DWH yerleşim adayları]] |
-| 15 | ETL aracı değerlendirmesi | [[ETL Tool Comparison]], [[ETL Tool Evaluation]] |
+| 15 | ETL aracı değerlendirmesi | [[ETL Tool Comparison]] |
 | 16 | Pilot önerisi | [[Proje Planı#Pilot seçimi]] |
 | 17–18 | Yol haritası, Faz 0 ilk 30 gün | [[Proje Planı]], [[Başlangıç Yaklaşımı#Fazlar]] |
 | 19 | Ekip ve danışmanlık modeli | [[Proje Planı]], [[Komtaş Future-Ready Data Platform Teklifi Ağustos 2026]] |
