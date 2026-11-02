@@ -59,7 +59,7 @@ Araç değerlendirme matrisi, PoC protokolü ve tedarikçi soru seti: [[ETL Tool
 
 - [ ] UG ve operasyon ekipleriyle rapor/dosya envanteri çıkar: sahibi, tüketicisi, sıklığı, SLA'sı, kritikliği, kaynakları ve bugünkü doğrulama yöntemi.
 - [ ] Team Developer, web ve MSTR kullanım loglarından en çok kullanılan çıktıları belirle; envanteri anketle değil loglarla doldur.
-- [ ] Her çıktıyı yönlendirme kuralına göre etiketle: ham Kale yapısında gün içi güncel-durum → standby; gün sonundan türetilen özet → DWH hesaplar, geri sunar; tarihsel/analitik/çapraz piyasa/düzenleyici → mart + MSTR ([[Başlangıç Yaklaşımı#Faz 3 — Operasyonel rapor göçü ölçekte]]).
+- [ ] Her çıktıyı yönlendirme kuralına göre etiketle: kaynak yapısında gün içi güncel-durum → `ODS_` (standby'ın rolü: [[Aktif Sorular]] madde 4.8); gün sonundan türetilen özet → DWH hesaplar, geri sunar; tarihsel/analitik/çapraz piyasa/düzenleyici → mart + MSTR ([[Başlangıç Yaklaşımı#Faz 3 — Operasyonel rapor göçü ölçekte]]).
 - [ ] SPK, MASAK, üst yönetim ve üye teslimatlarını ayrı kritik sınıfta işaretle.
 - [ ] Her çıktı için Kale / ODS / DWH / kaynak uygulama hedef yerleşimini kararlaştır.
 
@@ -77,13 +77,15 @@ Araç değerlendirme matrisi, PoC protokolü ve tedarikçi soru seti: [[ETL Tool
 - [ ] Prod ve non-prod maskeleme/tokenization politikasını onaylat.
 - [ ] Online/archive saklama, yasal hold, RPO ve RTO değerlerini belirle.
 - [ ] PREPROD/DSS gün sonu anlatımlarını tek timeline ve otoritatif kontrol sinyaliyle uzlaştır.
-- [ ] ODS fiziksel hedefini kapasite, HA, workload ve gecikme testiyle seç.
+- [x] ODS fiziksel hedefi: DWH veritabanı içinde, kaynak şema başına `ODS_` şeması ([[Sistemler ve Servisler#4.1 Karar|ODS kararı]], 02.11.2026).
+- [ ] `tvsods` kapatma geçişini planla: `ODS_` şemaları canlıya geçip tüketiciler taşındıktan sonra.
 
 ### Araç ve kapasite
 
 - [ ] Pilotu satın alma gerektirmeyen araçla başlat (PL/SQL çerçevesi veya dbt-core + dbt-oracle; Git, otomatik test). ODI / Informatica değerlendirmesini paralel yürüt; **ürün kararı Pilot B çıkış kapısında** ([[#Faz 2 — Uçtan uca MVP]]).
 - [ ] DWH veritabanı yerleşimi için `sur` ve `hisar` IO/CPU izolasyon testini DBA ile planla; sonuç [[Fiziksel Topoloji - Teknik Taraf]]'a işlenir.
-- [ ] [[Sistemler ve Servisler#2. Goldengate|Goldengate]] değerlendirmesini onaylı latency sınıflarıyla sonuçlandır; GG yalnızca S0 kanıtlanan ürün ve lisans doğrulandıktan sonra.
+- [ ] GoldenGate ile `ODS_` beslemesini planla: lisans/sürüm doğrulaması, extract kaynağı (prod Kale / `sur` standby) ve supplemental logging etkisi, şema/tablo kapsamı, lag izleme ve DBA işletme sahipliği. Sorular: [[Aktif Sorular]] madde 4.4–4.7, 14.2.
+- [ ] GoldenGate'in alamadığı kaynaklar (dosya, BIST DB) ve DWH içi dönüşüm için araç kararını onaylı latency sınıflarıyla sonuçlandır: [[Sistemler ve Servisler#2. Goldengate|Goldengate]].
 - [ ] İlk üç aday konu alanı için günlük değişim, initial history, retention ve büyüme ölçümü yap.
 - [ ] Raw/core/mart, indeks, temp, backup ve DR dahil kapasite modeli çıkar.
 - [ ] Automic kontrol zinciri ve servis hesabı modelini güvenlik ekibiyle onayla.
@@ -152,7 +154,7 @@ Entity, ilişki ve grain başlangıç modeli: [[DWH Logical Data Model]].
 
 ### ODS, mart ve yayın
 
-- [ ] Gerçek güncel-durum SLA'sı varsa core'dan `ODS_<konu>` projeksiyonu üret; gerekmiyorsa ODS tablosu açma.
+- [ ] Pilot kaynak şemaları için `ODS_<şema>` GoldenGate eşlemesini kur; çok kaynaklı entegre güncel durum gerekiyorsa core'dan current görünüm üret.
 - [ ] Seçilen rapor/dosya için grain'i açık yıldız şema veya yayın görünümü oluştur.
 - [ ] MSTR semantik modeli veya üye dosya sözleşmesini uçtan uca bağla.
 - [ ] Dosya teslimatında içerik hash'i, alıcı, sürüm, gönderim ve teslim kanıtını sakla.

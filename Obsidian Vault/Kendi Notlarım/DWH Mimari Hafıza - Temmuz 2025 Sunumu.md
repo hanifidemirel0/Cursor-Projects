@@ -24,7 +24,7 @@ Hatırlanacak temel ayrım:
 
 - Sunumdaki bazı “ODS” kullanımları geçici temizleme/hesaplama alanını tarif ediyor.
 - Hedef mimaride bu görev `STG_*` katmanına aittir.
-- Hedef `ODS_*`, kurumsal core'un yalnızca güncel-durum SLA'sı gereken konularda açılan projeksiyonudur.
+- Hedef `ODS_`, DWH içinde kaynak şema başına GoldenGate ile beslenen güncel kopyadır: [[Sistemler ve Servisler#4.1 Karar|ODS kararı]] (02.11.2026).
 
 ## V2'ye eklenmesi değerli desenler
 
