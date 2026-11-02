@@ -348,7 +348,7 @@ months = [
         "**ETL ürünlerini değerlendirme** dokümantasyonu tamamlandı: değerlendirme çerçevesi, "
         "karşılaştırma matrisi, PoC kabul kriterleri, tedarikçi soru seti, karar kaydı şablonu",
         "**GoldenGate** ile ilgili taslak çalışma yapıldı",
-        "**Orkestrasyon** gereksinimi için mevcut seçeneklerle ilgili assessment'lar yapıldı",
+        "**Orkestrasyon** gereksinimi için mevcut seçeneklerin değerlendirmesi yapıldı",
         "**Tasarım taslakları** belirlendi: hedef mimari, mantıksal veri modeli, başlangıç "
         "yaklaşımı, proje planı",
     ]),
