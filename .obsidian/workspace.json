@@ -11,14 +11,10 @@
             "id": "69b2244852cd9009",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Obsidian Vault/Kendi Notlarım/ETL Tool Evaluation.md",
-                "mode": "source",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "ETL Tool Evaluation"
+              "title": "Yeni sekme"
             }
           }
         ]
@@ -190,8 +186,19 @@
   },
   "active": "69b2244852cd9009",
   "lastOpenFiles": [
-    "Obsidian Vault/Kendi Notlarım/ETL Vendor RFI and Commercial Evaluation.md",
+    "outputs/etl-comparison/takasbank-etl-tool-comparison.canvas.tsx",
+    "outputs/etl-comparison/~$Takasbank-ETL-Tool-Comparison.xlsx",
+    "Obsidian Vault/Kendi Notlarım/ETL Tool Comparison.md",
+    "outputs/etl-comparison/Takasbank-ETL-Tool-Comparison.xlsx",
+    "outputs/etl-comparison",
+    "Obsidian Vault/Kendi Notlarım/ETL Proof of Concept and Acceptance.md",
+    "outputs/01a0e6cb-7e1f-7113-8240-55bc8904e0f2/etl-evaluation/ETL-Tool-Comparison-Matrix.xlsx",
+    "outputs/01a0e6cb-7e1f-7113-8240-55bc8904e0f2/etl-evaluation/ETL-Tool-Comparison-Matrix.html",
+    "outputs/01a0e6cb-7e1f-7113-8240-55bc8904e0f2/etl-evaluation/ETL-Tool-Comparison-Matrix.canvas.tsx",
+    "Obsidian Vault/Kendi Notlarım/Başlangıç Yaklaşımı.md",
+    "Obsidian Vault/Kendi Notlarım/ETL Selection Decision Record.md",
     "Obsidian Vault/Kendi Notlarım/ETL Tool Evaluation.md",
+    "Obsidian Vault/Kendi Notlarım/ETL Vendor RFI and Commercial Evaluation.md",
     "outputs/01a0e6cb-7e1f-7113-8240-55bc8904e0f2/etl-evaluation/~$ETL-Tool-Comparison.xlsx",
     "Obsidian Vault/Kendi Notlarım/DWH Hedef Mimarisi v2.md",
     "Obsidian Vault/Kendi Notlarım/DWH Mimari Tasarım.md",
@@ -202,12 +209,10 @@
     "outputs/system-notes-merge-backup-20261012-115356/Kendi Notlarım/Aktif Sorular.md",
     "outputs/system-notes-merge-backup-20261012-115356/Kendi Notlarım/Proje Planı.md",
     "Obsidian Vault/Kendi Notlarım/DWH Logical Data Model.md",
-    "Obsidian Vault/Kendi Notlarım/ETL Proof of Concept and Acceptance.md",
     "fable_dwh_plan_v1.md",
     "outputs/01a1304c-359e-75c2-bf15-38aac422a6ae/etl-review/workbook-dump.txt",
     "outputs/01a0e6cb-7e1f-7113-8240-55bc8904e0f2/etl-evaluation/ETL-Tool-Comparison.xlsx.inspect.ndjson",
     "outputs/01a1304c-359e-75c2-bf15-38aac422a6ae/etl-review/edit-manifest.json",
-    "outputs/01a1304c-359e-75c2-bf15-38aac422a6ae/etl-review/edited-values.json",
     "outputs/01a1304c-359e-75c2-bf15-38aac422a6ae/etl-review/sources.png",
     "outputs/01a1304c-359e-75c2-bf15-38aac422a6ae/etl-review/bank-conditions.png",
     "outputs/01a1304c-359e-75c2-bf15-38aac422a6ae/etl-review/recommendation.png",
@@ -215,13 +220,8 @@
     "outputs/01a1304c-359e-75c2-bf15-38aac422a6ae/etl-review/ingestion.png",
     "outputs/01a1304c-359e-75c2-bf15-38aac422a6ae/etl-review/decision.png",
     "outputs/01a1304c-359e-75c2-bf15-38aac422a6ae/etl-review/scorecard.png",
-    "outputs/01a1304c-359e-75c2-bf15-38aac422a6ae/etl-review/original-workbook.bin",
-    "outputs/01a1304c-359e-75c2-bf15-38aac422a6ae/etl-review/fill-comparison.mjs",
     "outputs/01a1304c-359e-75c2-bf15-38aac422a6ae/etl-review/before-comparison.png",
     "outputs/01a1304c-359e-75c2-bf15-38aac422a6ae/etl-review/before-scorecard.png",
-    "outputs/01a1304c-359e-75c2-bf15-38aac422a6ae/etl-review/baseline.json",
-    "outputs/01a1304c-359e-75c2-bf15-38aac422a6ae/etl-review/review.mjs",
-    "outputs/01a1304c-359e-75c2-bf15-38aac422a6ae/etl-review/node_modules/pnpm/artifacts/exe/dist/node_modules/node-gyp/gyp/pylib/gyp/generator/__init__.py",
     "outputs/01a1304c-359e-75c2-bf15-38aac422a6ae/etl-review/node_modules/@oai/artifact-tool/docs/presentations/api/references/cookbook/imported-deck.md",
     "outputs/01a1304c-359e-75c2-bf15-38aac422a6ae/etl-review/node_modules/@oai/artifact-tool/docs/presentations/api/references/cookbook/layout.md",
     "outputs/01a1304c-359e-75c2-bf15-38aac422a6ae/etl-review/node_modules/playwright-core/lib/tools/skills/playwright-cli/references/tracing.md",
@@ -231,10 +231,6 @@
     "outputs/01a1304c-359e-75c2-bf15-38aac422a6ae/etl-review/node_modules/playwright-core/lib/tools/skills/playwright-cli/references/session-management.md",
     "outputs/01a1304c-359e-75c2-bf15-38aac422a6ae/etl-review/node_modules/playwright-core/lib/tools/skills/playwright-cli/references/request-mocking.md",
     "outputs/01a1304c-359e-75c2-bf15-38aac422a6ae/etl-review/node_modules/playwright-core/lib/tools/skills/playwright-cli/references/running-code.md",
-    "outputs/01a1304c-359e-75c2-bf15-38aac422a6ae/etl-review/node_modules/playwright-core/lib/tools/skills/playwright-cli/references/element-attributes.md",
-    "outputs/01a1304c-359e-75c2-bf15-38aac422a6ae/etl-review/node_modules/playwright-core/lib/tools/skills/playwright-cli/references/playwright-tests.md",
-    "outputs/01a1304c-359e-75c2-bf15-38aac422a6ae/etl-review/node_modules/playwright-core/lib/tools/skills/playwright-component-testing/references/react.md",
-    "outputs/01a1304c-359e-75c2-bf15-38aac422a6ae/etl-review/node_modules/playwright-core/lib/tools/skills/playwright-component-testing/references/vue.md",
     "outputs/01a1304c-359e-75c2-bf15-38aac422a6ae/etl-review/node_modules/playwright-core/lib/vite/dashboard/assets/safari-na3_-uQk.svg",
     "Obsidian Vault/Untitled.canvas"
   ]
