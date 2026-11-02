@@ -309,8 +309,8 @@ events = [
     ("Ara 2024", "Sunum-3", "ODS → KALE, DWH → SUR; Vakıfbank, MKK, Borsa İstanbul karşılaştırması"),
     ("Tem 2025", "Sunum-4", "**ODS kurulması** kararı; pilot yaklaşımı; 4 örnek uygulama; ODVM"),
     ("Ağu 2026", "Komtaş teklifi", "~3 ay tasarım: mimari, kavramsal model, yol haritası, **RFP**"),
-    ("Eyl 2026", "Ekip görüşmeleri", "Genel bilgilendirme, ortamlar, PowerDesigner; Banka, Piyasalar, Enerji, Takas UG"),
-    ("Eyl–Eki 2026", "Tasarım taslakları", "Hedef mimari v2, ETL araç değerlendirmesi, başlangıç yaklaşımı, proje planı"),
+    ("Eyl 2026", "UG görüşmeleri", "Tüm UG ekipleri, **talep analizi**; 6 danışman firma; **dbt PoC** tamamlandı"),
+    ("Eki 2026", "Workshop ve taslaklar", "Dataspecta workshop; ETL, GoldenGate, orkestrasyon çalışmaları; **tasarım taslakları**"),
 ]
 x0, step, y_line = Inches(0.75), Inches(1.5), Inches(2.45)
 line = s.shapes.add_connector(MSO_CONNECTOR.STRAIGHT, x0, y_line, x0 + step * 8 - Inches(0.3), y_line)
@@ -326,7 +326,39 @@ for i, (when, what, detail) in enumerate(events):
     box(s, x + Inches(0.03), Inches(2.85), Inches(1.36), Inches(2.9),
         fill=RGBColor(0xFD, 0xF3, 0xE4) if recent else LIGHT, text=[f"**{what}**", "", detail],
         size=12, anchor=MSO_ANCHOR.TOP, radius=0.06)
-footnote(s, "Turuncu: son sunumdan (Temmuz 2025) bu yana gerçekleşen adımlar.", y=5.95)
+footnote(s, "Turuncu: son sunumdan (Temmuz 2025) bu yana gerçekleşen adımlar. Eylül–Ekim 2026 "
+            "ayrıntısı sonraki slayttadır.", y=5.95)
+
+# 3b — Eylül–Ekim 2026 çalışmaları
+s = content_slide("EYLÜL – EKİM 2026 ÇALIŞMALARI", pill="Son sunumdan bu yana", pill_fill=GOLD,
+                  sources="Kullanıcı aktarımı (02.11.2026); Toplantı Notları (Eylül 2026); ETL Tool "
+                  "Evaluation; ETL Tool Comparison; ETL Proof of Concept and Acceptance; ETL Selection "
+                  "Decision Record; DWH Hedef Mimarisi v2; DWH Logical Data Model; Başlangıç "
+                  "Yaklaşımı; Proje Planı")
+months = [
+    ("EYLÜL 2026", [
+        "**Tüm UG ekipleriyle** görüşüldü; **talep analizi** yapıldı",
+        "**PowerDesigner** ve **veritabanları / ortamlar** hakkında bilgilendirme toplantıları yapıldı",
+        "Danışman firmalarla görüşüldü: **Ab Initio, Oredata, Cloudera, Dataspecta, GTech, "
+        "Global Maksimum**",
+        "**dbt** için PoC çalışması tamamlandı ve sunumu yapıldı",
+    ]),
+    ("EKİM 2026", [
+        "**Dataspecta** ile workshop yapıldı",
+        "**ETL ürünlerini değerlendirme** dokümantasyonu tamamlandı: değerlendirme çerçevesi, "
+        "karşılaştırma matrisi, PoC kabul kriterleri, tedarikçi soru seti, karar kaydı şablonu",
+        "**GoldenGate** ile ilgili taslak çalışma yapıldı",
+        "**Orkestrasyon** gereksinimi için mevcut seçeneklerle ilgili assessment'lar yapıldı",
+        "**Tasarım taslakları** belirlendi: hedef mimari, mantıksal veri modeli, başlangıç "
+        "yaklaşımı, proje planı",
+    ]),
+]
+for i, (name, pts) in enumerate(months):
+    x = Inches(0.6 + i * 6.15)
+    box(s, x, Inches(1.25), Inches(5.95), Inches(0.55), fill=NAVY, text=name, size=17,
+        color=WHITE, bold=True)
+    box(s, x, Inches(1.8), Inches(5.95), Inches(4.45), fill=LIGHT, shape=MSO_SHAPE.RECTANGLE)
+    bullets(s, x + Inches(0.1), Inches(1.9), Inches(5.75), Inches(4.3), pts, size=16, gap=10)
 
 # 4–5 — Önceki kararlar
 decisions = [
@@ -344,13 +376,15 @@ decisions = [
      "da aday. Karar DBA ile IO/CPU izolasyon testine bağlı", "Açık"],
     ["Veri alma / replikasyon", "Dataguard, GoldenGate vb. araçlar tartışıldı",
      "Önce batch: KALE'nin SUR'daki Data Guard replikasından **SCN-tutarlı** okuma. GoldenGate "
-     "yalnızca gerçek zamanlı ihtiyaç kanıtlanırsa; lisans durumu doğrulanacak", "Revize öneri"],
+     "yalnızca gerçek zamanlı ihtiyaç kanıtlanırsa; Ekim'de taslak çalışma yapıldı, lisans "
+     "durumu doğrulanacak", "Revize öneri"],
 ]
 decisions2 = [
     ["Konu", "Temmuz 2025 sunumunda", "Kasım 2026 itibarıyla", "Durum"],
     ["ETL aracı", "Seçilmedi; ETL'in ODS ile aynı yerde olması uygun görüldü",
-     "5 aday (ODI, PowerCenter, dbt, Cloudera, Spark) masa başı değerlendirildi; **ODI önde**. "
-     "Pilot satın alma beklemeden başlar, ürün kararı Pilot B sonunda", "Değerlendirmede"],
+     "5 aday masa başı değerlendirildi, dokümantasyon tamamlandı; **ODI önde**. **dbt PoC** "
+     "tamamlandı ve sunuldu. Pilot satın alma beklemeden başlar, ürün kararı Pilot B sonunda",
+     "Değerlendirmede"],
     ["Pilot", "Pilot proje ile ilerlenmesine karar verildi; 4 örnek uygulama akışı çizildi",
      "**Pilot A: SWIFT yasal raporlar**, **Pilot B: BISTECH SPK raporları** önerildi; üye-dosya "
      "projesiyle aynı kriterlerle puanlanacak", "Öneri"],
@@ -358,8 +392,8 @@ decisions2 = [
      "İteratif kurumsal core + Kimball mart'lar önerildi (tam Data Vault yok). ODVM'nin "
      "kapsamı ve sınırı netleştirilecek", "Öneri"],
     ["UG ile birlikte çalışma", "DWH çalışmalarının UG ekipleriyle yapılmasına karar verildi",
-     "Banka, Piyasalar, Enerji, Takas UG ve Hazine muhasebe ile **ilk görüşmeler** yapıldı; "
-     "rapor envanteri henüz çıkarılmadı", "Devam ediyor"],
+     "Eylül'de **tüm UG ekipleriyle** görüşüldü ve **talep analizi** yapıldı; rapor bazında "
+     "yerleşim ve SLA envanteri sırada", "Devam ediyor"],
 ]
 STATUS_COLORS = {"Revize öneri": GOLD, "Açık": RED, "Değerlendirmede": TEAL, "Öneri": GOLD,
                  "Devam ediyor": GREEN}
@@ -685,7 +719,8 @@ textbox(s, Inches(6.75), Inches(1.15), Inches(6), Inches(0.4), "Öneri", size=17
         bold=True)
 bullets(s, Inches(6.75), Inches(1.5), Inches(6.0), Inches(4.9), [
     "**ODI (önde) ve PowerCenter (rakip)** için RFI, ticari teklif ve PoC süreci şimdi başlasın",
-    "Pilot A satın alma beklemeden **PL/SQL çerçevesi veya dbt Core** ile başlasın",
+    "Pilot A satın alma beklemeden **PL/SQL çerçevesi veya dbt Core** ile başlasın "
+    "(**dbt PoC** Eylül'de tamamlandı ve sunuldu)",
     "Kontrol katmanı (CTL, gün sonu olayı, replay, yayın kapısı) **araçtan bağımsız** PL/SQL'de "
     "tasarlansın; araç kararı yeniden yazım gerektirmesin",
     "Cloudera ertelensin; Spark yalnızca kanıtlanmış dağıtık iş yükü için",
@@ -806,7 +841,8 @@ box(s, Inches(0.55), Inches(6.2), W - Inches(1.1), Inches(0.42), fill=WHITE, lin
 
 # 18 — Ekip ve danışmanlık
 s = content_slide("EKİP VE DANIŞMANLIK MODELİ", sources="Proje Planı (Ekip); Başlangıç "
-                  "Yaklaşımı; Komtaş Future-Ready Data Platform Teklifi Ağustos 2026; DWH Sunum "
+                  "Yaklaşımı; Komtaş Future-Ready Data Platform Teklifi Ağustos 2026; kullanıcı aktarımı "
+                  "(02.11.2026, firma görüşmeleri); DWH Sunum "
                   "Aralık 2024 (Vakıfbank, çalışılması gereken yönler); DWH Ownership Operating Model")
 textbox(s, Inches(0.6), Inches(1.15), Inches(6), Inches(0.4), "Ekip ve sahiplik", size=18,
         color=NAVY, bold=True)
@@ -821,15 +857,15 @@ bullets(s, Inches(0.6), Inches(1.5), Inches(5.9), Inches(4.9), [
     "Sahiplik, karar yetkileri ve uyuşmazlık çözümü için işletim modeli taslağı hazır "
     "(kurum onayı bekliyor)",
 ], size=14.5)
-textbox(s, Inches(6.85), Inches(1.15), Inches(6), Inches(0.4), "Komtaş teklifi (17.08.2026)",
+textbox(s, Inches(6.85), Inches(1.15), Inches(6), Inches(0.4), "Danışman firmalar",
         size=18, color=NAVY, bold=True)
-box(s, Inches(6.85), Inches(1.55), Inches(5.9), Inches(2.25), fill=LIGHT, radius=0.04)
-bullets(s, Inches(6.9), Inches(1.6), Inches(5.8), Inches(2.2), [
-    "~3 ay, WP0–WP5: mevcut durum, hedef mimari, kavramsal model (≤100 konu alanı), yol haritası "
-    "ve **RFP**",
-    "Çıktısı dokümanlar ve RFP; çalışan bir veri ürünü değil",
-    "Ticari bölüm (slayt 45–51) elimizde değil",
-], size=13.5, gap=4)
+box(s, Inches(6.85), Inches(1.55), Inches(5.9), Inches(2.3), fill=LIGHT, radius=0.04)
+bullets(s, Inches(6.9), Inches(1.58), Inches(5.8), Inches(2.25), [
+    "**Eylül:** Ab Initio, Oredata, Cloudera, Dataspecta, GTech, Global Maksimum ile görüşüldü",
+    "**Ekim:** Dataspecta ile workshop yapıldı",
+    "**Komtaş teklifi (17.08.2026):** ~3 ay; mevcut durum, hedef mimari, kavramsal model, yol "
+    "haritası ve **RFP**. Çıktısı dokümanlar; çalışan bir veri ürünü değil",
+], size=13, gap=4)
 box(s, Inches(6.85), Inches(4.0), Inches(5.9), Inches(2.2), fill=RGBColor(0xFD, 0xF3, 0xE4),
     line=GOLD, radius=0.04, text=[
         "**Öneri**",
