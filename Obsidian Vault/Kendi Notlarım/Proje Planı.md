@@ -89,7 +89,7 @@ Araç değerlendirme matrisi, PoC protokolü ve tedarikçi soru seti: [[ETL Tool
 - [ ] GoldenGate'in alamadığı kaynaklar (dosya, web servisleri) ve DWH içi dönüşüm için araç kararını onaylı latency sınıflarıyla sonuçlandır: [[Sistemler ve Servisler#2. Goldengate|Goldengate]].
 - [ ] İlk üç aday konu alanı için günlük değişim, initial history, retention ve büyüme ölçümü yap.
 - [ ] Raw/core/mart, indeks, temp, backup ve DR dahil kapasite modeli çıkar.
-- [ ] Automic kontrol zinciri ve servis hesabı modelini güvenlik ekibiyle onayla.
+- [ ] DWH zamanlayıcısını / orkestrasyon aracını seç (Automic kullanılmayacak: [[Fiziksel Topoloji - Teknik Taraf#Zamanlayıcı|zamanlayıcı]]); kontrol zinciri ve servis hesabı modelini güvenlik ekibiyle onayla. Sorular: [[Aktif Sorular]] madde 16.
 
 > [!failure] Faz 0 çıkış kapısı
 > Rapor sahibi, pilot iş çıktısı, kaynak grain'i, otorite, SLA, hassasiyet ve mutabakat referansı belli değilse fiziksel mart tasarımına başlanmaz.
@@ -123,7 +123,7 @@ Hiçbiri henüz kesin pilot değildir. Adaylar 1–5 arasında puanlanır:
 
 [[Başlangıç Yaklaşımı]] puanlama ilkesini iki ardışık pilota uygular; üye-dosya projesi ayrıntıları geldiğinde aynı puanlamayla karşılaştırılır.
 
-- **Pilot A — SWIFT yasal raporlar** ([[DWH Sunum Temmuz 2025#Slayt 11 — SWIFT yasal raporlar]]): tek kaynak şema, T-1 yeterli, 2 milyar satır / 170 GB görünür Kale kazanımı, güvenlik tasarımını zorlar, conformed boyut gerektirmez. Platform tesisatını (CTL/LND, SCN-tutarlı çıkarım, replay, Automic zinciri, `PUB` snapshot, VPD/audit) kanıtlar.
+- **Pilot A — SWIFT yasal raporlar** ([[DWH Sunum Temmuz 2025#Slayt 11 — SWIFT yasal raporlar]]): tek kaynak şema, T-1 yeterli, 2 milyar satır / 170 GB görünür Kale kazanımı, güvenlik tasarımını zorlar, conformed boyut gerektirmez. Platform tesisatını (CTL/LND, SCN-tutarlı çıkarım, replay, zamanlayıcı zinciri, `PUB` snapshot, VPD/audit) kanıtlar.
 - **Pilot B — BISTECH SPK 13 rapor** ([[DWH Sunum Temmuz 2025#Slayt 22 — BISTECH SPK raporları: kaynaklar]]): iki kaynak (NOMX + Replica BIDB), gün sonu sinyaline bağımlı, ilk gerçek `CORE` paketi (party, membership, account, instrument, market_service, calendar, versiyonlu settlement_rule), dblink tabanlı SPK erişimini `PUB` ile değiştirir, ilk MSTR yıldızı.
 - Fon işlem defterleri (Verda teslimatı) ve Fon Bilgilendirme (gün içi düzeltme, 10 yıl CSV/web servis) Faz 4'ün ilk dilimleridir; sözleşme verisinin yakalanması Faz 0'da başlar.
 
@@ -136,7 +136,7 @@ Hiçbiri henüz kesin pilot değildir. Adaylar 1–5 arasında puanlanır:
 - [ ] İlk Oracle kaynağını prod yerine `sur` replikasından al; SCN/snapshot ve replika lag'ini kaydet.
 - [ ] Dosya varsa manifest, checksum, schema version, duplicate ve karantina akışını kur.
 - [ ] Backfill ve replay koşusunu ayrı `yukleme_id` ile test et.
-- [ ] Automic'te teslimat → landing → teknik kontrol zincirini kur.
+- [ ] Seçilen zamanlayıcıda teslimat → landing → teknik kontrol zincirini kur.
 - [ ] Teknik farkın sahibi ve bildirim/escalation yolunu tanımla.
 
 Bu faz pilot datasıyla tamamlanır; boş platform kurulumu olarak teslim edilmez.
