@@ -42,6 +42,13 @@ Kaynak: Hanifi'nin 02.11.2026 tarihli aktarımı.
 
 Bu bilgi [[Obase Takasbank Değerlendirme Raporu Ağustos 2024]]'teki "GoldenGate mevcut" ifadesini doğrular. Sürüm, destek sözleşmesi ve 336 CPU'nun hangi sunuculara dağıtılacağı DBA ile netleşecek: [[Aktif Sorular]] madde 14.2. Kullanım kararı: [[Sistemler ve Servisler#4.1 Karar|ODS kararı]].
 
+## Zamanlayıcı
+
+Kaynak: Hanifi'nin 02.11.2026 tarihli aktarımı.
+
+- **Automic DWH zamanlayıcısı olarak kullanılmayacak.** Kurumda Automic kullanan ekipler var ([[Takasbank Genel Bilgilendirme 2]]), ancak DWH için seçilmedi.
+- DWH zamanlayıcısı/orkestrasyon aracı için seçenekler **değerlendirilmeye devam ediyor**; Ekim 2026'da orkestrasyon gereksinimine yönelik mevcut seçenekler değerlendirildi. Açık soru: [[Aktif Sorular]] madde 16.
+
 ## Donanım / yerleşim
 
 Kaynak: [[Ortamlar hakkında]]

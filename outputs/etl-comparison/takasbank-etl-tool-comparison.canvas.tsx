@@ -37,7 +37,7 @@ type ToolIdx = 0 | 1 | 2 | 3 | 4;
 const TOOL_SHAPE = [
   "Oracle Data Integrator 12c EE · ELT on Exadata · GoldenGate only for proven S0",
   "Informatica PowerCenter 10.5.x fully on-prem · PowerExchange CDC · Pushdown Optimization",
-  "dbt Core + dbt-oracle · Git · Automic · external tables / dblink from ADG standby / SQL*Loader",
+  "dbt Core + dbt-oracle · Git · external scheduler (TBD) · external tables / dblink from ADG standby / SQL*Loader",
   "CDP Private Cloud Base 7.x · NiFi, Spark, Hive/Impala, Ranger, Atlas · JDBC bridge to Exadata",
   "Spark 3.5/4.x on bank-run cluster · Airflow · custom ingestion, CDC, catalog, security",
 ];
@@ -160,7 +160,7 @@ const CAPS: CapGroup[] = [
     group: "Orchestration and operations",
     rows: [
       { name: "Built-in scheduler / load plans with restart", cells: ["Native", "Native", "No", "Native", "No"] },
-      { name: "Callable from Automic (CLI/REST)", cells: ["Native", "Native", "Native", "Native", "Native"] },
+      { name: "Callable from an external scheduler (CLI/REST)", cells: ["Native", "Native", "Native", "Native", "Native"] },
       { name: "Run-time HA", cells: ["Native", "Add-on", "No", "Native", "Custom"] },
       { name: "Publication gate blocking release on red reconciliation", cells: ["Custom", "Custom", "Custom", "Custom", "Custom"] },
     ],
@@ -196,7 +196,7 @@ const USECASES: UseCase[] = [
   { id: "UC3", name: "Fon Bilgilendirme Platformu", latency: "S1 intraday 08:00–17:45 with corrections · ~60k/day", fit: ["Good", "Good", "Good", "Fair", "Fair"], note: "Micro-batch with recompute-by-fund keys; CDC not required if a reliable change timestamp exists — verify." },
   { id: "UC4", name: "Fon İşlem Defterleri — Verda files", latency: "S1 · 9M contracts/day → 600k · files twice daily per market", fit: ["Strong", "Strong", "Fair", "Good", "Fair"], note: "File-heavy; dbt needs a file writer; NiFi delivers files well but computation belongs in Oracle." },
   { id: "UC5", name: "Intraday 'izleme' screens, Team Developer", latency: "S0/S1 raw current state", fit: ["N/A", "N/A", "N/A", "N/A", "N/A"], note: "Not an ETL problem: Active Data Guard read-only standby. GoldenGate only for a proven integrated S0 product." },
-  { id: "UC6", name: "Hour-SLA regulatory outputs (SPK, MASAK, BDDK, Hazine)", latency: "S2 with hard deadline · cross-market", fit: ["Strong", "Good", "Good", "Fair", "Weak"], note: "Deadline lives in Automic; restart and reconciliation gate decide." },
+  { id: "UC6", name: "Hour-SLA regulatory outputs (SPK, MASAK, BDDK, Hazine)", latency: "S2 with hard deadline · cross-market", fit: ["Strong", "Good", "Good", "Fair", "Weak"], note: "Deadline lives in the DWH scheduler; restart and reconciliation gate decide." },
   { id: "UC7", name: "Member file deliveries", latency: "S2 / scheduled · many files to many members", fit: ["Strong", "Strong", "Fair", "Good", "Fair"], note: "As UC4: file generation and delivery proof favour ODI / PowerCenter / NiFi." },
   { id: "UC8", name: "Archive offload banka → banka_old → arşiv (HCC)", latency: "S2 yearly/monthly · retire ~3,000 backup tables", fit: ["Strong", "Fair", "Strong", "Poor", "Poor"], note: "Oracle-to-Oracle bulk with partition exchange; a lake contradicts the target." },
   { id: "UC9", name: "AI / ML feature preparation (future)", latency: "S2 batch · Oracle 23ai in-database ML", fit: ["Fair", "Fair", "Good", "Strong", "Strong"], note: "Only area where cluster options lead; no business case yet." },
@@ -340,7 +340,7 @@ function Overview({ pts }: { pts: number[] }) {
       <H2>Recommended path</H2>
       <Grid columns={2} gap={20} align="start">
         <Stack gap={6}>
-          <Text><Text weight="semibold">1.</Text> Start Pilot A (SWIFT legal reports) now with the no-procurement package: dbt Core + dbt-oracle or a PL/SQL framework, Git, Automic, external tables, SCN-consistent extraction from the standby.</Text>
+          <Text><Text weight="semibold">1.</Text> Start Pilot A (SWIFT legal reports) now with the no-procurement package: dbt Core + dbt-oracle or a PL/SQL framework, Git, the selected scheduler, external tables, SCN-consistent extraction from the standby.</Text>
           <Text><Text weight="semibold">2.</Text> Run the ODI track in parallel: RFI, quote with the Exadata core definition, PoC P01–P12 on DSS with the SWIFT and BISTECH workloads.</Text>
           <Text><Text weight="semibold">3.</Text> Keep PowerCenter in the RFI only until the on-prem support horizon is answered in writing.</Text>
           <Text><Text weight="semibold">4.</Text> Close Cloudera and Spark for this programme (G2/G3); keep the Cloudera profile for a future lake/AI programme.</Text>
@@ -506,7 +506,7 @@ function UseCases() {
         headers={["Class", ...TOOLS]}
         rows={[
           ["S0 near-real-time integrated state", "Needs GoldenGate (JKM GG)", "PowerExchange CDC (add-on)", "Needs GoldenGate landing", "Kafka/NiFi plumbing; Oracle CDC still needs GG", "Needs Kafka + CDC producer"],
-          ["S1 intraday micro-batch", "Load Plans on schedule; watermark", "Scheduled workflows; watermark or CDC", "Automic-scheduled incremental runs", "NiFi/Spark scheduled", "Airflow-scheduled jobs"],
+          ["S1 intraday micro-batch", "Load Plans on schedule; watermark", "Scheduled workflows; watermark or CDC", "Externally scheduled incremental runs", "NiFi/Spark scheduled", "Airflow-scheduled jobs"],
           ["S2 end-of-day", "Native", "Native", "Native", "Possible, round trip", "Possible, round trip"],
           ["S3 planned file / external feeds", "Native", "Native", "External tables / SQL*Loader", "NiFi native", "Custom"],
           ["S4 backfill / replay", "Load Plan with load-id variable", "Workflow parameters", "Full-refresh / vars with load id", "Rerun jobs", "Rerun jobs"],
@@ -541,7 +541,7 @@ function RisksAndPoC() {
           ["P08", "File-heavy workload (Fon İşlem Defterleri)", "Ledger files byte-compare with legacy output; delivery proof recorded", "—"],
           ["P09", "Security integration", "Least-privilege account; VPD/Redaction respected; secret rotation; audit export", "G4"],
           ["P10", "Lineage export", "Column-level source-to-report lineage for one SPK report, generated", "—"],
-          ["P11", "Automic integration and end-of-day event", "Start/stop/status round trip; failure visible in Automic within 1 minute", "—"],
+          ["P11", "Scheduler integration and end-of-day event", "Start/stop/status round trip; failure visible in the DWH scheduler within 1 minute", "—"],
           ["P12", "Operate for 10 days", "Bank DBA team runs the chain daily with the runbook, without vendor; MTTR recorded", "G3"],
         ]}
         columnAlign={["left", "left", "left", "center"]}

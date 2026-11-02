@@ -445,7 +445,8 @@ bullets(s, Inches(6.9), Inches(1.55), Inches(5.9), Inches(4.8), [
     "**tvstruva**: bakımlı test ortamı",
     "DSS ve PREPROD her sabah 07:00'de KALE'den kopartılıyor; flashback snapshot 04:00–07:00",
     "Maskeleme **Informatica TDM** ile (başka Informatica lisansı yok)",
-    "Zamanlama **Automic**; **GoldenGate** lisansı var: 336 CPU (Borsa İstanbul: 975 CPU)",
+    "**GoldenGate** lisansı var: 336 CPU (Borsa İstanbul: 975 CPU)",
+    "DWH zamanlayıcısı değerlendiriliyor; **Automic kullanılmayacak**",
 ], size=16)
 
 # 7 — Mevcut durum: raporlama ve gün sonu
@@ -513,7 +514,7 @@ bullets(s, Inches(0.6), Inches(1.8), Inches(5.9), Inches(4.6), [
     "Donanım yeterli: boş disk %77–90; SUR ve HİSAR'da CPU kullanımı düşük",
     "Piyasa bazında şema ayrımı **aşamalı geçişe** imkân veriyor",
     "Güçlü Oracle DBA ve PL/SQL yetkinliği",
-    "PowerDesigner kataloğu, Automic ve **GoldenGate lisansı** (336 CPU) mevcut; Borsa İstanbul "
+    "PowerDesigner kataloğu ve **GoldenGate lisansı** (336 CPU) mevcut; Borsa İstanbul "
     "ile GG akışı kurulabilir",
 ], size=16)
 box(s, Inches(6.85), Inches(1.25), Inches(5.9), Inches(0.5), fill=RED,
@@ -750,7 +751,7 @@ cards = [
         "Tek kaynak şema, **T-1 yeterli**; net düzenleyici tüketici",
         "~2 milyar satır / 170 GB; mesaj başına tek satır özetle **~24 milyon satır**",
         "Ortak üye/piyasa modeli gerektirmez; modelleme tartışmasına girmeden tesisatı kanıtlar",
-        "Kanıtlar: landing, SCN-tutarlı çıkarım, replay, Automic zinciri, PUB snapshot, "
+        "Kanıtlar: landing, SCN-tutarlı çıkarım, replay, zamanlayıcı zinciri, PUB snapshot, "
         "erişim ve audit (serbest alanda kimlik no)",
     ]),
     ("PİLOT B — BISTECH SPK 13 RAPOR", "Entegrasyonu kanıtlar", [
@@ -932,7 +933,7 @@ for i, d in enumerate(decs):
         size=15, align=PP_ALIGN.LEFT)
 
 # 21 — Açık sorular
-s = content_slide("AÇIK SORULAR", sources="Aktif Sorular (madde 1, 3, 4, 6, 7, 8, 14, 15)")
+s = content_slide("AÇIK SORULAR", sources="Aktif Sorular (madde 1, 3, 4, 6, 7, 8, 14, 15, 16)")
 box(s, Inches(0.6), Inches(1.2), Inches(5.9), Inches(0.5), fill=NAVY, text="DBA ve altyapı ile",
     size=16, color=WHITE, bold=True)
 bullets(s, Inches(0.6), Inches(1.75), Inches(5.9), Inches(4.7), [
@@ -944,6 +945,7 @@ bullets(s, Inches(0.6), Inches(1.75), Inches(5.9), Inches(4.7), [
     "Tarihçe DWH'a geçince KALE saklama penceresi ne olacak; ~3.000 backup tablosu ne zaman "
     "emekli edilecek?",
     "Borsa İstanbul ile GoldenGate akışı: hangi tablolar (Replica BIDB, fon sözleşmeleri)?",
+    "DWH zamanlayıcısı ne olacak? (Automic kullanılmayacak; seçenekler değerlendiriliyor)",
 ], size=16)
 box(s, Inches(6.85), Inches(1.2), Inches(5.9), Inches(0.5), fill=NAVY,
     text="İş birimleri ve UG ile", size=16, color=WHITE, bold=True)
