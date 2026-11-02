@@ -1,7 +1,7 @@
 ---
 title: DWH Hedef Mimarisi v2
 created: 2026-09-06T22:52:00
-updated: 2026-09-06T22:52:00
+updated: 2026-11-02
 section: Kendi Notlarım
 tags:
   - dwh
@@ -37,14 +37,14 @@ Hangi ekiplerle sürece başlanacağını belirlemek çok kritik.
 | Kod | Şema | İçerik | Tarihçe | Erişim |
 |---|---|---|---|---|
 | L0 | `LND_<kaynak>` | Kaynak şeklinde ham veri, dönüşüm yok | **Tam tarihçe, append-only (PSA)** | Sadece ETL |
-| L1 | `ODS_*` | Entegre, güncel değerli, temizlenmiş | Güncel değerli | Operasyonel sorgu + rapor |
+| L1 | `ODS_<kaynak şema>` | Kaynak şeklinde, GoldenGate ile güncel tutulan kopya | Güncel değerli | Operasyonel sorgu + rapor |
 | L2 | `EDW` | Entegre, normalize, kurumsal tanım | Tam tarihçe (SCD2) | Sadece ETL + analist |
 | L3 | `DM_<konu>` | Star schema: fact + dimension | Fact'te olay tarihçesi | MSTR, raporlar |
 | L4 | — | MSTR semantik katmanı, metrik tanımları | — | Son kullanıcı |
 
 - **L0 kaynak başına ayrı şema:** `LND_KALE`, `LND_BIST`, `LND_CEK`, `LND_FILE`…  L0'da dönüşüm mantığı **yasak**.
 - **L0 neden tam tarihçe:** Geçmiş dataya update gelebiliyor ([[Aktif Sorular]]); mart'ı sıfırdan yeniden üretebilmek için kaynağın o an ne dediğini saklamak gerekiyor. Aynı zamanda denetim izi. Exadata'da HCC bu maliyeti taşır.
-- **L0 → L1 sınırı:** L0 kaynak şeklindedir, L1 entegredir. Bu sınır korunmazsa operasyonel kullanıcılar ham kaynak tablolarını sorgulamaya başlar ve `üye` problemi çözülmek yerine aşağıya taşınır. Kapsam kararı: [[Sistemler ve Servisler#4. ODS|ODS]]
+- **ODS sınırı:** `ODS_` kaynak şeklindedir; entegrasyon `EDW`/core'da yapılır. Çok kaynaklı birleştirme veya `üye` çözümlemesi gerektiren rapor ODS'den değil core/mart'tan verilir; aksi hâlde `üye` problemi çözülmek yerine aşağıya taşınır. Karar: [[Sistemler ve Servisler#4.1 Karar|ODS]]
 - **L1 rapor verir:** "Güncel veri lazım, tarihçe lazım değil" sınıfı raporların cevabı L1.
 - **L2 tek gerçek:** Bir kavramın tanımı burada bir kez yaşar. Mart'lar L2'yi okur, birbirini okumaz.
 - **L3 mart sınırı:** Bir mart bir konu alanı + bir grain. İki UG'nin farklı `üye` tanımını aynı mart'ta karıştırmak yasak.
@@ -52,13 +52,13 @@ Hangi ekiplerle sürece başlanacağını belirlemek çok kritik.
 
 ## Kaynak başına giriş yolu
 
-Kaynak listesi ve ODS kapsam kararı: [[Sistemler ve Servisler#4. ODS|ODS]]. Araç seçenekleri (GoldenGate / ODI) ve rol ayrımı: [[Sistemler ve Servisler#2. Goldengate|Goldengate]].
+Kaynak listesi ve ODS kararı: [[Sistemler ve Servisler#4. ODS|ODS]]. Veritabanı kaynakları `ODS_<şema>`'ya GoldenGate ile gelir; aşağıdaki tablo landing yollarını gösterir ve landing'in `ODS_`'den mi besleneceği açıktır: [[Aktif Sorular]] madde 4.7. Araç seçenekleri ve rol ayrımı: [[Sistemler ve Servisler#2. Goldengate|Goldengate]].
 
 | Kaynak                                   | Yol                                           | Not                                                                                          |
 | ---------------------------------------- | --------------------------------------------- | -------------------------------------------------------------------------------------------- |
 | [[Sistemler ve Servisler#3. Kale\|Kale]] | `sur` üstündeki replikadan okuma → `LND_KALE` | ETL prod Kale'ye hiç dokunmaz                                                                |
 | Arşiv, ÇekDB                             | Oracle replikasyon veya batch extract         | Tazeleme ihtiyacı henüz belirsiz                                                             |
-| BIST DB                                  | Zamanlanmış çekim, conformed dış besleme      | Başka kurumun ambarı: grain'i ve penceresi devralınır, real-time yok                         |
+| BIST DB                                  | Zamanlanmış çekim veya kurumlar arası GoldenGate, conformed dış besleme | Başka kurumun ambarı: grain'i devralınır; iki kurumda da GG lisansı var: [[Fiziksel Topoloji - Teknik Taraf#GoldenGate lisansları\|GoldenGate lisansları]] |
 | CSV / FTP                                | External table veya `SQL*Loader` → `LND_FILE` | Aşağıdaki dosya sözleşmesi                                                                   |
 | Postgre / MSSQL                          | GoldenGate                                    | Dataguard bu kaynakları **hiç** alamaz: [[Sistemler ve Servisler#2. Goldengate\|Goldengate]] |
 
@@ -77,7 +77,7 @@ DWH `sur` Exadata üzerinde ([[Fiziksel Topoloji - Teknik Taraf]]).
 - Fact tabloları `takas_tarih_sk` üzerinden **RANGE partition** (aylık veya günlük).
 - Geçmiş partition'larda **HCC** (`COLUMN STORE COMPRESS FOR QUERY HIGH`); aktif partition sıkıştırmasız.
 - **L0 arşiv partition'ları HCC `ARCHIVE HIGH`** — tam tarihçeli landing'in maliyetini taşıyan şey bu; sadece yeniden üretimde okunur.
-- **Kapasite:** L0 tam tarihçe + çok kaynak, ODS'i kaledb'nin ~10 TB'ından hızla büyütür. 1 Exadata ≈ 200 TB olduğu için yer var, ama yerleşim kararı bunu gerektiriyor: [[Sistemler ve Servisler#4. ODS|ODS]].
+- **Kapasite:** L0 tam tarihçe + `ODS_` güncel kopyaları, DWH'ı kaledb'nin ~10 TB'ından hızla büyütür. 1 Exadata ≈ 200 TB olduğu için yer var, ama yerleşim kararı bunu gerektiriyor: [[Fiziksel Topoloji - Teknik Taraf#DWH yerleşim adayları]].
 - Fact FK'larında **bitmap index**, `star_transformation_enabled` açık.
 - Dimension PK'ları enforced; fact FK'ları `RELY DISABLE NOVALIDATE` (optimizer bilsin, yük yavaşlamasın).
 - MSTR'ın sık çektiği toplamlar için **materialized view + query rewrite**.
@@ -88,7 +88,7 @@ DWH `sur` Exadata üzerinde ([[Fiziksel Topoloji - Teknik Taraf]]).
 
 Hassas veri ve veri sahibi bilgisi [[Sistemler ve Servisler#5. PowerDesigner|PowerDesigner]]'dan gelir. Alınacak her kolon bu katalogla eşleştirilir.
 
-Sınır **L0'dır, DWH değil**: çok kaynaklı landing'le hassas veri artık en dışta iniyor, dolayısıyla eşleme dosya/tablo landing'e inmeden önce yapılmalı. Gerekçe: [[Sistemler ve Servisler#4. ODS|ODS]]. Maskeli verinin alınıp alınmayacağı hâlâ açık: [[Aktif Sorular]] madde 6.
+Sınır **`ODS_` ve L0'dır, mart değil**: kaynak şemalar DWH'a GoldenGate ile ham geldiği için hassas veri en dışta iniyor; eşleme `ODS_` şeması ve landing açılmadan önce yapılmalı. Gerekçe: [[Sistemler ve Servisler#4. ODS|ODS]]. Maskeli verinin alınıp alınmayacağı hâlâ açık: [[Aktif Sorular]] madde 6.
 
 
 
@@ -245,18 +245,18 @@ yukleme_id
 
 `valid_to_ts` açık uçlu aralıkla yönetilir. Geriye dönük düzeltme, eski sistem sürümünü kapatır ve doğru iş-zamanı aralığına yeni sistem sürümü ekler.
 
-### `ODS_*` — current-state projection
+### `ODS_<kaynak şema>` — kaynak şeklinde güncel kopya
 
-Amaç: “Şimdi geçerli durum nedir?” sorgularına düşük gecikme ve basit erişim sağlamak.
+Amaç: “Kaynakta şu an ne var?” sorgularına DWH içinden, prod Kale'ye gitmeden düşük gecikmeyle cevap vermek. Karar: [[Sistemler ve Servisler#4.1 Karar|ODS (02.11.2026)]].
 
-- Core'un `is_current`/geçerlilik mantığından üretilir.
-- Yalnızca gerçek operasyonel rapor veya entegrasyon SLA'sı olan konu alanlarında açılır.
-- Tam tarihçenin sahibi değildir.
-- Core'dan farklı taraf/üye çözümleme kuralı içermez.
-- Materialized view, hızlı yenilenen tablo veya servis görünümü olabilir; fiziksel yöntem SLA testiyle seçilir.
+- Ayrı veritabanı değildir; DWH veritabanı içindedir.
+- Her kaynak sistem şeması için bir `ODS_` şeması açılır ve GoldenGate ile beslenir.
+- Kaynak tablo yapısını korur; iş kuralı ve kimlik birleştirme yapılmaz.
+- Tam tarihçenin sahibi değildir; tarihçe landing ve core'dadır.
+- Çok kaynaklı entegre güncel durum gerekiyorsa core'un `is_current`/geçerlilik mantığından üretilir, ODS'den değil.
 - ODS raporu kaynak işlem sisteminin yazma işlevini devralmaz.
 
-Mevcut `tvsods` kopyasının hedef ODS ile aynı şey olmadığına ilişkin karar [[Sistemler ve Servisler#4. ODS|ODS]] notundadır.
+Mevcut `tvsods` kopyasının durumu [[Sistemler ve Servisler#4.2 Kararın sonuçları|ODS]] notundadır.
 
 ### `DM_<konu>` — dimensional marts
 
@@ -325,7 +325,7 @@ Hedef eşleme:
 - Kale verisi, topoloji notundaki DWH tarafı replikadan uygun okuma garantisi sağlandıktan sonra landing'e alınır.
 - Replika lag'i ve snapshot/SCN, her yükün kontrol kaydıdır.
 - Landing, core ve marts DWH kaynak grubunda; ETL, MSTR ve ad-hoc sorgular birbirinden izole edilir.
-- Hedef ODS'in fiziksel makinesi kapasite, HA, gecikme ve workload testinden sonra seçilir; mevcut kale yerleşimi hedef kabul edilmez.
+- ODS ayrı makine veya veritabanı değildir; DWH veritabanı içindedir ([[Sistemler ve Servisler#4.1 Karar|ODS]]). DWH'ın makinesi kapasite, HA, gecikme ve workload testinden sonra seçilir; kale hedef kabul edilmez.
 - PREPROD/DSS, prod DWH mimarisinin kalıcı besleme kaynağı sayılmaz.
 
 ### Kapasite modeli
@@ -388,9 +388,9 @@ Kurumsal model topyekûn tamamlanmayı beklemez. Her dikey dilim:
 1. iş çıktısı ve sahibi,
 2. grain ve otorite,
 3. kaynak sözleşmesi,
-4. landing,
+4. kaynak şemanın `ODS_` kopyası (GoldenGate eşlemesi) ve landing,
 5. gerekli core varlıkları,
-6. ODS gerekiyorsa current projection,
+6. çok kaynaklı güncel durum gerekiyorsa core üstünde current görünüm,
 7. mart/veri ürünü,
 8. mutabakat ve güvenlik,
 9. MSTR/dosya/rapor yayını,
@@ -425,7 +425,7 @@ Bu tasarımın uygulanmasını bloke eden veya fiziksel seçimi değiştiren kon
 - konu alanı bazında otorite,
 - latency/SLA sınıfları,
 - güvenilir gün sonu sinyali,
-- ODS fiziksel yerleşimi,
+- DWH (ve içindeki ODS) fiziksel yerleşimi,
 - prod/non-prod maskeleme,
 - RPO/RTO ve saklama,
 - pilot kapsamı

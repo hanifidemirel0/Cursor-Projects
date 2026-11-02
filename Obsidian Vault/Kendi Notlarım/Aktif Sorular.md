@@ -25,13 +25,19 @@ Friday, 4 September 2026, 2:41 pm
     4. En çok kullanılan raporlar nasıl çıkartılabilir?
     5. İlk pilot hangisi: [[Takasbank Genel Bilgilendirme 2|üye-dosya projesi]] mi, eski taslaktaki tek piyasa takas martı mı, Temmuz 2025 sunumundaki 4 örnek uygulamadan biri mi ([[DWH Sunum Temmuz 2025]])? Sahip, mevcut çıktı, mutabakat referansı ve 6–12 haftalık teslim edilebilirlikle puanlanmalı: [[Proje Planı]].
     6. Pilot kaynakta atomik işlem → MKT bacağı → netleştirme → yükümlülük → talimat → hareket lineage'ı var mı, yoksa yalnızca net yükümlülük mü tutuluyor?
-3. DWH'dan anlık rapor alınabilmeli mi? → **GoldenGate kararının kapısı**: gün içi beklenti yoksa replikadan batch okuma yetiyor ([[Sistemler ve Servisler#2. Goldengate|Goldengate]])
+3. DWH'dan anlık rapor alınabilmeli mi? → `ODS_` şemaları GoldenGate ile beslenecek (madde 4); DWH katmanlarının (core, mart) tazeliği yine veri ürünü bazında sınıflanır ([[Sistemler ve Servisler#2. Goldengate|Goldengate]])
     1. Her veri ürünü için yakın gerçek zamanlı / gün içi / gün sonu / dosya / backfill sınıfı ve maksimum bayatlık nedir?
-4. [[Sistemler ve Servisler#4. ODS|ODS]]'i nasıl konumlandırmalı? → mantıksal kapsam kararı verildi: kurumsal core'un, yalnızca operasyonel SLA gereken konularda açılan güncel-durum projeksiyonu. Fiziksel hedef açık: [[Sistemler ve Servisler#4. ODS|ODS]]
+4. [[Sistemler ve Servisler#4. ODS|ODS]]'i nasıl konumlandırmalı? → **Karar verildi (02.11.2026):** ayrı veritabanı yok; DWH içinde her kaynak sistem şeması için `ODS_` önekli şema, GoldenGate ile beslenir: [[Sistemler ve Servisler#4.1 Karar|ODS kararı]]
     1. [[Sistemler ve Servisler#3. Kale|Kale]] haricinde hangi kaynaklar alınmalı? → Arşiv, ÇekDB, BIST DB, FTP/CSV, muhtemel Postgre/MSSQL
     2. Hangi raporlar Kale'den, hangileri ODS'den, hangileri DWH'den verilmeli? **Açık.** Tek tek analiz; önce ilgili UG ve operasyonel ekiplerle (iş birimleri) görüşmek lazım.
-    3. ODS'in fiziksel yerleşimi: kale Exadata'sından taşınması gerekiyor, hedef makine kararlaşmadı.
-5. [[Sistemler ve Servisler#2. Goldengate|Goldengate]] — soru yeniden çerçevelendi: eldeki seçenekler GoldenGate ve ODI; farklı roller, GG tek başına yetmiyor. Karar madde 3'e bağlı.
+    3. ODS'in fiziksel yerleşimi → **kapandı:** DWH veritabanının içinde. DWH makinesi (`sur` / `hisar`) madde 14.4'te.
+    4. GoldenGate extract prod Kale'den mi, `sur` standby'dan mı (downstream / ADG kaynaklı extract) okuyacak? Prod'da supplemental logging açılması redo yükünü ne kadar artırır?
+    5. Her şemanın bütün tabloları mı, yoksa GG tablo filtresiyle seçilmiş tablolar mı `ODS_`'e alınacak? Farklı kaynak sistemlerde aynı adlı şema varsa adlandırma kuralı ne?
+    6. GoldenGate'in okuyamadığı kaynaklar (FTP/CSV, EPİAŞ web servisleri) ODS'de yer alacak mı; alınacaksa hangi yolla? BIST DB / Replica BIDB için Borsa İstanbul ile GoldenGate akışı kurulacak mı; hangi tablolar, extract/replicat hangi tarafta, ağ ve güvenlik onayını kim verir? ([[Fiziksel Topoloji - Teknik Taraf#GoldenGate lisansları|GoldenGate lisansları]])
+    7. `LND_` landing ve `CORE_` yüklemeleri `ODS_` şemalarından mı beslenecek, yoksa kaynaktan ayrı çıkarımla mı? Kaynaktaki delete ve tarihçeye gelen update'ler ODS'de yalnızca güncel durum olarak mı kalacak, değişiklik kaydı da tutulacak mı?
+    8. Gün içi / operasyonel raporlar `ODS_` şemalarından mı verilecek ([[DWH Hedef Mimarisi v2#Yönetici özeti]] böyle diyor); `sur` standby'ın raporlama rolü kalıyor mu?
+    9. `tvsods` hangi tarihte, hangi geçiş koşuluyla kapatılacak?
+5. [[Sistemler ve Servisler#2. Goldengate|Goldengate]] → ODS beslemesi için **GoldenGate kararlaştırıldı** (madde 4). GG'nin alamadığı kaynaklar ve DWH içi dönüşüm/ELT aracı ayrı karar: [[ETL Tool Comparison]].
 6. Maskeli veriler DWH'e alınmalı mı? ([[PowerDesigner Bilgilendirme]])
     1. Üretimde doğruluk için açık ama erişim kontrollü/tokenized veri, non-prod'da Informatica TDM ile maskeleme yaklaşımı onaylanıyor mu?
     2. Gerçek kişi/BES/escrow verilerinin izinli kullanım amacı ve satır/kolon erişim modeli nedir?
@@ -55,13 +61,13 @@ Friday, 4 September 2026, 2:41 pm
 13. Lineage konusu nasıl halledilebilir?
 14. [[Başlangıç Yaklaşımı]]'nın dayandığı, DBA ile doğrulanacak lisans ve ortam gerçekleri:
     1. `sur` üstündeki Kale replikası **Active Data Guard** lisanslı mı; standby **read-only açık** mı, redo apply gerçek zamanlı mı (real-time apply), tipik apply lag kaç saniye? Gün içi izleme ekranlarının standby'a yönlendirilmesi bu cevaba bağlı. Mevcut bilgi: [[Fiziksel Topoloji - Teknik Taraf#Kale replikası - doğrulanacak gerçekler]].
-    2. **GoldenGate lisansı** gerçekten var mı? [[Obase Takasbank Değerlendirme Raporu Ağustos 2024]] "mevcut" diyor, [[Sistemler ve Servisler#2. Goldengate|Goldengate]] notu "yeni lisans" sayıyor. Hangi sürüm, hangi CPU/cihaz kapsamı, destek sözleşmesi aktif mi?
+    2. **GoldenGate lisansı** gerçekten var mı? → **Var (02.11.2026):** Takasbank 336 CPU ([[Fiziksel Topoloji - Teknik Taraf#GoldenGate lisansları|GoldenGate lisansları]]). Kalan: hangi sürüm, destek sözleşmesi aktif mi, 336 CPU hangi sunuculara dağıtılacak?
     3. UG ekiplerinin Kale'ye özet tablo yazan **gün sonu prosedürleri** standby üstünde read-only koşabilir mi (yalnızca okuma + sonucu DWH'a yazma)? Hangileri Kale'ye geri yazmak zorunda?
     4. DWH veritabanı için **`hisar` mı `sur` mı**: ARSIVDB ile aynı makinede tarihçe toplamanın ve PREPROD/DSS/TRUVA ile paylaşılan `sur`'un IO/CPU izolasyon testi kim tarafından, hangi yük profiliyle yapılacak? Aday makineler: [[Fiziksel Topoloji - Teknik Taraf#Donanım / yerleşim]].
     5. Tarihçe DWH'a geçtikten sonra Kale'nin **saklama penceresi** kaç ay/yıl olacak; `banka → banka_old → arşiv` yıllık devri ve ~3.000 backup tablosu hangi takvimle emekli edilecek; hangi UG/operasyon ekibi onaylıyor?
 15. Pilot adaylarının kaynak gerçekleri:
     1. SWIFT mesaj detay tablolarındaki serbest alanlarda kimlik numarası arama **mevcut sorgu mantığı** nedir (regex, LIKE, önceden çıkarılmış alan)? Yeni özet tablo aynı sonucu vermek zorunda.
-    2. BISTECH SPK raporlarında Replica BIDB'den okunan 5+1 rapor için Replica BIDB'ye DWH'dan **doğrudan okuma izni** verilebilir mi, yoksa Kale'ye yazılmış kopya tek yol mu?
+    2. BISTECH SPK raporlarında Replica BIDB'den okunan 5+1 rapor için Replica BIDB'ye DWH'dan **doğrudan okuma izni** verilebilir mi, yoksa Kale'ye yazılmış kopya tek yol mu? Yeni seçenek: Borsa İstanbul ile kurumlar arası GoldenGate akışı ([[Fiziksel Topoloji - Teknik Taraf#GoldenGate lisansları|GoldenGate lisansları]]).
     3. Borsa DWH'dan gelen fon sözleşme verisi (9 milyon/gün, kaynakta 5 gün saklanıyor) bugün hangi tabloda, hangi anahtarla; landing'e **hemen** almak için hangi erişim gerekiyor?
 
 

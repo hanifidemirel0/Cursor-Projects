@@ -134,11 +134,13 @@ def box(slide, x, y, w, h, fill=LIGHT, line=None, shape=MSO_SHAPE.ROUNDED_RECTAN
 
 
 def arrow(slide, x1, y1, x2, y2, color=NAVY, width=1.75, label=None, label_dx=0,
-          label_dy=-0.28, label_w=1.9):
+          label_dy=-0.28, label_w=1.9, dashed=False):
     c = slide.shapes.add_connector(MSO_CONNECTOR.STRAIGHT, x1, y1, x2, y2)
     c.line.color.rgb = color
     c.line.width = Pt(width)
     ln = c.line._get_or_add_ln()
+    if dashed:
+        etree.SubElement(ln, qn("a:prstDash")).set("val", "dash")
     tail = etree.SubElement(ln, qn("a:tailEnd"))
     tail.set("type", "triangle")
     tail.set("w", "med")
@@ -277,7 +279,7 @@ items = [
     "Önceki Kararlar ve Güncel Durumları",
     "Takasbank'ta Mevcut Durum",
     "İş Birimi ve UG Görüşmelerinden Tespitler",
-    "Önerilen Hedef Mimari ve Katmanlar",
+    "Hedef Mimari ve Katmanlar",
     "Rapor Yerleşim İlkesi",
     "Fiziksel Yerleşim ve Kapasite",
     "ETL Aracı Değerlendirmesi",
@@ -365,19 +367,19 @@ decisions = [
     ["Konu", "Temmuz 2025 sunumunda", "Kasım 2026 itibarıyla", "Durum"],
     ["ODS katmanı",
      "ODS kurulmasına karar verildi; DSS'in ODS olarak kullanılması değerlendirildi",
-     "**tvsods** oluşturuldu, KALE ile anlık senkron. Entegrasyon yapmadığı ve KALE makinesinde "
-     "durduğu için kapatılması; entegre güncel durumun DWH içinde core üzerinde görünüm olarak "
-     "verilmesi öneriliyor", "Revize öneri"],
+     "Her kaynak sistem şeması için DWH'da **ODS_** önekli bir şema; **GoldenGate** ile "
+     "beslenir. Bugünkü **tvsods** (KALE ile anlık senkron kopya) hedefte yer almaz",
+     "Karar verildi"],
     ["ODS yerleşimi", "KALE Exadata üzerinde 4. veritabanı",
-     "KALE boşaltılmak istenen makine; hedef değil. Ölçülmüş SLA gerektirene kadar **ayrı fiziksel "
-     "ODS açılmaması** öneriliyor", "Revize öneri"],
+     "**Ayrı ODS veritabanı yok**; ODS, DWH veritabanının içinde. KALE boşaltılmak istenen "
+     "makine; hedef değil", "Karar verildi"],
     ["DWH yerleşimi", "SUR Exadata",
      "SUR çok sayıda test/preprod DB ile paylaşılıyor; **HİSAR** (ARSIVDB yanında, en düşük CPU) "
      "da aday. Karar DBA ile IO/CPU izolasyon testine bağlı", "Açık"],
     ["Veri alma / replikasyon", "Dataguard, GoldenGate vb. araçlar tartışıldı",
-     "Önce batch: KALE'nin SUR'daki Data Guard replikasından **SCN-tutarlı** okuma. GoldenGate "
-     "yalnızca gerçek zamanlı ihtiyaç kanıtlanırsa; Ekim'de taslak çalışma yapıldı, lisans "
-     "durumu doğrulanacak", "Revize öneri"],
+     "ODS_ şemaları **GoldenGate** ile beslenir. Lisans var: Takasbank **336 CPU**, Borsa "
+     "İstanbul **975 CPU**; iki kurum arasında GG akışı kurulabilir. Extract kaynağı ve "
+     "landing/core yükleme yolu açık", "Karar verildi"],
 ]
 decisions2 = [
     ["Konu", "Temmuz 2025 sunumunda", "Kasım 2026 itibarıyla", "Durum"],
@@ -395,11 +397,12 @@ decisions2 = [
      "Eylül'de **tüm UG ekipleriyle** görüşüldü ve **talep analizi** yapıldı; rapor bazında "
      "yerleşim ve SLA envanteri sırada", "Devam ediyor"],
 ]
-STATUS_COLORS = {"Revize öneri": GOLD, "Açık": RED, "Değerlendirmede": TEAL, "Öneri": GOLD,
+STATUS_COLORS = {"Karar verildi": GREEN, "Revize öneri": GOLD, "Açık": RED, "Değerlendirmede": TEAL, "Öneri": GOLD,
                  "Devam ediyor": GREEN}
 for idx, rows in enumerate((decisions, decisions2), start=1):
     s = content_slide(f"ÖNCEKİ KARARLAR VE GÜNCEL DURUMLARI ({idx}/2)",
-                      sources="DWH Sunum Temmuz 2025; Sistemler ve Servisler (ODS, Goldengate); "
+                      sources="DWH Sunum Temmuz 2025; Sistemler ve Servisler (4.1 ODS kararı, "
+                              "02.11.2026; Goldengate); Fiziksel Topoloji (GoldenGate lisansları); "
                               "Fiziksel Topoloji - Teknik Taraf; Başlangıç Yaklaşımı; "
                               "ETL Tool Comparison; Proje Planı")
     t = table(s, Inches(0.55), Inches(1.25), W - Inches(1.1), rows, [2.0, 3.0, 5.65, 1.58],
@@ -414,8 +417,8 @@ for idx, rows in enumerate((decisions, decisions2), start=1):
         for r in p.runs:
             r.font.color.rgb = WHITE
             r.font.bold = True
-    footnote(s, "“Öneri / Revize öneri”: çalışma ekibinin önerisidir; yönlendirme komitesi onayı "
-                "beklenmektedir.", y=6.6)
+    footnote(s, "“Karar verildi”: 02.11.2026 ODS kararı. “Öneri / Revize öneri”: çalışma ekibinin "
+                "önerisidir; yönlendirme komitesi onayı beklenmektedir.", y=6.6)
 
 # 6 — Mevcut durum: veri ve ortamlar
 s = content_slide("MEVCUT DURUM: VERİ VE ORTAMLAR", pill="Mevcut durum",
@@ -442,7 +445,7 @@ bullets(s, Inches(6.9), Inches(1.55), Inches(5.9), Inches(4.8), [
     "**tvstruva**: bakımlı test ortamı",
     "DSS ve PREPROD her sabah 07:00'de KALE'den kopartılıyor; flashback snapshot 04:00–07:00",
     "Maskeleme **Informatica TDM** ile (başka Informatica lisansı yok)",
-    "Zamanlama için **Automic** kullanılıyor",
+    "Zamanlama **Automic**; **GoldenGate** lisansı var: 336 CPU (Borsa İstanbul: 975 CPU)",
 ], size=16)
 
 # 7 — Mevcut durum: raporlama ve gün sonu
@@ -485,7 +488,7 @@ table(s, Inches(0.55), Inches(1.25), W - Inches(1.1), [
      "büyük, gecelik özet tablolar var; tarihçelendirme → backup → arşiv akışı",
      "Pilot A adayı; arşiv sorumluluğu DWH'a geçebilir"],
     ["Piyasalar UG", "Anlık rapor ihtiyacı ve yoğun rapor talebi; performans sorunları",
-     "Gün içi raporlar standby'a, tarihsel raporlar DWH'a"],
+     "Gün içi raporlar ODS_ şemalarından, tarihsel raporlar DWH mart'tan"],
     ["Takas UG / Takas entegrasyon", "Borsa DWH'dan (BISTDWH) extract; raporlar transaction "
      "tablolarını blokluyor; günde ~20 milyon kayıt (türev ve türev harici pozisyon)",
      "En yüksek hacim; Borsa DWH beslemesi conformed dış kaynak"],
@@ -510,7 +513,8 @@ bullets(s, Inches(0.6), Inches(1.8), Inches(5.9), Inches(4.6), [
     "Donanım yeterli: boş disk %77–90; SUR ve HİSAR'da CPU kullanımı düşük",
     "Piyasa bazında şema ayrımı **aşamalı geçişe** imkân veriyor",
     "Güçlü Oracle DBA ve PL/SQL yetkinliği",
-    "PowerDesigner'da sahiplik ve hassasiyet kataloğu; Automic mevcut",
+    "PowerDesigner kataloğu, Automic ve **GoldenGate lisansı** (336 CPU) mevcut; Borsa İstanbul "
+    "ile GG akışı kurulabilir",
 ], size=16)
 box(s, Inches(6.85), Inches(1.25), Inches(5.9), Inches(0.5), fill=RED,
     text="Kısıtlar ve çözülmesi gerekenler", size=16, color=WHITE, bold=True)
@@ -525,36 +529,28 @@ bullets(s, Inches(6.85), Inches(1.8), Inches(5.9), Inches(4.6), [
 ], size=16)
 
 # 10 — Hedef mimari
-s = content_slide("ÖNERİLEN HEDEF MİMARİ", pill="Öneri — onay bekliyor",
-                  sources="Başlangıç Yaklaşımı (Mimari duruş, diyagram); DWH Hedef Mimarisi v2; "
-                  "Sistemler ve Servisler (ODS 4.3 kararları)")
+s = content_slide("HEDEF MİMARİ", pill="ODS kararı + öneri",
+                  sources="Sistemler ve Servisler (4.1 ODS kararı, 02.11.2026); Fiziksel Topoloji - "
+                  "Teknik Taraf (GoldenGate lisansları); Başlangıç Yaklaşımı (diyagram); DWH Hedef "
+                  "Mimarisi v2; Aktif Sorular 4")
 src_x, src_w = Inches(0.6), Inches(2.2)
-srcs = [("KALE (Prod)", 1.35), ("Borsa Replica BIDB / Borsa DWH", 3.05),
-        ("FTP / CSV / Web servis", 4.0), ("ARSIV / ÇEKDB", 4.95)]
-textbox(s, src_x, Inches(0.98), src_w, Inches(0.3), "KAYNAKLAR", size=12, color=MUTED, bold=True,
+srcs = [("KALE (Prod)", 1.45), ("ARSIV / ÇEKDB", 2.45), ("Borsa Replica BIDB / Borsa DWH", 3.45),
+        ("FTP / CSV / Web servis", 4.75)]
+textbox(s, src_x, Inches(1.08), src_w, Inches(0.3), "KAYNAKLAR", size=12, color=MUTED, bold=True,
         align=PP_ALIGN.CENTER)
 for name, y in srcs:
     box(s, src_x, Inches(y), src_w, Inches(0.7), fill=LIGHT, line=NAVY, text=name, size=13,
         bold=True)
-sb_x = Inches(3.55)
-box(s, sb_x, Inches(1.35), Inches(2.35), Inches(0.9), fill=RGBColor(0xE3, 0xF1, 0xF3),
-    line=TEAL, text=["**KALE ADG Standby**", "SUR üzerinde, read-only"], size=13)
-arrow(s, src_x + src_w, Inches(1.7), sb_x, Inches(1.7), label="Data Guard", label_dy=-0.3,
-      label_w=1.0)
-ops_x = Inches(6.55)
-box(s, ops_x, Inches(1.2), Inches(2.6), Inches(1.0), fill=RGBColor(0xE3, 0xF1, 0xF3), line=TEAL,
-    text=["**Gün içi operasyonel raporlama**", "İzleme ekranları, Team Developer"], size=12.5)
-arrow(s, sb_x + Inches(2.35), Inches(1.7), ops_x, Inches(1.7), color=TEAL, label="read-only",
-      label_dy=-0.3, label_w=0.9)
-dwh_x, dwh_y, dwh_w, dwh_h = Inches(3.55), Inches(2.75), Inches(6.9), Inches(3.55)
+dwh_x, dwh_y, dwh_w, dwh_h = Inches(3.55), Inches(1.2), Inches(6.9), Inches(4.6)
 box(s, dwh_x, dwh_y, dwh_w, dwh_h, fill=RGBColor(0xF7, 0xF8, 0xFC), line=NAVY, radius=0.04,
     line_w=2)
 textbox(s, dwh_x + Inches(0.15), dwh_y + Inches(0.05), Inches(3), Inches(0.3),
         "DWH VERİTABANI (Exadata)", size=12, color=NAVY, bold=True)
-box(s, dwh_x + Inches(0.2), dwh_y + Inches(0.45), dwh_w - Inches(0.4), Inches(0.5), fill=LIGHT,
-    line=LINE, text="**CTL** — yükleme kaydı, gün sonu sinyali, kalite ve mutabakat sonuçları",
-    size=12)
-layer_y = dwh_y + Inches(1.25)
+ods_x, ods_y, ods_w, ods_h = dwh_x + Inches(0.2), Inches(1.6), dwh_w - Inches(0.4), Inches(0.95)
+box(s, ods_x, ods_y, ods_w, ods_h, fill=RGBColor(0xE3, 0xF1, 0xF3), line=TEAL, line_w=1.75,
+    text=["**ODS_<kaynak şema>** — her kaynak sistem şeması için bir şema",
+          "GoldenGate ile güncel tutulur · kaynak şeklinde, entegrasyon yok"], size=12.5)
+layer_y = Inches(3.0)
 layers = [("LND", "Ham, değişmez landing"), ("CORE", "Entegre, tarihçeli"),
           ("DM", "Kimball mart"), ("PUB", "Yasal snapshot, üye dosyası, API")]
 lw, lgap = Inches(1.4), Inches(0.28)
@@ -564,26 +560,39 @@ for i, (code, d) in enumerate(layers):
         color=WHITE)
     if i:
         arrow(s, lx - lgap, layer_y + Inches(0.52), lx, layer_y + Inches(0.52))
-core_x = dwh_x + Inches(0.2) + lw + lgap
-box(s, core_x - Inches(0.2), layer_y + Inches(1.35), Inches(1.8), Inches(0.75), fill=WHITE,
-    line=NAVY, text=["**ODS_** görünüm", "yalnızca SLA varsa"], size=11.5)
-arrow(s, core_x + Inches(0.7), layer_y + Inches(1.05), core_x + Inches(0.7), layer_y + Inches(1.35))
-arrow(s, sb_x + Inches(0.6), Inches(2.25), dwh_x + Inches(0.9), layer_y)
-textbox(s, sb_x + Inches(0.85), Inches(2.3), Inches(1.6), Inches(0.3), "SCN-tutarlı batch",
-        size=10, color=MUTED)
-for _, y in srcs[1:]:
-    arrow(s, src_x + src_w, Inches(y + 0.35), dwh_x + Inches(0.2), layer_y + Inches(0.52),
-          color=MUTED, width=1.25)
-mstr_x = Inches(10.85)
-box(s, mstr_x, Inches(3.95), Inches(1.95), Inches(1.15), fill=GOLD,
-    text=["**MSTR**", "semantik katman"], size=13, color=WHITE)
-dm_right = dwh_x + Inches(0.2) + (lw + lgap) * 2 + lw
-arrow(s, dwh_x + dwh_w, Inches(4.52), mstr_x, Inches(4.52), color=GOLD)
-box(s, mstr_x, Inches(5.3), Inches(1.95), Inches(1.0), fill=LIGHT, line=NAVY,
+lnd_cx = dwh_x + Inches(0.2) + lw / 2
+arrow(s, lnd_cx, ods_y + ods_h, lnd_cx, layer_y, color=MUTED, dashed=True)
+textbox(s, lnd_cx + Inches(0.1), ods_y + ods_h + Inches(0.07), Inches(2.2), Inches(0.3),
+        "landing kaynağı: açık", size=10, color=MUTED)
+box(s, dwh_x + Inches(0.2), Inches(4.35), dwh_w - Inches(0.4), Inches(0.5), fill=LIGHT,
+    line=LINE, text="**CTL** — yükleme kaydı, gün sonu sinyali, kalite ve mutabakat sonuçları",
+    size=12)
+textbox(s, dwh_x + Inches(0.2), Inches(5.0), dwh_w - Inches(0.4), Inches(0.6),
+        "Çok kaynaklı entegre güncel durum gerekiyorsa CORE üzerinde görünüm olarak üretilir; "
+        "ODS_ kaynak şeklinde kalır.", size=11, color=MUTED)
+gg_x = ods_x
+arrow(s, src_x + src_w, Inches(1.8), gg_x, Inches(1.8), color=TEAL, width=2,
+      label="GoldenGate", label_dy=-0.3, label_w=1.1)
+arrow(s, src_x + src_w, Inches(2.8), gg_x, Inches(2.3), color=TEAL, width=2)
+arrow(s, src_x + src_w, Inches(3.8), gg_x, Inches(2.5), color=TEAL, width=1.5, dashed=True)
+textbox(s, Inches(2.84), Inches(3.85), Inches(0.7), Inches(0.5), ["GG", "kurumlar", "arası"],
+        size=9, color=TEAL)
+arrow(s, src_x + src_w, Inches(5.1), dwh_x + Inches(0.2), layer_y + Inches(0.8), color=MUTED,
+      width=1.25)
+r_x, r_w = Inches(10.85), Inches(1.95)
+box(s, r_x, ods_y, r_w, ods_h, fill=RGBColor(0xE3, 0xF1, 0xF3), line=TEAL,
+    text=["**Gün içi operasyonel rapor**", "İzleme, Team Developer"], size=12)
+arrow(s, dwh_x + dwh_w, ods_y + ods_h / 2, r_x, ods_y + ods_h / 2, color=TEAL)
+box(s, r_x, Inches(2.85), r_w, Inches(0.9), fill=GOLD, text=["**MSTR**", "semantik katman"],
+    size=13, color=WHITE)
+arrow(s, dwh_x + dwh_w, Inches(3.3), r_x, Inches(3.3), color=GOLD)
+box(s, r_x, Inches(3.95), r_w, Inches(0.9), fill=LIGHT, line=NAVY,
     text=["**SPK, üyeler**", "React, web servis"], size=12)
-arrow(s, dwh_x + dwh_w, Inches(5.6), mstr_x, Inches(5.75), color=NAVY)
-footnote(s, "Tek platform Oracle/Exadata · Prod KALE'ye trigger, MV log veya dblink yok · Ayrı "
-            "fiziksel ODS yalnızca ölçülmüş SLA gerektirirse · tvsods emekli edilir", y=6.45)
+arrow(s, dwh_x + dwh_w, Inches(4.4), r_x, Inches(4.4), color=NAVY)
+footnote(s, "**Karar (02.11.2026):** ayrı ODS veritabanı yok; ODS_ şemaları DWH içinde, GoldenGate "
+            "ile (lisans: Takasbank 336 CPU, Borsa İstanbul 975 CPU) · tvsods hedefte yok · "
+            "Diğer katmanlar öneridir · Açık: GG extract kaynağı (prod / standby), standby'ın "
+            "raporlama rolü", y=6.05)
 
 # 11 — Katmanlar
 s = content_slide("KATMANLAR VE TASARIM İLKELERİ", pill="Öneri — onay bekliyor",
@@ -599,8 +608,8 @@ table(s, Inches(0.55), Inches(1.2), Inches(8.1), [
      "Yalnızca ETL"],
     ["CORE_", "Entegre taraf/üye, hesap, piyasa × hizmet, araç, takvim; iş ve sistem zamanıyla tarihçe",
      "ETL, analist"],
-    ["ODS_", "Core üzerinde güncel durum görünümü; yalnızca operasyonel SLA kanıtlanan konuda",
-     "Operasyonel rapor"],
+    ["ODS_<şema>", "Her kaynak sistem şeması için GoldenGate ile güncel tutulan kaynak kopyası "
+     "(karar)", "Operasyonel rapor"],
     ["DM_<konu>", "Grain'i yazılı yıldız şema mart'lar", "MSTR, raporlar"],
     ["PUB_", "Sürümlü yasal snapshot, üye dosyası, CSV, API", "Dış tüketici, uygulama"],
 ], [1.55, 4.75, 1.8], size=12, header_size=13, row_h=0.62)
@@ -619,11 +628,12 @@ bullets(s, Inches(9.1), Inches(1.7), Inches(3.6), Inches(4.5), [
 # 12 — Rapor yerleşim ilkesi
 s = content_slide("RAPOR YERLEŞİM İLKESİ", pill="Öneri — onay bekliyor",
                   sources="Başlangıç Yaklaşımı (Faz 3 yönlendirme kuralı); Proje Planı (Rapor ve "
-                  "veri ürünü envanteri); Aktif Sorular 1, 3, 4")
+                  "veri ürünü envanteri); Sistemler ve Servisler (4.1 ODS kararı); Aktif Sorular 1, 3, 4")
 table(s, Inches(0.55), Inches(1.25), W - Inches(1.1), [
     ["Rapor türü", "Nereden verilir", "Not"],
-    ["Ham KALE yapıları üzerinde gün içi güncel durum (izleme, Team Developer)",
-     "KALE read-only standby", "Bağlantı yönlendirilir; yeni araç ve modelleme gerekmez"],
+    ["Kaynak yapıları üzerinde gün içi güncel durum (izleme, Team Developer)",
+     "DWH içindeki **ODS_** şemaları (GoldenGate)",
+     "Kaynak şeklinde, modelleme gerekmez; KALE standby'ın rolü açık"],
     ["Gün sonundan türetilen özet ve operasyonel raporlar",
      "DWH'da hesaplanır; React/MSTR'a view veya API ile sunulur",
      "UG gün sonu prosedürlerinin KALE'ye yazma yükü kalkar, gün sonu kısalır"],
@@ -725,7 +735,8 @@ bullets(s, Inches(6.75), Inches(1.5), Inches(6.0), Inches(4.9), [
     "tasarlansın; araç kararı yeniden yazım gerektirmesin",
     "Cloudera ertelensin; Spark yalnızca kanıtlanmış dağıtık iş yükü için",
     "Ürün kararı **Pilot B çıkışında**: ölçülmüş kanıt, 5 yıllık maliyet, zorunlu şartlar",
-    "CDC (GoldenGate vb.) **ayrı karar**: yalnızca gerçek zamanlı ihtiyaç kanıtlanırsa",
+    "**GoldenGate** ODS_ beslemesi için kararlaştırıldı (lisans mevcut); ETL kararı dönüşüm ve "
+    "GG'nin alamadığı kaynaklar (dosya, web servis) içindir",
 ], size=14, gap=5)
 footnote(s, "Puanlar masa başı ön değerlendirmedir; maliyet kriteri teklif olmadığı için hariçtir. "
             "Banka testi, fiyat teklifi veya satın alma onayı değildir.", y=6.45)
@@ -771,8 +782,8 @@ footnote(s, "Kesin değildir: üye-dosya projesi dahil adaylar iş değeri, haz�
 s = content_slide("YOL HARİTASI", pill="Öneri — onay bekliyor",
                   sources="Başlangıç Yaklaşımı (Fazlar); Proje Planı (Faz 0–5, Definition of Done)")
 phases = [
-    ("FAZ 0", "Keşif ve karar kapıları", "İlk 30 gün: mandat, ölçüm, rapor envanteri, lisans "
-     "doğrulama, gün sonu sinyali", "Yönlendirilmiş rapor envanteri, puanlı pilot listesi, "
+    ("FAZ 0", "Keşif ve karar kapıları", "İlk 30 gün: mandat, ölçüm, rapor envanteri, GoldenGate "
+     "/ ODS_ planı, gün sonu sinyali", "Yönlendirilmiş rapor envanteri, puanlı pilot listesi, "
      "yerleşim testi"),
     ("FAZ 1", "Pilot A: platform temeli", "CTL/LND, SCN-tutarlı çıkarım, replay, PUB, güvenlik",
      "Ölçülmüş KALE yük azalması, paralel koşum onayı, runbook"),
@@ -814,7 +825,7 @@ cols = [
     ]),
     ("DBA ile doğrulama", [
         "Replika **Active Data Guard** lisanslı ve read-only açık mı?",
-        "**GoldenGate** lisansı gerçekten var mı?",
+        "**GoldenGate** extract kaynağı: prod KALE mi, standby mı?",
         "UG gün sonu prosedürleri standby'da çalışabilir mi?",
         "SUR / HİSAR izolasyon testi planı",
     ]),
@@ -879,8 +890,9 @@ s = content_slide("RİSKLER", sources="Başlangıç Yaklaşımı (Risk kaydı); 
                   "Görüşmeleri (GoldenGate 7/24); ETL Tool Comparison (8 Risk register)")
 table(s, Inches(0.55), Inches(1.2), W - Inches(1.1), [
     ["Risk", "Etki", "Önlem"],
-    ["GoldenGate işletim yükü (7/24 ekip yok)", "Replikasyon durursa kritik raporlar etkilenir",
-     "Önce ADG standby ve batch; GG yalnızca kanıtlanmış gerçek zamanlı ihtiyaçta"],
+    ["GoldenGate işletim yükü (7/24 ekip yok)", "ODS_ beslemesi durursa operasyonel raporlar etkilenir",
+     "Lag izleme ve alarm, yeniden senkron prosedürü, DBA sahipliği; extract kaynağı redo etkisi "
+     "ölçülerek seçilir"],
     ["Kişisel veri yoğunluğu (BES), serbest alanda kimlik no", "Gizlilik ve erişim riski",
      "Landing öncesi sınıflandırma, VPD/redaction, audit, non-prod maskeleme (TDM)"],
     ["T+1 takas geçişi", "Takas kuralları program ortasında değişir",
@@ -901,8 +913,9 @@ s = content_slide("KARAR BEKLENEN KONULAR", pill="Yönlendirme komitesi",
                   sources="Başlangıç Yaklaşımı (İlk yönlendirme komitesine götürülecek kararlar)")
 decs = [
     "Tek platform **Oracle/Exadata**; ayrı büyük veri platformu yok",
-    "Gün içi operasyonel raporlama **KALE read-only standby**'dan; **tvsods kapatılır**",
-    "Ölçülmüş SLA gerektirene kadar **ayrı fiziksel ODS yok**",
+    "ODS kararının uygulanması: **GoldenGate** işletme sahipliği, **Borsa İstanbul** ile GG "
+    "akışı, **tvsods** kapatma takvimi",
+    "Gün içi operasyonel raporlamada **ODS_** şemaları ile **KALE standby** rol ayrımı",
     "DWH yerleşimi (SUR / HİSAR) **izolasyon testiyle** belirlenir",
     "**Pilot A = SWIFT**, **Pilot B = BISTECH SPK**; fon sözleşme verisi yakalaması şimdi başlar",
     "Satın almasız araçla başlanır; **ETL ürün kararı Pilot B çıkışında**",
@@ -919,24 +932,24 @@ for i, d in enumerate(decs):
         size=15, align=PP_ALIGN.LEFT)
 
 # 21 — Açık sorular
-s = content_slide("AÇIK SORULAR", sources="Aktif Sorular (madde 1, 3, 6, 7, 8, 14, 15)")
+s = content_slide("AÇIK SORULAR", sources="Aktif Sorular (madde 1, 3, 4, 6, 7, 8, 14, 15)")
 box(s, Inches(0.6), Inches(1.2), Inches(5.9), Inches(0.5), fill=NAVY, text="DBA ve altyapı ile",
     size=16, color=WHITE, bold=True)
 bullets(s, Inches(0.6), Inches(1.75), Inches(5.9), Inches(4.7), [
     "SUR'daki KALE replikası **Active Data Guard** lisanslı mı, read-only açık mı, apply "
     "gecikmesi ne kadar?",
-    "**GoldenGate** lisansı var mı? (Obase “mevcut” diyor; diğer değerlendirme “yeni lisans”)",
+    "**GoldenGate** extract prod KALE'den mi standby'dan mı; supplemental logging redo yükü ne?",
     "UG gün sonu prosedürleri standby üzerinde read-only çalışabilir mi; hangileri KALE'ye "
     "yazmak zorunda?",
     "Tarihçe DWH'a geçince KALE saklama penceresi ne olacak; ~3.000 backup tablosu ne zaman "
     "emekli edilecek?",
-    "Borsa DWH fon sözleşme verisine ve Replica BIDB'ye doğrudan okuma erişimi verilebilir mi?",
+    "Borsa İstanbul ile GoldenGate akışı: hangi tablolar (Replica BIDB, fon sözleşmeleri)?",
 ], size=16)
 box(s, Inches(6.85), Inches(1.2), Inches(5.9), Inches(0.5), fill=NAVY,
     text="İş birimleri ve UG ile", size=16, color=WHITE, bold=True)
 bullets(s, Inches(6.85), Inches(1.75), Inches(5.9), Inches(4.7), [
     "Kritik yasal raporlar (SPK, MASAK) DWH'dan mı verilecek; SLA'ları ve kesim saatleri ne?",
-    "Hangi rapor KALE/standby'dan, hangisi DWH'dan verilecek? (rapor envanteri)",
+    "Hangi rapor ODS_'den, hangisi DWH mart'tan verilecek? (rapor envanteri)",
     "Mutabakatta otorite: farklı raporlar farklı sayı verirse hangisi doğru, kim karar verir?",
     "Hassas veri politikası: prod'da erişim kontrollü açık veri, non-prod'da maskeleme onaylanıyor mu?",
     "Tarihsel veriye hangi durumlarda update geliyor?",

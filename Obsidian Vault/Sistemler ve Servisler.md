@@ -53,6 +53,9 @@ Mantıksal veri modeli: [[DWH Logical Data Model]]
 
 Bu bölüm **veri alma (ingestion) aracı** kararının sahibidir. ODS tanımı [[Sistemler ve Servisler#4. ODS|ODS]], katman sözleşmesi [[DWH Hedef Mimarisi v2]], ortam gerçekleri [[Fiziksel Topoloji - Teknik Taraf]] notlarındadır.
 
+> [!note] ODS bacağı kararlaştı
+> `ODS_` şemaları GoldenGate ile beslenir: [[#4.1 Karar|ODS kararı (02.11.2026)]]. Takasbank'ın 336 CPU'luk GG lisansı var; Borsa İstanbul'un da lisansı olduğu için iki kurum arasında GG akışı kurulabilir: [[Fiziksel Topoloji - Teknik Taraf#GoldenGate lisansları|GoldenGate lisansları]]. Aşağıdaki değerlendirme GG'nin alamadığı kaynaklar (dosya, web servisleri) ve DWH içi dönüşüm aracı için geçerliliğini korur.
+
 ### 2.1 Başlangıç notları
 
 
@@ -109,7 +112,7 @@ Doğrulanması gereken kaynak adaylarına göre kapsama:
 |---|---|---|
 | [[Sistemler ve Servisler#3. Kale\|Kale]] | Log tabanlı CDC, tablo bazında filtre | Batch; log tabanlı CDC'si GG olmadan yok |
 | Arşiv, ÇekDB | Var | Var |
-| BIST DB | Pratikte hayır (başka kurumun log'una erişim) | Zamanlanmış çekim — doğal yer |
+| BIST DB | Var — Borsa İstanbul'un da GG lisansı var; kurumlar arası akış kurulabilir ([[Fiziksel Topoloji - Teknik Taraf#GoldenGate lisansları\|GoldenGate lisansları]]) | Zamanlanmış çekim |
 | CSV / FTP | **Yok** — GG kaynak olarak transaction log okur | Native dosya desteği |
 | Postgre / MSSQL | Var | JDBC ile var |
 | LND→CORE→ODS/DM/PUB dönüşümleri | Yok | Asıl işi |
@@ -121,7 +124,7 @@ Sonuç: **GoldenGate tek başına yetmez** (dosya bacağını ve tüm dönüşü
 | Seçenek | Dosya/FTP | Heterojen | Gün içi | İşletme yükü | Satın alma |
 |---|---|---|---|---|---|
 | ODI | Native | JDBC | Sadece batch | Orta | Yeni lisans |
-| GoldenGate | Yok | Var | Var | Yüksek | Yeni lisans |
+| GoldenGate | Yok | Var | Var | Yüksek | **Mevcut lisans** (336 CPU) |
 | Qlik Replicate / SharePlex | Kısıtlı | Var | Var | Düşük–orta | Yeni tedarikçi |
 | Informatica PowerCenter / IDMC | Native | Var | CDC opsiyonuyla | Orta | **Mevcut tedarikçi** |
 | Debezium + Kafka | Yok | Var | Var | Yüksek | Lisans bedava, işletmesi pahalı |
@@ -143,7 +146,7 @@ ODI'nin Kale'de GG'siz CDC seçenekleri trigger veya timestamp/watermark kolonu.
 - **S3:** planlı dosya/harici besleme,
 - **S4:** backfill/replay.
 
-GoldenGate veya başka CDC ürünü yalnızca S0/S1 gereksinimi kaynak ve iş SLA'sıyla kanıtlanan akışlarda değerlendirilir. Bir kritik raporun saat bazında SLA'sı olması, bütün DWH'ın streaming olması gerektiği anlamına gelmez.
+`ODS_` şemaları kararla GoldenGate'ten beslenir ([[#4.1 Karar|ODS]]). Bunun dışındaki akışlarda CDC yalnızca S0/S1 gereksinimi kaynak ve iş SLA'sıyla kanıtlandığında değerlendirilir. Bir kritik raporun saat bazında SLA'sı olması, bütün DWH katmanlarının streaming olması gerektiği anlamına gelmez.
 
 
 
@@ -152,7 +155,7 @@ GoldenGate veya başka CDC ürünü yalnızca S0/S1 gereksinimi kaynak ve iş SL
 - Prod Kale'ye **trigger** veya **materialized view log** koymak — ikisi de canlı işlem sistemine yazma yükü ekler.
 - Prod Kale'yi **doğrudan dblink** ile sorgulamak.
 
-Kale'yi okuyan her yol `sur` üstündeki replikayı kullanır; diğer kaynaklar kendi onaylı landing yolundan gelir.
+Kale'yi okuyan batch yollar `sur` üstündeki replikayı kullanır; diğer kaynaklar kendi onaylı landing yolundan gelir. GoldenGate extract'ının prod Kale'den mi standby'dan mı (downstream / ADG kaynaklı extract) okuyacağı ve prod'da supplemental logging etkisi açık: [[Aktif Sorular]] madde 4.
 
 İlgili notlar: [[Sistemler ve Servisler#4. ODS|ODS]] · [[DWH Hedef Mimarisi v2]] · [[DWH Mimari Tasarım]] · [[Fiziksel Topoloji - Teknik Taraf]] · [[Aktif Sorular]] · [[Proje Planı]] ([[Ortamlar hakkında]])
 
@@ -168,54 +171,47 @@ Bkz. [[Takasbank Genel Bilgilendirme]], [[Sistemler ve Servisler#5. PowerDesigne
 
 ## 4. ODS
 
-Operational Data Store. Takasbank hedef mimarisinde kurumsal core'un **güncel-durum projeksiyonu**.
+Operational Data Store. Takasbank hedef mimarisinde kaynak sistem verisinin, DWH veritabanı içinde GoldenGate ile güncel tutulan **kaynak şeklindeki kopyası**.
 
-### 4.1 Kapsam kararı
+### 4.1 Karar
 
-Mevcut `tvsods` DB'si [[Sistemler ve Servisler#3. Kale|Kale]] ile anlık senkron bir kopya. Bu **ODS değil**: hiçbir şeyi entegre etmiyor ve `kaledb`'nin zaten iki replikası varken ([[Fiziksel Topoloji - Teknik Taraf]]) aynı verinin üçüncü kopyasını, yükünü azaltmaya çalıştığımız makinede tutuyor.
+> [!important] ODS kararı (02.11.2026)
+> Kaynak: Hanifi'nin 02.11.2026 tarihli aktarımı ("ods ile ilgili son karar").
+>
+> - **ODS için ayrı bir veritabanı olmayacak.** ODS, DWH veritabanının içinde konumlanır.
+> - **Her kaynak sistem şeması için DWH'da `ODS_` önekli bir şema** oluşturulur (ör. Kale `BANKA` şeması → `ODS_BANKA`).
+> - **`ODS_` şemaları GoldenGate ile beslenir.**
+>
+> Bu karar şunların yerine geçer: [[Başlangıç Yaklaşımı]]'nın Ekim 2026 önerisi (ayrı fiziksel ODS yok, entegre güncel-durum core üstünde projeksiyon, gün içi raporlama standby'dan), [[DWH Sunum Temmuz 2025]]'teki "ODS, kale Exadata'da 4. veritabanı" yerleşimi, [[DWH Hedef Mimarisi v2]]'deki "ODS = core projeksiyonu" tanımı. v2 yönetici özetindeki "ods, dwh ile aynı veritabanında; her kaynak sistem için ayrı şema" maddesiyle uyumludur.
 
-ODS yeniden tanımlandı: Kale'nin aynası değil, **çok kaynaklı** entegre katman.
+### 4.2 Kararın sonuçları
 
-Kaynaklar: [[Sistemler ve Servisler#3. Kale|Kale]] · Arşiv · ÇekDB · **BIST DB** (Borsa'nın veri ambarı) · **FTP ile gelen CSV dosyaları** · muhtemel Postgre / MSSQL kaynakları.
+- **ODS kaynak şeklindedir, entegre değildir.** `ODS_<şema>` kaynak tabloların güncel durumunu yapısını koruyarak taşır. Üye/hesap kimlik çözümlemesi ve kurumsal anlam `CORE_*`'da kalır; çok kaynaklı birleştirme gerektiren rapor ODS'den değil core/mart'tan verilir.
+- **`tvsods` hedef mimaride yer almaz.** Ayrı ODS veritabanı olmayacağı için Kale ile anlık senkron `tvsods` kopyası, `ODS_` şemaları devreye girdikten sonra gereksizleşir. Kapatma takvimi açık: [[Aktif Sorular]] madde 4.
+- **ODS'in yeri DWH'ın yeridir.** Ayrı ODS yerleşimi sorusu kapandı; DWH veritabanının makinesi (`sur` / `hisar`) hâlâ açık: [[Fiziksel Topoloji - Teknik Taraf#DWH yerleşim adayları]].
+- **GoldenGate ODS bacağının aracıdır.** Lisans mevcut (336 CPU: [[Fiziksel Topoloji - Teknik Taraf#GoldenGate lisansları|GoldenGate lisansları]]). Sürüm/destek kontrolü, extract kaynağı (prod Kale / `sur` standby) ve işletme sahipliği (DBA ekibi GG'ye güvenmiyor, 7/24 ekibi yok) ön koşul hâline geldi: [[Aktif Sorular]] madde 4 ve 14.2. Dönüşüm/ELT aracı ayrı karardır: [[#2. Goldengate|Goldengate]], [[ETL Tool Comparison]].
+- **Hassas veri ODS sınırında iner.** Kaynak şemalar DWH'a ham geldiği için PowerDesigner hassasiyet eşlemesi ve erişim kontrolü `ODS_` şemaları açılmadan yapılmalı: [[#5. PowerDesigner|PowerDesigner]] · [[Aktif Sorular]] madde 6.
+- **Kapasite:** Kaynak şemaların güncel kopyası DWH kapasitesine kaynak hacmini (kaledb ~10 TB) ekler.
 
-### 4.2 Katman sınırları
+### 4.3 Katman sınırları
 
-Üç farklı sorumluluk birbirine karıştırılmaz:
-
-- **Landing (`LND_<kaynak>`)** — Kaynağın ne teslim ettiğini kanıtlar ve replay sağlar.
+- **ODS (`ODS_<kaynak şema>`)** — Kaynak şemanın GoldenGate ile güncel tutulan kopyası; kaynak şeklinde, güncel değerli.
+- **Landing (`LND_<kaynak>`)** — Kaynağın ne teslim ettiğini kanıtlar ve replay sağlar. Landing'in `ODS_`'den mi yoksa kaynaktan ayrı çıkarımla mı besleneceği açık: [[Aktif Sorular]] madde 4.
 - **Kurumsal core (`CORE_*`)** — Entegre anlamı, kimlik çözümlemeyi ve bitemporal tarihçeyi sahiplenir.
-- **ODS (`ODS_*`)** — Core'un şu anda geçerli kaydını operasyonel tüketim için projekte eder.
 
-Detaylı katman sözleşmesi ve yükleme desenleri: [[DWH Hedef Mimarisi v2]]
+Detaylı katman sözleşmesi: [[DWH Hedef Mimarisi v2]]
 
-### 4.3 Kararlar
+Değişmeyen kurallar:
 
-> [!important] Başlangıç yaklaşımı kararı (Ekim 2026, onay bekliyor)
-> Kaynak: [[Başlangıç Yaklaşımı#Mimari duruş]] madde 2–3.
->
-> - **`tvsods` kapatılır.** Entegre etmeyen, Kale'nin üçüncü kopyası olan ve boşaltılmaya çalışılan `kale` makinesinde duran bu veritabanı mimari katman değildir; taşınmaz, emekli edilir.
-> - **Ham güncel-durum standby'dan verilir.** Kale yapıları üstünde gün içi "izleme" tipi raporlar ve Team Developer sorguları, `sur` üstündeki Kale read-only replikasına yönlendirilir; yeni araç ve modelleme gerekmez. Ön koşul olan ADG/açılış modu doğrulaması: [[Aktif Sorular]] madde 14.1.
-> - **Ölçülmüş SLA gerektirene kadar ayrı fiziksel ODS yok.** Entegre güncel-durum, DWH içindeki core üstünde `ODS_*` view/MV projeksiyonudur ve yalnızca gerçek operasyonel SLA'sı kanıtlanan konu alanında açılır. Ayrı ODS veritabanı/makinesi sorusu (4.3 son madde ve [[Aktif Sorular]] madde 4.3) bu kanıt gelene kadar askıdadır.
->
-> Bu karar [[Obase Takasbank Değerlendirme Raporu Ağustos 2024]]'nin "önce ODS" önerisini ve [[DWH Sunum Temmuz 2025]]'teki "ODS kale Exadata'da" yerleşimini değiştirir; [[DWH Hedef Mimarisi v2]]'nin "ODS = core projeksiyonu" tanımıyla uyumludur.
-
-- **ODS koşullu rapor verir.** "Güncel veri lazım, tam tarihçe lazım değil" sınıfı raporlar adaydır. Rapor envanteri ve SLA olmadan ODS tablosu açılmaz: [[Proje Planı]].
-- **Current view tarihçe değildir.** “Dün saat 10'da ne biliyorduk?” sorusu ODS'den değil bitemporal core'dan cevaplanır.
+- **Current view tarihçe değildir.** "Dün saat 10'da ne biliyorduk?" sorusu ODS'den değil bitemporal core'dan cevaplanır.
 - **ODS mart değildir.** Yoğun aggregate, metrik ve yıldız şema `DM_*` katmanına aittir.
 - **ODS işlem sistemi değildir.** Canlı takas/ödeme/teminat defterine yazmaz ve kaynak uygulamanın komut işlevini üstlenmez.
-- **Fiziksel yerleşim açık karardır.** Hedef; kapasite, HA, workload ve gecikme testiyle belirlenir: [[Aktif Sorular]].
 
 ### 4.4 Kaynak kapsamı
 
-Kaynak adayları ve ingestion yolları [[Sistemler ve Servisler#2. Goldengate|Goldengate]], hassasiyet/sahiplik bilgisi [[Sistemler ve Servisler#5. PowerDesigner|PowerDesigner]], kurum içi kapsam boşlukları [[Aktif Sorular]] notlarındadır.
+Kaynak adayları: [[Sistemler ve Servisler#3. Kale|Kale]] · Arşiv · ÇekDB · **BIST DB** (Borsa'nın veri ambarı) · **FTP ile gelen CSV dosyaları** · muhtemel Postgre / MSSQL kaynakları.
 
-Kaynak türü ODS'e doğrudan bağlantı vermez. Bütün veri önce landing ve kurumsal sözleşmeden geçer. Dış kurum ambarından gelen besleme, sunduğu grain ve yayın penceresiyle alınır; ODS onu yapay biçimde işlem seviyesine dönüştürmez.
-
-### 4.5 Sonuçları
-
-- **Replikasyon:** Dataguard sadece Oracle→Oracle; Postgre/MSSQL/CSV'yi hiç alamaz. Yani heterojen bir yol her hâlükârda gerekiyor: [[Sistemler ve Servisler#2. Goldengate|Goldengate]]
-- **Maskeleme sınırı yukarı taşındı:** hassas veri artık DWH değil **ODS** sınırında iniyor. Her kaynağın PowerDesigner hassasiyet eşlemesi landing'den önce yapılmalı: [[Sistemler ve Servisler#5. PowerDesigner|PowerDesigner]] · [[Aktif Sorular]]
-- **BIST DB bir OLTP kaynağı değil**, başka bir kurumun ambarı: grain'ini ve tazeleme penceresini devralırsın, real-time alınamaz. Conformed dış besleme olarak ele alınır.
+GoldenGate transaction log okuyan bir CDC aracıdır; veritabanı kaynakları (Kale, Arşiv, ÇekDB, Postgre/MSSQL) için uygundur. BIST DB / Replica BIDB için, Borsa İstanbul'un da GG lisansı olduğundan kurumlar arası GG akışı kurulabilir ([[Fiziksel Topoloji - Teknik Taraf#GoldenGate lisansları|GoldenGate lisansları]]). FTP/CSV ve web servisleri için GG yolu yoktur ([[#2.4 GoldenGate vs ODI — aynı işi yapmıyorlar|2.4]]). Bu kaynakların ODS'de yer alıp almayacağı açık: [[Aktif Sorular]] madde 4.
 
 Hedef: [[Sistemler ve Servisler#1. DWH|DWH]]
 

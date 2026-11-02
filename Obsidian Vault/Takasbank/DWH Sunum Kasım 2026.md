@@ -19,6 +19,7 @@ tags:
 > [!warning] Taslak
 > Öneri slaytları ("Öneri — onay bekliyor") [[Başlangıç Yaklaşımı]] ve [[Proje Planı]] önerilerini aktarır; kurum kararı değildir. Kapaktaki logo yer tutucudur, kurum şablonuyla değiştirilmeli. Kapasite rakamları Aralık 2024 görüntüsüdür.
 
+
 ## Slayt akışı
 
 | # | Slayt | Kaynak |
@@ -27,12 +28,12 @@ tags:
 | 2 | İçerik | — |
 | 3 | Çalışmanın tarihçesi (Haz 2024 – Eki 2026) | [[Firmalarla Yapılan DWH Görüşmeleri]], [[Obase Takasbank Değerlendirme Raporu Ağustos 2024]], önceki sunumlar, [[Komtaş Future-Ready Data Platform Teklifi Ağustos 2026]] |
 | 4 | Eylül–Ekim 2026 çalışmaları | Hanifi'nin 02.11.2026 tarihli aktarımı (UG görüşmeleri, danışman firma görüşmeleri, dbt PoC, Dataspecta workshop, ETL dokümantasyonu, GoldenGate, orkestrasyon, tasarım taslakları) |
-| 5–6 | Önceki kararlar ve güncel durumları | [[DWH Sunum Temmuz 2025]], [[Sistemler ve Servisler]], [[Fiziksel Topoloji - Teknik Taraf]] |
+| 5–6 | Önceki kararlar ve güncel durumları | [[DWH Sunum Temmuz 2025]], [[Sistemler ve Servisler#4.1 Karar\|ODS kararı]], [[Fiziksel Topoloji - Teknik Taraf#GoldenGate lisansları]] |
 | 7 | Mevcut durum: veri ve ortamlar | [[Fiziksel Topoloji - Teknik Taraf]], [[Ortamlar hakkında]], [[PowerDesigner Bilgilendirme]] |
 | 8 | Mevcut durum: raporlama ve gün sonu | [[Takasbank Genel Bilgilendirme]], [[Takasbank Genel Bilgilendirme 2]] |
 | 9 | UG görüşmelerinden tespitler | [[Banka Ug]], [[Enerji UG]], [[Takas UG]] |
 | 10 | Temel tespitler | [[DWH Sunum Aralık 2024]], [[Başlangıç Yaklaşımı]] |
-| 11–12 | Önerilen hedef mimari, katmanlar | [[Başlangıç Yaklaşımı]], [[DWH Hedef Mimarisi v2]] |
+| 11–12 | Hedef mimari, katmanlar | [[Sistemler ve Servisler#4.1 Karar\|ODS kararı]], [[Başlangıç Yaklaşımı]], [[DWH Hedef Mimarisi v2]] |
 | 13 | Rapor yerleşim ilkesi | [[Başlangıç Yaklaşımı#Faz 3 — Operasyonel rapor göçü ölçekte]] |
 | 14 | Fiziksel yerleşim ve kapasite | [[Fiziksel Topoloji - Teknik Taraf#DWH yerleşim adayları]] |
 | 15 | ETL aracı değerlendirmesi | [[ETL Tool Comparison]] |
