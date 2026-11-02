@@ -58,7 +58,7 @@ Kaynak listesi ve ODS kararı: [[Sistemler ve Servisler#4. ODS|ODS]]. Veritaban�
 | ---------------------------------------- | --------------------------------------------- | -------------------------------------------------------------------------------------------- |
 | [[Sistemler ve Servisler#3. Kale\|Kale]] | `sur` üstündeki replikadan okuma → `LND_KALE` | ETL prod Kale'ye hiç dokunmaz                                                                |
 | Arşiv, ÇekDB                             | Oracle replikasyon veya batch extract         | Tazeleme ihtiyacı henüz belirsiz                                                             |
-| BIST DB                                  | Zamanlanmış çekim, conformed dış besleme      | Başka kurumun ambarı: grain'i ve penceresi devralınır, real-time yok                         |
+| BIST DB                                  | Zamanlanmış çekim veya kurumlar arası GoldenGate, conformed dış besleme | Başka kurumun ambarı: grain'i devralınır; iki kurumda da GG lisansı var: [[Fiziksel Topoloji - Teknik Taraf#GoldenGate lisansları\|GoldenGate lisansları]] |
 | CSV / FTP                                | External table veya `SQL*Loader` → `LND_FILE` | Aşağıdaki dosya sözleşmesi                                                                   |
 | Postgre / MSSQL                          | GoldenGate                                    | Dataguard bu kaynakları **hiç** alamaz: [[Sistemler ve Servisler#2. Goldengate\|Goldengate]] |
 

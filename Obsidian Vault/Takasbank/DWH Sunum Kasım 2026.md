@@ -19,7 +19,7 @@ tags:
 > [!warning] Taslak
 > Öneri slaytları ("Öneri — onay bekliyor") [[Başlangıç Yaklaşımı]] ve [[Proje Planı]] önerilerini aktarır; kurum kararı değildir. Kapaktaki logo yer tutucudur, kurum şablonuyla değiştirilmeli. Kapasite rakamları Aralık 2024 görüntüsüdür.
 >
-> **ODS slaytları güncel değil:** Önceki kararlar (5), hedef mimari (11), katmanlar (12) ve karar beklenen konular (21) slaytları "ayrı fiziksel ODS yalnızca SLA gerektirirse, core üstünde projeksiyon" önerisini taşıyor. 02.11.2026 kararı farklı: [[Sistemler ve Servisler#4.1 Karar|ODS kararı]].
+> **ODS slaytları güncel değil:** Önceki kararlar (5), hedef mimari (11), katmanlar (12) ve karar beklenen konular (21) slaytları "ayrı fiziksel ODS yalnızca SLA gerektirirse, core üstünde projeksiyon" önerisini taşıyor. 02.11.2026 kararı farklı: [[Sistemler ve Servisler#4.1 Karar|ODS kararı]]. Slayt 5'teki "GoldenGate lisans durumu doğrulanacak" ifadesi de eskidi: [[Fiziksel Topoloji - Teknik Taraf#GoldenGate lisansları|GoldenGate lisansları]].
 
 ## Slayt akışı
 

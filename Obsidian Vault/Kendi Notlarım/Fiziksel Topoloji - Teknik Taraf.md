@@ -32,6 +32,16 @@ Kaynak görüntü: ![[_sources/fiziksel-topoloji.jpg]]
 
 > OneNote sayfasında liste `Banka,` ile kesilmişti. Tam liste [[Aktarım #1]] aktarım notunda: Banka, hareket, kurgun, doviz, saklama.
 
+## GoldenGate lisansları
+
+Kaynak: Hanifi'nin 02.11.2026 tarihli aktarımı.
+
+- **Takasbank:** **336 CPU**'luk GoldenGate lisansı var.
+- **Borsa İstanbul:** **975 CPU**'luk GoldenGate lisansı var.
+- İki kurum arasında GoldenGate ile veri akışı kurulabilir.
+
+Bu bilgi [[Obase Takasbank Değerlendirme Raporu Ağustos 2024]]'teki "GoldenGate mevcut" ifadesini doğrular. Sürüm, destek sözleşmesi ve 336 CPU'nun hangi sunuculara dağıtılacağı DBA ile netleşecek: [[Aktif Sorular]] madde 14.2. Kullanım kararı: [[Sistemler ve Servisler#4.1 Karar|ODS kararı]].
+
 ## Donanım / yerleşim
 
 Kaynak: [[Ortamlar hakkında]]
@@ -52,7 +62,7 @@ Kaynak: [[Ortamlar hakkında]]
 - **Rol:** bu replika DR amaçlı mı (switchover/failover senaryosu raporlama yükünü etkiler), yoksa raporlama/offload için mi ayrıldı?
 - **Erişim:** standby'a servis adı / bağlantı havuzu var mı; React ve Team Developer bağlantıları read-only servise yönlendirilebilir mi?
 - **Flashback / AS OF SCN:** standby üstünde SCN-tutarlı okuma (`AS OF SCN`) için undo retention yeterli mi; DWH gün sonu çıkarımı hangi SCN'i referans alacak?
-- **GoldenGate kaynağı:** `ODS_` beslemesi için extract'ın prod Kale'den mi standby'dan mı (downstream / ADG kaynaklı extract) alınacağı, prod'da supplemental logging gereği ve lisans kapsamı.
+- **GoldenGate kaynağı:** `ODS_` beslemesi için extract'ın prod Kale'den mi standby'dan mı (downstream / ADG kaynaklı extract) alınacağı, prod'da supplemental logging gereği ve 336 CPU lisansın extract/replicat sunucularına dağılımı.
 
 ## DWH yerleşim adayları
 

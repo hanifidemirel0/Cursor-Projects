@@ -42,7 +42,7 @@ Araç değerlendirme matrisi, PoC protokolü ve tedarikçi soru seti: [[ETL Tool
 - [ ] Programın birincil KPI'ını yaz: raporlamaya atfedilen ölçülmüş Kale DB-time azalması ve gün sonu süresi; başlangıç değerini (baseline) ilk ayda kaydet.
 - [ ] **Kale yük çalışması:** 4 hafta AWR/ASH; DB-time'a göre en yüksek SQL'leri gün içi ekran, Team Developer, MSTR ve UG gün sonu prosedürü olarak ayır. Sonuç, neyin önce boşaltılacağını ve standby kazanımının büyüklüğünü belirler.
 - [ ] Standby üstünde kaynak profilleme: en büyük / en hızlı büyüyen tablolar (BES ~%80 iddiası), PK varlığı, güvenilir değişiklik zamanı, tarihçeye yerinde update, delete deseni, şema başına üye/hesap kopyaları.
-- [ ] Mimariyi değiştiren üç iddiayı DBA ile doğrula: ADG lisansı/açılış modu, GoldenGate lisansı, UG gün sonu prosedürlerinin standby'da koşabilirliği. Sorular: [[Aktif Sorular]] madde 14.
+- [ ] Mimariyi değiştiren iddiaları DBA ile doğrula: ADG lisansı/açılış modu, UG gün sonu prosedürlerinin standby'da koşabilirliği. GoldenGate lisansı doğrulandı (336 CPU: [[Fiziksel Topoloji - Teknik Taraf#GoldenGate lisansları|GoldenGate lisansları]]); sürüm ve destek sözleşmesini kontrol et. Sorular: [[Aktif Sorular]] madde 14.
 
 ### İki ucuz kazanım
 
@@ -84,8 +84,9 @@ Araç değerlendirme matrisi, PoC protokolü ve tedarikçi soru seti: [[ETL Tool
 
 - [ ] Pilotu satın alma gerektirmeyen araçla başlat (PL/SQL çerçevesi veya dbt-core + dbt-oracle; Git, otomatik test). ODI / Informatica değerlendirmesini paralel yürüt; **ürün kararı Pilot B çıkış kapısında** ([[#Faz 2 — Uçtan uca MVP]]).
 - [ ] DWH veritabanı yerleşimi için `sur` ve `hisar` IO/CPU izolasyon testini DBA ile planla; sonuç [[Fiziksel Topoloji - Teknik Taraf]]'a işlenir.
-- [ ] GoldenGate ile `ODS_` beslemesini planla: lisans/sürüm doğrulaması, extract kaynağı (prod Kale / `sur` standby) ve supplemental logging etkisi, şema/tablo kapsamı, lag izleme ve DBA işletme sahipliği. Sorular: [[Aktif Sorular]] madde 4.4–4.7, 14.2.
-- [ ] GoldenGate'in alamadığı kaynaklar (dosya, BIST DB) ve DWH içi dönüşüm için araç kararını onaylı latency sınıflarıyla sonuçlandır: [[Sistemler ve Servisler#2. Goldengate|Goldengate]].
+- [ ] GoldenGate ile `ODS_` beslemesini planla: sürüm/destek kontrolü ve 336 CPU lisansın sunuculara dağılımı, extract kaynağı (prod Kale / `sur` standby) ve supplemental logging etkisi, şema/tablo kapsamı, lag izleme ve DBA işletme sahipliği. Sorular: [[Aktif Sorular]] madde 4.4–4.7, 14.2.
+- [ ] Borsa İstanbul ile kurumlar arası GoldenGate akışını değerlendir: BIST DB / Replica BIDB tabloları, extract/replicat sorumluluğu, ağ ve güvenlik onayı. Pilot B kaynağı ve kaynakta 5 gün tutulan fon sözleşme verisi için öncelikli aday. Sorular: [[Aktif Sorular]] madde 4.6, 15.2.
+- [ ] GoldenGate'in alamadığı kaynaklar (dosya, web servisleri) ve DWH içi dönüşüm için araç kararını onaylı latency sınıflarıyla sonuçlandır: [[Sistemler ve Servisler#2. Goldengate|Goldengate]].
 - [ ] İlk üç aday konu alanı için günlük değişim, initial history, retention ve büyüme ölçümü yap.
 - [ ] Raw/core/mart, indeks, temp, backup ve DR dahil kapasite modeli çıkar.
 - [ ] Automic kontrol zinciri ve servis hesabı modelini güvenlik ekibiyle onayla.

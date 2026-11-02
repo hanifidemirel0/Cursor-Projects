@@ -37,7 +37,7 @@ Numaralı maddelerde **v2'den veya satıcı önerilerinden ayrışan** noktalar 
 2. ~~**Gün içi operasyonel raporlama, Active Data Guard read-only standby'dan verilir; GoldenGate'ten ve yeni bir "ODS" veritabanından değil.**~~ **Yerine geçti (02.11.2026):** ODS, DWH veritabanı içinde her kaynak sistem şeması için açılan ve GoldenGate ile beslenen `ODS_` şemalarıdır: [[Sistemler ve Servisler#4.1 Karar|ODS kararı]]. Standby'ın gün içi raporlamadaki rolü açık: [[Aktif Sorular]] madde 4.8.
 3. ~~**Başlangıçta ayrı fiziksel ODS yok; entegre güncel-durum core üstünde projeksiyondur.**~~ **Kısmen korundu:** ayrı ODS veritabanı yok, ancak ODS core projeksiyonu değil, kaynak şeklinde GoldenGate kopyasıdır (aynı karar). Çok kaynaklı entegre güncel durum gerekiyorsa core'dan üretilir.
 4. **DWH veritabanının yerleşimi bir testtir, slayt değil.** `↔` Önceki sunumlar DWH'ı PREPROD, DSS, TRUVA ve on başka DB'nin yanına `sur`'a koydu. `hisar` neredeyse boşta ve ARSIVDB'yi barındırıyor; tarihçeyi orada toplamak cazip. Karar, DBA ekibiyle IO/CPU izolasyon testinden sonra verilir.
-5. **Gecikme sınıfına göre alma; önce batch.** S2 gün sonu, standby'dan SCN-tutarlı çıkarım (`AS OF SCN`, tablolar arası tutarlı). S1 mikro-batch yalnızca değişiklik kolonu güvenilir kanıtlanan tablolarda. `ODS_` şemaları kararla GoldenGate'ten beslenir; lisans iddiası (Obase "var" diyor, DBA "yeni" diyor) ön koşuldur. Prod Kale'ye trigger, MV log, dblink konmaz; GoldenGate extract kaynağı ve supplemental logging etkisi: [[Aktif Sorular]] madde 4.4. Sınıf tanımları: [[DWH Hedef Mimarisi v2#Veri alma ve gecikme sınıfları]].
+5. **Gecikme sınıfına göre alma; önce batch.** S2 gün sonu, standby'dan SCN-tutarlı çıkarım (`AS OF SCN`, tablolar arası tutarlı). S1 mikro-batch yalnızca değişiklik kolonu güvenilir kanıtlanan tablolarda. `ODS_` şemaları kararla GoldenGate'ten beslenir; lisans mevcut (336 CPU: [[Fiziksel Topoloji - Teknik Taraf#GoldenGate lisansları|GoldenGate lisansları]]). Prod Kale'ye trigger, MV log, dblink konmaz; GoldenGate extract kaynağı ve supplemental logging etkisi: [[Aktif Sorular]] madde 4.4. Sınıf tanımları: [[DWH Hedef Mimarisi v2#Veri alma ve gecikme sınıfları]].
 6. **Dönüşüm = DWH içinde SQL / PL/SQL pushdown.** Pilot, satın alma gerektirmeyen araçla başlar (PL/SQL çerçevesi veya dbt-core + dbt-oracle; Git, otomatik test). ODI / Informatica değerlendirmesi paralel yürür ve ürün kararı **Pilot B çıkış kapısında** ölçülmüş kanıtla verilir; pilot satın almaya bekletilmez. Karar kaydı şablonu: [[ETL Selection Decision Record]].
 7. **Model = iteratif entegre core + Kimball mart; Data Vault yok.** Conformed taraf/üye, hesap, araç, piyasa × hizmet, takvim ve `settlement_rule` (versiyonlu; T+2 → T+1 2026 sonunda geliyor). Bitemporal kolonlar yalnızca tarihsel güncellemenin kanıtlandığı varlıklarda. MSTR semantik katmanı yalnızca mart'lara oturur. Entity ayrıntısı: [[DWH Logical Data Model]].
 8. **Arşiv bir DWH sorumluluğu olur.** `↔` Yıllık `banka_old` devri ve 3.000 backup tablosu elle yapılmış partitioning'dir. Tarihçe DWH'da yaşadığında Kale kayan pencere tutar; uzun vadeli depolama/IO rahatlaması asıl buradan gelir ve programın yazılı hedefi olmalıdır.
@@ -70,6 +70,7 @@ flowchart LR
     Standby -.->|rolu acik| Izleme
     Standby -->|SCN tutarli batch| Lnd
     Bidb --> Lnd
+    Bidb -.->|GoldenGate mumkun| Ods
     Files --> Lnd
     Arsiv --> Lnd
     Lnd --> Core --> Dm --> Pub
@@ -85,7 +86,7 @@ Faz içi görev listeleri [[Proje Planı]] notundadır; burada yalnızca her faz
 ### Faz 0 — İlk 30 gün: gerçekler, mandat ve iki ucuz kazanım
 
 - **Mandat ve yönetişim (1. hafta):** isimli sponsor, yönlendirme kadansı, konu alanı başına "hangi sayı doğru" karar hakkı ([[DWH Ownership Operating Model]] bugün var olan rollere indirgenerek). Programın birincil KPI'ı: raporlamaya atfedilen, ölçülmüş Kale DB-time azalması ve gün sonu süresi.
-- **Görüşme değil ölçüm (1–4. hafta):** 4 haftalık AWR/ASH yük çalışması; log tabanlı rapor envanteri; standby üstünde kaynak profilleme; mimariyi değiştiren üç iddianın doğrulanması (ADG modu, GoldenGate lisansı, UG gün sonu prosedürlerinin standby'da koşup koşamayacağı).
+- **Görüşme değil ölçüm (1–4. hafta):** 4 haftalık AWR/ASH yük çalışması; log tabanlı rapor envanteri; standby üstünde kaynak profilleme; mimariyi değiştiren iki iddianın doğrulanması (ADG modu, UG gün sonu prosedürlerinin standby'da koşup koşamayacağı); GoldenGate lisansının varlığı doğrulandı (336 CPU).
 - **İki ucuz kazanım:** gün sonu tamamlanma olayı (iş tarihi, koşu kimliği, SCN taşıyan batch-control kaydı) ve BIST fon sözleşme verisinin **hemen** landing'e alınması (kaynakta 5 gün sonra siliniyor; modelleme beklemez).
 - **Ekip (2–4. hafta):** 1 veri modelleyici, 2 Oracle-güçlü veri mühendisi, dilim başına dönüşümlü UG analisti, DBA irtibat. Danışmanlık: pilotta birlikte inşa eden sınırlı ortak; üç aylık kâğıt tasarım çalışması değil (Komtaş teklifi kapsamıyla bir RFP teslim eder, bir ambar değil).
 
@@ -126,7 +127,7 @@ Kale yüküne ve conformed core'un tekrar kullanımına göre, envanterle doğru
 ## İlk yönlendirme komitesine götürülecek kararlar
 
 1. Tek platform Oracle / Exadata; büyük veri yığını yok.
-2. ODS **kararlaştı (02.11.2026):** ayrı veritabanı yok; DWH içinde kaynak şema başına `ODS_` şeması, GoldenGate ile ([[Sistemler ve Servisler#4.1 Karar|ODS kararı]]). Komiteye kalan: GoldenGate lisansı ve işletme sahipliği, `tvsods` kapatma takvimi.
+2. ODS **kararlaştı (02.11.2026):** ayrı veritabanı yok; DWH içinde kaynak şema başına `ODS_` şeması, GoldenGate ile ([[Sistemler ve Servisler#4.1 Karar|ODS kararı]]). Komiteye kalan: GoldenGate işletme sahipliği (lisans mevcut), Borsa İstanbul ile GG akışı, `tvsods` kapatma takvimi.
 3. Gün içi operasyonel raporlamada `ODS_` şemaları ile `sur` standby'ın rol ayrımı.
 4. DWH yerleşimi (`sur` / `hisar`) emsalle değil izolasyon testiyle.
 5. Pilot A = SWIFT yasal raporlar, Pilot B = BISTECH SPK; fon sözleşme yakalaması şimdi başlar.
@@ -136,7 +137,7 @@ Kale yüküne ve conformed core'un tekrar kullanımına göre, envanterle doğru
 
 ## Risk kaydı (ilk gün)
 
-- **GoldenGate işletme yükü** — ODS bacağı GG'ye bağlandı; DBA ekibi GG'ye güvenmiyor ve 7/24 ekibi yok. Lisans, lag izleme/alarm, yeniden senkron prosedürü ve sahiplik canlıya geçişten önce netleşmeli.
+- **GoldenGate işletme yükü** — ODS bacağı GG'ye bağlandı; DBA ekibi GG'ye güvenmiyor ve 7/24 ekibi yok. Lag izleme/alarm, yeniden senkron prosedürü ve sahiplik canlıya geçişten önce netleşmeli.
 - **Prod Kale'de supplemental logging** redo hacmini artırır — extract kaynağı (prod / `sur` standby) DBA ile ölçülerek seçilir.
 - **BES kişisel veri yoğunluğu** (Kale'nin ~%80'i iddiası) — landing öncesi sınıflandırma, tokenize katılımcı anahtarı.
 - **T+1 geçişi** 2026 sonunda takas kurallarını program ortasında değiştirir — Pilot B'den itibaren versiyonlu `settlement_rule`.

@@ -54,7 +54,7 @@ Mantıksal veri modeli: [[DWH Logical Data Model]]
 Bu bölüm **veri alma (ingestion) aracı** kararının sahibidir. ODS tanımı [[Sistemler ve Servisler#4. ODS|ODS]], katman sözleşmesi [[DWH Hedef Mimarisi v2]], ortam gerçekleri [[Fiziksel Topoloji - Teknik Taraf]] notlarındadır.
 
 > [!note] ODS bacağı kararlaştı
-> `ODS_` şemaları GoldenGate ile beslenir: [[#4.1 Karar|ODS kararı (02.11.2026)]]. Aşağıdaki değerlendirme GG'nin alamadığı kaynaklar (dosya, BIST DB) ve DWH içi dönüşüm aracı için geçerliliğini korur.
+> `ODS_` şemaları GoldenGate ile beslenir: [[#4.1 Karar|ODS kararı (02.11.2026)]]. Takasbank'ın 336 CPU'luk GG lisansı var; Borsa İstanbul'un da lisansı olduğu için iki kurum arasında GG akışı kurulabilir: [[Fiziksel Topoloji - Teknik Taraf#GoldenGate lisansları|GoldenGate lisansları]]. Aşağıdaki değerlendirme GG'nin alamadığı kaynaklar (dosya, web servisleri) ve DWH içi dönüşüm aracı için geçerliliğini korur.
 
 ### 2.1 Başlangıç notları
 
@@ -112,7 +112,7 @@ Doğrulanması gereken kaynak adaylarına göre kapsama:
 |---|---|---|
 | [[Sistemler ve Servisler#3. Kale\|Kale]] | Log tabanlı CDC, tablo bazında filtre | Batch; log tabanlı CDC'si GG olmadan yok |
 | Arşiv, ÇekDB | Var | Var |
-| BIST DB | Pratikte hayır (başka kurumun log'una erişim) | Zamanlanmış çekim — doğal yer |
+| BIST DB | Var — Borsa İstanbul'un da GG lisansı var; kurumlar arası akış kurulabilir ([[Fiziksel Topoloji - Teknik Taraf#GoldenGate lisansları\|GoldenGate lisansları]]) | Zamanlanmış çekim |
 | CSV / FTP | **Yok** — GG kaynak olarak transaction log okur | Native dosya desteği |
 | Postgre / MSSQL | Var | JDBC ile var |
 | LND→CORE→ODS/DM/PUB dönüşümleri | Yok | Asıl işi |
@@ -124,7 +124,7 @@ Sonuç: **GoldenGate tek başına yetmez** (dosya bacağını ve tüm dönüşü
 | Seçenek | Dosya/FTP | Heterojen | Gün içi | İşletme yükü | Satın alma |
 |---|---|---|---|---|---|
 | ODI | Native | JDBC | Sadece batch | Orta | Yeni lisans |
-| GoldenGate | Yok | Var | Var | Yüksek | Yeni lisans |
+| GoldenGate | Yok | Var | Var | Yüksek | **Mevcut lisans** (336 CPU) |
 | Qlik Replicate / SharePlex | Kısıtlı | Var | Var | Düşük–orta | Yeni tedarikçi |
 | Informatica PowerCenter / IDMC | Native | Var | CDC opsiyonuyla | Orta | **Mevcut tedarikçi** |
 | Debezium + Kafka | Yok | Var | Var | Yüksek | Lisans bedava, işletmesi pahalı |
@@ -189,7 +189,7 @@ Operational Data Store. Takasbank hedef mimarisinde kaynak sistem verisinin, DWH
 - **ODS kaynak şeklindedir, entegre değildir.** `ODS_<şema>` kaynak tabloların güncel durumunu yapısını koruyarak taşır. Üye/hesap kimlik çözümlemesi ve kurumsal anlam `CORE_*`'da kalır; çok kaynaklı birleştirme gerektiren rapor ODS'den değil core/mart'tan verilir.
 - **`tvsods` hedef mimaride yer almaz.** Ayrı ODS veritabanı olmayacağı için Kale ile anlık senkron `tvsods` kopyası, `ODS_` şemaları devreye girdikten sonra gereksizleşir. Kapatma takvimi açık: [[Aktif Sorular]] madde 4.
 - **ODS'in yeri DWH'ın yeridir.** Ayrı ODS yerleşimi sorusu kapandı; DWH veritabanının makinesi (`sur` / `hisar`) hâlâ açık: [[Fiziksel Topoloji - Teknik Taraf#DWH yerleşim adayları]].
-- **GoldenGate ODS bacağının aracıdır.** Lisans ve sürüm doğrulaması, extract kaynağı (prod Kale / `sur` standby) ve işletme sahipliği (DBA ekibi GG'ye güvenmiyor, 7/24 ekibi yok) ön koşul hâline geldi: [[Aktif Sorular]] madde 4 ve 14.2. Dönüşüm/ELT aracı ayrı karardır: [[#2. Goldengate|Goldengate]], [[ETL Tool Comparison]].
+- **GoldenGate ODS bacağının aracıdır.** Lisans mevcut (336 CPU: [[Fiziksel Topoloji - Teknik Taraf#GoldenGate lisansları|GoldenGate lisansları]]). Sürüm/destek kontrolü, extract kaynağı (prod Kale / `sur` standby) ve işletme sahipliği (DBA ekibi GG'ye güvenmiyor, 7/24 ekibi yok) ön koşul hâline geldi: [[Aktif Sorular]] madde 4 ve 14.2. Dönüşüm/ELT aracı ayrı karardır: [[#2. Goldengate|Goldengate]], [[ETL Tool Comparison]].
 - **Hassas veri ODS sınırında iner.** Kaynak şemalar DWH'a ham geldiği için PowerDesigner hassasiyet eşlemesi ve erişim kontrolü `ODS_` şemaları açılmadan yapılmalı: [[#5. PowerDesigner|PowerDesigner]] · [[Aktif Sorular]] madde 6.
 - **Kapasite:** Kaynak şemaların güncel kopyası DWH kapasitesine kaynak hacmini (kaledb ~10 TB) ekler.
 
@@ -211,7 +211,7 @@ Değişmeyen kurallar:
 
 Kaynak adayları: [[Sistemler ve Servisler#3. Kale|Kale]] · Arşiv · ÇekDB · **BIST DB** (Borsa'nın veri ambarı) · **FTP ile gelen CSV dosyaları** · muhtemel Postgre / MSSQL kaynakları.
 
-GoldenGate transaction log okuyan bir CDC aracıdır; veritabanı kaynakları (Kale, Arşiv, ÇekDB, Postgre/MSSQL) için uygundur. FTP/CSV ve başka kurumun ambarı olan BIST DB için GG yolu yoktur ([[#2.4 GoldenGate vs ODI — aynı işi yapmıyorlar|2.4]]). Bu kaynakların ODS'de yer alıp almayacağı açık: [[Aktif Sorular]] madde 4.
+GoldenGate transaction log okuyan bir CDC aracıdır; veritabanı kaynakları (Kale, Arşiv, ÇekDB, Postgre/MSSQL) için uygundur. BIST DB / Replica BIDB için, Borsa İstanbul'un da GG lisansı olduğundan kurumlar arası GG akışı kurulabilir ([[Fiziksel Topoloji - Teknik Taraf#GoldenGate lisansları|GoldenGate lisansları]]). FTP/CSV ve web servisleri için GG yolu yoktur ([[#2.4 GoldenGate vs ODI — aynı işi yapmıyorlar|2.4]]). Bu kaynakların ODS'de yer alıp almayacağı açık: [[Aktif Sorular]] madde 4.
 
 Hedef: [[Sistemler ve Servisler#1. DWH|DWH]]
 
