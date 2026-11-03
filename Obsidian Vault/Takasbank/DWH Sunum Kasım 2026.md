@@ -36,7 +36,7 @@ tags:
 | 11–12 | Hedef mimari, katmanlar | [[Sistemler ve Servisler#4.1 Karar\|ODS kararı]], [[Başlangıç Yaklaşımı]], [[DWH Hedef Mimarisi v2]] |
 | 13 | Rapor yerleşim ilkesi | [[Başlangıç Yaklaşımı#Faz 3 — Operasyonel rapor göçü ölçekte]] |
 | 14 | Fiziksel yerleşim ve kapasite | [[Fiziksel Topoloji - Teknik Taraf#DWH yerleşim adayları]] |
-| 15 | ETL aracı değerlendirmesi | [[ETL Tool Comparison]] |
+| 15 | ETL aracı değerlendirmesi | [Takasbank_ETL_Comparison.xlsx](../../outputs/etl-comparison/Takasbank_ETL_Comparison.xlsx) (v2.7, 16.10.2026) · canvas `outputs/etl-comparison/takasbank_etl_evaluation.canvas.tsx` |
 | 16 | Pilot önerisi | [[Proje Planı#Pilot seçimi]] |
 | 17–18 | Yol haritası, Faz 0 ilk 30 gün | [[Proje Planı]], [[Başlangıç Yaklaşımı#Fazlar]] |
 | 19 | Ekip ve danışmanlık modeli | [[Proje Planı]], [[Komtaş Future-Ready Data Platform Teklifi Ağustos 2026]] |

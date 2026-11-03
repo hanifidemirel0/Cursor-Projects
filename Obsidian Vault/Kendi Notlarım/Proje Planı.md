@@ -17,7 +17,7 @@ Başlangıç duruşu, faz amaçları, yönlendirme kararları ve risk kaydı: [[
 
 Sahiplik, karar yetkileri, uyuşmazlık ve işletim sorumlulukları için önerilen standart: [[DWH Ownership Operating Model]] (kurum onayı bekleyen taslak).
 
-Araç değerlendirme matrisi, PoC protokolü ve tedarikçi soru seti: [[ETL Tool Evaluation]] (nihai ürün seçimi yapılmadı).
+ETL aracı karşılaştırması: [Takasbank_ETL_Comparison.xlsx](../../outputs/etl-comparison/Takasbank_ETL_Comparison.xlsx) (v2.7) · canvas `outputs/etl-comparison/takasbank_etl_evaluation.canvas.tsx`. Öneri komiteye iki seçenek, dbt Core veya ODI 14c; nihai ürün seçimi yapılmadı.
 
 > [!info] Teslimat ilkesi
 > Her faz **dikey** ilerler ve çalışan bir iş sonucu bırakır. Kurumsal `party`, hesap veya araç modeli tek başına aylar süren ön proje yapılmaz; seçilen veri ürününün ihtiyaç duyduğu kapsamda kurulup sonraki dilimlerde genişletilir.
@@ -163,7 +163,7 @@ Entity, ilişki ve grain başlangıç modeli: [[DWH Logical Data Model]].
 
 ### Pilot B çıkış kapısı — araç kararı
 
-- [ ] İki pilotun kanıtıyla ETL seçimini kapat: PL/SQL veya dbt-core / ODI / Informatica, [[ETL Tool Evaluation]] puan kartı ve [[ETL Proof of Concept and Acceptance]] test seti üzerinden; kararı [[ETL Selection Decision Record]]'a yaz.
+- [ ] İki pilotun kanıtıyla ETL seçimini kapat: dbt Core veya ODI 14c, [ETL karşılaştırması](../../outputs/etl-comparison/Takasbank_ETL_Comparison.xlsx) puan kartı ve aynı iş yüküyle Exadata PoC'si üzerinden; kararı ve gerekçesini kayda geçir.
 - [ ] Pilot A'da ölçülen Kale DB-time azalmasını baseline ile karşılaştırıp yönlendirme komitesine raporla.
 
 ### Mutabakat ve operasyon
