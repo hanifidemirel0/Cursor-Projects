@@ -397,7 +397,7 @@ const LATSRC_SOURCE_HEADER = "Source system";
 
 const LATENCY_COVERAGE: Coverage[] = [
   { label: "S0 near-real-time integrated state", cells: { odi: "Needs GoldenGate (JKM GG)", ipc: "PowerExchange CDC (add-on)", dbt: "Needs GoldenGate landing", cdp: "Kafka/NiFi plumbing; Oracle CDC still needs GG", spark: "Needs Kafka + CDC producer" } },
-  { label: "S1 intraday micro-batch", cells: { odi: "Load Plans on schedule; watermark", ipc: "Scheduled workflows; watermark or CDC", dbt: "Automic-scheduled incremental runs", cdp: "NiFi/Spark scheduled", spark: "Airflow-scheduled jobs" } },
+  { label: "S1 intraday micro-batch", cells: { odi: "Load Plans on schedule; watermark", ipc: "Scheduled workflows; watermark or CDC", dbt: "Scheduled incremental runs (scheduler not decided)", cdp: "NiFi/Spark scheduled", spark: "Airflow-scheduled jobs" } },
   { label: "S2 end-of-day", cells: { odi: "Native", ipc: "Native", dbt: "Native", cdp: "Possible, round trip", spark: "Possible, round trip" }, green: ["odi", "ipc", "dbt"] },
   { label: "S3 planned file / external feeds", cells: { odi: "Native", ipc: "Native", dbt: "External tables / SQL*Loader", cdp: "NiFi native", spark: "Custom" }, green: ["odi", "ipc"], red: ["spark"] },
   { label: "S4 backfill / replay", cells: { odi: "Load Plan with load id variable", ipc: "Workflow parameters", dbt: "Full-refresh / vars with load id", cdp: "Rerun jobs", spark: "Rerun jobs" } },
@@ -407,7 +407,7 @@ const SOURCE_COVERAGE: Coverage[] = [
   { label: "Kale (via ADG standby on sur)", cells: { odi: "Native (dblink/JDBC, AS OF SCN)", ipc: "Native", dbt: "dblink / external means, AS OF SCN in SQL", cdp: "JDBC", spark: "JDBC partitioned read" }, green: ["ipc"] },
   { label: "ARSIV / ÇekDB (Oracle)", cells: { odi: "Native", ipc: "Native", dbt: "dblink", cdp: "JDBC", spark: "JDBC" }, green: ["odi", "ipc"] },
   { label: "BIST Replica BIDB (other institution)", cells: { odi: "Native (dblink/JDBC)", ipc: "Native", dbt: "dblink (access to be granted)", cdp: "JDBC", spark: "JDBC" }, green: ["ipc"] },
-  { label: "FTP / CSV files", cells: { odi: "Native", ipc: "Native", dbt: "External tables + Automic file watcher", cdp: "NiFi native", spark: "Custom" }, green: ["odi", "ipc"], red: ["spark"] },
+  { label: "FTP / CSV files", cells: { odi: "Native", ipc: "Native", dbt: "External tables + scheduler file watcher", cdp: "NiFi native", spark: "Custom" }, green: ["odi", "ipc"], red: ["spark"] },
   { label: "EPİAŞ web services", cells: { odi: "REST/SOAP technologies", ipc: "Native web service transformations", dbt: "Custom (PL/SQL UTL_HTTP / small service)", cdp: "NiFi native", spark: "Custom" }, red: ["spark"] },
   { label: "Postgres / MSSQL (possible)", cells: { odi: "JDBC", ipc: "Native", dbt: "Oracle Database Gateway or external loader", cdp: "JDBC", spark: "JDBC" }, green: ["ipc"] },
 ];

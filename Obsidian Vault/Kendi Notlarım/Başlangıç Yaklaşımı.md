@@ -97,7 +97,7 @@ Faz içi görev listeleri [[Proje Planı]] notundadır; burada yalnızca her faz
 
 **Neden ilk:** tek kaynak şema; T-1 kabul edilebilir; 2 milyar satır / 170 GB ve serbest metinde kimlik arama görünür bir Kale kazanımı; net düzenleyici tüketici; güvenlik tasarımını zorlar (serbest alanda TCKN). Conformed üye/piyasa boyutu gerektirmediği için modelleme tartışmasına girmeden tesisatı kanıtlar: [[DWH Sunum Temmuz 2025#Slayt 11 — SWIFT yasal raporlar]].
 
-Kapsam: `CTL`/`LND` standardı, standby'dan SCN-tutarlı çıkarım, ayrı yükleme kimliğiyle replay/backfill, gün sonu olayına asılan zamanlayıcı zinciri (araç açık; Automic kullanılmayacak: [[Aktif Sorular]] madde 16); mesaj varlığı + çıkarılmış kimlik tablosu; düzenleyici talebi başına içerik hash'li, değişmez "as delivered" `PUB` snapshot'ı; VPD/redaction rolleri ve her okuma/dışa aktarımın audit'i; aynı kesimde mevcut Kale sorgusuyla mutabakat; kırmızıda kapanan yayın kapısı.
+Kapsam: `CTL`/`LND` standardı, standby'dan SCN-tutarlı çıkarım, ayrı yükleme kimliğiyle replay/backfill, gün sonu olayına asılan zamanlayıcı zinciri (araç açık, Automic dahil karar verilmedi: [[Aktif Sorular]] madde 16); mesaj varlığı + çıkarılmış kimlik tablosu; düzenleyici talebi başına içerik hash'li, değişmez "as delivered" `PUB` snapshot'ı; VPD/redaction rolleri ve her okuma/dışa aktarımın audit'i; aynı kesimde mevcut Kale sorgusuyla mutabakat; kırmızıda kapanan yayın kapısı.
 
 > [!failure] Faz 1 çıkış kapısı
 > Ölçülmüş Kale DB-time azalması, sahibi ekibin paralel koşum onayı, operasyona teslim edilmiş runbook.

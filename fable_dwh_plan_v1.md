@@ -107,7 +107,7 @@ flowchart LR
 
 Why first: single source schema, T-1 is acceptable, 2bn rows / 170 GB with free-text identity search is a visible Kale win, clear regulatory consumers, and it forces the security design (TCKN in free text). It does not need conformed member/market dimensions, so it proves the plumbing without the modelling debate ([DWH Sunum Temmuz 2025](Obsidian Vault/Takasbank/DWH Sunum Temmuz 2025.md)).
 
-- `CTL`/`LND` standards, SCN-consistent extraction from the standby, replay/backfill with separate load ids, Automic chain hanging off the EOD event.
+- `CTL`/`LND` standards, SCN-consistent extraction from the standby, replay/backfill with separate load ids, scheduler chain hanging off the EOD event (scheduler not decided yet; Automic is one option).
 - Core message entity + extracted identifier table; `PUB` snapshot per regulator request with content hash and immutable "as delivered" version.
 - VPD/redaction roles, audit of every read and export; TDM masking of the non-prod copy.
 - Reconciliation against the current Kale query results on the same cutoff; publication gate blocks on red.
