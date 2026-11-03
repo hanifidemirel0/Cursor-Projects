@@ -36,11 +36,15 @@ tags:
 | 11–12 | Hedef mimari, katmanlar | [[Sistemler ve Servisler#4.1 Karar\|ODS kararı]], [[Başlangıç Yaklaşımı]], [[DWH Hedef Mimarisi v2]] |
 | 13 | Rapor yerleşim ilkesi | [[Başlangıç Yaklaşımı#Faz 3 — Operasyonel rapor göçü ölçekte]] |
 | 14 | Fiziksel yerleşim ve kapasite | [[Fiziksel Topoloji - Teknik Taraf#DWH yerleşim adayları]] |
-| 15 | ETL aracı değerlendirmesi | [Takasbank_ETL_Comparison.xlsx](../../outputs/etl-comparison/Takasbank_ETL_Comparison.xlsx) (v2.7, 16.10.2026) · canvas `outputs/etl-comparison/takasbank_etl_evaluation.canvas.tsx` |
-| 16 | Pilot önerisi | [[Proje Planı#Pilot seçimi]] |
-| 17–18 | Yol haritası, Faz 0 ilk 30 gün | [[Proje Planı]], [[Başlangıç Yaklaşımı#Fazlar]] |
-| 19 | Ekip ve danışmanlık modeli | [[Proje Planı]], [[Komtaş Future-Ready Data Platform Teklifi Ağustos 2026]] |
-| 20 | Riskler | [[Başlangıç Yaklaşımı#Risk kaydı (ilk gün)]] |
-| 21 | Karar beklenen konular | [[Başlangıç Yaklaşımı#İlk yönlendirme komitesine götürülecek kararlar]] |
-| 22 | Açık sorular | [[Aktif Sorular]] |
-| 23 | Kapanış | — |
+| 15 | ETL aracı değerlendirmesi: özet (puanlar, iki seçenek önerisi) | [Takasbank_ETL_Comparison.xlsx](../../outputs/etl-comparison/Takasbank_ETL_Comparison.xlsx) (v2.7, 16.10.2026) · canvas `outputs/etl-comparison/takasbank_etl_evaluation.canvas.tsx` |
+| 16 | ETL: yöntem, adaylar ve karar kısıtları | Aynı çalışma kitabı (Executive Summary, Tool Profiles) |
+| 17 | ETL: kategori puanları (15 kategori × 5 araç) | Aynı çalışma kitabı (Scoring Matrix, Criteria & Weights) |
+| 18 | ETL: ağırlık senaryoları, 5 yıllık maliyet, rapor dönüşüm eforu | Aynı çalışma kitabı (Scenario Analysis, TCO) |
+| 19 | ETL: iki seçenek (dbt Core / ODI 14c), ön koşullar | Aynı çalışma kitabı (Executive Summary, Risks) |
+| 20 | Pilot önerisi | [[Proje Planı#Pilot seçimi]] |
+| 21–22 | Yol haritası, Faz 0 ilk 30 gün | [[Proje Planı]], [[Başlangıç Yaklaşımı#Fazlar]] |
+| 23 | Ekip ve danışmanlık modeli | [[Proje Planı]], [[Komtaş Future-Ready Data Platform Teklifi Ağustos 2026]] |
+| 24 | Riskler | [[Başlangıç Yaklaşımı#Risk kaydı (ilk gün)]] |
+| 25 | Karar beklenen konular | [[Başlangıç Yaklaşımı#İlk yönlendirme komitesine götürülecek kararlar]] |
+| 26 | Açık sorular | [[Aktif Sorular]] |
+| 27 | Kapanış | — |
