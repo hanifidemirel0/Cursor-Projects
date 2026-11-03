@@ -349,7 +349,8 @@ months = [
         "**Dataspecta** ile workshop yapıldı",
         "**ETL ürünlerini değerlendirme** dokümantasyonu tamamlandı: değerlendirme çerçevesi, "
         "karşılaştırma matrisi, PoC kabul kriterleri, tedarikçi soru seti, karar kaydı şablonu",
-        "**GoldenGate** ile ilgili taslak çalışma yapıldı",
+        "Veri aktarım aracı olarak **Oracle GoldenGate**'in kullanılabilirliğiyle ilgili ön çalışma "
+        "yapıldı",
         "**Orkestrasyon** gereksinimi için mevcut seçeneklerin değerlendirmesi yapıldı",
         "**Tasarım taslakları** belirlendi: hedef mimari, mantıksal veri modeli, başlangıç "
         "yaklaşımı, proje planı",
