@@ -440,13 +440,10 @@ textbox(s, Inches(6.9), Inches(1.2), Inches(6), Inches(0.4), "Ortamlar", size=18
         bold=True)
 bullets(s, Inches(6.9), Inches(1.55), Inches(5.9), Inches(4.8), [
     "KALE'nin **2 Data Guard replikası** var: biri KALE, biri SUR Exadata üzerinde",
-    "**tvsods**: ODS için oluşturuldu; KALE ile anlık senkron, KALE makinesinde",
-    "**DSS**: prod eşleniği, read-only; **PREPROD**: T-1, test ile aynı instance; "
-    "**tvstruva**: bakımlı test ortamı",
-    "DSS ve PREPROD her sabah 07:00'de KALE'den kopartılıyor; flashback snapshot 04:00–07:00",
+    "**PREPROD**: T-1, test ile aynı instance",
+    "PREPROD her sabah 07:00'de KALE'den kopartılıyor; flashback snapshot 04:00–07:00",
     "Maskeleme **Informatica TDM** ile (başka Informatica lisansı yok)",
     "**GoldenGate** lisansı var: 336 CPU (Borsa İstanbul: 975 CPU)",
-    "DWH zamanlayıcısı henüz seçilmedi; **Automic lisans nedeniyle seçenek değil**",
 ], size=16)
 
 # 7 — Mevcut durum: raporlama ve gün sonu
@@ -472,8 +469,8 @@ bullets(s, Inches(0.6), Inches(3.05), Inches(12.1), Inches(3.3), [
     "tarafında raporlamaların transaction tablolarını blokladığı belirtildi",
     "UG gün sonu prosedürleri hesaplanan özetleri KALE'deki yeni tablolara yazıyor "
     "(ör. SWIFT için gecelik özet tablolar)",
-    "Gün sonu operasyon tarafından **manuel** tetikleniyor, bitişi **mail** ile bildiriliyor; "
-    "makine-okunur tamamlanma sinyali yok",
+    "Gün sonu operasyon tarafından **manuel** tetikleniyor; ilgili işler tamamlandığında "
+    "veritabanına **log kaydı** atılıyor (makine-okunur sinyal)",
     ("-", "İki farklı anlatım (21:30 → ~06:00 ve ~03:00 bitiş / 04:00–07:00 snapshot) henüz tek "
           "zaman çizelgesinde birleştirilmedi"),
     "Tarihsel veriye zaman zaman **update** geliyor; artımlı yükleme tasarımını doğrudan etkiliyor",
@@ -522,9 +519,8 @@ box(s, Inches(6.85), Inches(1.25), Inches(5.9), Inches(0.5), fill=RED,
 bullets(s, Inches(6.85), Inches(1.8), Inches(5.9), Inches(4.6), [
     "İşlem ve raporlama aynı veritabanında; KALE yükü artıyor",
     "ERD yok; çoklu üye tabloları; konu alanı bazında “doğru sayı” otoritesi belirsiz",
-    "Makine-okunur gün sonu sinyali yok; tarihsel veriye update geliyor",
+    "Gün sonu zaman çizelgesi tek anlatımda birleşmedi; tarihsel veriye update geliyor",
     "Borsa fon sözleşme verisi kaynakta **5 gün sonra siliniyor**; yakalanmayan tarihçe kayboluyor",
-    "İZV ekibi küçük (1 yönetici + 2 MSTR geliştirici); DWH/ETL deneyimi yok",
     "GoldenGate işletimi ve 7/24 destek konusunda DBA çekincesi",
     "Veri kurum dışına çıkamaz; satın alma süreci uzun",
 ], size=16)
@@ -837,7 +833,8 @@ cols = [
         "SUR / HİSAR izolasyon testi planı",
     ]),
     ("İki hızlı kazanım", [
-        "**Gün sonu tamamlanma kaydı**: iş tarihi, koşu kimliği, SCN; mail yalnızca bildirim",
+        "Mevcut **gün sonu log kaydı** DWH tetikleyicisi olarak bağlanır; iş tarihi, koşu "
+        "kimliği, SCN içeriği doğrulanır",
         "**BIST fon sözleşme verisi** hemen landing'e (5 günlük saklama süresi nedeniyle)",
     ]),
     ("Ekip", [
@@ -929,7 +926,7 @@ decs = [
     "ETL aracı seçimi: **dbt Core** veya **ODI 14c**; PoC'ler tamamlandı, pilot karardan sonra "
     "başlar",
     "1 modelleyici + 2 veri mühendisi alınır; dilim başına **UG analist zamanı** ayrılır",
-    "**Gün sonu tamamlanma sinyali** ilk ay içinde operasyonla kurulur",
+    "Mevcut **gün sonu log kaydı** ilk ay içinde DWH tetikleyicisi olarak doğrulanır",
 ]
 for i, d in enumerate(decs):
     col, row = divmod(i, 4)

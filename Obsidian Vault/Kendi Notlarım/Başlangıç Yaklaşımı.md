@@ -27,7 +27,7 @@ Yaklaşımı belirleyen kısıtlar, mevcut notlardan:
 - **Donanım sorun değil.** Üç Exadata, %77–90 boş disk, `sur` CPU ~%6–12, `hisar` ~%2–3; Kale'nin iki Data Guard replikası var, biri `sur` üstünde: [[DWH Sunum Aralık 2024]], [[Fiziksel Topoloji - Teknik Taraf]].
 - **Kısıt insan.** İZV ekibi 1 yönetici + 2 MSTR geliştirici; güçlü Oracle DBA / PL/SQL; DWH/ETL deneyimi yok; tablo bilgisi UG analistlerinde; DBA ekibi GoldenGate'e güvenmiyor ve 7/24 ekibi yok. Satın alma yavaş; veri kurum dışına çıkamaz.
 - **Operasyonel raporlama baskın.** Team Developer, React ekranları, MSTR Pusula (%10–20 taşındı), üye terminal raporları, saat SLA'lı SPK/MASAK/BDDK/Hazine çıktıları. "İzleme" ekranlarının çoğu Kale üstünde gün içi güncel-durum sorgusudur: [[Takasbank Genel Bilgilendirme 2]], [[Banka Ug]].
-- **Makine-okunur gün sonu yok.** Tamamlanma mail ile; notlarda iki çelişen gün sonu zaman çizelgesi; tarihsel satırlar güncellenebiliyor; Borsa sözleşme verisi 5 gün sonra siliniyor: [[Ortamlar hakkında]], [[DWH Sunum Temmuz 2025]].
+- **Gün sonu sinyali var, zaman çizelgesi belirsiz.** İlgili işler tamamlandığında veritabanına log kaydı atılıyor ([[Fiziksel Topoloji - Teknik Taraf]]); notlarda iki çelişen gün sonu zaman çizelgesi; tarihsel satırlar güncellenebiliyor; Borsa sözleşme verisi 5 gün sonra siliniyor: [[Ortamlar hakkında]], [[DWH Sunum Temmuz 2025]].
 
 ## Mimari duruş
 
@@ -87,11 +87,11 @@ Faz içi görev listeleri [[Proje Planı]] notundadır; burada yalnızca her faz
 
 - **Mandat ve yönetişim (1. hafta):** isimli sponsor, yönlendirme kadansı, konu alanı başına "hangi sayı doğru" karar hakkı ([[DWH Ownership Operating Model]] bugün var olan rollere indirgenerek). Programın birincil KPI'ı: raporlamaya atfedilen, ölçülmüş Kale DB-time azalması ve gün sonu süresi.
 - **Görüşme değil ölçüm (1–4. hafta):** 4 haftalık AWR/ASH yük çalışması; log tabanlı rapor envanteri; standby üstünde kaynak profilleme; mimariyi değiştiren iki iddianın doğrulanması (ADG modu, UG gün sonu prosedürlerinin standby'da koşup koşamayacağı); GoldenGate lisansının varlığı doğrulandı (336 CPU).
-- **İki ucuz kazanım:** gün sonu tamamlanma olayı (iş tarihi, koşu kimliği, SCN taşıyan batch-control kaydı) ve BIST fon sözleşme verisinin **hemen** landing'e alınması (kaynakta 5 gün sonra siliniyor; modelleme beklemez).
+- **İki ucuz kazanım:** mevcut gün sonu log kaydının DWH zincirine tetikleyici olarak bağlanması (iş tarihi, koşu kimliği, SCN taşıyıp taşımadığı doğrulanır) ve BIST fon sözleşme verisinin **hemen** landing'e alınması (kaynakta 5 gün sonra siliniyor; modelleme beklemez).
 - **Ekip (2–4. hafta):** 1 veri modelleyici, 2 Oracle-güçlü veri mühendisi, dilim başına dönüşümlü UG analisti, DBA irtibat. Danışmanlık: pilotta birlikte inşa eden sınırlı ortak; üç aylık kâğıt tasarım çalışması değil (Komtaş teklifi kapsamıyla bir RFP teslim eder, bir ambar değil).
 
 > [!failure] Faz 0 çıkış kapısı
-> Yönlendirmeli rapor envanteri (ODS / standby / DWH / uygulamada kalır), puanlanmış pilot listesi, doğrulanmış lisans gerçekleri, çalışan gün sonu sinyali, kapasite ve yerleşim testi sonuçları, **seçilmiş ETL aracı** (pilot bu karardan sonra başlar).
+> Yönlendirmeli rapor envanteri (ODS / standby / DWH / uygulamada kalır), puanlanmış pilot listesi, doğrulanmış lisans gerçekleri, DWH'a bağlanmış gün sonu sinyali, kapasite ve yerleşim testi sonuçları, **seçilmiş ETL aracı** (pilot bu karardan sonra başlar).
 
 ### Faz 1 — Pilot A ile platform temeli: SWIFT yasal raporlar
 
@@ -133,7 +133,7 @@ Kale yüküne ve conformed core'un tekrar kullanımına göre, envanterle doğru
 5. Pilot A = SWIFT yasal raporlar, Pilot B = BISTECH SPK; fon sözleşme yakalaması şimdi başlar.
 6. ETL aracı (dbt Core veya ODI 14c) pilottan önce seçilir; PoC'ler tamamlandı, değerlendirme sürüyor.
 7. Modelleyici ve iki mühendis alınır; dilim başına UG analist zamanı güvenceye alınır.
-8. Gün sonu tamamlanma sinyali ilk ay içinde operasyonla kurulur.
+8. Mevcut gün sonu log kaydı ilk ay içinde operasyonla birlikte DWH tetikleyicisi olarak doğrulanır.
 
 ## Risk kaydı (ilk gün)
 

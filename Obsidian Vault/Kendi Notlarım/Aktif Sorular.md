@@ -55,9 +55,9 @@ Friday, 4 September 2026, 2:41 pm
 11. DWH ve her kritik veri ürünü için RPO, RTO, maksimum bayatlık, online/archive saklama ve legal hold süresi nedir?
     1. Landing replay penceresi ile hassas veri saklama sınırı nasıl dengelenecek?
     2. Backup, standby ve restore testi hangi ekip tarafından sahiplenilecek?
-12. Otoritatif gün sonu tamamlanma sinyali nedir?
+12. Otoritatif gün sonu tamamlanma sinyali nedir? → **Var (03.11.2026):** ilgili işler tamamlandığında veritabanına log kaydı atılıyor ([[Fiziksel Topoloji - Teknik Taraf]], gün sonu tamamlanma kaydı).
     1. Deniz'in 21:30–~06:00 anlatımı ile Ozan'ın ~03:00 bitiş / 04:00–07:00 flashback anlatımı tek timeline'da nasıl birleşiyor? [[Fiziksel Topoloji - Teknik Taraf]]
-    2. Mail dışında iş tarihi, koşu kimliği ve snapshot/SCN taşıyan DB flag veya batch-control kaydı üretilebilir mi?
+    2. Log kaydı hangi veritabanında / tabloda; iş tarihi, koşu kimliği ve snapshot/SCN taşıyor mu? Hangi işler için ayrı kayıt atılıyor? DWH bu kaydı hangi yetkiyle okuyacak?
 13. Lineage konusu nasıl halledilebilir?
 14. [[Başlangıç Yaklaşımı]]'nın dayandığı, DBA ile doğrulanacak lisans ve ortam gerçekleri:
     1. `sur` üstündeki Kale replikası **Active Data Guard** lisanslı mı; standby **read-only açık** mı, redo apply gerçek zamanlı mı (real-time apply), tipik apply lag kaç saniye? Gün içi izleme ekranlarının standby'a yönlendirilmesi bu cevaba bağlı. Mevcut bilgi: [[Fiziksel Topoloji - Teknik Taraf#Kale replikası - doğrulanacak gerçekler]].
