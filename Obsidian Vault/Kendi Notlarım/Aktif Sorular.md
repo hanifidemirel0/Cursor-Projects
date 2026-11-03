@@ -69,7 +69,7 @@ Friday, 4 September 2026, 2:41 pm
     1. SWIFT mesaj detay tablolarındaki serbest alanlarda kimlik numarası arama **mevcut sorgu mantığı** nedir (regex, LIKE, önceden çıkarılmış alan)? Yeni özet tablo aynı sonucu vermek zorunda.
     2. BISTECH SPK raporlarında Replica BIDB'den okunan 5+1 rapor için Replica BIDB'ye DWH'dan **doğrudan okuma izni** verilebilir mi, yoksa Kale'ye yazılmış kopya tek yol mu? Yeni seçenek: Borsa İstanbul ile kurumlar arası GoldenGate akışı ([[Fiziksel Topoloji - Teknik Taraf#GoldenGate lisansları|GoldenGate lisansları]]).
     3. Borsa DWH'dan gelen fon sözleşme verisi (9 milyon/gün, kaynakta 5 gün saklanıyor) bugün hangi tabloda, hangi anahtarla; landing'e **hemen** almak için hangi erişim gerekiyor?
-16. DWH zamanlayıcısı / orkestrasyon aracı ne olacak? Automic kullanılmayacak; seçenekler değerlendiriliyor: [[Fiziksel Topoloji - Teknik Taraf#Zamanlayıcı|zamanlayıcı]]
+16. DWH zamanlayıcısı / orkestrasyon aracı ne olacak? Karar verilmedi; Automic lisans nedeniyle seçenek değil, diğer araçlar değerlendiriliyor: [[Fiziksel Topoloji - Teknik Taraf#Zamanlayıcı|zamanlayıcı]]
     1. Zincirler gün sonu tamamlanma kaydına (madde 12) ve piyasa kapanış olaylarına nasıl bağlanacak?
     2. Seçilecek ETL aracının kendi zamanlayıcısı (ör. ODI load plan / agent) yeterli mi, yoksa ayrı bir orkestrasyon aracı mı gerekiyor? dbt Core'un kendi zamanlayıcısı yok.
     3. Restart, HA, alarm ve operasyon sahipliği hangi ekipte olacak?

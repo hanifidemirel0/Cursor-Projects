@@ -17,7 +17,7 @@ Başlangıç duruşu, faz amaçları, yönlendirme kararları ve risk kaydı: [[
 
 Sahiplik, karar yetkileri, uyuşmazlık ve işletim sorumlulukları için önerilen standart: [[DWH Ownership Operating Model]] (kurum onayı bekleyen taslak).
 
-Araç değerlendirme matrisi, PoC protokolü ve tedarikçi soru seti: [[ETL Tool Evaluation]] (nihai ürün seçimi yapılmadı).
+ETL aracı karşılaştırması: [Takasbank_ETL_Comparison.xlsx](../../outputs/etl-comparison/Takasbank_ETL_Comparison.xlsx) (v2.7) · canvas `outputs/etl-comparison/takasbank_etl_evaluation.canvas.tsx`. Öneri komiteye iki seçenek, dbt Core veya ODI 14c. PoC'ler tamamlandı, değerlendirme sürüyor; nihai ürün seçimi yapılmadı.
 
 > [!info] Teslimat ilkesi
 > Her faz **dikey** ilerler ve çalışan bir iş sonucu bırakır. Kurumsal `party`, hesap veya araç modeli tek başına aylar süren ön proje yapılmaz; seçilen veri ürününün ihtiyaç duyduğu kapsamda kurulup sonraki dilimlerde genişletilir.
@@ -82,14 +82,15 @@ Araç değerlendirme matrisi, PoC protokolü ve tedarikçi soru seti: [[ETL Tool
 
 ### Araç ve kapasite
 
-- [ ] Pilotu satın alma gerektirmeyen araçla başlat (PL/SQL çerçevesi veya dbt-core + dbt-oracle; Git, otomatik test). ODI / Informatica değerlendirmesini paralel yürüt; **ürün kararı Pilot B çıkış kapısında** ([[#Faz 2 — Uçtan uca MVP]]).
+- [x] ETL aracı PoC'lerini tamamla.
+- [ ] ETL aracı değerlendirmesini sonuçlandır ve aracı seç: dbt Core veya ODI 14c ([ETL karşılaştırması](../../outputs/etl-comparison/Takasbank_ETL_Comparison.xlsx)); kararı ve gerekçesini kayda geçir. **Pilot bu karardan sonra başlar.**
 - [ ] DWH veritabanı yerleşimi için `sur` ve `hisar` IO/CPU izolasyon testini DBA ile planla; sonuç [[Fiziksel Topoloji - Teknik Taraf]]'a işlenir.
 - [ ] GoldenGate ile `ODS_` beslemesini planla: sürüm/destek kontrolü ve 336 CPU lisansın sunuculara dağılımı, extract kaynağı (prod Kale / `sur` standby) ve supplemental logging etkisi, şema/tablo kapsamı, lag izleme ve DBA işletme sahipliği. Sorular: [[Aktif Sorular]] madde 4.4–4.7, 14.2.
 - [ ] Borsa İstanbul ile kurumlar arası GoldenGate akışını değerlendir: BIST DB / Replica BIDB tabloları, extract/replicat sorumluluğu, ağ ve güvenlik onayı. Pilot B kaynağı ve kaynakta 5 gün tutulan fon sözleşme verisi için öncelikli aday. Sorular: [[Aktif Sorular]] madde 4.6, 15.2.
 - [ ] GoldenGate'in alamadığı kaynaklar (dosya, web servisleri) ve DWH içi dönüşüm için araç kararını onaylı latency sınıflarıyla sonuçlandır: [[Sistemler ve Servisler#2. Goldengate|Goldengate]].
 - [ ] İlk üç aday konu alanı için günlük değişim, initial history, retention ve büyüme ölçümü yap.
 - [ ] Raw/core/mart, indeks, temp, backup ve DR dahil kapasite modeli çıkar.
-- [ ] DWH zamanlayıcısını / orkestrasyon aracını seç (Automic kullanılmayacak: [[Fiziksel Topoloji - Teknik Taraf#Zamanlayıcı|zamanlayıcı]]); kontrol zinciri ve servis hesabı modelini güvenlik ekibiyle onayla. Sorular: [[Aktif Sorular]] madde 16.
+- [ ] DWH zamanlayıcısını / orkestrasyon aracını seç (Automic lisans nedeniyle seçenek değil: [[Fiziksel Topoloji - Teknik Taraf#Zamanlayıcı|zamanlayıcı]]); kontrol zinciri ve servis hesabı modelini güvenlik ekibiyle onayla. Sorular: [[Aktif Sorular]] madde 16.
 
 > [!failure] Faz 0 çıkış kapısı
 > Rapor sahibi, pilot iş çıktısı, kaynak grain'i, otorite, SLA, hassasiyet ve mutabakat referansı belli değilse fiziksel mart tasarımına başlanmaz.
@@ -161,9 +162,8 @@ Entity, ilişki ve grain başlangıç modeli: [[DWH Logical Data Model]].
 - [ ] Dosya teslimatında içerik hash'i, alıcı, sürüm, gönderim ve teslim kanıtını sakla.
 - [ ] Metrik tanımlarını rapor içinde tekrar yazmak yerine sertifikalı veri ürününde sahiplen.
 
-### Pilot B çıkış kapısı — araç kararı
+### Pilot B çıkış kapısı
 
-- [ ] İki pilotun kanıtıyla ETL seçimini kapat: PL/SQL veya dbt-core / ODI / Informatica, [[ETL Tool Evaluation]] puan kartı ve [[ETL Proof of Concept and Acceptance]] test seti üzerinden; kararı [[ETL Selection Decision Record]]'a yaz.
 - [ ] Pilot A'da ölçülen Kale DB-time azalmasını baseline ile karşılaştırıp yönlendirme komitesine raporla.
 
 ### Mutabakat ve operasyon

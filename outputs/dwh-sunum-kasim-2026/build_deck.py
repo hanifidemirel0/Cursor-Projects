@@ -333,10 +333,9 @@ footnote(s, "Turuncu: son sunumdan (Temmuz 2025) bu yana gerçekleşen adımlar.
 
 # 3b — Eylül–Ekim 2026 çalışmaları
 s = content_slide("EYLÜL – EKİM 2026 ÇALIŞMALARI", pill="Son sunumdan bu yana", pill_fill=GOLD,
-                  sources="Kullanıcı aktarımı (02.11.2026); Toplantı Notları (Eylül 2026); ETL Tool "
-                  "Evaluation; ETL Tool Comparison; ETL Proof of Concept and Acceptance; ETL Selection "
-                  "Decision Record; DWH Hedef Mimarisi v2; DWH Logical Data Model; Başlangıç "
-                  "Yaklaşımı; Proje Planı")
+                  sources="Kullanıcı aktarımı (02.11.2026); Toplantı Notları (Eylül 2026); "
+                  "Takasbank_ETL_Comparison.xlsx (v2.7); DWH Hedef Mimarisi v2; DWH Logical Data "
+                  "Model; Başlangıç Yaklaşımı; Proje Planı")
 months = [
     ("EYLÜL 2026", [
         "**Tüm UG ekipleriyle** görüşüldü; **talep analizi** yapıldı",
@@ -384,8 +383,9 @@ decisions = [
 decisions2 = [
     ["Konu", "Temmuz 2025 sunumunda", "Kasım 2026 itibarıyla", "Durum"],
     ["ETL aracı", "Seçilmedi; ETL'in ODS ile aynı yerde olması uygun görüldü",
-     "5 aday masa başı değerlendirildi, dokümantasyon tamamlandı; **ODI önde**. **dbt PoC** "
-     "tamamlandı ve sunuldu. Pilot satın alma beklemeden başlar, ürün kararı Pilot B sonunda",
+     "5 aday değerlendirildi (Ekim 2026); öneri komiteye **iki seçenek**: **dbt Core** veya "
+     "**ODI 14c**. **PoC'ler** tamamlandı, değerlendirme sürüyor. Pilot, ETL aracı seçildikten "
+     "sonra başlar",
      "Değerlendirmede"],
     ["Pilot", "Pilot proje ile ilerlenmesine karar verildi; 4 örnek uygulama akışı çizildi",
      "**Pilot A: SWIFT yasal raporlar**, **Pilot B: BISTECH SPK raporları** önerildi; üye-dosya "
@@ -404,7 +404,7 @@ for idx, rows in enumerate((decisions, decisions2), start=1):
                       sources="DWH Sunum Temmuz 2025; Sistemler ve Servisler (4.1 ODS kararı, "
                               "02.11.2026; Goldengate); Fiziksel Topoloji (GoldenGate lisansları); "
                               "Fiziksel Topoloji - Teknik Taraf; Başlangıç Yaklaşımı; "
-                              "ETL Tool Comparison; Proje Planı")
+                              "Takasbank_ETL_Comparison.xlsx (v2.7); Proje Planı")
     t = table(s, Inches(0.55), Inches(1.25), W - Inches(1.1), rows, [2.0, 3.0, 5.65, 1.58],
               size=12.5, header_size=13, row_h=1.15)
     t.rows[0].height = Inches(0.45)
@@ -446,7 +446,7 @@ bullets(s, Inches(6.9), Inches(1.55), Inches(5.9), Inches(4.8), [
     "DSS ve PREPROD her sabah 07:00'de KALE'den kopartılıyor; flashback snapshot 04:00–07:00",
     "Maskeleme **Informatica TDM** ile (başka Informatica lisansı yok)",
     "**GoldenGate** lisansı var: 336 CPU (Borsa İstanbul: 975 CPU)",
-    "DWH zamanlayıcısı değerlendiriliyor; **Automic kullanılmayacak**",
+    "DWH zamanlayıcısı henüz seçilmedi; **Automic lisans nedeniyle seçenek değil**",
 ], size=16)
 
 # 7 — Mevcut durum: raporlama ve gün sonu
@@ -686,14 +686,15 @@ footnote(s, "Disk ve CPU değerleri Aralık 2024 kapasite görüntüsüdür (11�
             "ölçümle yenilenmelidir.", y=6.4)
 
 # 14 — ETL değerlendirmesi
-s = content_slide("ETL ARACI DEĞERLENDİRMESİ", pill="Ön değerlendirme",
-                  pill_fill=TEAL, sources="ETL Tool Evaluation; ETL Tool Comparison (5.1 "
-                  "Scorecard, 9 Recommendation); ETL-Tool-Comparison-Matrix.xlsx")
+s = content_slide("ETL ARACI DEĞERLENDİRMESİ", pill="Öneri — iki seçenek",
+                  pill_fill=TEAL, sources="Takasbank_ETL_Comparison.xlsx v2.7, 16.10.2026 "
+                  "(Executive Summary, Scoring Matrix, Scenario Analysis, TCO); "
+                  "takasbank_etl_evaluation.canvas.tsx")
 textbox(s, Inches(0.6), Inches(1.15), Inches(5.6), Inches(0.4),
-        "Ön uygunluk puanı / 100 (maliyet hariç)", size=15, color=NAVY, bold=True)
+        "Ağırlıklı puan (1–5), Takasbank temel senaryosu", size=15, color=NAVY, bold=True)
 cd = CategoryChartData()
-cd.categories = ["Spark", "Cloudera", "dbt Core", "PowerCenter", "ODI"]
-cd.add_series("Puan", (47.6, 54.1, 58.6, 59.2, 67.3))
+cd.categories = ["Spark", "Informatica", "Cloudera", "ODI 14c", "dbt Core"]
+cd.add_series("Puan", (2.95, 3.26, 3.31, 3.36, 3.71))
 gf = s.shapes.add_chart(XL_CHART_TYPE.BAR_CLUSTERED, Inches(0.5), Inches(1.5), Inches(5.8),
                         Inches(3.6), cd)
 ch = gf.chart
@@ -705,16 +706,16 @@ dl = ch.plots[0].data_labels
 dl.font.size = Pt(13)
 dl.font.bold = True
 dl.font.name = FONT
-dl.number_format = "0.0"
+dl.number_format = "0.00"
 dl.number_format_is_linked = False
 dl.position = XL_LABEL_POSITION.OUTSIDE_END
 ser = ch.plots[0].series[0]
 for idx in range(5):
     pt = ser.points[idx]
     pt.format.fill.solid()
-    pt.format.fill.fore_color.rgb = NAVY if idx == 4 else (TEAL if idx >= 2 else LINE)
+    pt.format.fill.fore_color.rgb = NAVY if idx == 4 else (TEAL if idx == 3 else LINE)
 va = ch.value_axis
-va.maximum_scale, va.minimum_scale = 80, 0
+va.maximum_scale, va.minimum_scale = 4.5, 0
 va.has_major_gridlines = False
 va.visible = False
 ca = ch.category_axis
@@ -722,25 +723,29 @@ ca.tick_labels.font.size = Pt(13)
 ca.tick_labels.font.name = FONT
 ca.format.line.color.rgb = LINE
 textbox(s, Inches(0.6), Inches(5.15), Inches(5.6), Inches(1.2), [
-    "**Zorunlu şartlar** (puandan bağımsız, geçti/kaldı):",
-    "1) Tamamen kurum içinde çalışma  2) Güvenlik, destek ve işletim kabulü  "
-    "3) Doğruluk, termin ve kurtarma testleri",
+    "**Ağırlık profillerine göre:** dbt 6 profilin 5'inde önde. Düzenleyici öncelikli "
+    "profilde fark çok küçük (dbt 3.60, ODI 3.58); yalnızca gerçek zaman öncelikli profilde "
+    "Cloudera önde (3.55, dbt 3.25)",
 ], size=12, color=INK)
 textbox(s, Inches(6.75), Inches(1.15), Inches(6), Inches(0.4), "Öneri", size=17, color=NAVY,
         bold=True)
 bullets(s, Inches(6.75), Inches(1.5), Inches(6.0), Inches(4.9), [
-    "**ODI (önde) ve PowerCenter (rakip)** için RFI, ticari teklif ve PoC süreci şimdi başlasın",
-    "Pilot A satın alma beklemeden **PL/SQL çerçevesi veya dbt Core** ile başlasın "
-    "(**dbt PoC** Eylül'de tamamlandı ve sunuldu)",
-    "Kontrol katmanı (CTL, gün sonu olayı, replay, yayın kapısı) **araçtan bağımsız** PL/SQL'de "
-    "tasarlansın; araç kararı yeniden yazım gerektirmesin",
-    "Cloudera ertelensin; Spark yalnızca kanıtlanmış dağıtık iş yükü için",
-    "Ürün kararı **Pilot B çıkışında**: ölçülmüş kanıt, 5 yıllık maliyet, zorunlu şartlar",
-    "**GoldenGate** ODS_ beslemesi için kararlaştırıldı (lisans mevcut); ETL kararı dönüşüm ve "
-    "GG'nin alamadığı kaynaklar (dosya, web servis) içindir",
-], size=14, gap=5)
-footnote(s, "Puanlar masa başı ön değerlendirmedir; maliyet kriteri teklif olmadığı için hariçtir. "
-            "Banka testi, fiyat teklifi veya satın alma onayı değildir.", y=6.45)
+    "Yönlendirme komitesine iki seçenek; ikisi de Exadata üzerinde, değişiklik yakalama "
+    "**GoldenGate** ile",
+    "**A — dbt Core:** teslim hızı, SQL ekibi ve yerel LLM ile uyum, lisans yok, PostgreSQL'e "
+    "geçiş açık. Üretici desteği yok; sözleşmeli destek modeline Bilgi Güvenliği ve İç Denetim "
+    "onayı gerekir",
+    "**B — ODI 14c:** üretici desteği, erişim kontrolü, denetim izi, HA/DR; PL/SQL raporlar "
+    "değişmeden çalışır. ULA dışında yeni lisans (varsayım yıllık 250 bin USD)",
+    "~200 rapor sorgusunun dönüşümü (tahmin): dbt **150–300**, ODI **400–700**, "
+    "Cloudera/Spark 600–1.000 adam-gün",
+    "**PoC'ler tamamlandı**, değerlendirme sürüyor; araç henüz seçilmedi. Pilot, ETL aracı "
+    "seçildikten sonra başlar",
+    "Informatica ve tek başına Spark önerilmiyor; Cloudera yalnızca saniye altı akış "
+    "zorunlu olursa",
+], size=13.5, gap=5)
+footnote(s, "Puanlar masa başı değerlendirmedir (15 kategori, 64 kriter). Banka testi, fiyat "
+            "teklifi veya satın alma onayı değildir.", y=6.45)
 
 # 15 — Pilot önerisi
 s = content_slide("PİLOT ÖNERİSİ", pill="Öneri — puanlama bekliyor",
@@ -759,7 +764,7 @@ cards = [
         "İlk **kurumsal core** paketi: taraf, üyelik, hesap, araç, piyasa × hizmet, takvim, "
         "versiyonlu takas kuralı",
         "DB_ARSIV view + dblink erişimini sürümlü PUB katmanıyla değiştirir",
-        "İlk MSTR yıldız şeması; çıkışında **ETL ürün kararı**",
+        "İlk MSTR yıldız şeması",
     ]),
 ]
 for i, (title, sub, pts) in enumerate(cards):
@@ -776,20 +781,21 @@ box(s, Inches(6.75), Inches(5.0), Inches(5.95), Inches(1.1), fill=WHITE, line=LI
     text=["**Sonraki dilimler (Faz 4):** Fon işlem defterleri (Verda teslimatı) ve Fon "
           "Bilgilendirme Platformu (gün içi düzeltme, 10 yıllık CSV/web servis)"],
     size=13, align=PP_ALIGN.LEFT)
-footnote(s, "Kesin değildir: üye-dosya projesi dahil adaylar iş değeri, hazır olma, mutabakat "
-            "referansı, SLA ve 6–12 haftada teslim edilebilirlikle 1–5 arası puanlanacak.", y=6.3)
+footnote(s, "Pilot, ETL aracı seçildikten sonra başlar. Kesin değildir: üye-dosya projesi dahil "
+            "adaylar iş değeri, hazır olma, mutabakat referansı, SLA ve 6–12 haftada teslim "
+            "edilebilirlikle 1–5 arası puanlanacak.", y=6.3)
 
 # 16 — Yol haritası
 s = content_slide("YOL HARİTASI", pill="Öneri — onay bekliyor",
                   sources="Başlangıç Yaklaşımı (Fazlar); Proje Planı (Faz 0–5, Definition of Done)")
 phases = [
     ("FAZ 0", "Keşif ve karar kapıları", "İlk 30 gün: mandat, ölçüm, rapor envanteri, GoldenGate "
-     "/ ODS_ planı, gün sonu sinyali", "Yönlendirilmiş rapor envanteri, puanlı pilot listesi, "
-     "yerleşim testi"),
+     "/ ODS_ planı, gün sonu sinyali, ETL aracı değerlendirmesinin sonuçlanması",
+     "**ETL aracı seçimi**, rapor envanteri, puanlı pilot listesi, yerleşim testi"),
     ("FAZ 1", "Pilot A: platform temeli", "CTL/LND, SCN-tutarlı çıkarım, replay, PUB, güvenlik",
      "Ölçülmüş KALE yük azalması, paralel koşum onayı, runbook"),
     ("FAZ 2", "Pilot B: entegrasyon", "İlk CORE paketi, UG gün sonu prosedürlerinin DWH'a "
-     "taşınması, ilk MSTR yıldızı", "ETL ürün kararı"),
+     "taşınması, ilk MSTR yıldızı", "CORE paketi ve MSTR yıldızının paralel koşum kabulü"),
     ("FAZ 3", "Operasyonel rapor göçü", "Yerleşim ilkesinin tüm envantere uygulanması; Team "
      "Developer kullanıma göre emeklilik", "Rapor bazında kabul"),
     ("FAZ 4", "Konu alanı yayılımı", "Fon platformları, risk/teminat/MKT, ödeme, saklama, "
@@ -888,7 +894,7 @@ box(s, Inches(6.85), Inches(4.0), Inches(5.9), Inches(2.2), fill=RGBColor(0xFD, 
 
 # 19 — Riskler
 s = content_slide("RİSKLER", sources="Başlangıç Yaklaşımı (Risk kaydı); Firmalarla Yapılan DWH "
-                  "Görüşmeleri (GoldenGate 7/24); ETL Tool Comparison (8 Risk register)")
+                  "Görüşmeleri (GoldenGate 7/24); Takasbank_ETL_Comparison.xlsx (Risks)")
 table(s, Inches(0.55), Inches(1.2), W - Inches(1.1), [
     ["Risk", "Etki", "Önlem"],
     ["GoldenGate işletim yükü (7/24 ekip yok)", "ODS_ beslemesi durursa operasyonel raporlar etkilenir",
@@ -904,7 +910,8 @@ table(s, Inches(0.55), Inches(1.2), W - Inches(1.1), [
      "Faz 0'da hemen landing'e alma"],
     ["Yetkinlik açığı, bilginin tek ekipte toplanması", "Sürdürülebilirlik",
      "UG ortak sahipliği, Git tabanlı kod, runbook, eğitim"],
-    ["Satın alma süresi", "Pilot gecikir", "Satın almasız başlangıç; ürün kararı Pilot B'de"],
+    ["ETL aracı kararı ve satın alma süresi", "Pilot başlayamaz",
+     "Değerlendirmenin takvimle kapatılması; pilot kapsamı ve kaynak erişimi paralel hazırlanır"],
     ["Satıcı biçimli tasarım (önce ODS, 100 konu alanı, yalnızca RFP)", "Gecikme, iş sonucu yok",
      "Kararları pilot kanıtı versin"],
 ], [4.3, 3.4, 4.53], size=13.5, header_size=14, row_h=0.6)
@@ -919,7 +926,8 @@ decs = [
     "Gün içi operasyonel raporlamada **ODS_** şemaları ile **KALE standby** rol ayrımı",
     "DWH yerleşimi (SUR / HİSAR) **izolasyon testiyle** belirlenir",
     "**Pilot A = SWIFT**, **Pilot B = BISTECH SPK**; fon sözleşme verisi yakalaması şimdi başlar",
-    "Satın almasız araçla başlanır; **ETL ürün kararı Pilot B çıkışında**",
+    "ETL aracı seçimi: **dbt Core** veya **ODI 14c**; PoC'ler tamamlandı, pilot karardan sonra "
+    "başlar",
     "1 modelleyici + 2 veri mühendisi alınır; dilim başına **UG analist zamanı** ayrılır",
     "**Gün sonu tamamlanma sinyali** ilk ay içinde operasyonla kurulur",
 ]
@@ -945,7 +953,7 @@ bullets(s, Inches(0.6), Inches(1.75), Inches(5.9), Inches(4.7), [
     "Tarihçe DWH'a geçince KALE saklama penceresi ne olacak; ~3.000 backup tablosu ne zaman "
     "emekli edilecek?",
     "Borsa İstanbul ile GoldenGate akışı: hangi tablolar (Replica BIDB, fon sözleşmeleri)?",
-    "DWH zamanlayıcısı ne olacak? (Automic kullanılmayacak; seçenekler değerlendiriliyor)",
+    "DWH zamanlayıcısı ne olacak? (Automic lisans nedeniyle seçenek değil; diğer araçlar değerlendiriliyor)",
 ], size=16)
 box(s, Inches(6.85), Inches(1.2), Inches(5.9), Inches(0.5), fill=NAVY,
     text="İş birimleri ve UG ile", size=16, color=WHITE, bold=True)

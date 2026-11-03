@@ -44,10 +44,10 @@ Bu bilgi [[Obase Takasbank Değerlendirme Raporu Ağustos 2024]]'teki "GoldenGat
 
 ## Zamanlayıcı
 
-Kaynak: Hanifi'nin 02.11.2026 tarihli aktarımı.
+Kaynak: Hanifi'nin 02.11.2026 ve 03.11.2026 tarihli aktarımları.
 
-- **Automic DWH zamanlayıcısı olarak kullanılmayacak.** Kurumda Automic kullanan ekipler var ([[Takasbank Genel Bilgilendirme 2]]), ancak DWH için seçilmedi.
-- DWH zamanlayıcısı/orkestrasyon aracı için seçenekler **değerlendirilmeye devam ediyor**; Ekim 2026'da orkestrasyon gereksinimi için farklı seçeneklerin değerlendirmesi yapıldı. Açık soru: [[Aktif Sorular]] madde 16.
+- **Automic DWH zamanlayıcısı seçenekleri arasında değil; sebebi lisans sorunları.** Kurumda Automic kullanan ekipler var ([[Takasbank Genel Bilgilendirme 2]]), ancak lisans nedeniyle DWH için masada değil.
+- DWH zamanlayıcısı/orkestrasyon aracı için **henüz karar verilmedi**; diğer seçenekler **değerlendirilmeye devam ediyor**; Ekim 2026'da orkestrasyon gereksinimi için farklı seçeneklerin değerlendirmesi yapıldı. Açık soru: [[Aktif Sorular]] madde 16.
 
 ## Donanım / yerleşim
 
