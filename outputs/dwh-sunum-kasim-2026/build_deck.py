@@ -351,7 +351,7 @@ months = [
         "karşılaştırma matrisi, PoC kabul kriterleri, tedarikçi soru seti, karar kaydı şablonu",
         "Veri aktarım aracı olarak **Oracle GoldenGate**'in kullanılabilirliğiyle ilgili ön çalışma "
         "yapıldı",
-        "**Orkestrasyon** gereksinimi için mevcut seçeneklerin değerlendirmesi yapıldı",
+        "**Orkestrasyon** gereksinimi için farklı seçeneklerin değerlendirmesi yapıldı",
         "**Tasarım taslakları** belirlendi: hedef mimari, mantıksal veri modeli, başlangıç "
         "yaklaşımı, proje planı",
     ]),
