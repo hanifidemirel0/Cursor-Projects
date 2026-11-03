@@ -28,6 +28,7 @@ Kaynak görüntü: ![[_sources/fiziksel-topoloji.jpg]]
   - Onur ve Deniz notları farklı kesitleri anlatıyor olabilir; henüz tek timeline'da birleştirilmedi.
 - **Gün sonu — Ozan** ([[Ortamlar hakkında]]): PREPROD için Oracle **flashback** ile snapshot alınıyor; gece 4'te başlayıp 7'de bitiyor, gün sonu işlemleri 3 gibi bitiyor. DSS de aynı şekilde. DSS ve PREPROD saat 7'de Kale'den kopartılıyor. İşlemler operasyon tarafından **manuel** tetikleniyor, bittiğinde mail geliyor; DB ekibi bir yere flag atabilir.
   - Deniz'in 9:30 / sabah ~6 anlatımıyla aynı timeline'a henüz oturtulmadı.
+- **Gün sonu tamamlanma kaydı** (Hanifi'nin 03.11.2026 tarihli aktarımı): makine-okunur gün sonu sinyali **var**; ilgili işler tamamlandığında veritabanına log kaydı atılıyor. Kaydın yeri ve içeriği: [[Aktif Sorular]] madde 12.
 - **Önemli şemalar:** Banka,
 
 > OneNote sayfasında liste `Banka,` ile kesilmişti. Tam liste [[Aktarım #1]] aktarım notunda: Banka, hareket, kurgun, doviz, saklama.

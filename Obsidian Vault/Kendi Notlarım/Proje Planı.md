@@ -46,7 +46,7 @@ ETL aracı karşılaştırması: [Takasbank_ETL_Comparison.xlsx](../../outputs/e
 
 ### İki ucuz kazanım
 
-- [ ] **Gün sonu tamamlanma olayı:** iş tarihi, koşu kimliği ve SCN taşıyan batch-control kaydını operasyonla kur; mail yalnızca insan bildirimi kalır. Deniz (21:30–~06:00) ve Ozan (~03:00 bitiş / 04:00–07:00 flashback) anlatımlarını bu sırada tek zaman çizelgesine oturt.
+- [ ] **Gün sonu tamamlanma olayı:** işler tamamlandığında veritabanına atılan mevcut log kaydını DWH zincirine tetikleyici olarak bağla; iş tarihi, koşu kimliği ve SCN taşıyıp taşımadığını doğrula, eksikse operasyonla tamamla ([[Aktif Sorular]] madde 12.2). Deniz (21:30–~06:00) ve Ozan (~03:00 bitiş / 04:00–07:00 flashback) anlatımlarını bu sırada tek zaman çizelgesine oturt.
 - [ ] **BIST fon sözleşme verisini hemen landing'e al** (9 milyon satır/gün, kaynakta 5 gün sonra siliniyor): `LND_BISTDWH` altında ham, dönüşümsüz, yükleme kimlikli. Modelleme beklenmez; yakalanmayan tarihçe kaybolur. Erişim sorusu: [[Aktif Sorular]] madde 15.3.
 
 ### Ekip

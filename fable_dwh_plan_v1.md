@@ -29,7 +29,7 @@ isProject: false
 - **Hardware is not the problem.** Three Exadatas, 77–90% disk free, `sur` CPU ~6–12%, `hisar` ~2–3%. Kale already has two Data Guard replicas, one on `sur` ([DWH Sunum Aralık 2024](Obsidian Vault/Takasbank/DWH Sunum Aralık 2024.md), [Fiziksel Topoloji](Obsidian Vault/Kendi Notlarım/Fiziksel Topoloji - Teknik Taraf.md)).
 - **People are the constraint.** BI team = 1 manager + 2 MSTR developers; strong Oracle DBA/PL-SQL; no DWH/ETL experience; UG analysts hold the table knowledge; DBAs distrust GoldenGate and have no 24/7 team. Procurement is slow; data cannot leave premises.
 - **Operational reporting dominates.** Team Developer (legacy), React screens (UG), MSTR "Pusula" (10–20% migrated), member terminal reports, SPK/MASAK/BDDK/Hazine outputs with hour-level SLAs. Many "izleme" screens are effectively intraday current-state queries on Kale.
-- **No machine-readable end-of-day.** Completion is a manual email; two conflicting EOD timelines in the notes. Historic rows get updated. Borsa contract data is deleted after 5 days.
+- **EOD signal exists, timeline unclear.** A log record is written to the database when the EOD jobs complete; two conflicting EOD timelines in the notes. Historic rows get updated. Borsa contract data is deleted after 5 days.
 
 ## Architecture stance (where I deviate from the repo's v2 and from the vendor proposals)
 
@@ -94,7 +94,7 @@ flowchart LR
 
 **Two cheap wins that de-risk everything later**
 
-- Build the batch-control table and an EOD completion event (business date, run id, SCN) with the operations team, replacing the email as the machine dependency. Reconcile Deniz's 21:30–06:00 and Ozan's 03:00/04:00–07:00 timelines while doing it.
+- Hook the existing EOD completion log record into the DWH chain as its trigger; confirm it carries business date, run id and SCN, and fill gaps with the operations team. Reconcile Deniz's 21:30–06:00 and Ozan's 03:00/04:00–07:00 timelines while doing it.
 - Start landing BIST fund contract data (9M rows/day, deleted after 5 days at source) into `LND` immediately, before any modelling. History that is not captured now is gone.
 
 **Team (weeks 2–4)**
@@ -144,7 +144,7 @@ Order by Kale load and reuse of the conformed core, validated against the invent
 5. Pilot A = SWIFT legal reports, Pilot B = BISTECH SPK; fund contract capture starts now.
 6. Select the ETL tool (dbt Core or ODI 14c) before the pilot starts; PoCs are complete, evaluation ongoing.
 7. Hire the modeller and two engineers; secure UG analyst time per slice.
-8. Build the EOD completion signal with operations in the first month.
+8. Validate the existing EOD completion log record as the DWH trigger with operations in the first month.
 
 ## Risks I would put on the register immediately
 
