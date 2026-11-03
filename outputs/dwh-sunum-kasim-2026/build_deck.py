@@ -440,11 +440,10 @@ textbox(s, Inches(6.9), Inches(1.2), Inches(6), Inches(0.4), "Ortamlar", size=18
         bold=True)
 bullets(s, Inches(6.9), Inches(1.55), Inches(5.9), Inches(4.8), [
     "KALE'nin **2 Data Guard replikası** var: biri KALE, biri SUR Exadata üzerinde",
-    "**PREPROD**: T-1, test ile aynı instance; **tvstruva**: bakımlı test ortamı",
+    "**PREPROD**: T-1, test ile aynı instance",
     "PREPROD her sabah 07:00'de KALE'den kopartılıyor; flashback snapshot 04:00–07:00",
     "Maskeleme **Informatica TDM** ile (başka Informatica lisansı yok)",
     "**GoldenGate** lisansı var: 336 CPU (Borsa İstanbul: 975 CPU)",
-    "DWH zamanlayıcısı henüz seçilmedi",
 ], size=16)
 
 # 7 — Mevcut durum: raporlama ve gün sonu
