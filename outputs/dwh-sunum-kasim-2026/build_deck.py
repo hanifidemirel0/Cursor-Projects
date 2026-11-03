@@ -349,8 +349,9 @@ months = [
         "**Dataspecta** ile workshop yapıldı",
         "**ETL ürünlerini değerlendirme** dokümantasyonu tamamlandı: değerlendirme çerçevesi, "
         "karşılaştırma matrisi, PoC kabul kriterleri, tedarikçi soru seti, karar kaydı şablonu",
-        "**GoldenGate** ile ilgili taslak çalışma yapıldı",
-        "**Orkestrasyon** gereksinimi için mevcut seçeneklerin değerlendirmesi yapıldı",
+        "Veri aktarım aracı olarak **Oracle GoldenGate**'in kullanılabilirliğiyle ilgili ön çalışma "
+        "yapıldı",
+        "**Orkestrasyon** gereksinimi için farklı seçeneklerin değerlendirmesi yapıldı",
         "**Tasarım taslakları** belirlendi: hedef mimari, mantıksal veri modeli, başlangıç "
         "yaklaşımı, proje planı",
     ]),
@@ -378,8 +379,7 @@ decisions = [
      "da aday. Karar DBA ile IO/CPU izolasyon testine bağlı", "Açık"],
     ["Veri alma / replikasyon", "Dataguard, GoldenGate vb. araçlar tartışıldı",
      "ODS_ şemaları **GoldenGate** ile beslenir. Lisans var: Takasbank **336 CPU**, Borsa "
-     "İstanbul **975 CPU**; iki kurum arasında GG akışı kurulabilir. Extract kaynağı ve "
-     "landing/core yükleme yolu açık", "Karar verildi"],
+     "İstanbul **975 CPU**; iki kurum arasında GG akışı kurulabilir", "Karar verildi"],
 ]
 decisions2 = [
     ["Konu", "Temmuz 2025 sunumunda", "Kasım 2026 itibarıyla", "Durum"],
