@@ -38,7 +38,7 @@ isProject: false
 3. **No separate physical ODS at the start.** Integrated current-state is a projection over the core (views/MVs) opened only where a measured SLA demands it. Raw current-state is the standby. This collapses the Obase "ODS first" and the v2 "ODS as projection" positions into one testable rule.
 4. **DWH database placement is a test, not a slide.** Prior decks put DWH on `sur` next to PREPROD/DSS/TRUVA and 10 other DBs. `hisar` is nearly idle and already hosts ARSIVDB; co-locating history there is attractive. Decide after an IO/CPU isolation test with the DBA team.
 5. **Ingestion by latency class, batch first.** S2 end-of-day via SCN-consistent extraction from the standby (`AS OF SCN` across tables), S1 microbatch only where change columns are proven reliable, S0 CDC only when a product proves the SLA and the GoldenGate licence claim (Obase says it exists, DBAs say new) is verified. Nothing touches prod Kale directly; no triggers, no MV logs, no dblinks.
-6. **Transformation = SQL/PL-SQL pushdown in the DWH.** Start the pilot with what needs no procurement (PL/SQL framework or dbt-core + dbt-oracle, Git, automated tests). Run the ODI/Informatica evaluation in parallel and decide at the pilot exit gate with measured evidence, instead of blocking the pilot on a purchase.
+6. **Transformation = SQL/PL-SQL pushdown in the DWH.** The pilot starts after the ETL tool is selected. Candidates are dbt Core and ODI 14c; the PoCs are complete and the evaluation is ongoing, with no tool chosen yet.
 7. **Model = iterative integrated core + Kimball marts; no Data Vault.** Conformed party/member, account, instrument, market×service, calendar and settlement-rule (versioned, because T+2→T+1 lands by end-2026). Bitemporal columns only on entities where historic updates are proven. MSTR semantic layer sits on marts only.
 8. **Archive becomes a DWH responsibility.** The yearly `banka_old` rollover and 3,000 backup tables are a hand-rolled partitioning scheme. Once history lives in the DWH, Kale keeps a rolling window; that is the real long-term storage/IO relief, and it should be a stated programme objective.
 9. **Security is designed on day one.** PowerDesigner sensitivity flags seed classification; prod DWH is unmasked but protected with VPD/Data Redaction + TDE + audit; non-prod masked with the existing Informatica TDM. The current practice of SPK users reading views over a dblink into DB_ARSIV is replaced by an audited `PUB` schema with versioned, immutable regulatory snapshots.
@@ -142,7 +142,7 @@ Order by Kale load and reuse of the conformed core, validated against the invent
 3. No separate physical ODS until a measured SLA demands one.
 4. DWH placement (`sur` vs `hisar`) decided by isolation test, not by precedent.
 5. Pilot A = SWIFT legal reports, Pilot B = BISTECH SPK; fund contract capture starts now.
-6. Start with no-procurement tooling; ETL product decision at Pilot B exit with evidence.
+6. Select the ETL tool (dbt Core or ODI 14c) before the pilot starts; PoCs are complete, evaluation ongoing.
 7. Hire the modeller and two engineers; secure UG analyst time per slice.
 8. Build the EOD completion signal with operations in the first month.
 

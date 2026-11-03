@@ -384,7 +384,8 @@ decisions2 = [
     ["Konu", "Temmuz 2025 sunumunda", "Kasım 2026 itibarıyla", "Durum"],
     ["ETL aracı", "Seçilmedi; ETL'in ODS ile aynı yerde olması uygun görüldü",
      "5 aday değerlendirildi (Ekim 2026); öneri komiteye **iki seçenek**: **dbt Core** veya "
-     "**ODI 14c**. **dbt PoC** tamamlandı ve sunuldu. Pilot satın alma beklemeden başlar",
+     "**ODI 14c**. **PoC'ler** tamamlandı, değerlendirme sürüyor. Pilot, ETL aracı seçildikten "
+     "sonra başlar",
      "Değerlendirmede"],
     ["Pilot", "Pilot proje ile ilerlenmesine karar verildi; 4 örnek uygulama akışı çizildi",
      "**Pilot A: SWIFT yasal raporlar**, **Pilot B: BISTECH SPK raporları** önerildi; üye-dosya "
@@ -738,8 +739,8 @@ bullets(s, Inches(6.75), Inches(1.5), Inches(6.0), Inches(4.9), [
     "değişmeden çalışır. ULA dışında yeni lisans (varsayım yıllık 250 bin USD)",
     "~200 rapor sorgusunun dönüşümü (tahmin): dbt **150–300**, ODI **400–700**, "
     "Cloudera/Spark 600–1.000 adam-gün",
-    "Sözleşme öncesi iki seçeneğe aynı iş yüküyle Exadata üzerinde **PoC**; pilot satın "
-    "alma beklemeden başlar",
+    "**PoC'ler tamamlandı**, değerlendirme sürüyor; araç henüz seçilmedi. Pilot, ETL aracı "
+    "seçildikten sonra başlar",
     "Informatica ve tek başına Spark önerilmiyor; Cloudera yalnızca saniye altı akış "
     "zorunlu olursa",
 ], size=13.5, gap=5)
@@ -763,7 +764,7 @@ cards = [
         "İlk **kurumsal core** paketi: taraf, üyelik, hesap, araç, piyasa × hizmet, takvim, "
         "versiyonlu takas kuralı",
         "DB_ARSIV view + dblink erişimini sürümlü PUB katmanıyla değiştirir",
-        "İlk MSTR yıldız şeması; çıkışında **ETL ürün kararı**",
+        "İlk MSTR yıldız şeması",
     ]),
 ]
 for i, (title, sub, pts) in enumerate(cards):
@@ -780,20 +781,21 @@ box(s, Inches(6.75), Inches(5.0), Inches(5.95), Inches(1.1), fill=WHITE, line=LI
     text=["**Sonraki dilimler (Faz 4):** Fon işlem defterleri (Verda teslimatı) ve Fon "
           "Bilgilendirme Platformu (gün içi düzeltme, 10 yıllık CSV/web servis)"],
     size=13, align=PP_ALIGN.LEFT)
-footnote(s, "Kesin değildir: üye-dosya projesi dahil adaylar iş değeri, hazır olma, mutabakat "
-            "referansı, SLA ve 6–12 haftada teslim edilebilirlikle 1–5 arası puanlanacak.", y=6.3)
+footnote(s, "Pilot, ETL aracı seçildikten sonra başlar. Kesin değildir: üye-dosya projesi dahil "
+            "adaylar iş değeri, hazır olma, mutabakat referansı, SLA ve 6–12 haftada teslim "
+            "edilebilirlikle 1–5 arası puanlanacak.", y=6.3)
 
 # 16 — Yol haritası
 s = content_slide("YOL HARİTASI", pill="Öneri — onay bekliyor",
                   sources="Başlangıç Yaklaşımı (Fazlar); Proje Planı (Faz 0–5, Definition of Done)")
 phases = [
     ("FAZ 0", "Keşif ve karar kapıları", "İlk 30 gün: mandat, ölçüm, rapor envanteri, GoldenGate "
-     "/ ODS_ planı, gün sonu sinyali", "Yönlendirilmiş rapor envanteri, puanlı pilot listesi, "
-     "yerleşim testi"),
+     "/ ODS_ planı, gün sonu sinyali, ETL aracı değerlendirmesinin sonuçlanması",
+     "**ETL aracı seçimi**, rapor envanteri, puanlı pilot listesi, yerleşim testi"),
     ("FAZ 1", "Pilot A: platform temeli", "CTL/LND, SCN-tutarlı çıkarım, replay, PUB, güvenlik",
      "Ölçülmüş KALE yük azalması, paralel koşum onayı, runbook"),
     ("FAZ 2", "Pilot B: entegrasyon", "İlk CORE paketi, UG gün sonu prosedürlerinin DWH'a "
-     "taşınması, ilk MSTR yıldızı", "ETL ürün kararı"),
+     "taşınması, ilk MSTR yıldızı", "CORE paketi ve MSTR yıldızının paralel koşum kabulü"),
     ("FAZ 3", "Operasyonel rapor göçü", "Yerleşim ilkesinin tüm envantere uygulanması; Team "
      "Developer kullanıma göre emeklilik", "Rapor bazında kabul"),
     ("FAZ 4", "Konu alanı yayılımı", "Fon platformları, risk/teminat/MKT, ödeme, saklama, "
@@ -908,7 +910,8 @@ table(s, Inches(0.55), Inches(1.2), W - Inches(1.1), [
      "Faz 0'da hemen landing'e alma"],
     ["Yetkinlik açığı, bilginin tek ekipte toplanması", "Sürdürülebilirlik",
      "UG ortak sahipliği, Git tabanlı kod, runbook, eğitim"],
-    ["Satın alma süresi", "Pilot gecikir", "Satın almasız başlangıç; ürün kararı Pilot B'de"],
+    ["ETL aracı kararı ve satın alma süresi", "Pilot başlayamaz",
+     "Değerlendirmenin takvimle kapatılması; pilot kapsamı ve kaynak erişimi paralel hazırlanır"],
     ["Satıcı biçimli tasarım (önce ODS, 100 konu alanı, yalnızca RFP)", "Gecikme, iş sonucu yok",
      "Kararları pilot kanıtı versin"],
 ], [4.3, 3.4, 4.53], size=13.5, header_size=14, row_h=0.6)
@@ -923,7 +926,8 @@ decs = [
     "Gün içi operasyonel raporlamada **ODS_** şemaları ile **KALE standby** rol ayrımı",
     "DWH yerleşimi (SUR / HİSAR) **izolasyon testiyle** belirlenir",
     "**Pilot A = SWIFT**, **Pilot B = BISTECH SPK**; fon sözleşme verisi yakalaması şimdi başlar",
-    "ETL aracı: **dbt Core** veya **ODI 14c**; pilot satın almasız başlar, karar PoC kanıtıyla",
+    "ETL aracı seçimi: **dbt Core** veya **ODI 14c**; PoC'ler tamamlandı, pilot karardan sonra "
+    "başlar",
     "1 modelleyici + 2 veri mühendisi alınır; dilim başına **UG analist zamanı** ayrılır",
     "**Gün sonu tamamlanma sinyali** ilk ay içinde operasyonla kurulur",
 ]
