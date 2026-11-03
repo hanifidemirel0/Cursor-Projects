@@ -256,7 +256,7 @@ Every entry lists minimum contents, not an instruction to produce lengthy prose.
 - **Scope:** Per service.
 - **Owner:** Data engineer.
 - **Review/approval:** Service owner and source operations accept dependencies.
-- **Minimum contents:** Schedules, approved scheduler chains (tool not decided yet; Automic is one of the options under evaluation), end-of-day signals, business dates, cutoffs, restart boundaries, upstream watermarks and escalation.
+- **Minimum contents:** Schedules, approved scheduler chains (tool not decided yet; Automic is ruled out for licensing reasons), end-of-day signals, business dates, cutoffs, restart boundaries, upstream watermarks and escalation.
 - **Update/evidence timing:** Each new chain or dependency change.
 - **Applicability:** Baseline.
 

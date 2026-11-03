@@ -89,7 +89,7 @@ ETL aracı karşılaştırması: [Takasbank_ETL_Comparison.xlsx](../../outputs/e
 - [ ] GoldenGate'in alamadığı kaynaklar (dosya, web servisleri) ve DWH içi dönüşüm için araç kararını onaylı latency sınıflarıyla sonuçlandır: [[Sistemler ve Servisler#2. Goldengate|Goldengate]].
 - [ ] İlk üç aday konu alanı için günlük değişim, initial history, retention ve büyüme ölçümü yap.
 - [ ] Raw/core/mart, indeks, temp, backup ve DR dahil kapasite modeli çıkar.
-- [ ] DWH zamanlayıcısını / orkestrasyon aracını seç (Automic dahil karar verilmedi: [[Fiziksel Topoloji - Teknik Taraf#Zamanlayıcı|zamanlayıcı]]); kontrol zinciri ve servis hesabı modelini güvenlik ekibiyle onayla. Sorular: [[Aktif Sorular]] madde 16.
+- [ ] DWH zamanlayıcısını / orkestrasyon aracını seç (Automic lisans nedeniyle seçenek değil: [[Fiziksel Topoloji - Teknik Taraf#Zamanlayıcı|zamanlayıcı]]); kontrol zinciri ve servis hesabı modelini güvenlik ekibiyle onayla. Sorular: [[Aktif Sorular]] madde 16.
 
 > [!failure] Faz 0 çıkış kapısı
 > Rapor sahibi, pilot iş çıktısı, kaynak grain'i, otorite, SLA, hassasiyet ve mutabakat referansı belli değilse fiziksel mart tasarımına başlanmaz.

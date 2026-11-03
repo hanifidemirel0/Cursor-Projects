@@ -445,7 +445,7 @@ bullets(s, Inches(6.9), Inches(1.55), Inches(5.9), Inches(4.8), [
     "DSS ve PREPROD her sabah 07:00'de KALE'den kopartılıyor; flashback snapshot 04:00–07:00",
     "Maskeleme **Informatica TDM** ile (başka Informatica lisansı yok)",
     "**GoldenGate** lisansı var: 336 CPU (Borsa İstanbul: 975 CPU)",
-    "DWH zamanlayıcısı henüz seçilmedi; **Automic dahil** seçenekler değerlendiriliyor",
+    "DWH zamanlayıcısı henüz seçilmedi; **Automic lisans nedeniyle seçenek değil**",
 ], size=16)
 
 # 7 — Mevcut durum: raporlama ve gün sonu
@@ -949,7 +949,7 @@ bullets(s, Inches(0.6), Inches(1.75), Inches(5.9), Inches(4.7), [
     "Tarihçe DWH'a geçince KALE saklama penceresi ne olacak; ~3.000 backup tablosu ne zaman "
     "emekli edilecek?",
     "Borsa İstanbul ile GoldenGate akışı: hangi tablolar (Replica BIDB, fon sözleşmeleri)?",
-    "DWH zamanlayıcısı ne olacak? (Automic dahil seçenekler değerlendiriliyor; karar verilmedi)",
+    "DWH zamanlayıcısı ne olacak? (Automic lisans nedeniyle seçenek değil; diğer araçlar değerlendiriliyor)",
 ], size=16)
 box(s, Inches(6.85), Inches(1.2), Inches(5.9), Inches(0.5), fill=NAVY,
     text="İş birimleri ve UG ile", size=16, color=WHITE, bold=True)
