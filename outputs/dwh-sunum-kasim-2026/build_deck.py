@@ -741,7 +741,7 @@ bullets(s, Inches(6.75), Inches(1.5), Inches(6.0), Inches(4.9), [
     "zorunlu olursa",
 ], size=13.5, gap=5)
 footnote(s, "Puanlar masa başı değerlendirmedir (15 kategori, 64 kriter). Banka testi, fiyat "
-            "teklifi veya satın alma onayı değildir. Ayrıntı sonraki dört slayttadır.", y=6.45)
+            "teklifi veya satın alma onayı değildir. Ayrıntı sonraki beş slayttadır.", y=6.45)
 
 ETL_SRC = "Takasbank_ETL_Comparison.xlsx v2.7, 16.10.2026"
 ETL_TOOLS = ["ODI 14c", "Informatica", "dbt Core", "Cloudera", "Spark"]
@@ -937,6 +937,46 @@ bullets(s, Inches(7.0), Inches(4.25), Inches(5.78), Inches(2.1), [
 footnote(s, "Maliyetler göreli karşılaştırma için kaba tahmindir, teklif değildir. Exadata, Oracle "
             "Database ve ULA kapsamındaki GoldenGate tüm seçeneklerde ortak olduğu için hariçtir.",
          y=6.45)
+
+# 14d2 — ETL: Borsa İstanbul ve MKK görüşmeleri
+s = content_slide("ETL ARACI: BORSA İSTANBUL VE MKK GÖRÜŞMELERİ", pill="Kurum görüşmeleri",
+                  sources="Kullanıcı aktarımı (04.11.2026: Borsa İstanbul ve MKK ile ETL ürünleri "
+                  "görüşmesi); DWH Sunum Eylül 2024 (ETL araçları: MKK PowerCenter, Borsa "
+                  "İstanbul ODI); DWH Sunum Aralık 2024 (Slayt 5 MKK, Slayt 6 Borsa İstanbul). "
+                  "Görüşlerin içeriği henüz notlarda yok.")
+peers = [
+    ("BORSA İSTANBUL", "ETL ürünü: **Oracle Data Integrator (ODI)**", TEAL, [
+        "DWH'ta T-1 ve öncesi veri; kaynak veri doğrudan **ODS** katmanında",
+        "Replika veritabanı **Data Guard** ile besleniyor; gün içi raporlar replika ve ana "
+        "veritabanından",
+        "Gün içinde belirli saatlerde çalışan ETL'lerle DWH'a anlık veri yazılan durumlar var",
+    ]),
+    ("MERKEZİ KAYIT KURULUŞU (MKK)", "ETL ürünü: **Informatica PowerCenter**", NAVY, [
+        "Geçmiş tarihli veri DWH'tan raporlanıyor; **ODS** katmanı var",
+        "MicroStrategy raporlarının **%99'u** DWH üzerinden",
+        "Anlık aktarımda replika aracı yok; veri **SQL script'leri** ve ETL aracıyla taşınıyor",
+    ]),
+]
+PLACEHOLDER = RGBColor(0xB0, 0x3A, 0x2E)
+for i, (name, tool, fill, pts) in enumerate(peers):
+    x = Inches(0.55 + i * 6.2)
+    box(s, x, Inches(1.15), Inches(6.0), Inches(0.75), fill=fill, text=[f"**{name}**", tool],
+        size=14, color=WHITE)
+    box(s, x, Inches(1.9), Inches(6.0), Inches(4.0), fill=LIGHT, shape=MSO_SHAPE.RECTANGLE)
+    textbox(s, x + Inches(0.12), Inches(1.98), Inches(5.8), Inches(0.35),
+            "Bilinen yapı (Aralık 2024 görüşmesi)", size=13, color=NAVY, bold=True)
+    bullets(s, x + Inches(0.08), Inches(2.28), Inches(5.85), Inches(1.75), pts, size=12.5, gap=3)
+    textbox(s, x + Inches(0.12), Inches(4.05), Inches(5.8), Inches(0.35),
+            "Ürün hakkındaki görüşleri (son görüşme)", size=13, color=NAVY, bold=True)
+    box(s, x + Inches(0.12), Inches(4.4), Inches(5.76), Inches(1.38), fill=WHITE,
+        line=PLACEHOLDER, text=["[Güçlü yanlar — görüşme notundan eklenecek]",
+                                "[Zorluklar / dikkat edilecekler — eklenecek]",
+                                "[Destek, lisans ve ekip deneyimi — eklenecek]"],
+        size=12, color=PLACEHOLDER, align=PP_ALIGN.LEFT, anchor=MSO_ANCHOR.TOP)
+box(s, Inches(0.55), Inches(6.0), Inches(12.2), Inches(0.48), fill=RGBColor(0xFD, 0xF3, 0xE4),
+    line=GOLD, text="**Değerlendirmeye girdi:** Borsa İstanbul'un ODI deneyimi B seçeneği için "
+    "grup içi referans; MKK'nın Informatica deneyimi, değerlendirmede önerilmeyen ürün için "
+    "saha görüşü", size=12, align=PP_ALIGN.LEFT)
 
 # 14e — ETL: iki seçenek
 s = content_slide("ETL ARACI DEĞERLENDİRMESİ: İKİ SEÇENEK", pill="Değerlendirme sürüyor",

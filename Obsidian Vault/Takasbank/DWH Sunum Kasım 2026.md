@@ -40,11 +40,12 @@ tags:
 | 16 | ETL: yöntem, adaylar ve karar kısıtları | Aynı çalışma kitabı (Executive Summary, Tool Profiles) |
 | 17 | ETL: kategori puanları (15 kategori × 5 araç) | Aynı çalışma kitabı (Scoring Matrix, Criteria & Weights) |
 | 18 | ETL: ağırlık senaryoları, 5 yıllık maliyet, rapor dönüşüm eforu | Aynı çalışma kitabı (Scenario Analysis, TCO) |
-| 19 | ETL: iki seçenek (dbt Core / ODI 14c), ön koşullar | Aynı çalışma kitabı (Executive Summary, Risks) |
-| 20 | Pilot önerisi | [[Proje Planı#Pilot seçimi]] |
-| 21–22 | Yol haritası, Faz 0 ilk 30 gün | [[Proje Planı]], [[Başlangıç Yaklaşımı#Fazlar]] |
-| 23 | Ekip ve danışmanlık modeli | [[Proje Planı]], [[Komtaş Future-Ready Data Platform Teklifi Ağustos 2026]] |
-| 24 | Riskler | [[Başlangıç Yaklaşımı#Risk kaydı (ilk gün)]] |
-| 25 | Karar beklenen konular | [[Başlangıç Yaklaşımı#İlk yönlendirme komitesine götürülecek kararlar]] |
-| 26 | Açık sorular | [[Aktif Sorular]] |
-| 27 | Kapanış | — |
+| 19 | ETL: Borsa İstanbul ve MKK görüşmeleri (kullandıkları ürünler: ODI, Informatica PowerCenter; ürün görüşleri) | Hanifi'nin 04.11.2026 aktarımı; [[DWH Sunum Eylül 2024]] (ETL araçları), [[DWH Sunum Aralık 2024#Slayt 5 — Merkezi Kayıt Kuruluşu]], [[DWH Sunum Aralık 2024#Slayt 6 — Borsa İstanbul]]. Görüş içeriği henüz notlarda yok; slaytta yer tutucu var |
+| 20 | ETL: iki seçenek (dbt Core / ODI 14c), ön koşullar | Aynı çalışma kitabı (Executive Summary, Risks) |
+| 21 | Pilot önerisi | [[Proje Planı#Pilot seçimi]] |
+| 22–23 | Yol haritası, Faz 0 ilk 30 gün | [[Proje Planı]], [[Başlangıç Yaklaşımı#Fazlar]] |
+| 24 | Ekip ve danışmanlık modeli | [[Proje Planı]], [[Komtaş Future-Ready Data Platform Teklifi Ağustos 2026]] |
+| 25 | Riskler | [[Başlangıç Yaklaşımı#Risk kaydı (ilk gün)]] |
+| 26 | Karar beklenen konular | [[Başlangıç Yaklaşımı#İlk yönlendirme komitesine götürülecek kararlar]] |
+| 27 | Açık sorular | [[Aktif Sorular]] |
+| 28 | Kapanış | — |
