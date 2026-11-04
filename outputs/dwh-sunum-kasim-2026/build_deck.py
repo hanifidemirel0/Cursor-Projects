@@ -305,31 +305,34 @@ s = content_slide("ÇALIŞMANIN TARİHÇESİ", sources="Firmalarla Yapılan DWH 
                   "Platform Teklifi Ağustos 2026; Toplantı Notları (Eylül 2026); Başlangıç Yaklaşımı")
 events = [
     ("Haz–Tem 2024", "Firma görüşmeleri",
-     "BI Technology, Ondata, Obase; İZV öncülüğünde BT Mimari, DB ve UG ekipleri"),
-    ("Ağu 2024", "Obase raporu", "İhtiyaçların önce **ODS** ile karşılanması önerildi"),
-    ("Eyl 2024", "Sunum-2", "Gerekçeler, yol haritası; TEFAS/BES gibi alanda **POC** önerisi"),
-    ("Ara 2024", "Sunum-3", "ODS → KALE, DWH → SUR; Vakıfbank, MKK, Borsa İstanbul karşılaştırması"),
-    ("Tem 2025", "Sunum-4", "**ODS kurulması** kararı; pilot yaklaşımı; 4 örnek uygulama; ODVM"),
-    ("Ağu 2026", "Komtaş teklifi", "~3 ay tasarım: mimari, kavramsal model, yol haritası, **RFP**"),
-    ("Eyl 2026", "UG görüşmeleri", "Tüm UG ekipleri, **talep analizi**; 6 danışman firma; **dbt PoC** tamamlandı"),
-    ("Eki 2026", "Workshop ve taslaklar", "Dataspecta workshop; ETL, GoldenGate, orkestrasyon çalışmaları; **tasarım taslakları**"),
+     "BI Technology, Ondata, Obase; İZV öncülüğünde BT Mimari, DB ve UG ekipleri", False),
+    ("Ağu 2024", "Obase raporu", "İhtiyaçların önce **ODS** ile karşılanması önerildi", False),
+    ("Eyl 2024", "Sunum-2", "Gerekçeler, yol haritası; TEFAS/BES gibi alanda **POC** önerisi", False),
+    ("Ara 2024", "Sunum-3", "ODS → KALE, DWH → SUR; Vakıfbank, MKK, Borsa İstanbul incelemesi", False),
+    ("Oca 2025 – May 2026", "Personel arayışı", "Deneyimli personel alımı için arayış; **birçok mülakat** yapıldı", True),
+    ("Tem 2025", "Sunum-4", "**ODS kurulması** kararı; pilot yaklaşımı; 4 örnek uygulama; ODVM", False),
+    ("Şub–Mar 2026", "ODI PoC", "**Ondata** ile Oracle Data Integrator PoC", True),
+    ("Nis–May 2026", "Informatica PoC", "**Komtaş** ile Informatica PoC", True),
+    ("Ağu 2026", "Komtaş teklifi", "~3 ay tasarım: mimari, kavramsal model, yol haritası, **RFP**", True),
+    ("Eyl 2026", "UG görüşmeleri", "Tüm UG ekipleri, **talep analizi**; 6 danışman firma; **dbt PoC** tamamlandı", True),
+    ("Eki 2026", "Workshop ve taslaklar", "Dataspecta workshop; ETL, GoldenGate, orkestrasyon çalışmaları; **tasarım taslakları**", True),
 ]
-x0, step, y_line = Inches(0.75), Inches(1.5), Inches(2.45)
-line = s.shapes.add_connector(MSO_CONNECTOR.STRAIGHT, x0, y_line, x0 + step * 8 - Inches(0.3), y_line)
+x0, y_line = Inches(0.5), Inches(2.45)
+step = Inches(12.33 / len(events))
+line = s.shapes.add_connector(MSO_CONNECTOR.STRAIGHT, x0, y_line, x0 + step * len(events), y_line)
 line.line.color.rgb = LINE
 line.line.width = Pt(4)
-for i, (when, what, detail) in enumerate(events):
+for i, (when, what, detail, recent) in enumerate(events):
     x = x0 + step * i
-    recent = i >= 5
-    textbox(s, x, Inches(1.55), Inches(1.4), Inches(0.4), when, size=14, color=NAVY, bold=True,
-            align=PP_ALIGN.CENTER)
-    box(s, x + Inches(0.55), y_line - Inches(0.15), Inches(0.3), Inches(0.3),
+    textbox(s, x, Inches(1.4), step, Inches(0.6), when, size=12, color=NAVY, bold=True,
+            align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.BOTTOM)
+    box(s, x + step / 2 - Inches(0.13), y_line - Inches(0.13), Inches(0.26), Inches(0.26),
         fill=GOLD if recent else NAVY, shape=MSO_SHAPE.OVAL)
-    box(s, x + Inches(0.03), Inches(2.85), Inches(1.36), Inches(2.9),
+    box(s, x + Inches(0.03), Inches(2.85), step - Inches(0.06), Inches(2.9),
         fill=RGBColor(0xFD, 0xF3, 0xE4) if recent else LIGHT, text=[f"**{what}**", "", detail],
-        size=12, anchor=MSO_ANCHOR.TOP, radius=0.06)
-footnote(s, "Turuncu: son sunumdan (Temmuz 2025) bu yana gerçekleşen adımlar. Eylül–Ekim 2026 "
-            "ayrıntısı sonraki slayttadır.", y=5.95)
+        size=11, anchor=MSO_ANCHOR.TOP, radius=0.06)
+footnote(s, "Turuncu: son sunumdan (Temmuz 2025) bu yana gerçekleşen veya süren adımlar. "
+            "Eylül–Ekim 2026 ayrıntısı sonraki slayttadır.", y=5.95)
 
 # 3b — Eylül–Ekim 2026 çalışmaları
 s = content_slide("EYLÜL – EKİM 2026 ÇALIŞMALARI", pill="Son sunumdan bu yana", pill_fill=GOLD,
