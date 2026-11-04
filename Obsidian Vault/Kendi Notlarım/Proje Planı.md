@@ -84,7 +84,7 @@ Ocak 2025 – Mayıs 2026 arasında deneyimli personel alımı için arayış ya
 
 ### Araç ve kapasite
 
-- [x] ETL aracı PoC'lerini tamamla: **ODI PoC** Ondata ile (Şubat–Mart 2026), **Informatica PoC** Komtaş ile (Nisan–Mayıs 2026), **dbt PoC** (Eylül 2026).
+- [x] ETL aracı PoC'lerini tamamla: **ODI PoC** Ondata ile (Aralık 2025 – Mart 2026), **Informatica PoC** Komtaş ile (Nisan–Mayıs 2026), **dbt PoC** (Eylül 2026).
 - [ ] ETL aracı değerlendirmesini sonuçlandır ve aracı seç: dbt Core veya ODI 14c ([ETL karşılaştırması](../../outputs/etl-comparison/Takasbank_ETL_Comparison.xlsx)); kararı ve gerekçesini kayda geçir. **Pilot bu karardan sonra başlar.**
 - [ ] DWH veritabanı yerleşimi için `sur` ve `hisar` IO/CPU izolasyon testini DBA ile planla; sonuç [[Fiziksel Topoloji - Teknik Taraf]]'a işlenir.
 - [ ] GoldenGate ile `ODS_` beslemesini planla: sürüm/destek kontrolü ve 336 CPU lisansın sunuculara dağılımı, extract kaynağı (prod Kale / `sur` standby) ve supplemental logging etkisi, şema/tablo kapsamı, lag izleme ve DBA işletme sahipliği. Sorular: [[Aktif Sorular]] madde 4.4–4.7, 14.2.

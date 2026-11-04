@@ -311,7 +311,7 @@ events = [
     ("Ara 2024", "Sunum-3", "ODS → KALE, DWH → SUR; Vakıfbank, MKK, Borsa İstanbul incelemesi", False),
     ("Oca 2025 – May 2026", "Personel arayışı", "Deneyimli personel alımı için arayış; **birçok mülakat** yapıldı", True),
     ("Tem 2025", "Sunum-4", "**ODS kurulması** kararı; pilot yaklaşımı; 4 örnek uygulama; ODVM", False),
-    ("Şub–Mar 2026", "ODI PoC", "**Ondata** ile Oracle Data Integrator PoC", True),
+    ("Ara 2025 – Mar 2026", "ODI PoC", "**Ondata** ile Oracle Data Integrator PoC", True),
     ("Nis–May 2026", "Informatica PoC", "**Komtaş** ile Informatica PoC", True),
     ("Ağu 2026", "Komtaş teklifi", "~3 ay tasarım: mimari, kavramsal model, yol haritası, **RFP**", True),
     ("Eyl 2026", "UG görüşmeleri", "Tüm UG ekipleri, **talep analizi**; 6 danışman firma; **dbt PoC** tamamlandı", True),
