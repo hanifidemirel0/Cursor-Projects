@@ -305,7 +305,7 @@ s = content_slide("ÇALIŞMANIN TARİHÇESİ", sources="Firmalarla Yapılan DWH 
                   "Platform Teklifi Ağustos 2026; Toplantı Notları (Eylül 2026); Başlangıç Yaklaşımı")
 events = [
     ("Haz–Tem 2024", "Firma görüşmeleri",
-     "BI Technology, Ondata, Obase; İZV öncülüğünde BT Mimari, DB ve UG ekipleri", False),
+     "Ondata, Obase; İZV öncülüğünde BT Mimari, Veritabanı ve UG ekipleri", False),
     ("Ağu 2024", "Obase raporu", "İhtiyaçların önce **ODS** ile karşılanması önerildi", False),
     ("Eyl 2024", "Sunum-2", "Gerekçeler, yol haritası; TEFAS/BES gibi alanda **POC** önerisi", False),
     ("Ara 2024", "Sunum-3", "ODS → KALE, DWH → SUR; Vakıfbank, MKK, Borsa İstanbul incelemesi", False),
