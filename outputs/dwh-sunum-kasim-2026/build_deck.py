@@ -72,7 +72,8 @@ def textbox(slide, x, y, w, h, text, size=14, color=INK, bold=False,
     return tb
 
 
-def bullets(slide, x, y, w, h, items, size=15, color=INK, gap=6, marker="›"):
+def bullets(slide, x, y, w, h, items, size=15, color=INK, gap=6, marker="›", indent=0.28,
+            hang=0.24):
     """Chevron bullets like the earlier decks. ("-", text) items are sub-bullets."""
     tb = slide.shapes.add_textbox(x, y, w, h)
     tf = tb.text_frame
@@ -86,9 +87,9 @@ def bullets(slide, x, y, w, h, items, size=15, color=INK, gap=6, marker="›"):
         p.space_before = Pt(2 if sub else gap)
         p.line_spacing = 1.05
         pPr = p._p.get_or_add_pPr()
-        indent = Inches(0.55 if sub else 0.28)
-        pPr.set("marL", str(int(indent)))
-        pPr.set("indent", str(-int(Inches(0.24))))
+        left = Inches(indent + 0.27 if sub else indent)
+        pPr.set("marL", str(int(left)))
+        pPr.set("indent", str(-int(Inches(hang))))
         r = p.add_run()
         r.text = ("–" if sub else marker) + "\t"
         r.font.name = FONT
@@ -276,7 +277,6 @@ notes(s, "Seri: 1 - Eylül 2024, 2 - Aralık 2024, 3 - Mart 2025, 4 - Temmuz 202
 s = content_slide("İÇERİK")
 items = [
     "Çalışmanın Tarihçesi",
-    "Önceki Kararlar ve Güncel Durumları",
     "Takasbank'ta Mevcut Durum",
     "İş Birimi ve UG Görüşmelerinden Tespitler",
     "Hedef Mimari ve Katmanlar",
@@ -305,18 +305,21 @@ s = content_slide("ÇALIŞMANIN TARİHÇESİ", sources="Firmalarla Yapılan DWH 
                   "Platform Teklifi Ağustos 2026; Toplantı Notları (Eylül 2026); Başlangıç Yaklaşımı")
 events = [
     ("Haz–Tem 2024", "Firma görüşmeleri",
-     "Ondata, Obase; İZV öncülüğünde BT Mimari, Veritabanı ve UG ekipleri", False),
-    ("Ağu 2024", "Obase raporu", "İhtiyaçların önce **ODS** ile karşılanması önerildi", False),
-    ("Eyl 2024", "Sunum-1", "Gerekçeler, yol haritası; TEFAS/BES gibi alanda **POC** önerisi", False),
-    ("Ara 2024", "Sunum-2", "ODS → KALE, DWH → SUR; Vakıfbank, MKK, Borsa İstanbul incelemesi", False),
-    ("Oca 2025 – May 2026", "Personel arayışı", "Deneyimli personel alımı için arayış; **birçok mülakat** yapıldı", True),
-    ("Mar 2025", "Sunum-3", "DWH'ta yapılabilecek **4 proje** ilk kez anlatıldı", False),
-    ("Tem 2025", "Sunum-4", "**ODS kurulması** kararı; pilot yaklaşımı; 4 örnek uygulama; ODVM", False),
-    ("Ara 2025 – Mar 2026", "ODI PoC", "**Ondata** ile Oracle Data Integrator PoC", True),
-    ("Nis–May 2026", "Informatica PoC", "**Komtaş** ile Informatica PoC", True),
-    ("Ağu 2026", "Komtaş teklifi", "~3 ay tasarım: mimari, kavramsal model, yol haritası, **RFP**", True),
-    ("Eyl 2026", "UG görüşmeleri", "Tüm UG ekipleri, **talep analizi**; 6 danışman firma; **dbt PoC** tamamlandı", True),
-    ("Eki 2026", "Workshop ve taslaklar", "Dataspecta workshop; ETL, GoldenGate, orkestrasyon çalışmaları; **tasarım taslakları**", True),
+     ["Ondata, Obase", "İZV öncülüğünde BT Mimari, Veritabanı ve UG ekipleri"], False),
+    ("Ağu 2024", "Obase raporu", ["İhtiyaçların önce **ODS** ile karşılanması önerildi"], False),
+    ("Eyl 2024", "Sunum-1", ["Gerekçeler, yol haritası", "TEFAS/BES gibi alanda **POC** önerisi"], False),
+    ("Ara 2024", "Sunum-2", ["ODS → KALE, DWH → SUR", "Vakıfbank, MKK, Borsa İstanbul incelemesi"], False),
+    ("Oca 2025 – May 2026", "Personel arayışı",
+     ["Deneyimli personel alımı için arayış", "**Birçok mülakat** yapıldı"], True),
+    ("Mar 2025", "Sunum-3", ["DWH üzerinde **4 proje** önerisi ilk kez anlatıldı"], False),
+    ("Tem 2025", "Sunum-4", ["**ODS kurulması** kararı", "Pilot yaklaşımı", "4 örnek uygulama", "ODVM"], False),
+    ("Ara 2025 – Mar 2026", "ODI PoC", ["**Ondata** ile Oracle Data Integrator PoC"], True),
+    ("Nis–May 2026", "Informatica PoC", ["**Komtaş** ile Informatica PoC"], True),
+    ("Ağu 2026", "Komtaş teklifi", ["~3 ay tasarım", "Mimari, kavramsal model, yol haritası, **RFP**"], True),
+    ("Eyl 2026", "UG görüşmeleri",
+     ["Tüm UG ekipleri, **talep ve ihtiyaç analizi**", "6 danışman firma", "**dbt PoC** tamamlandı"], True),
+    ("Eki 2026", "Workshop ve taslaklar",
+     ["Dataspecta workshop", "ETL, veri replikasyon, orkestrasyon çalışmaları", "**Tasarım taslakları**"], True),
 ]
 x0, y_line = Inches(0.5), Inches(2.45)
 step = Inches(12.33 / len(events))
@@ -331,8 +334,10 @@ for i, (when, what, detail, recent) in enumerate(events):
         fill=GOLD if recent else NAVY, shape=MSO_SHAPE.OVAL)
     card = box(s, x + Inches(0.03), Inches(2.85), step - Inches(0.06), Inches(2.9),
                fill=RGBColor(0xFD, 0xF3, 0xE4) if recent else LIGHT,
-               text=[f"**{what}**", "", detail], size=10.5, anchor=MSO_ANCHOR.TOP, radius=0.06)
+               text=f"**{what}**", size=10.5, anchor=MSO_ANCHOR.TOP, radius=0.06)
     card.text_frame.margin_left = card.text_frame.margin_right = Inches(0.03)
+    bullets(s, x + Inches(0.01), Inches(3.4), step - Inches(0.02), Inches(2.3), detail,
+            size=10, gap=3, marker="•", indent=0.1, hang=0.09)
 footnote(s, "Turuncu: son sunumdan (Temmuz 2025) bu yana gerçekleşen veya süren adımlar. "
             "Eylül–Ekim 2026 ayrıntısı sonraki slayttadır.", y=5.95)
 
@@ -343,17 +348,17 @@ s = content_slide("EYLÜL – EKİM 2026 ÇALIŞMALARI", pill="Son sunumdan bu y
                   "Model; Başlangıç Yaklaşımı; Proje Planı")
 months = [
     ("EYLÜL 2026", [
-        "**Tüm UG ekipleriyle** görüşüldü; **talep analizi** yapıldı",
+        "**Tüm UG ekipleriyle** görüşüldü; **talep ve ihtiyaç analizi** yapıldı",
         "**PowerDesigner** ve **veritabanları / ortamlar** hakkında bilgilendirme toplantıları yapıldı",
         "Danışman firmalarla görüşüldü: **Ab Initio, Oredata, Cloudera, Dataspecta, GTech, "
-        "Global Maksimum**",
+        "Global Maksimum**; ürünleri ve süreç boyunca nasıl destek verebilecekleri konuşuldu",
         "**dbt** için PoC çalışması tamamlandı ve sunumu yapıldı",
     ]),
     ("EKİM 2026", [
         "**Dataspecta** ile workshop yapıldı",
         "**ETL ürünlerini değerlendirme** dokümantasyonu tamamlandı: değerlendirme çerçevesi, "
         "karşılaştırma matrisi, PoC kabul kriterleri, tedarikçi soru seti, karar kaydı şablonu",
-        "Veri aktarım aracı olarak **Oracle GoldenGate**'in kullanılabilirliğiyle ilgili ön çalışma "
+        "Veri aktarım ve replikasyon aracı olarak **Oracle GoldenGate**'in kullanılabilirliğiyle ilgili ön çalışma "
         "yapıldı",
         "**Orkestrasyon** gereksinimi için farklı seçeneklerin değerlendirmesi yapıldı",
         "**Tasarım taslakları** belirlendi: hedef mimari, mantıksal veri modeli, başlangıç "
@@ -367,64 +372,6 @@ for i, (name, pts) in enumerate(months):
     box(s, x, Inches(1.8), Inches(5.95), Inches(4.45), fill=LIGHT, shape=MSO_SHAPE.RECTANGLE)
     bullets(s, x + Inches(0.1), Inches(1.9), Inches(5.75), Inches(4.3), pts, size=16, gap=10)
 
-# 4–5 — Önceki kararlar
-decisions = [
-    ["Konu", "Temmuz 2025 sunumunda", "Kasım 2026 itibarıyla", "Durum"],
-    ["ODS katmanı",
-     "ODS kurulmasına karar verildi; DSS'in ODS olarak kullanılması değerlendirildi",
-     "Her kaynak sistem şeması için DWH'da **ODS_** önekli bir şema; **GoldenGate** ile "
-     "beslenir. Bugünkü **tvsods** (KALE ile anlık senkron kopya) hedefte yer almaz",
-     "Karar verildi"],
-    ["ODS yerleşimi", "KALE Exadata üzerinde 4. veritabanı",
-     "**Ayrı ODS veritabanı yok**; ODS, DWH veritabanının içinde. KALE boşaltılmak istenen "
-     "makine; hedef değil", "Karar verildi"],
-    ["DWH yerleşimi", "SUR Exadata",
-     "SUR çok sayıda test/preprod DB ile paylaşılıyor; **HİSAR** (ARSIVDB yanında, en düşük CPU) "
-     "da aday. Karar DBA ile IO/CPU izolasyon testine bağlı", "Açık"],
-    ["Veri alma / replikasyon", "Dataguard, GoldenGate vb. araçlar tartışıldı",
-     "ODS_ şemaları **GoldenGate** ile beslenir. Lisans var: Takasbank **336 CPU**, Borsa "
-     "İstanbul **975 CPU**; iki kurum arasında GG akışı kurulabilir", "Karar verildi"],
-]
-decisions2 = [
-    ["Konu", "Temmuz 2025 sunumunda", "Kasım 2026 itibarıyla", "Durum"],
-    ["ETL aracı", "Seçilmedi; ETL'in ODS ile aynı yerde olması uygun görüldü",
-     "5 aday değerlendirildi (Ekim 2026); öneri komiteye **iki seçenek**: **dbt Core** veya "
-     "**ODI 14c**. **PoC'ler** tamamlandı, değerlendirme sürüyor. Pilot, ETL aracı seçildikten "
-     "sonra başlar",
-     "Değerlendirmede"],
-    ["Pilot", "Pilot proje ile ilerlenmesine karar verildi; 4 örnek uygulama akışı çizildi",
-     "**Pilot A: SWIFT yasal raporlar**, **Pilot B: BISTECH SPK raporları** önerildi; üye-dosya "
-     "projesiyle aynı kriterlerle puanlanacak", "Öneri"],
-    ["Modelleme yaklaşımı", "ODVM mimarisinin çalışılmasına karar verildi",
-     "İteratif kurumsal core + Kimball mart'lar önerildi (tam Data Vault yok). ODVM'nin "
-     "kapsamı ve sınırı netleştirilecek", "Öneri"],
-    ["UG ile birlikte çalışma", "DWH çalışmalarının UG ekipleriyle yapılmasına karar verildi",
-     "Eylül'de **tüm UG ekipleriyle** görüşüldü ve **talep analizi** yapıldı; rapor bazında "
-     "yerleşim ve SLA envanteri sırada", "Devam ediyor"],
-]
-STATUS_COLORS = {"Karar verildi": GREEN, "Revize öneri": GOLD, "Açık": RED, "Değerlendirmede": TEAL, "Öneri": GOLD,
-                 "Devam ediyor": GREEN}
-for idx, rows in enumerate((decisions, decisions2), start=1):
-    s = content_slide(f"ÖNCEKİ KARARLAR VE GÜNCEL DURUMLARI ({idx}/2)",
-                      sources="DWH Sunum Temmuz 2025; Sistemler ve Servisler (4.1 ODS kararı, "
-                              "02.11.2026; Goldengate); Fiziksel Topoloji (GoldenGate lisansları); "
-                              "Fiziksel Topoloji - Teknik Taraf; Başlangıç Yaklaşımı; "
-                              "Takasbank_ETL_Comparison.xlsx (v2.7); Proje Planı")
-    t = table(s, Inches(0.55), Inches(1.25), W - Inches(1.1), rows, [2.0, 3.0, 5.65, 1.58],
-              size=12.5, header_size=13, row_h=1.15)
-    t.rows[0].height = Inches(0.45)
-    for i in range(1, len(rows)):
-        cell = t.cell(i, 3)
-        cell.fill.solid()
-        cell.fill.fore_color.rgb = STATUS_COLORS[rows[i][3]]
-        p = cell.text_frame.paragraphs[0]
-        p.alignment = PP_ALIGN.CENTER
-        for r in p.runs:
-            r.font.color.rgb = WHITE
-            r.font.bold = True
-    footnote(s, "“Karar verildi”: 02.11.2026 ODS kararı. “Öneri / Revize öneri”: çalışma ekibinin "
-                "önerisidir; yönlendirme komitesi onayı beklenmektedir.", y=6.6)
-
 # 6 — Mevcut durum: veri ve ortamlar
 s = content_slide("MEVCUT DURUM: VERİ VE ORTAMLAR", pill="Mevcut durum",
                   pill_fill=NAVY, sources="Sistemler ve Servisler; Fiziksel Topoloji - Teknik "
@@ -434,11 +381,14 @@ textbox(s, Inches(0.6), Inches(1.2), Inches(6), Inches(0.4), "Veri kaynakları",
         color=NAVY, bold=True)
 bullets(s, Inches(0.6), Inches(1.55), Inches(6.0), Inches(4.8), [
     "**KALE**: verinin ~%90'ı, ~10 TB; ~7.000 ana + ~3.000 backup tablo",
-    "ERD yok; aynı kavram (ör. **üye**) farklı şemalarda ve piyasa bazında ayrı tablolarda",
-    "Uydu kaynaklar: **ARSIV** (yıl sonunda banka → banka_old → arşiv), **ÇEKDB**, Borsa "
-    "**Replica BIDB / Borsa DWH**, FTP/CSV dosyaları, EPİAŞ web servisleri",
-    "**PowerDesigner**: tüm tablo ve kolonlar, hassas veri bayrağı ve veri sahibi "
-    "(ER modeli olarak kullanılmıyor)",
+    "ERD diyagramları kullanılmamakta; **PowerDesigner**'da tüm tablo ve kolonlar, hassas veri "
+    "bayrağı ve veri sahibi tutuluyor",
+    "Uydu kaynaklar:",
+    ("-", "**ARSIV**"),
+    ("-", "**ÇEKDB**"),
+    ("-", "Borsa **Replica BIDB / Borsa DWH**"),
+    ("-", "FTP/CSV dosyaları"),
+    ("-", "Web servisleri"),
     "Kaynak veri temiz; ekranlarda çok sayıda kontrol noktası var",
 ], size=16)
 textbox(s, Inches(6.9), Inches(1.2), Inches(6), Inches(0.4), "Ortamlar", size=18, color=NAVY,
@@ -447,9 +397,10 @@ bullets(s, Inches(6.9), Inches(1.55), Inches(5.9), Inches(4.8), [
     "KALE'nin **2 Data Guard replikası** var: biri KALE, biri SUR Exadata üzerinde",
     "**PREPROD**: T-1, test ile aynı instance",
     "PREPROD her sabah 07:00'de KALE'den kopartılıyor; flashback snapshot 04:00–07:00",
-    "Maskeleme **Informatica TDM** ile (başka Informatica lisansı yok)",
     "**GoldenGate** lisansı var: 336 CPU (Borsa İstanbul: 975 CPU)",
 ], size=16)
+footnote(s, "Aynı kavram (ör. üye) farklı şemalarda ve piyasa bazında ayrı tablolarda tutulmaktadır.",
+         y=6.25)
 
 # 7 — Mevcut durum: raporlama ve gün sonu
 s = content_slide("MEVCUT DURUM: RAPORLAMA VE GÜN SONU", pill="Mevcut durum",
