@@ -29,7 +29,7 @@ tags:
 | 3 | Çalışmanın tarihçesi (Haz 2024 – Eki 2026) | [[Firmalarla Yapılan DWH Görüşmeleri]], [[Obase Takasbank Değerlendirme Raporu Ağustos 2024]], önceki sunumlar ([[DWH Sunum Mart 2025]] dahil), [[Komtaş Future-Ready Data Platform Teklifi Ağustos 2026]], [[Proje Planı#Ekip]] (personel arayışı), [[Proje Planı#Araç ve kapasite]] (ODI, Informatica, dbt PoC'leri) |
 | 4 | Eylül–Ekim 2026 çalışmaları | Hanifi'nin 02.11.2026 tarihli aktarımı (UG görüşmeleri, danışman firma görüşmeleri, dbt PoC, Dataspecta workshop, ETL dokümantasyonu, GoldenGate, orkestrasyon, tasarım taslakları) |
 | 5 | Mevcut durum: veri ve ortamlar | [[Fiziksel Topoloji - Teknik Taraf]], [[Ortamlar hakkında]], [[PowerDesigner Bilgilendirme]] |
-| 6 | Mevcut durum: raporlama ve gün sonu | [[Takasbank Genel Bilgilendirme]], [[Takasbank Genel Bilgilendirme 2]] |
+| 6 | Mevcut durum: raporlama (rapor kanalları; anlık ve geçmiş tarihli sorgu, işlem ve raporlama aynı veritabanında) | [[Takasbank Genel Bilgilendirme]], [[Takasbank Genel Bilgilendirme 2]], Hanifi'nin 04.11.2026 aktarımı |
 | 7 | UG görüşmelerinden tespitler | [[Banka Ug]], [[Enerji UG]], [[Takas UG]] |
 | 8 | Temel tespitler | [[DWH Sunum Aralık 2024]], [[Başlangıç Yaklaşımı]] |
 | 9–10 | Hedef mimari, katmanlar | [[Sistemler ve Servisler#4.1 Karar\|ODS kararı]], [[Başlangıç Yaklaşımı]], [[DWH Hedef Mimarisi v2]] |

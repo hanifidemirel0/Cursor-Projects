@@ -402,35 +402,20 @@ bullets(s, Inches(6.9), Inches(1.55), Inches(5.9), Inches(4.8), [
 footnote(s, "Aynı kavram (ör. üye) farklı şemalarda ve piyasa bazında ayrı tablolarda tutulmaktadır.",
          y=6.25)
 
-# 7 — Mevcut durum: raporlama ve gün sonu
-s = content_slide("MEVCUT DURUM: RAPORLAMA VE GÜN SONU", pill="Mevcut durum",
+# 7 — Mevcut durum: raporlama
+s = content_slide("MEVCUT DURUM: RAPORLAMA", pill="Mevcut durum",
                   pill_fill=NAVY, sources="Takasbank Genel Bilgilendirme 1-2; Banka Ug; "
-                  "Ortamlar hakkında; Fiziksel Topoloji - Teknik Taraf; DWH Sunum Eylül 2024")
-lanes = [
-    ("Team Developer", "Operasyonel kullanıcıların ana uygulaması; çok sayıda rapor"),
-    ("Web / React", "Raporlar UG'nin yönettiği web ekranlarına kademeli taşınıyor"),
-    ("MSTR (Pusula)", "Nihai hedef; UG raporlarının **~%10–20'si** taşındı, UG raporuyla çapraz kontrol"),
-    ("Üye terminali ve yasal", "Üye ekran raporları; SPK, MASAK, BDDK, Hazine/Maliye — saat bazlı SLA"),
-]
-for i, (name, d) in enumerate(lanes):
-    x = Inches(0.6 + i * 3.08)
-    box(s, x, Inches(1.25), Inches(2.9), Inches(0.5), fill=NAVY, text=name, size=15, color=WHITE,
+                  "Kullanıcı aktarımı (04.11.2026)")
+lanes = ["Team Developer", "Web / React", "MSTR (Pusula)"]
+for i, name in enumerate(lanes):
+    x = Inches(0.6 + i * 4.1)
+    box(s, x, Inches(1.35), Inches(3.9), Inches(0.75), fill=NAVY, text=name, size=18, color=WHITE,
         bold=True)
-    box(s, x, Inches(1.75), Inches(2.9), Inches(1.05), fill=LIGHT, text=d, size=12.5,
-        shape=MSO_SHAPE.RECTANGLE)
-bullets(s, Inches(0.6), Inches(3.05), Inches(12.1), Inches(3.3), [
-    "Ekranlarda **“izleme”** (anlık) ve **“rapor”** ayrımı var; izleme ekranları çoğunlukla KALE "
-    "üzerinde gün içi sorgu çalıştırıyor",
-    "İşlem ve raporlama sorguları aynı kaynakta: Piyasalar UG performans sorunu bildiriyor; Takas "
-    "tarafında raporlamaların transaction tablolarını blokladığı belirtildi",
-    "UG gün sonu prosedürleri hesaplanan özetleri KALE'deki yeni tablolara yazıyor "
-    "(ör. SWIFT için gecelik özet tablolar)",
-    "Gün sonu operasyon tarafından **manuel** tetikleniyor; ilgili işler tamamlandığında "
-    "veritabanına **log kaydı** atılıyor (makine-okunur sinyal)",
-    ("-", "İki farklı anlatım (21:30 → ~06:00 ve ~03:00 bitiş / 04:00–07:00 snapshot) henüz tek "
-          "zaman çizelgesinde birleştirilmedi"),
-    "Tarihsel veriye zaman zaman **update** geliyor; artımlı yükleme tasarımını doğrudan etkiliyor",
-], size=15)
+bullets(s, Inches(0.6), Inches(2.6), Inches(12.1), Inches(3.3), [
+    "Takasbank'ta raporlar hem **anlık** hem de **geçmiş tarihli** veriyi sorgular. Anlık "
+    "sorgulama daha yoğundur.",
+    "Ana işlemler ve raporlama sorguları **aynı veritabanında** çalışır.",
+], size=18, gap=14)
 
 # 8 — UG görüşmeleri
 s = content_slide("UG GÖRÜŞMELERİNDEN TESPİTLER", pill="Eylül 2026",
