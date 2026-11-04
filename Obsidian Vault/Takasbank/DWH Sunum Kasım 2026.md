@@ -32,7 +32,7 @@ tags:
 | 6 | Mevcut durum: raporlama (rapor kanalları; anlık ve geçmiş tarihli sorgu, işlem ve raporlama aynı veritabanında) | [[Takasbank Genel Bilgilendirme]], [[Takasbank Genel Bilgilendirme 2]], Hanifi'nin 04.11.2026 aktarımı |
 | 7 | UG görüşmelerinden tespitler | [[Banka Ug]], [[Enerji UG]], [[Takas UG]] |
 | 8 | Temel tespitler | [[DWH Sunum Aralık 2024]], [[Başlangıç Yaklaşımı]] |
-| 9–10 | Hedef mimari, katmanlar | [[Sistemler ve Servisler#4.1 Karar\|ODS kararı]], [[Başlangıç Yaklaşımı]], [[DWH Hedef Mimarisi v2]] |
+| 9–10 | Hedef mimari, katmanlar | [[Sistemler ve Servisler#4.1 Karar\|ODS ve landing kararları]], [[Başlangıç Yaklaşımı]], [[DWH Hedef Mimarisi v2]] |
 | 11 | Rapor yerleşim ilkesi | [[Başlangıç Yaklaşımı#Faz 3 — Operasyonel rapor göçü ölçekte]] |
 | 12 | Fiziksel yerleşim ve kapasite | [[Fiziksel Topoloji - Teknik Taraf#DWH yerleşim adayları]] |
 | 13 | ETL aracı değerlendirmesi: özet (puanlar, iki seçenek önerisi) | [Takasbank_ETL_Comparison.xlsx](../../outputs/etl-comparison/Takasbank_ETL_Comparison.xlsx) (v2.7, 16.10.2026) · canvas `outputs/etl-comparison/takasbank_etl_evaluation.canvas.tsx` |

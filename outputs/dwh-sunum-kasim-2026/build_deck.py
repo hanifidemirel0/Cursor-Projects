@@ -470,7 +470,7 @@ bullets(s, Inches(6.85), Inches(1.8), Inches(5.9), Inches(4.6), [
 s = content_slide("HEDEF MİMARİ", pill="ODS kararı + öneri",
                   sources="Sistemler ve Servisler (4.1 ODS kararı, 02.11.2026); Fiziksel Topoloji - "
                   "Teknik Taraf (GoldenGate lisansları); Başlangıç Yaklaşımı (diyagram); DWH Hedef "
-                  "Mimarisi v2; Aktif Sorular 4")
+                  "Mimarisi v2; Aktif Sorular 4; landing = ODS kararı (04.11.2026)")
 src_x, src_w = Inches(0.6), Inches(2.2)
 srcs = [("KALE (Prod)", 1.45), ("ARSIV / ÇEKDB", 2.45), ("Borsa Replica BIDB / Borsa DWH", 3.45),
         ("FTP / CSV / Web servis", 4.75)]
@@ -486,22 +486,20 @@ textbox(s, dwh_x + Inches(0.15), dwh_y + Inches(0.05), Inches(3), Inches(0.3),
         "DWH VERİTABANI (Exadata)", size=12, color=NAVY, bold=True)
 ods_x, ods_y, ods_w, ods_h = dwh_x + Inches(0.2), Inches(1.6), dwh_w - Inches(0.4), Inches(0.95)
 box(s, ods_x, ods_y, ods_w, ods_h, fill=RGBColor(0xE3, 0xF1, 0xF3), line=TEAL, line_w=1.75,
-    text=["**ODS_<kaynak şema>** — her kaynak sistem şeması için bir şema",
+    text=["**ODS_<kaynak şema>** — landing katmanı; her kaynak sistem şeması için bir şema",
           "GoldenGate ile güncel tutulur · kaynak şeklinde, entegrasyon yok"], size=12.5)
 layer_y = Inches(3.0)
-layers = [("LND", "Ham, değişmez landing"), ("CORE", "Entegre, tarihçeli"),
-          ("DM", "Kimball mart"), ("PUB", "Yasal snapshot, üye dosyası, API")]
-lw, lgap = Inches(1.4), Inches(0.28)
+layers = [("CORE", "Entegre, tarihçeli"), ("DM", "Kimball mart"),
+          ("PUB", "Yasal snapshot, üye dosyası, API")]
+lw, lgap = Inches(1.95), Inches(0.325)
 for i, (code, d) in enumerate(layers):
     lx = dwh_x + Inches(0.2) + (lw + lgap) * i
     box(s, lx, layer_y, lw, Inches(1.05), fill=NAVY, text=[f"**{code}**", d], size=12,
         color=WHITE)
     if i:
         arrow(s, lx - lgap, layer_y + Inches(0.52), lx, layer_y + Inches(0.52))
-lnd_cx = dwh_x + Inches(0.2) + lw / 2
-arrow(s, lnd_cx, ods_y + ods_h, lnd_cx, layer_y, color=MUTED, dashed=True)
-textbox(s, lnd_cx + Inches(0.1), ods_y + ods_h + Inches(0.07), Inches(2.2), Inches(0.3),
-        "landing kaynağı: açık", size=10, color=MUTED)
+core_cx = dwh_x + Inches(0.2) + lw / 2
+arrow(s, core_cx, ods_y + ods_h, core_cx, layer_y, color=NAVY)
 box(s, dwh_x + Inches(0.2), Inches(4.35), dwh_w - Inches(0.4), Inches(0.5), fill=LIGHT,
     line=LINE, text="**CTL** — yükleme kaydı, gün sonu sinyali, kalite ve mutabakat sonuçları",
     size=12)
@@ -515,8 +513,10 @@ arrow(s, src_x + src_w, Inches(2.8), gg_x, Inches(2.3), color=TEAL, width=2)
 arrow(s, src_x + src_w, Inches(3.8), gg_x, Inches(2.5), color=TEAL, width=1.5, dashed=True)
 textbox(s, Inches(2.84), Inches(3.85), Inches(0.7), Inches(0.5), ["GG", "kurumlar", "arası"],
         size=9, color=TEAL)
-arrow(s, src_x + src_w, Inches(5.1), dwh_x + Inches(0.2), layer_y + Inches(0.8), color=MUTED,
-      width=1.25)
+arrow(s, src_x + src_w, Inches(5.1), ods_x + Inches(0.15), ods_y + ods_h, color=MUTED,
+      width=1.25, dashed=True)
+textbox(s, Inches(2.84), Inches(5.2), Inches(0.7), Inches(0.5), ["dosya /", "servis"],
+        size=9, color=MUTED)
 r_x, r_w = Inches(10.85), Inches(1.95)
 box(s, r_x, ods_y, r_w, ods_h, fill=RGBColor(0xE3, 0xF1, 0xF3), line=TEAL,
     text=["**Gün içi operasyonel rapor**", "İzleme, Team Developer"], size=12)
@@ -527,10 +527,11 @@ arrow(s, dwh_x + dwh_w, Inches(3.3), r_x, Inches(3.3), color=GOLD)
 box(s, r_x, Inches(3.95), r_w, Inches(0.9), fill=LIGHT, line=NAVY,
     text=["**SPK, üyeler**", "React, web servis"], size=12)
 arrow(s, dwh_x + dwh_w, Inches(4.4), r_x, Inches(4.4), color=NAVY)
-footnote(s, "**Karar (02.11.2026):** ayrı ODS veritabanı yok; ODS_ şemaları DWH içinde, GoldenGate "
-            "ile (lisans: Takasbank 336 CPU, Borsa İstanbul 975 CPU) · tvsods hedefte yok · "
-            "Diğer katmanlar öneridir · Açık: GG extract kaynağı (prod / standby), standby'ın "
-            "raporlama rolü", y=6.05)
+footnote(s, "**Kararlar:** ayrı ODS veritabanı yok; ODS_ şemaları DWH içinde, GoldenGate ile "
+            "(02.11.2026; lisans: Takasbank 336 CPU, Borsa İstanbul 975 CPU) · ayrı landing katmanı "
+            "yok, landing = ODS_ (04.11.2026) · tvsods hedefte yok · Diğer katmanlar öneridir · "
+            "Açık: GG extract kaynağı (prod / standby), kaynaktaki silme ve update'lerin ODS_'te "
+            "izinin tutulması", y=6.05)
 
 # 11 — Katmanlar
 s = content_slide("KATMANLAR VE TASARIM İLKELERİ", pill="Öneri — onay bekliyor",
@@ -540,14 +541,13 @@ table(s, Inches(0.55), Inches(1.2), Inches(8.1), [
     ["Katman", "İçerik", "Erişim"],
     ["CTL_", "Yükleme kaydı, checkpoint, gün sonu sinyali, kalite ve mutabakat sonuçları",
      "ETL, operasyon"],
-    ["LND_<kaynak>", "Kaynağın teslim ettiği ham veri; dönüşüm yok, değişmez, tekrar oynatılabilir",
-     "Yalnızca ETL"],
+    ["ODS_<şema>", "**Landing katmanı:** her kaynak sistem şeması için GoldenGate ile güncel "
+     "tutulan kaynak kopyası; dosya / web servis kaynakları da kendi ODS_ şemasına (karar)",
+     "ETL, operasyonel rapor"],
     ["STG_", "Geçici standardizasyon ve temizleme (önceki sunumlardaki “ODS'de temizleme”)",
      "Yalnızca ETL"],
     ["CORE_", "Entegre taraf/üye, hesap, piyasa × hizmet, araç, takvim; iş ve sistem zamanıyla tarihçe",
      "ETL, analist"],
-    ["ODS_<şema>", "Her kaynak sistem şeması için GoldenGate ile güncel tutulan kaynak kopyası "
-     "(karar)", "Operasyonel rapor"],
     ["DM_<konu>", "Grain'i yazılı yıldız şema mart'lar", "MSTR, raporlar"],
     ["PUB_", "Sürümlü yasal snapshot, üye dosyası, CSV, API", "Dış tüketici, uygulama"],
 ], [1.55, 4.75, 1.8], size=12, header_size=13, row_h=0.62)
@@ -559,7 +559,7 @@ bullets(s, Inches(9.1), Inches(1.7), Inches(3.6), Inches(4.5), [
     "Her faz **dikey dilim**: kaynaktan rapora çalışan bir iş sonucu",
     "Kurumsal model topyekûn beklenmez; dilim geldikçe büyür",
     "Mutabakat kırmızıysa **yayın kapısı** açılmaz",
-    "Hassasiyet landing'den yayına taşınır; prod'da erişim kontrolü, non-prod'da maskeleme",
+    "Hassasiyet ODS_'ten yayına taşınır; prod'da erişim kontrolü, non-prod'da maskeleme",
     "Her veri ürününün sahibi, SLA'sı ve lineage'ı var",
 ], size=13.5, gap=5)
 
@@ -616,7 +616,7 @@ for i, (name, dbs, disk, cpu, prev, now, c) in enumerate(machines):
     box(s, x, Inches(4.25), Inches(3.9), Inches(1.0), fill=WHITE, line=c, line_w=2, text=now,
         size=13)
 box(s, Inches(0.6), Inches(5.5), W - Inches(1.2), Inches(0.75), fill=LIGHT,
-    text="**Karar yöntemi:** DBA ekibiyle IO/CPU izolasyon testi ve kapasite modeli (landing, core, "
+    text="**Karar yöntemi:** DBA ekibiyle IO/CPU izolasyon testi ve kapasite modeli (ODS_, core, "
          "mart, indeks, temp, yedek, DR, büyüme) sonrasında. 1 Exadata ≈ 200 TB, KALE ≈ 10 TB "
          "bilgisi tek başına kapasite onayı değildir.", size=13, align=PP_ALIGN.LEFT)
 footnote(s, "Disk ve CPU değerleri Aralık 2024 kapasite görüntüsüdür (11–17 Aralık 2024); güncel "
@@ -969,7 +969,7 @@ cards = [
         "Tek kaynak şema, **T-1 yeterli**; net düzenleyici tüketici",
         "~2 milyar satır / 170 GB; mesaj başına tek satır özetle **~24 milyon satır**",
         "Ortak üye/piyasa modeli gerektirmez; modelleme tartışmasına girmeden tesisatı kanıtlar",
-        "Kanıtlar: landing, SCN-tutarlı çıkarım, replay, zamanlayıcı zinciri, PUB snapshot, "
+        "Kanıtlar: ODS_ beslemesi, SCN-tutarlı çıkarım, replay, zamanlayıcı zinciri, PUB snapshot, "
         "erişim ve audit (serbest alanda kimlik no)",
     ]),
     ("PİLOT B — BISTECH SPK 13 RAPOR", "Entegrasyonu kanıtlar", [
@@ -987,7 +987,7 @@ for i, (title, sub, pts) in enumerate(cards):
     box(s, x, Inches(1.95), Inches(5.95), Inches(2.9), fill=LIGHT, shape=MSO_SHAPE.RECTANGLE)
     bullets(s, x + Inches(0.1), Inches(2.0), Inches(5.75), Inches(2.85), pts, size=13.5, gap=4)
 box(s, Inches(0.6), Inches(5.0), Inches(5.95), Inches(1.1), fill=RGBColor(0xFD, 0xF3, 0xE4),
-    line=GOLD, text=["**Hemen başlanacak:** BIST fon sözleşme verisinin ham olarak landing'e "
+    line=GOLD, text=["**Hemen başlanacak:** BIST fon sözleşme verisinin ham olarak ODS_'e "
                      "alınması — 9 milyon kayıt/gün, kaynakta 5 gün sonra siliniyor"],
     size=13, align=PP_ALIGN.LEFT)
 box(s, Inches(6.75), Inches(5.0), Inches(5.95), Inches(1.1), fill=WHITE, line=LINE,
@@ -1005,7 +1005,7 @@ phases = [
     ("FAZ 0", "Keşif ve karar kapıları", "İlk 30 gün: mandat, ölçüm, rapor envanteri, GoldenGate "
      "/ ODS_ planı, gün sonu sinyali, ETL aracı değerlendirmesinin sonuçlanması",
      "**ETL aracı seçimi**, rapor envanteri, puanlı pilot listesi, yerleşim testi"),
-    ("FAZ 1", "Pilot A: platform temeli", "CTL/LND, SCN-tutarlı çıkarım, replay, PUB, güvenlik",
+    ("FAZ 1", "Pilot A: platform temeli", "CTL/ODS_, SCN-tutarlı çıkarım, replay, PUB, güvenlik",
      "Ölçülmüş KALE yük azalması, paralel koşum onayı, runbook"),
     ("FAZ 2", "Pilot B: entegrasyon", "İlk CORE paketi, UG gün sonu prosedürlerinin DWH'a "
      "taşınması, ilk MSTR yıldızı", "CORE paketi ve MSTR yıldızının paralel koşum kabulü"),
@@ -1052,7 +1052,7 @@ cols = [
     ("İki hızlı kazanım", [
         "Mevcut **gün sonu log kaydı** DWH tetikleyicisi olarak bağlanır; iş tarihi, koşu "
         "kimliği, SCN içeriği doğrulanır",
-        "**BIST fon sözleşme verisi** hemen landing'e (5 günlük saklama süresi nedeniyle)",
+        "**BIST fon sözleşme verisi** hemen ODS_'e (5 günlük saklama süresi nedeniyle)",
     ]),
     ("Ekip", [
         "1 veri modelleyici",
@@ -1115,13 +1115,13 @@ table(s, Inches(0.55), Inches(1.2), W - Inches(1.1), [
      "Lag izleme ve alarm, yeniden senkron prosedürü, DBA sahipliği; extract kaynağı redo etkisi "
      "ölçülerek seçilir"],
     ["Kişisel veri yoğunluğu (BES), serbest alanda kimlik no", "Gizlilik ve erişim riski",
-     "Landing öncesi sınıflandırma, VPD/redaction, audit, non-prod maskeleme (TDM)"],
+     "ODS_ öncesi sınıflandırma, VPD/redaction, audit, non-prod maskeleme (TDM)"],
     ["T+1 takas geçişi", "Takas kuralları program ortasında değişir",
      "Pilot B'den itibaren versiyonlu takas kuralı"],
     ["Tarihsel veriye yerinde update", "Artımlı yüklemeler bozulur",
      "Önce profil; gerekli yerde bitemporal, aksi hâlde SCN snapshot"],
     ["Kısa kaynak saklama (fon sözleşmeleri 5 gün)", "Tarihçe kalıcı olarak kaybolur",
-     "Faz 0'da hemen landing'e alma"],
+     "Faz 0'da hemen ODS_'e alma; kaynaktaki silme ODS_'e yansıtılmamalı"],
     ["Yetkinlik açığı, bilginin tek ekipte toplanması", "Sürdürülebilirlik",
      "UG ortak sahipliği, Git tabanlı kod, runbook, eğitim"],
     ["ETL aracı kararı ve satın alma süresi", "Pilot başlayamaz",

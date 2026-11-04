@@ -115,7 +115,7 @@ Doğrulanması gereken kaynak adaylarına göre kapsama:
 | BIST DB | Var — Borsa İstanbul'un da GG lisansı var; kurumlar arası akış kurulabilir ([[Fiziksel Topoloji - Teknik Taraf#GoldenGate lisansları\|GoldenGate lisansları]]) | Zamanlanmış çekim |
 | CSV / FTP | **Yok** — GG kaynak olarak transaction log okur | Native dosya desteği |
 | Postgre / MSSQL | Var | JDBC ile var |
-| LND→CORE→ODS/DM/PUB dönüşümleri | Yok | Asıl işi |
+| ODS→CORE→DM/PUB dönüşümleri | Yok | Asıl işi |
 
 Sonuç: **GoldenGate tek başına yetmez** (dosya bacağını ve tüm dönüşümü kapatamaz). **ODI tek başına yetebilir**; tek zayıf noktası prod Kale'de log tabanlı CDC.
 
@@ -155,7 +155,7 @@ ODI'nin Kale'de GG'siz CDC seçenekleri trigger veya timestamp/watermark kolonu.
 - Prod Kale'ye **trigger** veya **materialized view log** koymak — ikisi de canlı işlem sistemine yazma yükü ekler.
 - Prod Kale'yi **doğrudan dblink** ile sorgulamak.
 
-Kale'yi okuyan batch yollar `sur` üstündeki replikayı kullanır; diğer kaynaklar kendi onaylı landing yolundan gelir. GoldenGate extract'ının prod Kale'den mi standby'dan mı (downstream / ADG kaynaklı extract) okuyacağı ve prod'da supplemental logging etkisi açık: [[Aktif Sorular]] madde 4.
+Kale'yi okuyan batch yollar `sur` üstündeki replikayı kullanır; diğer kaynaklar kendi onaylı yolundan `ODS_`'e gelir. GoldenGate extract'ının prod Kale'den mi standby'dan mı (downstream / ADG kaynaklı extract) okuyacağı ve prod'da supplemental logging etkisi açık: [[Aktif Sorular]] madde 4.
 
 İlgili notlar: [[Sistemler ve Servisler#4. ODS|ODS]] · [[DWH Hedef Mimarisi v2]] · [[DWH Mimari Tasarım]] · [[Fiziksel Topoloji - Teknik Taraf]] · [[Aktif Sorular]] · [[Proje Planı]] ([[Ortamlar hakkında]])
 
@@ -184,6 +184,13 @@ Operational Data Store. Takasbank hedef mimarisinde kaynak sistem verisinin, DWH
 >
 > Bu karar şunların yerine geçer: [[Başlangıç Yaklaşımı]]'nın Ekim 2026 önerisi (ayrı fiziksel ODS yok, entegre güncel-durum core üstünde projeksiyon, gün içi raporlama standby'dan), [[DWH Sunum Temmuz 2025]]'teki "ODS, kale Exadata'da 4. veritabanı" yerleşimi, [[DWH Hedef Mimarisi v2]]'deki "ODS = core projeksiyonu" tanımı. v2 yönetici özetindeki "ods, dwh ile aynı veritabanında; her kaynak sistem için ayrı şema" maddesiyle uyumludur.
 
+> [!important] Landing kararı (04.11.2026)
+> Kaynak: Hanifi'nin 04.11.2026 tarihli aktarımı ("landing layer will be same as ods").
+>
+> - **Ayrı landing katmanı (`LND_`) olmayacak.** Landing işlevini `ODS_` şemaları görür; core yüklemeleri `ODS_`'ten okur.
+>
+> Bu karar [[DWH Hedef Mimarisi v2]] ve [[Başlangıç Yaklaşımı]]'ndaki append-only `LND_<kaynak>` (PSA) katmanının yerine geçer.
+
 ### 4.2 Kararın sonuçları
 
 - **ODS kaynak şeklindedir, entegre değildir.** `ODS_<şema>` kaynak tabloların güncel durumunu yapısını koruyarak taşır. Üye/hesap kimlik çözümlemesi ve kurumsal anlam `CORE_*`'da kalır; çok kaynaklı birleştirme gerektiren rapor ODS'den değil core/mart'tan verilir.
@@ -191,12 +198,14 @@ Operational Data Store. Takasbank hedef mimarisinde kaynak sistem verisinin, DWH
 - **ODS'in yeri DWH'ın yeridir.** Ayrı ODS yerleşimi sorusu kapandı; DWH veritabanının makinesi (`sur` / `hisar`) hâlâ açık: [[Fiziksel Topoloji - Teknik Taraf#DWH yerleşim adayları]].
 - **GoldenGate ODS bacağının aracıdır.** Lisans mevcut (336 CPU: [[Fiziksel Topoloji - Teknik Taraf#GoldenGate lisansları|GoldenGate lisansları]]). Sürüm/destek kontrolü, extract kaynağı (prod Kale / `sur` standby) ve işletme sahipliği (DBA ekibi GG'ye güvenmiyor, 7/24 ekibi yok) ön koşul hâline geldi: [[Aktif Sorular]] madde 4 ve 14.2. Dönüşüm/ELT aracı ayrı karardır: [[#2. Goldengate|Goldengate]]
 - **Hassas veri ODS sınırında iner.** Kaynak şemalar DWH'a ham geldiği için PowerDesigner hassasiyet eşlemesi ve erişim kontrolü `ODS_` şemaları açılmadan yapılmalı: [[#5. PowerDesigner|PowerDesigner]] · [[Aktif Sorular]] madde 6.
+- **Landing `ODS_`'tir; `ODS_` güncel değerlidir.** Ayrı append-only landing olmadığı için kaynakta silinen veya yerinde güncellenen kayıt `ODS_`'te de değişir. Kaynağın geçmişte ne dediğinin kanıtı ve geçmiş günün DWH içinden yeniden üretimi (replay) başka yolla sağlanmalı; yöntem açık: [[Aktif Sorular]] madde 4.7. Kaynakta kısa süre tutulan veri (BIST fon sözleşmeleri, 5 gün) için kaynak silmeleri `ODS_`'e uygulanmamalı.
+- **GoldenGate'in okuyamadığı kaynaklar da `ODS_`'e iner.** FTP/CSV, web servisleri ve benzeri kaynaklar kendi `ODS_` şemasına yüklenir; yükleme yolu açık: [[Aktif Sorular]] madde 4.6.
 - **Kapasite:** Kaynak şemaların güncel kopyası DWH kapasitesine kaynak hacmini (kaledb ~10 TB) ekler.
 
 ### 4.3 Katman sınırları
 
 - **ODS (`ODS_<kaynak şema>`)** — Kaynak şemanın GoldenGate ile güncel tutulan kopyası; kaynak şeklinde, güncel değerli.
-- **Landing (`LND_<kaynak>`)** — Kaynağın ne teslim ettiğini kanıtlar ve replay sağlar. Landing'in `ODS_`'den mi yoksa kaynaktan ayrı çıkarımla mı besleneceği açık: [[Aktif Sorular]] madde 4.
+- **Landing** — Ayrı katman değildir; `ODS_` landing katmanıdır ([[#4.1 Karar|landing kararı, 04.11.2026]]). Değişiklik izi ve replay yöntemi açık: [[Aktif Sorular]] madde 4.7.
 - **Kurumsal core (`CORE_*`)** — Entegre anlamı, kimlik çözümlemeyi ve bitemporal tarihçeyi sahiplenir.
 
 Detaylı katman sözleşmesi: [[DWH Hedef Mimarisi v2]]
@@ -211,7 +220,7 @@ Değişmeyen kurallar:
 
 Kaynak adayları: [[Sistemler ve Servisler#3. Kale|Kale]] · Arşiv · ÇekDB · **BIST DB** (Borsa'nın veri ambarı) · **FTP ile gelen CSV dosyaları** · muhtemel Postgre / MSSQL kaynakları.
 
-GoldenGate transaction log okuyan bir CDC aracıdır; veritabanı kaynakları (Kale, Arşiv, ÇekDB, Postgre/MSSQL) için uygundur. BIST DB / Replica BIDB için, Borsa İstanbul'un da GG lisansı olduğundan kurumlar arası GG akışı kurulabilir ([[Fiziksel Topoloji - Teknik Taraf#GoldenGate lisansları|GoldenGate lisansları]]). FTP/CSV ve web servisleri için GG yolu yoktur ([[#2.4 GoldenGate vs ODI — aynı işi yapmıyorlar|2.4]]). Bu kaynakların ODS'de yer alıp almayacağı açık: [[Aktif Sorular]] madde 4.
+GoldenGate transaction log okuyan bir CDC aracıdır; veritabanı kaynakları (Kale, Arşiv, ÇekDB, Postgre/MSSQL) için uygundur. BIST DB / Replica BIDB için, Borsa İstanbul'un da GG lisansı olduğundan kurumlar arası GG akışı kurulabilir ([[Fiziksel Topoloji - Teknik Taraf#GoldenGate lisansları|GoldenGate lisansları]]). FTP/CSV ve web servisleri için GG yolu yoktur ([[#2.4 GoldenGate vs ODI — aynı işi yapmıyorlar|2.4]]). Landing `ODS_` olduğu için bu kaynaklar da kendi `ODS_` şemasına iner; yükleme yolu açık: [[Aktif Sorular]] madde 4.6.
 
 Hedef: [[Sistemler ve Servisler#1. DWH|DWH]]
 

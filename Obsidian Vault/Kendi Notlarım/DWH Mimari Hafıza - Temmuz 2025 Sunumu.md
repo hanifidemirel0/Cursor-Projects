@@ -38,7 +38,7 @@ Kaynak: [[DWH Sunum Temmuz 2025#Slayt 11 — SWIFT yasal raporlar]] · [[DWH Sun
 - tekrar eden message detail/segment kayıtları,
 - serbest metinden çıkarılan kimlik için ayrı occurrence/index kaydı,
 - parser ve normalizasyon kuralı sürümü,
-- orijinal mesajın immutable landing kaydı,
+- orijinal mesajın değişmez kaydı (landing = `ODS_`; değişiklik izi yöntemi: [[Aktif Sorular]] madde 4.7),
 - yasal sorgunun hangi parser sürümüyle üretildiğinin lineage'ı.
 
 Özet tablo performans için kullanılabilir; ham detayın ve serbest alanın yerine geçmez. Kimlik araması nedeniyle veri sınıflandırması, erişim audit'i ve yanlış pozitif/negatif kontrolü zorunludur.
@@ -65,7 +65,7 @@ Kaynak: [[DWH Sunum Temmuz 2025#Slayt 19 — Fon işlem defterleri]] · [[DWH Su
 
 Önerilen model:
 
-- Borsa DWH teslimatının immutable landing'e gecikmeden alınması,
+- Borsa DWH teslimatının `ODS_`'e (landing) gecikmeden alınması; kaynak silmeleri `ODS_`'e uygulanmaz,
 - kısa kaynak saklama süresinden bağımsız replay,
 - piyasa kapanışı ve koşu kimliği bazlı orkestrasyon,
 - hesap/fon uyuşmazlığında silme yerine reason-code ile quarantine,
@@ -73,7 +73,7 @@ Kaynak: [[DWH Sunum Temmuz 2025#Slayt 19 — Fon işlem defterleri]] · [[DWH Su
 - işlem defteri dosyasında içerik hash'i, piyasa, alıcı, sürüm ve teslimat kanıtı,
 - ilk dilimde tek piyasa ve tek dosya ailesi.
 
-Sunumda “ODS'den silme” olarak anlatılan akış hedef mimaride geçici `STG_*` temizliğidir; landing kanıtı silinmez.
+Sunumda “ODS'den silme” olarak anlatılan akış hedef mimaride geçici `STG_*` temizliğidir; `ODS_`'teki kaynak kaydı silinmez.
 
 ### BISTECH SPK raporları
 
@@ -132,7 +132,7 @@ Temmuz 2025'te değerlendirilmiş seçeneklerdir; güncel hedef karar değildir.
 - Fon Bilgilendirme için bildirim, fon, dosya ve hesaplama grain'leri nedir?
 - Fon işlem defteri için her piyasanın gerçek kapanış sinyali ve iki koşunun amacı nedir?
 - Beş günlük kaynak saklama hâlen geçerli mi?
-- Borsa DWH verisi doğrudan landing'e alınabilir mi, yoksa Kale/TPS zorunlu kayıt sistemi midir?
+- Borsa DWH verisi doğrudan `ODS_`'e alınabilir mi, yoksa Kale/TPS zorunlu kayıt sistemi midir?
 - SWIFT serbest metin kimlik aramasının onaylı parser ve yasal eşleşme kuralı var mı?
 - SPK raporlarında kabul/ret cevabı ve resmî teslimat kanıtı üretiliyor mu?
 

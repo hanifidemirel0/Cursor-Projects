@@ -28,7 +28,7 @@ ETL aracı karşılaştırması: [Takasbank_ETL_Comparison.xlsx](../../outputs/e
 - Seçilen rapor/dosyanın eski çıktıyla onaylı mutabakatı.
 - Kaynaktan MSTR/dış teslimata kolon seviyesinde lineage.
 - Aynı yükün tekrar koşmasında idempotent sonuç.
-- Geriye dönük düzeltmenin kaynağa dönmeden landing'den yeniden üretilebilmesi.
+- Geriye dönük düzeltmenin kaynağa dönmeden DWH içinden yeniden üretilebilmesi (yöntem: [[Aktif Sorular]] madde 4.7).
 - Her veri ürününde sahip, SLA, hassasiyet, saklama ve operasyon sorumlusu.
 - İkinci konu alanında ortak taraf/hesap/piyasa sözleşmesinin bozulmadan tekrar kullanılması.
 
@@ -47,7 +47,7 @@ ETL aracı karşılaştırması: [Takasbank_ETL_Comparison.xlsx](../../outputs/e
 ### İki ucuz kazanım
 
 - [ ] **Gün sonu tamamlanma olayı:** işler tamamlandığında veritabanına atılan mevcut log kaydını DWH zincirine tetikleyici olarak bağla; iş tarihi, koşu kimliği ve SCN taşıyıp taşımadığını doğrula, eksikse operasyonla tamamla ([[Aktif Sorular]] madde 12.2). Deniz (21:30–~06:00) ve Ozan (~03:00 bitiş / 04:00–07:00 flashback) anlatımlarını bu sırada tek zaman çizelgesine oturt.
-- [ ] **BIST fon sözleşme verisini hemen landing'e al** (9 milyon satır/gün, kaynakta 5 gün sonra siliniyor): `LND_BISTDWH` altında ham, dönüşümsüz, yükleme kimlikli. Modelleme beklenmez; yakalanmayan tarihçe kaybolur. Erişim sorusu: [[Aktif Sorular]] madde 15.3.
+- [ ] **BIST fon sözleşme verisini hemen `ODS_`'e al** (9 milyon satır/gün, kaynakta 5 gün sonra siliniyor): `ODS_BISTDWH` altında ham, dönüşümsüz, yükleme kimlikli; kaynaktaki silmeler `ODS_`'e uygulanmaz. Modelleme beklenmez; yakalanmayan tarihçe kaybolur. Erişim sorusu: [[Aktif Sorular]] madde 15.3.
 
 ### Ekip
 
@@ -126,20 +126,20 @@ Hiçbiri henüz kesin pilot değildir. Adaylar 1–5 arasında puanlanır:
 
 [[Başlangıç Yaklaşımı]] puanlama ilkesini iki ardışık pilota uygular; üye-dosya projesi ayrıntıları geldiğinde aynı puanlamayla karşılaştırılır.
 
-- **Pilot A — SWIFT yasal raporlar** ([[DWH Sunum Temmuz 2025#Slayt 11 — SWIFT yasal raporlar]]): tek kaynak şema, T-1 yeterli, 2 milyar satır / 170 GB görünür Kale kazanımı, güvenlik tasarımını zorlar, conformed boyut gerektirmez. Platform tesisatını (CTL/LND, SCN-tutarlı çıkarım, replay, zamanlayıcı zinciri, `PUB` snapshot, VPD/audit) kanıtlar.
+- **Pilot A — SWIFT yasal raporlar** ([[DWH Sunum Temmuz 2025#Slayt 11 — SWIFT yasal raporlar]]): tek kaynak şema, T-1 yeterli, 2 milyar satır / 170 GB görünür Kale kazanımı, güvenlik tasarımını zorlar, conformed boyut gerektirmez. Platform tesisatını (CTL/ODS_, SCN-tutarlı çıkarım, replay, zamanlayıcı zinciri, `PUB` snapshot, VPD/audit) kanıtlar.
 - **Pilot B — BISTECH SPK 13 rapor** ([[DWH Sunum Temmuz 2025#Slayt 22 — BISTECH SPK raporları: kaynaklar]]): iki kaynak (NOMX + Replica BIDB), gün sonu sinyaline bağımlı, ilk gerçek `CORE` paketi (party, membership, account, instrument, market_service, calendar, versiyonlu settlement_rule), dblink tabanlı SPK erişimini `PUB` ile değiştirir, ilk MSTR yıldızı.
 - Fon işlem defterleri (Verda teslimatı) ve Fon Bilgilendirme (gün içi düzeltme, 10 yıl CSV/web servis) Faz 4'ün ilk dilimleridir; sözleşme verisinin yakalanması Faz 0'da başlar.
 
 - [ ] Pilot A ve B'yi yukarıdaki 1–5 puanlamasıyla üye-dosya adayına karşı puanla; sonucu bu bölüme işle.
 
-## Faz 1 — Kontrol ve landing temeli
+## Faz 1 — Kontrol ve ODS temeli
 
 - [ ] `CTL_` yükleme, checkpoint, veri sözleşmesi, lineage, kalite ve yayın kayıtlarını oluştur.
-- [ ] `LND_<kaynak>` standardı ve zorunlu teknik metadata'yı uygula.
+- [ ] `ODS_<şema>` standardını (adlandırma, GoldenGate eşlemesi) ve zorunlu teknik metadata'yı uygula; değişiklik izi yöntemini kararlaştır ([[Aktif Sorular]] madde 4.7).
 - [ ] İlk Oracle kaynağını prod yerine `sur` replikasından al; SCN/snapshot ve replika lag'ini kaydet.
 - [ ] Dosya varsa manifest, checksum, schema version, duplicate ve karantina akışını kur.
 - [ ] Backfill ve replay koşusunu ayrı `yukleme_id` ile test et.
-- [ ] Seçilen zamanlayıcıda teslimat → landing → teknik kontrol zincirini kur.
+- [ ] Seçilen zamanlayıcıda teslimat → `ODS_` → teknik kontrol zincirini kur.
 - [ ] Teknik farkın sahibi ve bildirim/escalation yolunu tanımla.
 
 Bu faz pilot datasıyla tamamlanır; boş platform kurulumu olarak teslim edilmez.
@@ -173,7 +173,7 @@ Entity, ilişki ve grain başlangıç modeli: [[DWH Logical Data Model]].
 - [ ] Teslimat, teknik, dönüşüm ve iş mutabakatlarını pilot koşusunda çalıştır.
 - [ ] Kaynak → core → mart → mevcut rapor/dosya kontrol toplamlarını aynı grain'de belgeleyip onaylat.
 - [ ] Kırmızı sonuçta yeni sürümü açmayan yayın kapısını test et.
-- [ ] Hatalı koşuyu landing'den replay ederek aynı sonucu üret.
+- [ ] Hatalı koşuyu DWH içinden replay ederek aynı sonucu üret.
 - [ ] RPO/RTO, runbook, alarm, dashboard ve escalation dry-run yap.
 - [ ] Veri sahibi, UG ve operasyon ekibinden üretim kabulü al.
 

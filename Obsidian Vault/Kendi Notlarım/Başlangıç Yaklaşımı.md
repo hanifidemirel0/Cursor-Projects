@@ -16,7 +16,7 @@ tags:
 Takasbank on-prem kurumsal veri ambarı işine nasıl başlanacağının **sahibi** bu nottur: mimari duruş, fazlar, ilk yönlendirme komitesine götürülecek kararlar ve risk kaydı. Açık sorular [[Aktif Sorular]], eylem maddeleri [[Proje Planı]], ortam gerçekleri [[Fiziksel Topoloji - Teknik Taraf]], ODS kapsamı [[Sistemler ve Servisler#4. ODS|ODS]] notlarındadır; burada tekrarlanmaz.
 
 > [!info] Konum
-> Bu not [[DWH Hedef Mimarisi v2]] ile aynı ilkeleri (dikey dilim, immutable landing, grain önce, yayın kapısı) paylaşır; ayrıştığı yerler aşağıda "Mimari duruş" bölümünde açıkça işaretlenmiştir. Satıcı tekliflerinden ([[Obase Takasbank Değerlendirme Raporu Ağustos 2024]], [[Komtaş Future-Ready Data Platform Teklifi Ağustos 2026]]) bağımsız yazılmıştır.
+> Bu not [[DWH Hedef Mimarisi v2]] ile aynı ilkeleri (dikey dilim, dönüşümsüz landing — artık `ODS_`, grain önce, yayın kapısı) paylaşır; ayrıştığı yerler aşağıda "Mimari duruş" bölümünde açıkça işaretlenmiştir. Satıcı tekliflerinden ([[Obase Takasbank Değerlendirme Raporu Ağustos 2024]], [[Komtaş Future-Ready Data Platform Teklifi Ağustos 2026]]) bağımsız yazılmıştır.
 
 ## Notların söylediği kurum
 
@@ -56,9 +56,8 @@ flowchart LR
         Izleme[Gun ici izleme ekranlari ve Team Developer]
     end
     subgraph dwh [DWH Veritabani]
-        Ods[ODS_ kaynak sema kopyalari]
+        Ods[ODS_ kaynak sema kopyalari ve landing]
         Ctl[CTL batch kontrol ve gun sonu sinyali]
-        Lnd[LND landing PSA]
         Core[CORE entegre bitemporal]
         Dm[DM Kimball mart]
         Pub[PUB duzenleyici snapshot uye dosyasi API]
@@ -68,14 +67,12 @@ flowchart LR
     Arsiv -->|GoldenGate| Ods
     Ods -->|guncel durum| Izleme
     Standby -.->|rolu acik| Izleme
-    Standby -->|SCN tutarli batch| Lnd
-    Bidb --> Lnd
+    Standby -.->|GG extract adayi| Ods
     Bidb -.->|GoldenGate mumkun| Ods
-    Files --> Lnd
-    Arsiv --> Lnd
-    Lnd --> Core --> Dm --> Pub
+    Files -->|dosya ve servis yukleme| Ods
+    Ods --> Core --> Dm --> Pub
     Dm --> MSTR[MSTR Pusula semantik katman]
-    Ctl -.-> Lnd
+    Ctl -.-> Ods
     Ctl -.-> Core
 ```
 
@@ -87,7 +84,7 @@ Faz içi görev listeleri [[Proje Planı]] notundadır; burada yalnızca her faz
 
 - **Mandat ve yönetişim (1. hafta):** isimli sponsor, yönlendirme kadansı, konu alanı başına "hangi sayı doğru" karar hakkı ([[DWH Ownership Operating Model]] bugün var olan rollere indirgenerek). Programın birincil KPI'ı: raporlamaya atfedilen, ölçülmüş Kale DB-time azalması ve gün sonu süresi.
 - **Görüşme değil ölçüm (1–4. hafta):** 4 haftalık AWR/ASH yük çalışması; log tabanlı rapor envanteri; standby üstünde kaynak profilleme; mimariyi değiştiren iki iddianın doğrulanması (ADG modu, UG gün sonu prosedürlerinin standby'da koşup koşamayacağı); GoldenGate lisansının varlığı doğrulandı (336 CPU).
-- **İki ucuz kazanım:** mevcut gün sonu log kaydının DWH zincirine tetikleyici olarak bağlanması (iş tarihi, koşu kimliği, SCN taşıyıp taşımadığı doğrulanır) ve BIST fon sözleşme verisinin **hemen** landing'e alınması (kaynakta 5 gün sonra siliniyor; modelleme beklemez).
+- **İki ucuz kazanım:** mevcut gün sonu log kaydının DWH zincirine tetikleyici olarak bağlanması (iş tarihi, koşu kimliği, SCN taşıyıp taşımadığı doğrulanır) ve BIST fon sözleşme verisinin **hemen** `ODS_`'e alınması (kaynakta 5 gün sonra siliniyor; kaynak silmeleri `ODS_`'e uygulanmaz; modelleme beklemez).
 - **Ekip (2–4. hafta):** 1 veri modelleyici, 2 Oracle-güçlü veri mühendisi, dilim başına dönüşümlü UG analisti, DBA irtibat. Danışmanlık: pilotta birlikte inşa eden sınırlı ortak; üç aylık kâğıt tasarım çalışması değil (Komtaş teklifi kapsamıyla bir RFP teslim eder, bir ambar değil).
 
 > [!failure] Faz 0 çıkış kapısı
@@ -97,7 +94,7 @@ Faz içi görev listeleri [[Proje Planı]] notundadır; burada yalnızca her faz
 
 **Neden ilk:** tek kaynak şema; T-1 kabul edilebilir; 2 milyar satır / 170 GB ve serbest metinde kimlik arama görünür bir Kale kazanımı; net düzenleyici tüketici; güvenlik tasarımını zorlar (serbest alanda TCKN). Conformed üye/piyasa boyutu gerektirmediği için modelleme tartışmasına girmeden tesisatı kanıtlar: [[DWH Sunum Temmuz 2025#Slayt 11 — SWIFT yasal raporlar]].
 
-Kapsam: `CTL`/`LND` standardı, standby'dan SCN-tutarlı çıkarım, ayrı yükleme kimliğiyle replay/backfill, gün sonu olayına asılan zamanlayıcı zinciri (araç açık; Automic lisans nedeniyle seçenek değil: [[Aktif Sorular]] madde 16); mesaj varlığı + çıkarılmış kimlik tablosu; düzenleyici talebi başına içerik hash'li, değişmez "as delivered" `PUB` snapshot'ı; VPD/redaction rolleri ve her okuma/dışa aktarımın audit'i; aynı kesimde mevcut Kale sorgusuyla mutabakat; kırmızıda kapanan yayın kapısı.
+Kapsam: `CTL`/`ODS_` standardı, standby'dan SCN-tutarlı çıkarım, ayrı yükleme kimliğiyle replay/backfill, gün sonu olayına asılan zamanlayıcı zinciri (araç açık; Automic lisans nedeniyle seçenek değil: [[Aktif Sorular]] madde 16); mesaj varlığı + çıkarılmış kimlik tablosu; düzenleyici talebi başına içerik hash'li, değişmez "as delivered" `PUB` snapshot'ı; VPD/redaction rolleri ve her okuma/dışa aktarımın audit'i; aynı kesimde mevcut Kale sorgusuyla mutabakat; kırmızıda kapanan yayın kapısı.
 
 > [!failure] Faz 1 çıkış kapısı
 > Ölçülmüş Kale DB-time azalması, sahibi ekibin paralel koşum onayı, operasyona teslim edilmiş runbook.
@@ -139,7 +136,7 @@ Kale yüküne ve conformed core'un tekrar kullanımına göre, envanterle doğru
 
 - **GoldenGate işletme yükü** — ODS bacağı GG'ye bağlandı; DBA ekibi GG'ye güvenmiyor ve 7/24 ekibi yok. Lag izleme/alarm, yeniden senkron prosedürü ve sahiplik canlıya geçişten önce netleşmeli.
 - **Prod Kale'de supplemental logging** redo hacmini artırır — extract kaynağı (prod / `sur` standby) DBA ile ölçülerek seçilir.
-- **BES kişisel veri yoğunluğu** (Kale'nin ~%80'i iddiası) — landing öncesi sınıflandırma, tokenize katılımcı anahtarı.
+- **BES kişisel veri yoğunluğu** (Kale'nin ~%80'i iddiası) — `ODS_` öncesi sınıflandırma, tokenize katılımcı anahtarı.
 - **T+1 geçişi** 2026 sonunda takas kurallarını program ortasında değiştirir — Pilot B'den itibaren versiyonlu `settlement_rule`.
 - **Tarihsel yerinde güncellemeler** artımlı yükleri kırar — önce profil; bitemporal yalnızca kanıtlanan yerde, aksi hâlde SCN snapshot.
 - **Yetkinlik açığı ve tek ekipte bilgi birikimi** (Vakıfbank dersi: [[DWH Sunum Aralık 2024#Slayt 4 — Vakıfbank]]) — UG analistleri modelleri birlikte sahiplenir, Git tabanlı kod, operasyona teslim edilmiş runbook.
