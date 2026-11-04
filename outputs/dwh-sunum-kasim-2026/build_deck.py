@@ -310,6 +310,7 @@ events = [
     ("Eyl 2024", "Sunum-2", "Gerekçeler, yol haritası; TEFAS/BES gibi alanda **POC** önerisi", False),
     ("Ara 2024", "Sunum-3", "ODS → KALE, DWH → SUR; Vakıfbank, MKK, Borsa İstanbul incelemesi", False),
     ("Oca 2025 – May 2026", "Personel arayışı", "Deneyimli personel alımı için arayış; **birçok mülakat** yapıldı", True),
+    ("Mar 2025", "Proje sunumu", "DWH'ta yapılabilecek **4 proje** ilk kez anlatıldı", False),
     ("Tem 2025", "Sunum-4", "**ODS kurulması** kararı; pilot yaklaşımı; 4 örnek uygulama; ODVM", False),
     ("Ara 2025 – Mar 2026", "ODI PoC", "**Ondata** ile Oracle Data Integrator PoC", True),
     ("Nis–May 2026", "Informatica PoC", "**Komtaş** ile Informatica PoC", True),
@@ -328,9 +329,10 @@ for i, (when, what, detail, recent) in enumerate(events):
             align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.BOTTOM)
     box(s, x + step / 2 - Inches(0.13), y_line - Inches(0.13), Inches(0.26), Inches(0.26),
         fill=GOLD if recent else NAVY, shape=MSO_SHAPE.OVAL)
-    box(s, x + Inches(0.03), Inches(2.85), step - Inches(0.06), Inches(2.9),
-        fill=RGBColor(0xFD, 0xF3, 0xE4) if recent else LIGHT, text=[f"**{what}**", "", detail],
-        size=11, anchor=MSO_ANCHOR.TOP, radius=0.06)
+    card = box(s, x + Inches(0.03), Inches(2.85), step - Inches(0.06), Inches(2.9),
+               fill=RGBColor(0xFD, 0xF3, 0xE4) if recent else LIGHT,
+               text=[f"**{what}**", "", detail], size=10.5, anchor=MSO_ANCHOR.TOP, radius=0.06)
+    card.text_frame.margin_left = card.text_frame.margin_right = Inches(0.03)
 footnote(s, "Turuncu: son sunumdan (Temmuz 2025) bu yana gerçekleşen veya süren adımlar. "
             "Eylül–Ekim 2026 ayrıntısı sonraki slayttadır.", y=5.95)
 

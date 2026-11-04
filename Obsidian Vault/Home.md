@@ -12,6 +12,7 @@ title: Home
 - [[DWH Hedef Mimarisi v2]]
 - [[DWH Logical Data Model]]
 - [[DWH Mimari Tasarım|DWH Mimari Tasarım — ilk taslak]]
+- [[DWH Sunum Mart 2025]]
 - [[DWH Sunum Temmuz 2025]]
 - [[DWH Sunum Kasım 2026]] — Durum Bilgilendirmesi-5 taslağı
 - [[DWH Mimari Hafıza - Temmuz 2025 Sunumu]]
