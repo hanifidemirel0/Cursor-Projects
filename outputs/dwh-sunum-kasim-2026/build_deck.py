@@ -269,7 +269,7 @@ def footnote(slide, text, y=6.55):
 # 1 — Kapak
 s = cover(["TAKASBANK DATA WAREHOUSE ALT YAPISI", "OLUŞTURMA ÇALIŞMASI",
            "DURUM BİLGİLENDİRMESİ-5"], "KASIM 2026")
-notes(s, "Seri: 2 - Eylül 2024, 3 - Aralık 2024, 4 - Temmuz 2025, 5 - Kasım 2026. "
+notes(s, "Seri: 1 - Eylül 2024, 2 - Aralık 2024, 3 - Mart 2025, 4 - Temmuz 2025, 5 - Kasım 2026. "
          "Kapaktaki beyaz kutu logo yeri tutucusudur; kurum şablonundaki logo ile değiştirilmeli.")
 
 # 2 — İçerik
@@ -307,10 +307,10 @@ events = [
     ("Haz–Tem 2024", "Firma görüşmeleri",
      "Ondata, Obase; İZV öncülüğünde BT Mimari, Veritabanı ve UG ekipleri", False),
     ("Ağu 2024", "Obase raporu", "İhtiyaçların önce **ODS** ile karşılanması önerildi", False),
-    ("Eyl 2024", "Sunum-2", "Gerekçeler, yol haritası; TEFAS/BES gibi alanda **POC** önerisi", False),
-    ("Ara 2024", "Sunum-3", "ODS → KALE, DWH → SUR; Vakıfbank, MKK, Borsa İstanbul incelemesi", False),
+    ("Eyl 2024", "Sunum-1", "Gerekçeler, yol haritası; TEFAS/BES gibi alanda **POC** önerisi", False),
+    ("Ara 2024", "Sunum-2", "ODS → KALE, DWH → SUR; Vakıfbank, MKK, Borsa İstanbul incelemesi", False),
     ("Oca 2025 – May 2026", "Personel arayışı", "Deneyimli personel alımı için arayış; **birçok mülakat** yapıldı", True),
-    ("Mar 2025", "Proje sunumu", "DWH'ta yapılabilecek **4 proje** ilk kez anlatıldı", False),
+    ("Mar 2025", "Sunum-3", "DWH'ta yapılabilecek **4 proje** ilk kez anlatıldı", False),
     ("Tem 2025", "Sunum-4", "**ODS kurulması** kararı; pilot yaklaşımı; 4 örnek uygulama; ODVM", False),
     ("Ara 2025 – Mar 2026", "ODI PoC", "**Ondata** ile Oracle Data Integrator PoC", True),
     ("Nis–May 2026", "Informatica PoC", "**Komtaş** ile Informatica PoC", True),

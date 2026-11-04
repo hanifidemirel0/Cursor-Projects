@@ -11,7 +11,7 @@ tags:
 
 # DWH Sunum Kasım 2026
 
-**Takasbank Data Warehouse Alt Yapısı Oluşturma Çalışması Durum Bilgilendirmesi-5 — Kasım 2026** taslağı. Seri: [[DWH Sunum Eylül 2024]] (2) · [[DWH Sunum Aralık 2024]] (3) · [[DWH Sunum Temmuz 2025]] (4). Bu not yalnızca sunumun yapısını ve hangi notlardan beslendiğini tutar; içerik ilgili kaynak notlarda yaşar.
+**Takasbank Data Warehouse Alt Yapısı Oluşturma Çalışması Durum Bilgilendirmesi-5 — Kasım 2026** taslağı. Seri: [[DWH Sunum Eylül 2024]] (1) · [[DWH Sunum Aralık 2024]] (2) · [[DWH Sunum Mart 2025]] (3) · [[DWH Sunum Temmuz 2025]] (4). `Documents/DWH/` dosya adlarındaki numaralar (2 - Eylül 2024, 3 - Aralık 2024) bu sıralamadan farklıdır. Bu not yalnızca sunumun yapısını ve hangi notlardan beslendiğini tutar; içerik ilgili kaynak notlarda yaşar.
 
 - Dosya: [5 - DWHSunum_Kasim2026.pptx](../../outputs/dwh-sunum-kasim-2026/5%20-%20DWHSunum_Kasim2026.pptx) · [PDF](../../outputs/dwh-sunum-kasim-2026/5%20-%20DWHSunum_Kasim2026.pdf)
 - Üretici betik: `outputs/dwh-sunum-kasim-2026/build_deck.py` (`python3 build_deck.py`; `python-pptx` gerekir). Her slaydın konuşmacı notunda kaynak notlar yazılıdır.

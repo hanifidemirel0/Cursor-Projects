@@ -11,7 +11,7 @@ tags:
 
 # DWH Sunum Mart 2025
 
-Mart 2025'te yapılan DWH sunumu. `Documents/DWH/` numaralı serisinde yer almıyor (seri 3 - Aralık 2024'ten 4 - Temmuz 2025'e geçer).
+Mart 2025'te yapılan DWH sunumu; seride **3. sunum** (1 Eylül 2024, 2 Aralık 2024, 4 Temmuz 2025). `Documents/DWH/` dosya adlarında bu sunum yok ve oradaki numaralar (2 - Eylül 2024, 3 - Aralık 2024) bu sıralamadan farklıdır.
 
 - DWH altyapısı üzerinde geliştirilebilecek **4 proje** bu sunumda **ilk kez** anlatıldı.
 
