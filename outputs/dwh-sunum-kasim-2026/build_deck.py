@@ -424,7 +424,7 @@ box(s, Inches(0.6), Inches(1.25), Inches(5.9), Inches(0.5), fill=GREEN, text="G�
     size=16, color=WHITE, bold=True)
 bullets(s, Inches(0.6), Inches(1.8), Inches(5.9), Inches(4.6), [
     "Verinin büyük kısmı KALE'de; **temiz ve kaliteli** veri",
-    "Donanım yeterli: boş disk %77–90; SUR ve HİSAR'da CPU kullanımı düşük",
+    "Exadata üzerinde yeterli donanım bulunuyor. Boş disk %77\u2060–\u206090 ve CPU kullanımı düşük",
     "Piyasa bazında şema ayrımı **aşamalı geçişe** imkân veriyor",
     "Güçlü Oracle DBA ve PL/SQL yetkinliği",
     "Veri replikasyonu için **GoldenGate** lisansımız mevcut",
