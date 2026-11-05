@@ -279,7 +279,7 @@ items = [
     "Çalışmanın Tarihçesi",
     "Takasbank'ta Mevcut Durum",
     "İş Birimi ve UG Görüşmelerinden Tespitler",
-    "Hedef Mimari ve Katmanlar",
+    "Hedef Mimari",
     "Rapor Yerleşim İlkesi",
     "Fiziksel Yerleşim ve Kapasite",
     "ETL Aracı Değerlendirmesi",
@@ -532,36 +532,6 @@ footnote(s, "**Kararlar:** ayrı ODS veritabanı yok; ODS_ şemaları DWH içind
             "yok, landing = ODS_ (04.11.2026) · tvsods hedefte yok · Diğer katmanlar öneridir · "
             "Açık: GG extract kaynağı (prod / standby), kaynaktaki silme ve update'lerin ODS_'te "
             "izinin tutulması", y=6.05)
-
-# 11 — Katmanlar
-s = content_slide("KATMANLAR VE TASARIM İLKELERİ", pill="Öneri — onay bekliyor",
-                  sources="DWH Hedef Mimarisi v2 (Katman sözleşmeleri); DWH Mimari Hafıza - "
-                  "Temmuz 2025 Sunumu (STG ayrımı); DWH Logical Data Model")
-table(s, Inches(0.55), Inches(1.2), Inches(8.1), [
-    ["Katman", "İçerik", "Erişim"],
-    ["CTL_", "Yükleme kaydı, checkpoint, gün sonu sinyali, kalite ve mutabakat sonuçları",
-     "ETL, operasyon"],
-    ["ODS_<şema>", "**Landing katmanı:** her kaynak sistem şeması için GoldenGate ile güncel "
-     "tutulan kaynak kopyası; dosya / web servis kaynakları da kendi ODS_ şemasına (karar)",
-     "ETL, operasyonel rapor"],
-    ["STG_", "Geçici standardizasyon ve temizleme (önceki sunumlardaki “ODS'de temizleme”)",
-     "Yalnızca ETL"],
-    ["CORE_", "Entegre taraf/üye, hesap, piyasa × hizmet, araç, takvim; iş ve sistem zamanıyla tarihçe",
-     "ETL, analist"],
-    ["DM_<konu>", "Grain'i yazılı yıldız şema mart'lar", "MSTR, raporlar"],
-    ["PUB_", "Sürümlü yasal snapshot, üye dosyası, CSV, API", "Dış tüketici, uygulama"],
-], [1.55, 4.75, 1.8], size=12, header_size=13, row_h=0.62)
-box(s, Inches(8.95), Inches(1.2), Inches(3.85), Inches(5.05), fill=LIGHT, radius=0.04)
-textbox(s, Inches(9.15), Inches(1.3), Inches(3.5), Inches(0.4), "İlkeler", size=17, color=NAVY,
-        bold=True)
-bullets(s, Inches(9.1), Inches(1.7), Inches(3.6), Inches(4.5), [
-    "**Grain önce**: her tablonun bir satırı neyi temsil ediyor, yazılı",
-    "Her faz **dikey dilim**: kaynaktan rapora çalışan bir iş sonucu",
-    "Kurumsal model topyekûn beklenmez; dilim geldikçe büyür",
-    "Mutabakat kırmızıysa **yayın kapısı** açılmaz",
-    "Hassasiyet ODS_'ten yayına taşınır; prod'da erişim kontrolü, non-prod'da maskeleme",
-    "Her veri ürününün sahibi, SLA'sı ve lineage'ı var",
-], size=13.5, gap=5)
 
 # 12 — Rapor yerleşim ilkesi
 s = content_slide("RAPOR YERLEŞİM İLKESİ", pill="Öneri — onay bekliyor",
