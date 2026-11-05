@@ -54,7 +54,7 @@ Mantıksal veri modeli: [[DWH Logical Data Model]]
 Bu bölüm **veri alma (ingestion) aracı** kararının sahibidir. ODS tanımı [[Sistemler ve Servisler#4. ODS|ODS]], katman sözleşmesi [[DWH Hedef Mimarisi v2]], ortam gerçekleri [[Fiziksel Topoloji - Teknik Taraf]] notlarındadır.
 
 > [!note] ODS bacağı kararlaştı
-> `ODS_` şemaları GoldenGate ile beslenir: [[#4.1 Karar|ODS kararı (02.11.2026)]]. Takasbank'ın 336 CPU'luk GG lisansı var; Borsa İstanbul'un da lisansı olduğu için iki kurum arasında GG akışı kurulabilir: [[Fiziksel Topoloji - Teknik Taraf#GoldenGate lisansları|GoldenGate lisansları]]. Aşağıdaki değerlendirme GG'nin alamadığı kaynaklar (dosya, web servisleri) ve DWH içi dönüşüm aracı için geçerliliğini korur.
+> `ODS_` şemaları GoldenGate ile beslenir: [[#4.1 Karar|ODS kararı (02.11.2026)]]. Takasbank'ın 336 CPU'luk GG lisansı var; Borsa İstanbul'un da lisansı var: [[Fiziksel Topoloji - Teknik Taraf#GoldenGate lisansları|GoldenGate lisansları]]. GG kaynakları Kale, Arşiv, ÇekDB ve Borsa DWH: [[#4.1 Karar|GG kaynak kapsamı kararı (05.11.2026)]]. Aşağıdaki değerlendirme GG'nin alamadığı kaynaklar (dosya, web servisleri) ve DWH içi dönüşüm aracı için geçerliliğini korur.
 
 ### 2.1 Başlangıç notları
 
@@ -112,7 +112,7 @@ Doğrulanması gereken kaynak adaylarına göre kapsama:
 |---|---|---|
 | [[Sistemler ve Servisler#3. Kale\|Kale]] | Log tabanlı CDC, tablo bazında filtre | Batch; log tabanlı CDC'si GG olmadan yok |
 | Arşiv, ÇekDB | Var | Var |
-| BIST DB | Var — Borsa İstanbul'un da GG lisansı var; kurumlar arası akış kurulabilir ([[Fiziksel Topoloji - Teknik Taraf#GoldenGate lisansları\|GoldenGate lisansları]]) | Zamanlanmış çekim |
+| BIST DB | Var — Borsa DWH GG ile alınır ([[#4.1 Karar\|05.11.2026 kararı]]); Borsa İstanbul'un da GG lisansı var ([[Fiziksel Topoloji - Teknik Taraf#GoldenGate lisansları\|GoldenGate lisansları]]) | Zamanlanmış çekim |
 | CSV / FTP | **Yok** — GG kaynak olarak transaction log okur | Native dosya desteği |
 | Postgre / MSSQL | Var | JDBC ile var |
 | ODS→CORE→DM/PUB dönüşümleri | Yok | Asıl işi |
@@ -191,6 +191,12 @@ Operational Data Store. Takasbank hedef mimarisinde kaynak sistem verisinin, DWH
 >
 > Bu karar [[DWH Hedef Mimarisi v2]] ve [[Başlangıç Yaklaşımı]]'ndaki append-only `LND_<kaynak>` (PSA) katmanının yerine geçer.
 
+> [!important] GoldenGate kaynak kapsamı kararı (05.11.2026)
+> Kaynak: Hanifi'nin 05.11.2026 tarihli aktarımı ("goldengate will be used for kale, arsiv, çekdb and borsa dwh").
+>
+> - **GoldenGate ile `ODS_`'e alınacak kaynaklar: Kale, Arşiv, ÇekDB ve Borsa DWH.** Borsa DWH akışı kurumlar arasıdır.
+> - FTP/CSV ve web servisleri GG kapsamı dışındadır; yükleme yolu açık: [[Aktif Sorular]] madde 4.6.
+
 ### 4.2 Kararın sonuçları
 
 - **ODS kaynak şeklindedir, entegre değildir.** `ODS_<şema>` kaynak tabloların güncel durumunu yapısını koruyarak taşır. Üye/hesap kimlik çözümlemesi ve kurumsal anlam `CORE_*`'da kalır; çok kaynaklı birleştirme gerektiren rapor ODS'den değil core/mart'tan verilir.
@@ -220,7 +226,7 @@ Değişmeyen kurallar:
 
 Kaynak adayları: [[Sistemler ve Servisler#3. Kale|Kale]] · Arşiv · ÇekDB · **BIST DB** (Borsa'nın veri ambarı) · **FTP ile gelen CSV dosyaları** · muhtemel Postgre / MSSQL kaynakları.
 
-GoldenGate transaction log okuyan bir CDC aracıdır; veritabanı kaynakları (Kale, Arşiv, ÇekDB, Postgre/MSSQL) için uygundur. BIST DB / Replica BIDB için, Borsa İstanbul'un da GG lisansı olduğundan kurumlar arası GG akışı kurulabilir ([[Fiziksel Topoloji - Teknik Taraf#GoldenGate lisansları|GoldenGate lisansları]]). FTP/CSV ve web servisleri için GG yolu yoktur ([[#2.4 GoldenGate vs ODI — aynı işi yapmıyorlar|2.4]]). Landing `ODS_` olduğu için bu kaynaklar da kendi `ODS_` şemasına iner; yükleme yolu açık: [[Aktif Sorular]] madde 4.6.
+GoldenGate transaction log okuyan bir CDC aracıdır; veritabanı kaynakları (Kale, Arşiv, ÇekDB, Postgre/MSSQL) için uygundur. Borsa DWH de kurumlar arası GG akışıyla alınır ([[#4.1 Karar|GG kaynak kapsamı kararı (05.11.2026)]]; Borsa İstanbul'un da GG lisansı var: [[Fiziksel Topoloji - Teknik Taraf#GoldenGate lisansları|GoldenGate lisansları]]). FTP/CSV ve web servisleri için GG yolu yoktur ([[#2.4 GoldenGate vs ODI — aynı işi yapmıyorlar|2.4]]). Landing `ODS_` olduğu için bu kaynaklar da kendi `ODS_` şemasına iner; yükleme yolu açık: [[Aktif Sorular]] madde 4.6.
 
 Hedef: [[Sistemler ve Servisler#1. DWH|DWH]]
 

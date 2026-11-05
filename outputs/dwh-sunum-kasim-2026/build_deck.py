@@ -485,10 +485,7 @@ arrow(s, src_x + src_w, Inches(1.775), gg_x, Inches(1.775), color=TEAL, width=2,
       label="GoldenGate", label_dy=-0.3, label_w=1.1)
 arrow(s, src_x + src_w, Inches(2.525), gg_x, Inches(2.15), color=TEAL, width=2)
 arrow(s, src_x + src_w, Inches(3.275), gg_x, Inches(2.4), color=TEAL, width=2)
-arrow(s, src_x + src_w, Inches(4.025), ods_x + Inches(0.1), ods_y + ods_h, color=TEAL, width=1.5,
-      dashed=True)
-textbox(s, Inches(2.84), Inches(4.1), Inches(0.7), Inches(0.5), ["GG", "kurumlar", "arası"],
-        size=9, color=TEAL)
+arrow(s, src_x + src_w, Inches(4.025), ods_x + Inches(0.1), ods_y + ods_h, color=TEAL, width=2)
 arrow(s, src_x + src_w, Inches(5.075), ods_x + Inches(0.3), ods_y + ods_h, color=MUTED,
       width=1.25, dashed=True)
 textbox(s, Inches(2.84), Inches(5.2), Inches(0.7), Inches(0.5), ["dosya /", "servis"],
