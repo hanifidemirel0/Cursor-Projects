@@ -631,7 +631,7 @@ textbox(s, Inches(0.6), Inches(1.15), Inches(5.6), Inches(0.4),
         "Ağırlıklı puan (1–5), Takasbank temel senaryosu", size=15, color=NAVY, bold=True)
 cd = CategoryChartData()
 cd.categories = ["Spark", "Informatica", "Cloudera", "ODI 14c", "dbt Core"]
-cd.add_series("Puan", (2.95, 3.26, 3.31, 3.36, 3.71))
+cd.add_series("Puan", (2.93, 3.26, 3.30, 3.36, 3.71))
 gf = s.shapes.add_chart(XL_CHART_TYPE.BAR_CLUSTERED, Inches(0.5), Inches(1.5), Inches(5.8),
                         Inches(3.6), cd)
 ch = gf.chart
@@ -660,9 +660,9 @@ ca.tick_labels.font.size = Pt(13)
 ca.tick_labels.font.name = FONT
 ca.format.line.color.rgb = LINE
 textbox(s, Inches(0.6), Inches(5.15), Inches(5.6), Inches(1.2), [
-    "**Ağırlık profillerine göre:** dbt 6 profilin 5'inde önde. Düzenleyici öncelikli "
-    "profilde fark çok küçük (dbt 3.60, ODI 3.58); yalnızca gerçek zaman öncelikli profilde "
-    "Cloudera önde (3.55, dbt 3.25)",
+    "**Ağırlık profillerine göre:** dbt 6 profilin 4'ünde önde. Düzenleyici öncelikli "
+    "profilde ODI önde (ODI 3.70, dbt 3.64); gerçek zaman öncelikli profilde Cloudera önde "
+    "(3.54, dbt 3.25)",
 ], size=12, color=INK)
 textbox(s, Inches(6.75), Inches(1.15), Inches(6), Inches(0.4), "Öneri", size=17, color=NAVY,
         bold=True)
@@ -757,7 +757,7 @@ cat_rows = [
     ("CDC ve gerçek zamanlı veri alımı", 13, (1.67, 3.33, 1.33, 4.67, 3.67)),
     ("Metadata, lineage ve veri kalitesi", 4, (3.0, 3.75, 4.25, 3.5, 2.25)),
     ("Güvenlik ve düzenleyici uyum", 8, (4.33, 4.33, 3.0, 4.67, 2.17)),
-    ("Operasyon ve bakım", 10, (4.0, 3.78, 3.67, 3.11, 2.78)),
+    ("Operasyon ve bakım", 10, (4.0, 3.78, 3.67, 3.0, 2.56)),
     ("Exadata ve Oracle uyumu", 5, (5.0, 4.0, 4.0, 1.5, 2.0)),
     ("PL/SQL rapor dönüşüm eforu", 9, (3.33, 2.33, 4.33, 2.17, 2.0)),
     ("PostgreSQL'e taşınabilirlik", 5, (2.2, 3.6, 4.2, 3.6, 3.8)),
@@ -769,7 +769,7 @@ cat_rows = [
     ("Türkiye'de yetkinlik ve yerel destek", 3, (4.5, 4.0, 3.0, 3.0, 3.0)),
     ("5 yıllık toplam maliyet", 5, (3.33, 2.33, 4.67, 1.67, 3.0)),
 ]
-totals = (3.36, 3.26, 3.71, 3.31, 2.95)
+totals = (3.36, 3.26, 3.71, 3.30, 2.93)
 
 
 def one_dec(v):
@@ -823,12 +823,12 @@ s = content_slide("ETL ARACI DEĞERLENDİRMESİ: SENARYOLAR VE MALİYET",
 textbox(s, Inches(0.55), Inches(1.15), Inches(6.2), Inches(0.4),
         "Ağırlık profiline göre toplam puan (1–5)", size=16, color=NAVY, bold=True)
 scen = [
-    ("Takasbank temel", (3.36, 3.26, 3.71, 3.31, 2.95)),
-    ("Önce gerçek zaman", (3.13, 3.33, 3.25, 3.55, 3.06)),
-    ("Önce yapay zekâ ve SQL verimliliği", (3.32, 3.08, 3.93, 3.34, 2.96)),
-    ("Önce düzenleyici uyum ve üretici desteği", (3.58, 3.45, 3.60, 3.40, 2.92)),
-    ("Önce taşınabilirlik (PostgreSQL)", (3.28, 3.27, 3.76, 3.39, 3.09)),
-    ("Modern veri yığını", (3.18, 2.97, 4.10, 3.37, 3.16)),
+    ("Takasbank temel", (3.36, 3.26, 3.71, 3.30, 2.93)),
+    ("Önce gerçek zaman", (3.13, 3.33, 3.25, 3.54, 3.04)),
+    ("Önce yapay zekâ ve SQL verimliliği", (3.32, 3.08, 3.93, 3.33, 2.94)),
+    ("Önce düzenleyici uyum ve üretici desteği", (3.70, 3.50, 3.64, 3.36, 2.83)),
+    ("Önce taşınabilirlik (PostgreSQL)", (3.28, 3.27, 3.76, 3.38, 3.07)),
+    ("Modern veri yığını", (3.18, 2.97, 4.10, 3.37, 3.14)),
 ]
 rows = [["Profil"] + ETL_TOOLS] + [[n] + [f"{v:.2f}" for v in vals] for n, vals in scen]
 t = table(s, Inches(0.55), Inches(1.55), Inches(6.2), rows, [1.95, 0.85, 0.85, 0.85, 0.85, 0.85],
@@ -838,8 +838,9 @@ for i, (_, vals) in enumerate(scen, start=1):
     k = vals.index(max(vals))
     style_cell(t.cell(i, k + 1), fill=NAVY, color=WHITE, bold=True)
 bullets(s, Inches(0.55), Inches(4.65), Inches(6.2), Inches(1.75), [
-    "dbt 6 profilin 5'inde önde; en geniş fark modern veri yığınında (4.10 / 3.37)",
-    "Düzenleyici öncelikli profilde fark **0.02**: ODI'nin eşit seçenek olarak sunulma nedeni",
+    "dbt 6 profilin 4'ünde önde; en geniş fark modern veri yığınında (4.10 / 3.37)",
+    "Düzenleyici öncelikli profilde **ODI önde** (3.70 / 3.64): ODI'nin eşit seçenek olarak "
+    "sunulma nedeni",
     "ODI ULA'ya ücretsiz eklense bile temel profilde **3.40** (dbt 3.71)",
     "Informatica ve Spark hiçbir profilde önde değil",
 ], size=12.5, gap=4)
