@@ -278,7 +278,7 @@ s = content_slide("İÇERİK")
 items = [
     "Çalışmanın Tarihçesi",
     "Takasbank'ta Mevcut Durum",
-    "İş Birimi ve UG Görüşmelerinden Tespitler",
+    "Temel Tespitler",
     "Hedef Mimari",
     "Fiziksel Yerleşim ve Kapasite",
     "ETL Aracı Değerlendirmesi",
@@ -415,30 +415,6 @@ bullets(s, Inches(0.6), Inches(2.6), Inches(12.1), Inches(3.3), [
     "sorgulama daha yoğundur.",
     "Ana işlemler ve raporlama sorguları **aynı veritabanında** çalışır.",
 ], size=18, gap=14)
-
-# 8 — UG görüşmeleri
-s = content_slide("UG GÖRÜŞMELERİNDEN TESPİTLER", pill="Eylül 2026",
-                  pill_fill=NAVY, sources="Banka Ug; Enerji UG; Takas UG; Takasbank Genel "
-                  "Bilgilendirme 1-2")
-table(s, Inches(0.55), Inches(1.25), W - Inches(1.1), [
-    ["Ekip", "Öne çıkanlar", "DWH açısından anlamı"],
-    ["Banka UG (transfer, ödeme)", "SWIFT/EFT raporları geriye dönük olabiliyor; SWIFT verisi çok "
-     "büyük, gecelik özet tablolar var; tarihçelendirme → backup → arşiv akışı",
-     "Pilot A adayı; arşiv sorumluluğu DWH'a geçebilir"],
-    ["Piyasalar UG", "Anlık rapor ihtiyacı ve yoğun rapor talebi; performans sorunları",
-     "Gün içi raporlar ODS_ şemalarından, tarihsel raporlar DWH mart'tan"],
-    ["Takas UG / Takas entegrasyon", "Borsa DWH'dan (BISTDWH) extract; raporlar transaction "
-     "tablolarını blokluyor; günde ~20 milyon kayıt (türev ve türev harici pozisyon)",
-     "En yüksek hacim; Borsa DWH beslemesi conformed dış kaynak"],
-    ["MKT ekibi", "Ağırlıkla BISTECH ile çalışıyor", "Pilot B (BISTECH SPK) paydaşı"],
-    ["Enerji UG", "EPİAŞ'tan web servisle emir bilgisi; günde en fazla 5–10 bin kayıt, performans "
-     "sorunu yok; uzun ve karmaşık SQL'ler; kritik veri: ihale",
-     "Öncelik düşük; modelleme ile SQL sadeleşir"],
-    ["Hazine muhasebe", "Günlük, haftalık, aylık karmaşık yasal raporlar",
-     "Faz 5 (kritik ve yasal raporlar) kapsamı"],
-], [2.6, 6.0, 3.63], size=12.5, header_size=13, row_h=0.68)
-footnote(s, "İlk görüşme notlarıdır; hacimler ve ihtiyaçlar rapor envanteri çalışmasında ilgili "
-            "ekiplerle doğrulanacaktır.", y=6.55)
 
 # 9 — Güçlü yönler / kısıtlar
 s = content_slide("TEMEL TESPİTLER", sources="DWH Sunum Aralık 2024 (artı/eksi yönler); "
