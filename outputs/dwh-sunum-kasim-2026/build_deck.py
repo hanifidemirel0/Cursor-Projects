@@ -499,11 +499,6 @@ arrow(s, dwh_x + dwh_w, Inches(3.3), r_x, Inches(3.3), color=GOLD)
 box(s, r_x, Inches(3.95), r_w, Inches(0.9), fill=LIGHT, line=NAVY,
     text=["**SPK, üyeler**", "React, web servis"], size=12)
 arrow(s, dwh_x + dwh_w, Inches(4.4), r_x, Inches(4.4), color=NAVY)
-footnote(s, "**Kararlar:** ayrı ODS veritabanı yok; ODS_ şemaları DWH içinde, GoldenGate ile "
-            "(02.11.2026; lisans: Takasbank 336 CPU, Borsa İstanbul 975 CPU) · ayrı landing katmanı "
-            "yok, landing = ODS_ (04.11.2026) · tvsods hedefte yok · Diğer katmanlar öneridir · "
-            "Açık: GG extract kaynağı (prod / standby), kaynaktaki silme ve update'lerin ODS_'te "
-            "izinin tutulması", y=6.05)
 
 # 13 — Fiziksel yerleşim
 s = content_slide("FİZİKSEL YERLEŞİM VE KAPASİTE", sources="DWH Sunum Aralık 2024 (slayt 3, "
