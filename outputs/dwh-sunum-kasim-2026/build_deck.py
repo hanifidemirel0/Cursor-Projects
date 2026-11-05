@@ -432,7 +432,8 @@ bullets(s, Inches(0.6), Inches(1.8), Inches(5.9), Inches(4.6), [
 box(s, Inches(6.85), Inches(1.25), Inches(5.9), Inches(0.5), fill=RED,
     text="Kısıtlar ve çözülmesi gerekenler", size=16, color=WHITE, bold=True)
 bullets(s, Inches(6.85), Inches(1.8), Inches(5.9), Inches(4.6), [
-    "İşlem ve raporlama aynı veritabanında; KALE yükü artıyor",
+    "Hem operasyonel işlemler hem de raporlama sorguları KALE üzerinde yapıldığı için "
+    "KALE'de fazla yük var",
     "ERD diyagramları bulunmuyor. Aynı verinin farklı yerlerde tekrarlandığı durumlar mevcut. "
     "Silolaşma var",
     "GoldenGate işletimi ve 7/24 destek konusunda DBA çekincesi",
