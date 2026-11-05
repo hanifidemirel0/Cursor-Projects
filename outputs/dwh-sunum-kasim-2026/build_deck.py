@@ -427,8 +427,7 @@ bullets(s, Inches(0.6), Inches(1.8), Inches(5.9), Inches(4.6), [
     "Donanım yeterli: boş disk %77–90; SUR ve HİSAR'da CPU kullanımı düşük",
     "Piyasa bazında şema ayrımı **aşamalı geçişe** imkân veriyor",
     "Güçlü Oracle DBA ve PL/SQL yetkinliği",
-    "PowerDesigner kataloğu ve **GoldenGate lisansı** (336 CPU) mevcut; Borsa İstanbul "
-    "ile GG akışı kurulabilir",
+    "Veri replikasyonu için **GoldenGate** lisansımız mevcut",
 ], size=16)
 box(s, Inches(6.85), Inches(1.25), Inches(5.9), Inches(0.5), fill=RED,
     text="Kısıtlar ve çözülmesi gerekenler", size=16, color=WHITE, bold=True)
