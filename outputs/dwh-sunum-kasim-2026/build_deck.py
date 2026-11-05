@@ -446,12 +446,12 @@ s = content_slide("HEDEF MİMARİ", pill="ODS kararı + öneri",
                   "Teknik Taraf (GoldenGate lisansları); Başlangıç Yaklaşımı (diyagram); DWH Hedef "
                   "Mimarisi v2; Aktif Sorular 4; landing = ODS kararı (04.11.2026)")
 src_x, src_w = Inches(0.6), Inches(2.2)
-srcs = [("KALE (Prod)", 1.45), ("ARSIV / ÇEKDB", 2.45), ("Borsa Replica BIDB / Borsa DWH", 3.45),
-        ("FTP / CSV / Web servis", 4.75)]
+srcs = [("KALE (Prod)", 1.45), ("ARSIV", 2.2), ("ÇEKDB", 2.95),
+        ("Borsa Replica BIDB / Borsa DWH", 3.7), ("FTP / CSV / Web servis", 4.75)]
 textbox(s, src_x, Inches(1.08), src_w, Inches(0.3), "KAYNAKLAR", size=12, color=MUTED, bold=True,
         align=PP_ALIGN.CENTER)
 for name, y in srcs:
-    box(s, src_x, Inches(y), src_w, Inches(0.7), fill=LIGHT, line=NAVY, text=name, size=13,
+    box(s, src_x, Inches(y), src_w, Inches(0.65), fill=LIGHT, line=NAVY, text=name, size=13,
         bold=True)
 dwh_x, dwh_y, dwh_w, dwh_h = Inches(3.55), Inches(1.2), Inches(6.9), Inches(4.6)
 box(s, dwh_x, dwh_y, dwh_w, dwh_h, fill=RGBColor(0xF7, 0xF8, 0xFC), line=NAVY, radius=0.04,
@@ -481,13 +481,15 @@ textbox(s, dwh_x + Inches(0.2), Inches(5.0), dwh_w - Inches(0.4), Inches(0.6),
         "Çok kaynaklı entegre güncel durum gerekiyorsa CORE üzerinde görünüm olarak üretilir; "
         "ODS_ kaynak şeklinde kalır.", size=11, color=MUTED)
 gg_x = ods_x
-arrow(s, src_x + src_w, Inches(1.8), gg_x, Inches(1.8), color=TEAL, width=2,
+arrow(s, src_x + src_w, Inches(1.775), gg_x, Inches(1.775), color=TEAL, width=2,
       label="GoldenGate", label_dy=-0.3, label_w=1.1)
-arrow(s, src_x + src_w, Inches(2.8), gg_x, Inches(2.3), color=TEAL, width=2)
-arrow(s, src_x + src_w, Inches(3.8), gg_x, Inches(2.5), color=TEAL, width=1.5, dashed=True)
-textbox(s, Inches(2.84), Inches(3.85), Inches(0.7), Inches(0.5), ["GG", "kurumlar", "arası"],
+arrow(s, src_x + src_w, Inches(2.525), gg_x, Inches(2.15), color=TEAL, width=2)
+arrow(s, src_x + src_w, Inches(3.275), gg_x, Inches(2.4), color=TEAL, width=2)
+arrow(s, src_x + src_w, Inches(4.025), ods_x + Inches(0.1), ods_y + ods_h, color=TEAL, width=1.5,
+      dashed=True)
+textbox(s, Inches(2.84), Inches(4.1), Inches(0.7), Inches(0.5), ["GG", "kurumlar", "arası"],
         size=9, color=TEAL)
-arrow(s, src_x + src_w, Inches(5.1), ods_x + Inches(0.15), ods_y + ods_h, color=MUTED,
+arrow(s, src_x + src_w, Inches(5.075), ods_x + Inches(0.3), ods_y + ods_h, color=MUTED,
       width=1.25, dashed=True)
 textbox(s, Inches(2.84), Inches(5.2), Inches(0.7), Inches(0.5), ["dosya /", "servis"],
         size=9, color=MUTED)
