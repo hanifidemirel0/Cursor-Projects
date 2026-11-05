@@ -435,8 +435,6 @@ bullets(s, Inches(6.85), Inches(1.8), Inches(5.9), Inches(4.6), [
     "İşlem ve raporlama aynı veritabanında; KALE yükü artıyor",
     "ERD diyagramları bulunmuyor. Aynı verinin farklı yerlerde tekrarlandığı durumlar mevcut. "
     "Silolaşma var",
-    "Gün sonu zaman çizelgesi tek anlatımda birleşmedi; tarihsel veriye update geliyor",
-    "Borsa fon sözleşme verisi kaynakta **5 gün sonra siliniyor**; yakalanmayan tarihçe kayboluyor",
     "GoldenGate işletimi ve 7/24 destek konusunda DBA çekincesi",
     "Veri kurum dışına çıkamaz; satın alma süreci uzun",
 ], size=16)
