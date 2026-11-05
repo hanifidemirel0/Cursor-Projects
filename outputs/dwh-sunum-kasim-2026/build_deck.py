@@ -447,7 +447,7 @@ s = content_slide("HEDEF MİMARİ", pill="ODS kararı + öneri",
                   "Mimarisi v2; Aktif Sorular 4; landing = ODS kararı (04.11.2026)")
 src_x, src_w = Inches(0.6), Inches(2.2)
 srcs = [("KALE (Prod)", 1.45), ("ARSIV", 2.2), ("ÇEKDB", 2.95),
-        ("Borsa Replica BIDB / Borsa DWH", 3.7), ("FTP / CSV / Web servis", 4.75)]
+        ("Borsa DWH", 3.7), ("FTP / CSV / Web servis", 4.75)]
 textbox(s, src_x, Inches(1.08), src_w, Inches(0.3), "KAYNAKLAR", size=12, color=MUTED, bold=True,
         align=PP_ALIGN.CENTER)
 for name, y in srcs:
