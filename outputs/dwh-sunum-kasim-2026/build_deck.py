@@ -460,15 +460,14 @@ textbox(s, dwh_x + Inches(0.15), dwh_y + Inches(0.05), Inches(3), Inches(0.3),
         "DWH VERİTABANI (Exadata)", size=12, color=NAVY, bold=True)
 ods_x, ods_y, ods_w, ods_h = dwh_x + Inches(0.2), Inches(1.6), dwh_w - Inches(0.4), Inches(0.95)
 box(s, ods_x, ods_y, ods_w, ods_h, fill=RGBColor(0xE3, 0xF1, 0xF3), line=TEAL, line_w=1.75,
-    text=["**ODS_<kaynak şema>** — landing katmanı; her kaynak sistem şeması için bir şema",
-          "GoldenGate ile güncel tutulur · kaynak şeklinde, entegrasyon yok"], size=12.5)
+    text="**ODS**", size=16)
 layer_y = Inches(3.0)
-layers = [("CORE", "Entegre, tarihçeli"), ("DM", "Kimball mart"),
+layers = [("CORE", "Entegre, tarihçeli"), ("Data Mart", None),
           ("PUB", "Yasal snapshot, üye dosyası, API")]
 lw, lgap = Inches(1.95), Inches(0.325)
 for i, (code, d) in enumerate(layers):
     lx = dwh_x + Inches(0.2) + (lw + lgap) * i
-    box(s, lx, layer_y, lw, Inches(1.05), fill=NAVY, text=[f"**{code}**", d], size=12,
+    box(s, lx, layer_y, lw, Inches(1.05), fill=NAVY, text=[f"**{code}**", d] if d else f"**{code}**", size=12,
         color=WHITE)
     if i:
         arrow(s, lx - lgap, layer_y + Inches(0.52), lx, layer_y + Inches(0.52))
