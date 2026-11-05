@@ -394,7 +394,7 @@ bullets(s, Inches(0.6), Inches(1.55), Inches(6.0), Inches(4.8), [
 textbox(s, Inches(6.9), Inches(1.2), Inches(6), Inches(0.4), "Ortamlar", size=18, color=NAVY,
         bold=True)
 bullets(s, Inches(6.9), Inches(1.55), Inches(5.9), Inches(4.8), [
-    "KALE'nin **2 Data Guard replikası** var: biri KALE, biri SUR Exadata üzerinde",
+    "KALE'nin **2 Data Guard replikası** var: biri KALE Exadata'da (PREPROD), biri SUR Exadata'da",
     "**PREPROD**: T-1, test ile aynı instance",
     "PREPROD her sabah 07:00'de KALE'den kopartılıyor; flashback snapshot 04:00–07:00",
     "**GoldenGate** lisansı var: 336 CPU (Borsa İstanbul: 975 CPU)",
@@ -587,12 +587,12 @@ footnote(s, "Her rapor için yerleşim; rapor envanteri ve gecikme sınıfı (S0
 # 13 — Fiziksel yerleşim
 s = content_slide("FİZİKSEL YERLEŞİM VE KAPASİTE", sources="DWH Sunum Aralık 2024 (slayt 3, "
                   "9–14); DWH Sunum Temmuz 2025 (slayt 8); Fiziksel Topoloji - Teknik Taraf "
-                  "(DWH yerleşim adayları)")
+                  "(DWH yerleşim adayları); PREPROD yeri: kullanıcı aktarımı (05.11.2026)")
 machines = [
-    ("KALE EXADATA", "KALE, ARSIV, CEKDB, tvsods", "~%90", "~%25 (günlük tepe)",
+    ("KALE EXADATA", "KALE, PREPROD (KALE replikası), ARSIV, CEKDB, tvsods", "~%90", "~%25 (günlük tepe)",
      "ODS burada", "Hedef değil — boşaltılmak istenen makine", RED),
-    ("SUR EXADATA", "DSS, PREPROD, TRUVA, LAMBDA, EFES + ~9 DB; KALE replikası", "~%77", "~%6–12",
-     "DWH burada", "Aday — test/preprod yükü ve 04:00–07:00 snapshot penceresiyle çakışma riski",
+    ("SUR EXADATA", "DSS, TRUVA, LAMBDA, EFES + ~9 DB; KALE replikası", "~%77", "~%6–12",
+     "DWH burada", "Aday — test yükü (DSS, TRUVA) ve DSS snapshot penceresiyle çakışma riski",
      GOLD),
     ("HİSAR EXADATA", "HİSAR, TABYA, CEKDB, ARSIVDB", "~%81", "~%2–3",
      "ODVM ODS/DWH", "Aday — tarihçeyi ARSIVDB ile aynı makinede toplama avantajı", GREEN),
