@@ -280,7 +280,6 @@ items = [
     "Takasbank'ta Mevcut Durum",
     "İş Birimi ve UG Görüşmelerinden Tespitler",
     "Hedef Mimari",
-    "Rapor Yerleşim İlkesi",
     "Fiziksel Yerleşim ve Kapasite",
     "ETL Aracı Değerlendirmesi",
     "Pilot Önerisi",
@@ -532,27 +531,6 @@ footnote(s, "**Kararlar:** ayrı ODS veritabanı yok; ODS_ şemaları DWH içind
             "yok, landing = ODS_ (04.11.2026) · tvsods hedefte yok · Diğer katmanlar öneridir · "
             "Açık: GG extract kaynağı (prod / standby), kaynaktaki silme ve update'lerin ODS_'te "
             "izinin tutulması", y=6.05)
-
-# 12 — Rapor yerleşim ilkesi
-s = content_slide("RAPOR YERLEŞİM İLKESİ", pill="Öneri — onay bekliyor",
-                  sources="Başlangıç Yaklaşımı (Faz 3 yönlendirme kuralı); Proje Planı (Rapor ve "
-                  "veri ürünü envanteri); Sistemler ve Servisler (4.1 ODS kararı); Aktif Sorular 1, 3, 4")
-table(s, Inches(0.55), Inches(1.25), W - Inches(1.1), [
-    ["Rapor türü", "Nereden verilir", "Not"],
-    ["Kaynak yapıları üzerinde gün içi güncel durum (izleme, Team Developer)",
-     "DWH içindeki **ODS_** şemaları (GoldenGate)",
-     "Kaynak şeklinde, modelleme gerekmez; KALE standby'ın rolü açık"],
-    ["Gün sonundan türetilen özet ve operasyonel raporlar",
-     "DWH'da hesaplanır; React/MSTR'a view veya API ile sunulur",
-     "UG gün sonu prosedürlerinin KALE'ye yazma yükü kalkar, gün sonu kısalır"],
-    ["Tarihsel, analitik ve çapraz piyasa raporları", "DWH mart + MSTR semantik katmanı",
-     "Sürükle-bırak (self-servis) raporlamanın önü açılır"],
-    ["Yasal ve üye teslimatları (SPK, MASAK, üye dosyaları)", "DWH PUB katmanı, sürümlü snapshot",
-     "Paralel koşum ve yazılı kabul olmadan eski üretim kapatılmaz"],
-    ["Kullanılmayan raporlar", "Taşınmaz", "Kullanım loglarına göre emekli edilir"],
-], [4.3, 3.8, 4.13], size=13, header_size=14, row_h=0.8)
-footnote(s, "Her rapor için yerleşim; rapor envanteri ve gecikme sınıfı (S0 gerçek zamanlı · S1 gün "
-            "içi · S2 gün sonu · S3 dosya · S4 backfill) ile kesinleşir.", y=6.25)
 
 # 13 — Fiziksel yerleşim
 s = content_slide("FİZİKSEL YERLEŞİM VE KAPASİTE", sources="DWH Sunum Aralık 2024 (slayt 3, "
@@ -980,8 +958,8 @@ phases = [
      "Ölçülmüş KALE yük azalması, paralel koşum onayı, runbook"),
     ("FAZ 2", "Pilot B: entegrasyon", "İlk CORE paketi, UG gün sonu prosedürlerinin DWH'a "
      "taşınması, ilk MSTR yıldızı", "CORE paketi ve MSTR yıldızının paralel koşum kabulü"),
-    ("FAZ 3", "Operasyonel rapor göçü", "Yerleşim ilkesinin tüm envantere uygulanması; Team "
-     "Developer kullanıma göre emeklilik", "Rapor bazında kabul"),
+    ("FAZ 3", "Operasyonel rapor göçü", "Raporların ODS_ / DWH / kaynakta kalır olarak "
+     "yerleştirilmesi; Team Developer kullanıma göre emeklilik", "Rapor bazında kabul"),
     ("FAZ 4", "Konu alanı yayılımı", "Fon platformları, risk/teminat/MKT, ödeme, saklama, "
      "enerji, çek/kredi, ücretler", "Her dilimde core'un tekrar kullanımı"),
     ("FAZ 5", "Kritik ve yasal raporlar", "As-reported / as-corrected sürümler, paralel koşum",
