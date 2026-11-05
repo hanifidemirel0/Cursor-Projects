@@ -54,11 +54,8 @@ Kaynak: Hanifi'nin 02.11.2026 ve 03.11.2026 tarihli aktarımları.
 
 Kaynak: [[Ortamlar hakkında]]
 
-- **kale** Exadata: makinenin adı da kale, DB'nin adı da kale. **PREPROD** de bu makinede: Kale'nin buradaki Data Guard replikası (Hanifi'nin 05.11.2026 aktarımı). Bugünkü `tvsods` bu makinede; hedef ODS DWH veritabanı içinde: [[Sistemler ve Servisler#4. ODS|ODS]].
-- **sur** Exadata: [[Sistemler ve Servisler#1. DWH|DWH]] bu makinede. Aynı makinede DSS, TRUVA, LAMBDA, EFES; ayrıca SUR, CEKSUR, ALPHA, GAMMA, BETA, OMEGA, PATARA, EPSILON, KARTAL.
-> [!note] PREPROD'un yeri
-> Aralık 2024 ve Temmuz 2025 sunum diyagramları PREPROD'u SUR EXADATA altında gösterir; 05.11.2026 aktarımına göre PREPROD kale Exadata'dadır. Bu not aktarımı esas alır.
-
+- **kale** Exadata: makinenin adı da kale, DB'nin adı da kale. Bugünkü `tvsods` bu makinede; hedef ODS DWH veritabanı içinde: [[Sistemler ve Servisler#4. ODS|ODS]].
+- **sur** Exadata: [[Sistemler ve Servisler#1. DWH|DWH]] bu makinede. Aynı makinede DSS, PREPROD, TRUVA, LAMBDA, EFES; ayrıca SUR, CEKSUR, ALPHA, GAMMA, BETA, OMEGA, PATARA, EPSILON, KARTAL.
 - **hisar** Exadata: HISAR, TABYA, CEKDB, ARSIVDB. Sunumda ODVM ODS HISAR altında, ODVM DWH ARSIVDB altında gösterilmiş: [[DWH Sunum Temmuz 2025]].
 - 1 Exadata yaklaşık **200 TB**; kaledb yaklaşık **10 TB**.
 - kaledb'nin 2 replikası daha var: biri kale Exadata üstünde, diğeri sur Exadata üstünde.
@@ -79,7 +76,7 @@ Kaynak: [[Ortamlar hakkında]]
 
 Önceki sunumlar DWH'ı `sur`'a, ODS'i `kale`'ye koydu ([[DWH Sunum Temmuz 2025#Slayt 8 — Exadata yerleşimi]]). ODS kararıyla (02.11.2026) ODS, DWH veritabanı içinde; yerleşim tek karardır. [[Başlangıç Yaklaşımı]] yerleşimi izolasyon testine bağlıyor; adaylar:
 
-- **sur:** DWH için önceden işaret edilen makine; ancak DSS, TRUVA, LAMBDA, EFES ve on kadar başka DB ile paylaşılıyor. Test yük desenleri ve DSS'in gece flashback snapshot'ları DWH gün sonu penceresiyle çakışır.
+- **sur:** DWH için önceden işaret edilen makine; ancak DSS, PREPROD, TRUVA, LAMBDA, EFES ve on kadar başka DB ile paylaşılıyor. Test/preprod yük desenleri ve gece flashback snapshot'ları (04:00–07:00) DWH gün sonu penceresiyle çakışır.
 - **hisar:** HISAR, TABYA, CEKDB, ARSIVDB barındırıyor; Aralık 2024 görüntüsünde CPU ~%2–3 ile en boş makine. **ARSIVDB ile aynı makinede** olması, tarihçenin DWH'a taşınması ve Kale saklama penceresinin daraltılması hedefiyle uyumlu. Temmuz 2025 sunumunda da ODVM DWH ARSIVDB altında gösterilmişti.
 - **kale:** hedef değil; boşaltılmaya çalışılan makine.
 
