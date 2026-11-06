@@ -487,6 +487,8 @@ arrow(s, src_x + src_w, Inches(4.025), ods_x, Inches(3.4), color=TEAL, width=2)
 arrow(s, src_x + src_w, Inches(5.075), ods_x + Inches(0.3), layer_y + layer_h, color=MUTED,
       width=1.25, dashed=True)
 r_x, r_w = Inches(10.85), Inches(1.95)
+textbox(s, r_x, Inches(1.08), r_w, Inches(0.3), "RAPORLAMA", size=12, color=MUTED, bold=True,
+        align=PP_ALIGN.CENTER)
 box(s, r_x, Inches(1.6), r_w, Inches(0.95), fill=RGBColor(0xE3, 0xF1, 0xF3), line=TEAL,
     text="**Gün içi operasyonel rapor**", size=12)
 arrow(s, dwh_x + dwh_w, Inches(2.075), r_x, Inches(2.075), color=TEAL)
