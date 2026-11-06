@@ -576,19 +576,11 @@ textbox(s, Inches(6.75), Inches(1.15), Inches(6), Inches(0.4), "Öneri", size=17
         bold=True)
 bullets(s, Inches(6.75), Inches(1.5), Inches(6.0), Inches(4.9), [
     "İki seçenek öne çıkmakta ve ikisi de Exadata üzerinde çalışıyor",
-    "**A — DBT Core**",
-    ("-", "Teslim hızı; SQL ekibi ve yerel LLM ile uyum"),
-    ("-", "Lisans yok; PostgreSQL'e geçiş açık"),
-    ("-", "Üretici desteği yok; sözleşmeli destek modeline Bilgi Güvenliği ve İç Denetim "
-          "onayı gerekir"),
-    "**B — ODI 14c**",
-    ("-", "Üretici desteği, erişim kontrolü, denetim izi, HA/DR"),
-    ("-", "PL/SQL raporlar değişmeden çalışır"),
-    ("-", "ULA dışında yeni lisans (varsayım yıllık 250 bin USD)"),
+    ("-", "**A — DBT Core**"),
+    ("-", "**B — ODI 14c**"),
     "~200 rapor sorgusunun dönüşümü (tahmin): DBT **150–300**, ODI **400–700**, "
     "Cloudera/Spark 600–1.000 adam-gün",
-    "**PoC'ler tamamlandı**, değerlendirme sürüyor; araç henüz seçilmedi. Pilot, ETL aracı "
-    "seçildikten sonra başlar",
+    "**PoC'ler tamamlandı**, değerlendirme sürüyor; araç henüz seçilmedi",
     "Informatica ve tek başına Spark önerilmiyor; Cloudera yalnızca saniye altı akış "
     "zorunlu olursa",
 ], size=13.5, gap=5)
@@ -617,6 +609,47 @@ def center_cols(t, cols):
             for p in row.cells[j].text_frame.paragraphs:
                 p.alignment = PP_ALIGN.CENTER
 
+
+# 14e — ETL: iki seçenek
+s = content_slide("ETL ARACI DEĞERLENDİRMESİ: İKİ SEÇENEK", pill="Değerlendirme sürüyor",
+                  pill_fill=TEAL, sources=f"{ETL_SRC} (Executive Summary, Risks)")
+options = [
+    ("A — DBT Core (Exadata üzerinde)", "Teslim hızı, maliyet, taşınabilirlik", NAVY, [
+        "**Güçlü:** SQL öncelikli, ekip bilgisi doğrudan kullanılır, öğrenme eğrisi kısa",
+        "Git'te düz SQL / YAML: yerel LLM ile üretim, dokümantasyon ve inceleme; yerleşik "
+        "test ve doküman",
+        "Tüm işlem Exadata içinde; lisans yok, en düşük maliyet ve dönüşüm eforu; "
+        "PostgreSQL'e dbt-postgres ile taşınabilir",
+        "**Zayıf:** DBT Core için üretici desteği yok; erişim kontrolü ve görevler ayrılığı "
+        "aracın çevresinde kurulur",
+        "Kendi veri çekme / akış yeteneği yok (GoldenGate, external table); PL/SQL prosedürleri "
+        "yeniden yazılana kadar model akışının dışında koşar",
+    ], "**Ön koşul:** Bilgi Güvenliği ve İç Denetim'in, Türkiye'deki DBT destek firmasıyla "
+       "SLA'lı sözleşmeli destek modelini BDDK dış hizmet düzenlemesi kapsamında kabul etmesi"),
+    ("B — ODI 14c (Exadata üzerinde)", "Düzenleyici rahatlık, üretici desteği", TEAL, [
+        "**Güçlü:** üretici desteği ve SLA; en güçlü erişim kontrolü, denetim izi ve HA/DR",
+        "Exadata'ya yerel pushdown ve GoldenGate ile yerel entegrasyon",
+        "PL/SQL raporlar ODI prosedürü / load plan adımı olarak değişmeden çalışır; Türk "
+        "bankacılığında güçlü konum",
+        "**Zayıf:** ULA dışında yeni lisans; depo tabanlı GUI geliştirme yerel LLM ve "
+        "Git / CI kullanımını sınırlar",
+        "Öğrenme eğrisi daha dik; EDW PostgreSQL'e taşınırsa yatırımın çoğu değer kaybeder",
+    ], "**Ön koşul:** Oracle'dan lisans konusunda yazılı görüş (Exadata çekirdek sayımı) ve "
+       "EDW'nin Oracle'da kalacağı beklentisi"),
+]
+for i, (title, sub, fill, pts, pre) in enumerate(options):
+    x = Inches(0.55 + i * 6.2)
+    box(s, x, Inches(1.15), Inches(6.0), Inches(0.72), fill=fill, text=[f"**{title}**", sub],
+        size=14, color=WHITE)
+    box(s, x, Inches(1.87), Inches(6.0), Inches(3.05), fill=LIGHT, shape=MSO_SHAPE.RECTANGLE)
+    bullets(s, x + Inches(0.08), Inches(1.9), Inches(5.85), Inches(3.0), pts, size=13.5, gap=6)
+    box(s, x, Inches(4.98), Inches(6.0), Inches(0.72), fill=WHITE, line=fill, text=pre,
+        size=12, align=PP_ALIGN.LEFT)
+box(s, Inches(0.55), Inches(5.82), Inches(12.2), Inches(0.62), fill=RGBColor(0xFD, 0xF3, 0xE4),
+    line=GOLD, text="**Seçimden önce netleşecekler:** A için BDDK dış hizmet uygunluğu · B için "
+    "ODI lisans pozisyonu · PL/SQL rapor envanteri ve ölçülmüş dönüşüm eforu · PostgreSQL'e "
+    "geçiş olasılığı · Oracle dışı kaynaklar için GoldenGate ek paketi fiyatı",
+    size=12, align=PP_ALIGN.LEFT)
 
 # 14b — ETL: yöntem ve karar kısıtları
 s = content_slide("ETL ARACI DEĞERLENDİRMESİ: YÖNTEM VE KISITLAR",
@@ -830,47 +863,6 @@ box(s, Inches(0.55), Inches(6.0), Inches(12.2), Inches(0.48), fill=RGBColor(0xFD
     line=GOLD, text="**Değerlendirmeye girdi:** Borsa İstanbul'un ODI deneyimi B seçeneği için "
     "grup içi referans; MKK'nın Informatica deneyimi, değerlendirmede önerilmeyen ürün için "
     "saha görüşü", size=12, align=PP_ALIGN.LEFT)
-
-# 14e — ETL: iki seçenek
-s = content_slide("ETL ARACI DEĞERLENDİRMESİ: İKİ SEÇENEK", pill="Değerlendirme sürüyor",
-                  pill_fill=TEAL, sources=f"{ETL_SRC} (Executive Summary, Risks)")
-options = [
-    ("A — DBT Core (Exadata üzerinde)", "Teslim hızı, maliyet, taşınabilirlik", NAVY, [
-        "**Güçlü:** SQL öncelikli, ekip bilgisi doğrudan kullanılır, öğrenme eğrisi kısa",
-        "Git'te düz SQL / YAML: yerel LLM ile üretim, dokümantasyon ve inceleme; yerleşik "
-        "test ve doküman",
-        "Tüm işlem Exadata içinde; lisans yok, en düşük maliyet ve dönüşüm eforu; "
-        "PostgreSQL'e dbt-postgres ile taşınabilir",
-        "**Zayıf:** DBT Core için üretici desteği yok; erişim kontrolü ve görevler ayrılığı "
-        "aracın çevresinde kurulur",
-        "Kendi veri çekme / akış yeteneği yok (GoldenGate, external table); PL/SQL prosedürleri "
-        "yeniden yazılana kadar model akışının dışında koşar",
-    ], "**Ön koşul:** Bilgi Güvenliği ve İç Denetim'in, Türkiye'deki DBT destek firmasıyla "
-       "SLA'lı sözleşmeli destek modelini BDDK dış hizmet düzenlemesi kapsamında kabul etmesi"),
-    ("B — ODI 14c (Exadata üzerinde)", "Düzenleyici rahatlık, üretici desteği", TEAL, [
-        "**Güçlü:** üretici desteği ve SLA; en güçlü erişim kontrolü, denetim izi ve HA/DR",
-        "Exadata'ya yerel pushdown ve GoldenGate ile yerel entegrasyon",
-        "PL/SQL raporlar ODI prosedürü / load plan adımı olarak değişmeden çalışır; Türk "
-        "bankacılığında güçlü konum",
-        "**Zayıf:** ULA dışında yeni lisans; depo tabanlı GUI geliştirme yerel LLM ve "
-        "Git / CI kullanımını sınırlar",
-        "Öğrenme eğrisi daha dik; EDW PostgreSQL'e taşınırsa yatırımın çoğu değer kaybeder",
-    ], "**Ön koşul:** Oracle'dan lisans konusunda yazılı görüş (Exadata çekirdek sayımı) ve "
-       "EDW'nin Oracle'da kalacağı beklentisi"),
-]
-for i, (title, sub, fill, pts, pre) in enumerate(options):
-    x = Inches(0.55 + i * 6.2)
-    box(s, x, Inches(1.15), Inches(6.0), Inches(0.72), fill=fill, text=[f"**{title}**", sub],
-        size=14, color=WHITE)
-    box(s, x, Inches(1.87), Inches(6.0), Inches(3.05), fill=LIGHT, shape=MSO_SHAPE.RECTANGLE)
-    bullets(s, x + Inches(0.08), Inches(1.9), Inches(5.85), Inches(3.0), pts, size=13.5, gap=6)
-    box(s, x, Inches(4.98), Inches(6.0), Inches(0.72), fill=WHITE, line=fill, text=pre,
-        size=12, align=PP_ALIGN.LEFT)
-box(s, Inches(0.55), Inches(5.82), Inches(12.2), Inches(0.62), fill=RGBColor(0xFD, 0xF3, 0xE4),
-    line=GOLD, text="**Seçimden önce netleşecekler:** A için BDDK dış hizmet uygunluğu · B için "
-    "ODI lisans pozisyonu · PL/SQL rapor envanteri ve ölçülmüş dönüşüm eforu · PostgreSQL'e "
-    "geçiş olasılığı · Oracle dışı kaynaklar için GoldenGate ek paketi fiyatı",
-    size=12, align=PP_ALIGN.LEFT)
 
 # 15 — Pilot önerisi
 s = content_slide("PİLOT ÖNERİSİ", pill="Öneri — puanlama bekliyor",
