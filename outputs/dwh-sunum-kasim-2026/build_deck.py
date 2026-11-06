@@ -474,11 +474,8 @@ for i, (code, d) in enumerate(layers):
         arrow(s, lx - lgap, layer_y + layer_h / 2, lx, layer_y + layer_h / 2)
 ods_x = dwh_x + Inches(0.2)
 box(s, dwh_x + Inches(0.2), Inches(4.05), dwh_w - Inches(0.4), Inches(0.5), fill=LIGHT,
-    line=LINE, text="**CTL** — yükleme kaydı, gün sonu sinyali, kalite ve mutabakat sonuçları",
+    line=LINE, text="**CTL** — yükleme kaydı, kalite ve mutabakat sonuçları",
     size=12)
-textbox(s, dwh_x + Inches(0.2), Inches(4.7), dwh_w - Inches(0.4), Inches(0.6),
-        "Çok kaynaklı entegre güncel durum gerekiyorsa CORE üzerinde görünüm olarak üretilir; "
-        "ODS_ kaynak şeklinde kalır.", size=11, color=MUTED)
 arrow(s, src_x + src_w, Inches(1.775), ods_x, Inches(2.5), color=TEAL, width=2,
       label="GoldenGate", label_dx=-0.1, label_dy=-0.5, label_w=0.8)
 arrow(s, src_x + src_w, Inches(2.525), ods_x, Inches(2.8), color=TEAL, width=2)
