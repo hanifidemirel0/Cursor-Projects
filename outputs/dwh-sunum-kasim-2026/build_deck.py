@@ -456,8 +456,8 @@ for name, y in srcs:
 dwh_x, dwh_y, dwh_w, dwh_h = Inches(3.55), Inches(1.2), Inches(6.9), Inches(4.6)
 box(s, dwh_x, dwh_y, dwh_w, dwh_h, fill=RGBColor(0xF7, 0xF8, 0xFC), line=NAVY, radius=0.04,
     line_w=2)
-textbox(s, dwh_x + Inches(0.15), dwh_y + Inches(0.05), Inches(3), Inches(0.3),
-        "TAKASBANK VERİ AMBARI", size=12, color=MUTED, bold=True)
+textbox(s, dwh_x, dwh_y + Inches(0.05), dwh_w, Inches(0.3),
+        "TAKASBANK VERİ AMBARI", size=12, color=MUTED, bold=True, align=PP_ALIGN.CENTER)
 layer_y, layer_h = Inches(2.35), Inches(1.3)
 layers = [("ODS", None), ("CORE", "Entegre, tarihçeli"), ("Data Mart", None),
           ("Publish", "Yasal snapshot, üye dosyası, API")]
