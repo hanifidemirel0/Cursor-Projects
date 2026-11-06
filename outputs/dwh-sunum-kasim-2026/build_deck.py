@@ -458,41 +458,40 @@ box(s, dwh_x, dwh_y, dwh_w, dwh_h, fill=RGBColor(0xF7, 0xF8, 0xFC), line=NAVY, r
     line_w=2)
 textbox(s, dwh_x + Inches(0.15), dwh_y + Inches(0.05), Inches(3), Inches(0.3),
         "DWH VERİTABANI (Exadata)", size=12, color=NAVY, bold=True)
-ods_x, ods_y, ods_w, ods_h = dwh_x + Inches(0.2), Inches(1.6), dwh_w - Inches(0.4), Inches(0.95)
-box(s, ods_x, ods_y, ods_w, ods_h, fill=RGBColor(0xE3, 0xF1, 0xF3), line=TEAL, line_w=1.75,
-    text="**ODS**", size=16)
-layer_y = Inches(3.0)
-layers = [("CORE", "Entegre, tarihçeli"), ("Data Mart", None),
+layer_y, layer_h = Inches(2.35), Inches(1.3)
+layers = [("ODS", None), ("CORE", "Entegre, tarihçeli"), ("Data Mart", None),
           ("Publish", "Yasal snapshot, üye dosyası, API")]
-lw, lgap = Inches(1.95), Inches(0.325)
+lw, lgap = Inches(1.4), Inches(0.3)
 for i, (code, d) in enumerate(layers):
     lx = dwh_x + Inches(0.2) + (lw + lgap) * i
-    box(s, lx, layer_y, lw, Inches(1.05), fill=NAVY, text=[f"**{code}**", d] if d else f"**{code}**", size=12,
-        color=WHITE)
+    if code == "ODS":
+        box(s, lx, layer_y, lw, layer_h, fill=RGBColor(0xE3, 0xF1, 0xF3), line=TEAL,
+            line_w=1.75, text=f"**{code}**", size=16)
+    else:
+        box(s, lx, layer_y, lw, layer_h, fill=NAVY,
+            text=[f"**{code}**", d] if d else f"**{code}**", size=12, color=WHITE)
     if i:
-        arrow(s, lx - lgap, layer_y + Inches(0.52), lx, layer_y + Inches(0.52))
-core_cx = dwh_x + Inches(0.2) + lw / 2
-arrow(s, core_cx, ods_y + ods_h, core_cx, layer_y, color=NAVY)
-box(s, dwh_x + Inches(0.2), Inches(4.35), dwh_w - Inches(0.4), Inches(0.5), fill=LIGHT,
+        arrow(s, lx - lgap, layer_y + layer_h / 2, lx, layer_y + layer_h / 2)
+ods_x = dwh_x + Inches(0.2)
+box(s, dwh_x + Inches(0.2), Inches(4.05), dwh_w - Inches(0.4), Inches(0.5), fill=LIGHT,
     line=LINE, text="**CTL** — yükleme kaydı, gün sonu sinyali, kalite ve mutabakat sonuçları",
     size=12)
-textbox(s, dwh_x + Inches(0.2), Inches(5.0), dwh_w - Inches(0.4), Inches(0.6),
+textbox(s, dwh_x + Inches(0.2), Inches(4.7), dwh_w - Inches(0.4), Inches(0.6),
         "Çok kaynaklı entegre güncel durum gerekiyorsa CORE üzerinde görünüm olarak üretilir; "
         "ODS_ kaynak şeklinde kalır.", size=11, color=MUTED)
-gg_x = ods_x
-arrow(s, src_x + src_w, Inches(1.775), gg_x, Inches(1.775), color=TEAL, width=2,
-      label="GoldenGate", label_dy=-0.3, label_w=1.1)
-arrow(s, src_x + src_w, Inches(2.525), gg_x, Inches(2.15), color=TEAL, width=2)
-arrow(s, src_x + src_w, Inches(3.275), gg_x, Inches(2.4), color=TEAL, width=2)
-arrow(s, src_x + src_w, Inches(4.025), ods_x + Inches(0.1), ods_y + ods_h, color=TEAL, width=2)
-arrow(s, src_x + src_w, Inches(5.075), ods_x + Inches(0.3), ods_y + ods_h, color=MUTED,
+arrow(s, src_x + src_w, Inches(1.775), ods_x, Inches(2.5), color=TEAL, width=2,
+      label="GoldenGate", label_dx=-0.1, label_dy=-0.5, label_w=0.8)
+arrow(s, src_x + src_w, Inches(2.525), ods_x, Inches(2.8), color=TEAL, width=2)
+arrow(s, src_x + src_w, Inches(3.275), ods_x, Inches(3.1), color=TEAL, width=2)
+arrow(s, src_x + src_w, Inches(4.025), ods_x, Inches(3.4), color=TEAL, width=2)
+arrow(s, src_x + src_w, Inches(5.075), ods_x + Inches(0.3), layer_y + layer_h, color=MUTED,
       width=1.25, dashed=True)
 textbox(s, Inches(2.84), Inches(5.2), Inches(0.7), Inches(0.5), ["dosya /", "servis"],
         size=9, color=MUTED)
 r_x, r_w = Inches(10.85), Inches(1.95)
-box(s, r_x, ods_y, r_w, ods_h, fill=RGBColor(0xE3, 0xF1, 0xF3), line=TEAL,
+box(s, r_x, Inches(1.6), r_w, Inches(0.95), fill=RGBColor(0xE3, 0xF1, 0xF3), line=TEAL,
     text=["**Gün içi operasyonel rapor**", "İzleme, Team Developer"], size=12)
-arrow(s, dwh_x + dwh_w, ods_y + ods_h / 2, r_x, ods_y + ods_h / 2, color=TEAL)
+arrow(s, dwh_x + dwh_w, Inches(2.075), r_x, Inches(2.075), color=TEAL)
 box(s, r_x, Inches(2.85), r_w, Inches(0.9), fill=GOLD, text=["**MSTR**", "semantik katman"],
     size=13, color=WHITE)
 arrow(s, dwh_x + dwh_w, Inches(3.3), r_x, Inches(3.3), color=GOLD)
