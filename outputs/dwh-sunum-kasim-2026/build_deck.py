@@ -486,8 +486,6 @@ arrow(s, src_x + src_w, Inches(3.275), ods_x, Inches(3.1), color=TEAL, width=2)
 arrow(s, src_x + src_w, Inches(4.025), ods_x, Inches(3.4), color=TEAL, width=2)
 arrow(s, src_x + src_w, Inches(5.075), ods_x + Inches(0.3), layer_y + layer_h, color=MUTED,
       width=1.25, dashed=True)
-textbox(s, Inches(2.84), Inches(5.2), Inches(0.7), Inches(0.5), ["dosya /", "servis"],
-        size=9, color=MUTED)
 r_x, r_w = Inches(10.85), Inches(1.95)
 box(s, r_x, Inches(1.6), r_w, Inches(0.95), fill=RGBColor(0xE3, 0xF1, 0xF3), line=TEAL,
     text=["**Gün içi operasyonel rapor**", "İzleme, Team Developer"], size=12)
