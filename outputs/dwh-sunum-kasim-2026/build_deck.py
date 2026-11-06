@@ -463,7 +463,7 @@ box(s, ods_x, ods_y, ods_w, ods_h, fill=RGBColor(0xE3, 0xF1, 0xF3), line=TEAL, l
     text="**ODS**", size=16)
 layer_y = Inches(3.0)
 layers = [("CORE", "Entegre, tarihçeli"), ("Data Mart", None),
-          ("PUB", "Yasal snapshot, üye dosyası, API")]
+          ("Publish", "Yasal snapshot, üye dosyası, API")]
 lw, lgap = Inches(1.95), Inches(0.325)
 for i, (code, d) in enumerate(layers):
     lx = dwh_x + Inches(0.2) + (lw + lgap) * i
@@ -886,14 +886,14 @@ cards = [
         "Tek kaynak şema, **T-1 yeterli**; net düzenleyici tüketici",
         "~2 milyar satır / 170 GB; mesaj başına tek satır özetle **~24 milyon satır**",
         "Ortak üye/piyasa modeli gerektirmez; modelleme tartışmasına girmeden tesisatı kanıtlar",
-        "Kanıtlar: ODS_ beslemesi, SCN-tutarlı çıkarım, replay, zamanlayıcı zinciri, PUB snapshot, "
+        "Kanıtlar: ODS_ beslemesi, SCN-tutarlı çıkarım, replay, zamanlayıcı zinciri, Publish snapshot, "
         "erişim ve audit (serbest alanda kimlik no)",
     ]),
     ("PİLOT B — BISTECH SPK 13 RAPOR", "Entegrasyonu kanıtlar", [
         "İki kaynak: KALE NOMX + Replica BIDB (5 + 7 + 1 rapor); gün sonu sinyaline bağlı",
         "İlk **kurumsal core** paketi: taraf, üyelik, hesap, araç, piyasa × hizmet, takvim, "
         "versiyonlu takas kuralı",
-        "DB_ARSIV view + dblink erişimini sürümlü PUB katmanıyla değiştirir",
+        "DB_ARSIV view + dblink erişimini sürümlü Publish katmanıyla değiştirir",
         "İlk MSTR yıldız şeması",
     ]),
 ]
@@ -922,7 +922,7 @@ phases = [
     ("FAZ 0", "Keşif ve karar kapıları", "İlk 30 gün: mandat, ölçüm, rapor envanteri, GoldenGate "
      "/ ODS_ planı, gün sonu sinyali, ETL aracı değerlendirmesinin sonuçlanması",
      "**ETL aracı seçimi**, rapor envanteri, puanlı pilot listesi, yerleşim testi"),
-    ("FAZ 1", "Pilot A: platform temeli", "CTL/ODS_, SCN-tutarlı çıkarım, replay, PUB, güvenlik",
+    ("FAZ 1", "Pilot A: platform temeli", "CTL/ODS_, SCN-tutarlı çıkarım, replay, Publish, güvenlik",
      "Ölçülmüş KALE yük azalması, paralel koşum onayı, runbook"),
     ("FAZ 2", "Pilot B: entegrasyon", "İlk CORE paketi, UG gün sonu prosedürlerinin DWH'a "
      "taşınması, ilk MSTR yıldızı", "CORE paketi ve MSTR yıldızının paralel koşum kabulü"),
