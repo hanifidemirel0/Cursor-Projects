@@ -527,10 +527,6 @@ for i, (name, dbs, disk, cpu, prev, now, c) in enumerate(machines):
             f"**Önceki öneri:** {prev}", size=13)
     box(s, x, Inches(4.25), Inches(3.9), Inches(1.0), fill=WHITE, line=c, line_w=2, text=now,
         size=13)
-box(s, Inches(0.6), Inches(5.5), W - Inches(1.2), Inches(0.75), fill=LIGHT,
-    text="**Karar yöntemi:** DBA ekibiyle IO/CPU izolasyon testi ve kapasite modeli (ODS_, core, "
-         "mart, indeks, temp, yedek, DR, büyüme) sonrasında. 1 Exadata ≈ 200 TB, KALE ≈ 10 TB "
-         "bilgisi tek başına kapasite onayı değildir.", size=13, align=PP_ALIGN.LEFT)
 footnote(s, "Disk ve CPU değerleri Aralık 2024 kapasite görüntüsüdür (11–17 Aralık 2024); güncel "
             "ölçümle yenilenmelidir.", y=6.4)
 
