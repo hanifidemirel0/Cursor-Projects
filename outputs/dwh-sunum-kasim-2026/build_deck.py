@@ -492,7 +492,7 @@ textbox(s, r_x, Inches(1.08), r_w, Inches(0.3), "RAPORLAMA", size=12, color=MUTE
 box(s, r_x, Inches(1.6), r_w, Inches(0.95), fill=RGBColor(0xE3, 0xF1, 0xF3), line=TEAL,
     text="**Gün içi operasyonel rapor**", size=12)
 arrow(s, dwh_x + dwh_w, Inches(2.075), r_x, Inches(2.075), color=TEAL)
-box(s, r_x, Inches(2.85), r_w, Inches(0.9), fill=GOLD, text=["**MSTR**", "semantik katman"],
+box(s, r_x, Inches(2.85), r_w, Inches(0.9), fill=GOLD, text=["**MSTR (PUSULA)**", "semantik katman"],
     size=13, color=WHITE)
 arrow(s, dwh_x + dwh_w, Inches(3.3), r_x, Inches(3.3), color=GOLD)
 box(s, r_x, Inches(3.95), r_w, Inches(0.9), fill=LIGHT, line=NAVY,
