@@ -316,7 +316,7 @@ events = [
     ("Nis–May 2026", "Informatica PoC", ["**Komtaş** ile Informatica PoC"], True),
     ("Ağu 2026", "Komtaş teklifi", ["~3 ay tasarım", "Mimari, kavramsal model, yol haritası, **RFP**"], True),
     ("Eyl 2026", "UG görüşmeleri",
-     ["Tüm UG ekipleri, **talep ve ihtiyaç analizi**", "6 danışman firma", "**dbt PoC** tamamlandı"], True),
+     ["Tüm UG ekipleri, **talep ve ihtiyaç analizi**", "6 danışman firma", "**DBT PoC** tamamlandı"], True),
     ("Eki 2026", "Workshop ve taslaklar",
      ["Dataspecta workshop", "ETL, veri replikasyon, orkestrasyon çalışmaları", "**Tasarım taslakları**"], True),
 ]
@@ -351,7 +351,7 @@ months = [
         "**PowerDesigner** ve **veritabanları / ortamlar** hakkında bilgilendirme toplantıları yapıldı",
         "Danışman firmalarla görüşüldü: **Ab Initio, Oredata, Cloudera, Dataspecta, GTech, "
         "Global Maksimum**; ürünleri ve süreç boyunca nasıl destek verebilecekleri konuşuldu",
-        "**dbt** için PoC çalışması tamamlandı ve sunumu yapıldı",
+        "**DBT** için PoC çalışması tamamlandı ve sunumu yapıldı",
     ]),
     ("EKİM 2026", [
         "**Dataspecta** ile workshop yapıldı",
@@ -538,7 +538,7 @@ s = content_slide("ETL ARACI DEĞERLENDİRMESİ: ÖZET", pill="Öneri — iki se
 textbox(s, Inches(0.6), Inches(1.15), Inches(5.6), Inches(0.4),
         "Ağırlıklı puan (1–5), Takasbank temel senaryosu", size=15, color=NAVY, bold=True)
 cd = CategoryChartData()
-cd.categories = ["Spark", "Informatica", "Cloudera", "ODI 14c", "dbt Core"]
+cd.categories = ["Spark", "Informatica", "Cloudera", "ODI 14c", "DBT Core"]
 cd.add_series("Puan", (2.93, 3.26, 3.30, 3.36, 3.71))
 gf = s.shapes.add_chart(XL_CHART_TYPE.BAR_CLUSTERED, Inches(0.5), Inches(1.5), Inches(5.8),
                         Inches(3.6), cd)
@@ -568,15 +568,15 @@ ca.tick_labels.font.size = Pt(13)
 ca.tick_labels.font.name = FONT
 ca.format.line.color.rgb = LINE
 textbox(s, Inches(0.6), Inches(5.15), Inches(5.6), Inches(1.2), [
-    "**Ağırlık profillerine göre:** dbt 6 profilin 4'ünde önde. Düzenleyici öncelikli "
-    "profilde ODI önde (ODI 3.70, dbt 3.64); gerçek zaman öncelikli profilde Cloudera önde "
-    "(3.54, dbt 3.25)",
+    "**Ağırlık profillerine göre:** DBT 6 profilin 4'ünde önde. Düzenleyici öncelikli "
+    "profilde ODI önde (ODI 3.70, DBT 3.64); gerçek zaman öncelikli profilde Cloudera önde "
+    "(3.54, DBT 3.25)",
 ], size=12, color=INK)
 textbox(s, Inches(6.75), Inches(1.15), Inches(6), Inches(0.4), "Öneri", size=17, color=NAVY,
         bold=True)
 bullets(s, Inches(6.75), Inches(1.5), Inches(6.0), Inches(4.9), [
     "İki seçenek öne çıkmakta ve ikisi de Exadata üzerinde çalışıyor",
-    "**A — dbt Core**",
+    "**A — DBT Core**",
     ("-", "Teslim hızı; SQL ekibi ve yerel LLM ile uyum"),
     ("-", "Lisans yok; PostgreSQL'e geçiş açık"),
     ("-", "Üretici desteği yok; sözleşmeli destek modeline Bilgi Güvenliği ve İç Denetim "
@@ -585,7 +585,7 @@ bullets(s, Inches(6.75), Inches(1.5), Inches(6.0), Inches(4.9), [
     ("-", "Üretici desteği, erişim kontrolü, denetim izi, HA/DR"),
     ("-", "PL/SQL raporlar değişmeden çalışır"),
     ("-", "ULA dışında yeni lisans (varsayım yıllık 250 bin USD)"),
-    "~200 rapor sorgusunun dönüşümü (tahmin): dbt **150–300**, ODI **400–700**, "
+    "~200 rapor sorgusunun dönüşümü (tahmin): DBT **150–300**, ODI **400–700**, "
     "Cloudera/Spark 600–1.000 adam-gün",
     "**PoC'ler tamamlandı**, değerlendirme sürüyor; araç henüz seçilmedi. Pilot, ETL aracı "
     "seçildikten sonra başlar",
@@ -596,7 +596,7 @@ footnote(s, "Puanlar masa başı değerlendirmedir (15 kategori, 64 kriter). Ban
             "teklifi veya satın alma onayı değildir. Ayrıntı sonraki beş slayttadır.", y=6.45)
 
 ETL_SRC = "Takasbank_ETL_Comparison.xlsx v2.7, 16.10.2026"
-ETL_TOOLS = ["ODI 14c", "Informatica", "dbt Core", "Cloudera", "Spark"]
+ETL_TOOLS = ["ODI 14c", "Informatica", "DBT Core", "Cloudera", "Spark"]
 
 
 def style_cell(cell, fill=None, color=None, bold=None):
@@ -628,7 +628,7 @@ table(s, Inches(0.6), Inches(1.55), Inches(5.9), [
     ["Araç", "Tür"],
     ["ODI 14c", "ELT entegrasyon aracı (ticari, Oracle)"],
     ["Informatica 10.5", "Motor tabanlı ETL aracı (ticari)"],
-    ["dbt Core", "SQL dönüşüm çerçevesi (açık kaynak)"],
+    ["DBT Core", "SQL dönüşüm çerçevesi (açık kaynak)"],
     ["Cloudera Data Platform", "Entegre veri platformu (ticari)"],
     ["Apache Spark", "Dağıtık işlem motoru (açık kaynak)"],
 ], [2.3, 3.6], size=12.5, header_size=13, row_h=0.36)
@@ -717,9 +717,9 @@ style_cell(t.cell(last, 4), fill=GOLD, color=WHITE, bold=True)
 textbox(s, Inches(9.55), Inches(1.15), Inches(3.25), Inches(0.4), "Öne çıkanlar", size=17,
         color=NAVY, bold=True)
 bullets(s, Inches(9.55), Inches(1.5), Inches(3.25), Inches(4.9), [
-    "**dbt** SQL ekip uyumu, yerel LLM, DevOps, dönüşüm eforu ve maliyette en yüksek",
+    "**DBT** SQL ekip uyumu, yerel LLM, DevOps, dönüşüm eforu ve maliyette en yüksek",
     "**ODI** Exadata uyumu, toplu ETL ve operasyonda önde; güvenlikte güçlü",
-    "dbt'nin zayıf yanı **CDC** (GoldenGate'e bağlı) ve **güvenlik** (üretici desteği yok)",
+    "DBT'nin zayıf yanı **CDC** (GoldenGate'e bağlı) ve **güvenlik** (üretici desteği yok)",
     "ODI'nin zayıf yanı **CDC**, **yerel LLM** ve **taşınabilirlik**",
     "**Cloudera** yalnızca CDC / gerçek zamanda belirgin önde; Exadata uyumu ve maliyette en "
     "düşük",
@@ -749,10 +749,10 @@ for i, (_, vals) in enumerate(scen, start=1):
     k = vals.index(max(vals))
     style_cell(t.cell(i, k + 1), fill=NAVY, color=WHITE, bold=True)
 bullets(s, Inches(0.55), Inches(4.65), Inches(6.2), Inches(1.75), [
-    "dbt 6 profilin 4'ünde önde; en geniş fark modern veri yığınında (4.10 / 3.37)",
+    "DBT 6 profilin 4'ünde önde; en geniş fark modern veri yığınında (4.10 / 3.37)",
     "Düzenleyici öncelikli profilde **ODI önde** (3.70 / 3.64): ODI'nin eşit seçenek olarak "
     "sunulma nedeni",
-    "ODI ULA'ya ücretsiz eklense bile temel profilde **3.40** (dbt 3.71)",
+    "ODI ULA'ya ücretsiz eklense bile temel profilde **3.40** (DBT 3.71)",
     "Informatica ve Spark hiçbir profilde önde değil",
 ], size=12.5, gap=4)
 textbox(s, Inches(7.0), Inches(1.15), Inches(5.78), Inches(0.4),
@@ -760,7 +760,7 @@ textbox(s, Inches(7.0), Inches(1.15), Inches(5.78), Inches(0.4),
 tco = [
     ("ODI 14c", 1250, 300, 2250, 900, "400–700"),
     ("Informatica", 2600, 700, 2250, 1100, "500–800"),
-    ("dbt Core", 300, 150, 1800, 700, "150–300"),
+    ("DBT Core", 300, 150, 1800, 700, "150–300"),
     ("Cloudera", 3500, 1800, 3150, 1300, "600–1.000"),
     ("Spark", 200, 1400, 3600, 1200, "600–1.000"),
 ]
@@ -782,9 +782,9 @@ for i in range(1, len(rows)):
 for i in (1, 3):
     style_cell(t.cell(i, 0), color=NAVY)
 bullets(s, Inches(7.0), Inches(4.25), Inches(5.78), Inches(2.1), [
-    "dbt: lisans yok; tutar yerel destek sözleşmesidir",
+    "DBT: lisans yok; tutar yerel destek sözleşmesidir",
     "ODI: ULA dışında yeni lisans, yıllık **250 bin USD** varsayımı (5 yılda 1,25 milyon)",
-    "Dönüşüm eforu ~**200 PL/SQL rapor** için; dbt'de yerel LLM her modelin taslağını çıkarır, "
+    "Dönüşüm eforu ~**200 PL/SQL rapor** için; DBT'de yerel LLM her modelin taslağını çıkarır, "
     "eşitlik testleri sonucu doğrular",
 ], size=12.5, gap=4)
 footnote(s, "Maliyetler göreli karşılaştırma için kaba tahmindir, teklif değildir. Exadata, Oracle "
@@ -835,17 +835,17 @@ box(s, Inches(0.55), Inches(6.0), Inches(12.2), Inches(0.48), fill=RGBColor(0xFD
 s = content_slide("ETL ARACI DEĞERLENDİRMESİ: İKİ SEÇENEK", pill="Değerlendirme sürüyor",
                   pill_fill=TEAL, sources=f"{ETL_SRC} (Executive Summary, Risks)")
 options = [
-    ("A — dbt Core (Exadata üzerinde)", "Teslim hızı, maliyet, taşınabilirlik", NAVY, [
+    ("A — DBT Core (Exadata üzerinde)", "Teslim hızı, maliyet, taşınabilirlik", NAVY, [
         "**Güçlü:** SQL öncelikli, ekip bilgisi doğrudan kullanılır, öğrenme eğrisi kısa",
         "Git'te düz SQL / YAML: yerel LLM ile üretim, dokümantasyon ve inceleme; yerleşik "
         "test ve doküman",
         "Tüm işlem Exadata içinde; lisans yok, en düşük maliyet ve dönüşüm eforu; "
         "PostgreSQL'e dbt-postgres ile taşınabilir",
-        "**Zayıf:** dbt Core için üretici desteği yok; erişim kontrolü ve görevler ayrılığı "
+        "**Zayıf:** DBT Core için üretici desteği yok; erişim kontrolü ve görevler ayrılığı "
         "aracın çevresinde kurulur",
         "Kendi veri çekme / akış yeteneği yok (GoldenGate, external table); PL/SQL prosedürleri "
         "yeniden yazılana kadar model akışının dışında koşar",
-    ], "**Ön koşul:** Bilgi Güvenliği ve İç Denetim'in, Türkiye'deki dbt destek firmasıyla "
+    ], "**Ön koşul:** Bilgi Güvenliği ve İç Denetim'in, Türkiye'deki DBT destek firmasıyla "
        "SLA'lı sözleşmeli destek modelini BDDK dış hizmet düzenlemesi kapsamında kabul etmesi"),
     ("B — ODI 14c (Exadata üzerinde)", "Düzenleyici rahatlık, üretici desteği", TEAL, [
         "**Güçlü:** üretici desteği ve SLA; en güçlü erişim kontrolü, denetim izi ve HA/DR",
@@ -1052,7 +1052,7 @@ decs = [
     "Gün içi operasyonel raporlamada **ODS_** şemaları ile **KALE standby** rol ayrımı",
     "DWH yerleşimi (SUR / HİSAR) **izolasyon testiyle** belirlenir",
     "**Pilot A = SWIFT**, **Pilot B = BISTECH SPK**; fon sözleşme verisi yakalaması şimdi başlar",
-    "ETL aracı seçimi: **dbt Core** veya **ODI 14c**; PoC'ler tamamlandı, pilot karardan sonra "
+    "ETL aracı seçimi: **DBT Core** veya **ODI 14c**; PoC'ler tamamlandı, pilot karardan sonra "
     "başlar",
     "1 modelleyici + 2 veri mühendisi alınır; dilim başına **UG analist zamanı** ayrılır",
     "Mevcut **gün sonu log kaydı** ilk ay içinde DWH tetikleyicisi olarak doğrulanır",
