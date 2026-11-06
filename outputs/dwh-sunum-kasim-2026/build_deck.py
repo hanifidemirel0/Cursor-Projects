@@ -575,13 +575,16 @@ textbox(s, Inches(0.6), Inches(5.15), Inches(5.6), Inches(1.2), [
 textbox(s, Inches(6.75), Inches(1.15), Inches(6), Inches(0.4), "Öneri", size=17, color=NAVY,
         bold=True)
 bullets(s, Inches(6.75), Inches(1.5), Inches(6.0), Inches(4.9), [
-    "Yönlendirme komitesine iki seçenek; ikisi de Exadata üzerinde, değişiklik yakalama "
-    "**GoldenGate** ile",
-    "**A — dbt Core:** teslim hızı, SQL ekibi ve yerel LLM ile uyum, lisans yok, PostgreSQL'e "
-    "geçiş açık. Üretici desteği yok; sözleşmeli destek modeline Bilgi Güvenliği ve İç Denetim "
-    "onayı gerekir",
-    "**B — ODI 14c:** üretici desteği, erişim kontrolü, denetim izi, HA/DR; PL/SQL raporlar "
-    "değişmeden çalışır. ULA dışında yeni lisans (varsayım yıllık 250 bin USD)",
+    "İki seçenek öne çıkmakta ve ikisi de Exadata üzerinde çalışıyor",
+    "**A — dbt Core**",
+    ("-", "Teslim hızı; SQL ekibi ve yerel LLM ile uyum"),
+    ("-", "Lisans yok; PostgreSQL'e geçiş açık"),
+    ("-", "Üretici desteği yok; sözleşmeli destek modeline Bilgi Güvenliği ve İç Denetim "
+          "onayı gerekir"),
+    "**B — ODI 14c**",
+    ("-", "Üretici desteği, erişim kontrolü, denetim izi, HA/DR"),
+    ("-", "PL/SQL raporlar değişmeden çalışır"),
+    ("-", "ULA dışında yeni lisans (varsayım yıllık 250 bin USD)"),
     "~200 rapor sorgusunun dönüşümü (tahmin): dbt **150–300**, ODI **400–700**, "
     "Cloudera/Spark 600–1.000 adam-gün",
     "**PoC'ler tamamlandı**, değerlendirme sürüyor; araç henüz seçilmedi. Pilot, ETL aracı "
