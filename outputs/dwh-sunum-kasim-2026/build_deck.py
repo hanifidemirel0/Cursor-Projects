@@ -612,11 +612,11 @@ s = content_slide("ETL ARACI DEĞERLENDİRMESİ: İKİ SEÇENEK", pill="Değerle
                   pill_fill=TEAL, sources=f"{ETL_SRC} (Executive Summary, Risks)")
 options = [
     ("A — DBT Core (Exadata üzerinde)", "Teslim hızı, maliyet, taşınabilirlik", NAVY, [
-        "**Güçlü:** SQL öncelikli, ekip bilgisi doğrudan kullanılır, öğrenme eğrisi kısa",
-        "Git'te düz SQL / YAML: yerel LLM ile üretim, dokümantasyon ve inceleme; yerleşik "
-        "test ve doküman",
-        "Tüm işlem Exadata içinde; lisans yok, en düşük maliyet ve dönüşüm eforu; "
-        "PostgreSQL'e dbt-postgres ile taşınabilir",
+        "**Güçlü:** SQL tabanlı olduğu için ekibin adaptasyonu çok hızlı olur",
+        "SQL ve YAML dosyaları Git üzerinde saklanabilir",
+        "LLM entegrasyonu çok yüksek. SQL yazma, YAML oluşturma, test ve dokümantasyon "
+        "oluşturma konularında LLM araçları kullanılabilir. Bu sayede iş devreye alma süreci "
+        "oldukça hızlandırılabilir",
         "**Zayıf:** DBT Core için üretici desteği yok; erişim kontrolü ve görevler ayrılığı "
         "aracın çevresinde kurulur",
         "Kendi veri çekme / akış yeteneği yok (GoldenGate, external table); PL/SQL prosedürleri "
