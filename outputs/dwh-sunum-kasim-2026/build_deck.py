@@ -667,15 +667,16 @@ bullets(s, Inches(0.6), Inches(4.25), Inches(5.9), Inches(2.2), [
     "tüm seçeneklerde var",
 ], size=13, gap=4)
 box(s, Inches(6.85), Inches(1.15), Inches(5.9), Inches(0.5), fill=NAVY,
-    text="Karar kısıtları (Takasbank girdisi)", size=16, color=WHITE, bold=True)
+    text="Takasbank Kısıtları", size=16, color=WHITE, bold=True)
 box(s, Inches(6.85), Inches(1.65), Inches(5.9), Inches(4.75), fill=LIGHT,
     shape=MSO_SHAPE.RECTANGLE)
 bullets(s, Inches(6.95), Inches(1.7), Inches(5.7), Inches(4.65), [
-    "**Hedef:** mevcut **Oracle Exadata**; staging, ODS, core ve mart'lar burada",
-    "**Lisans:** Oracle ULA, **GoldenGate**'i yalnızca Oracle kaynaklar için kapsıyor; Oracle "
-    "dışı kaynaklar ek paket ister. **ODI ULA kapsamında değil**",
-    "**Mevcut raporlar:** tamamı **PL/SQL**; seçilen araç bunları ilk günden çalıştırmalı, "
-    "dönüşüm eforu bir kriter",
+    "**Hedef:** Veri ambarının nihai verileri **Oracle Exadata** üzerinde tutulacak ancak "
+    "gelecekte PostgreSQL gibi farklı veritabanları da kullanılabilir",
+    "**Lisans:** Mevcut Oracle sözleşmesi kapsamında **GoldenGate** yalnızca Oracle → Oracle "
+    "akışları için kullanılabilir. Diğer kaynaklar için ek lisans gerekir",
+    "**Mevcut raporlar:** Mevcut raporların hepsi **PL/SQL** paketi. Migration eforu göz önünde "
+    "bulundurulmalı",
     "**Gelecek hedef:** ileride **PostgreSQL**'e geçiş olasılığı; Oracle'a kilitlenmemeli",
     "**Kurum içi:** tüm araçlar on-premises; bulut servisi yok",
     "**Ekip:** SQL'de güçlü; SQL öncelikli geliştirme. Öğrenme eğrisi ve bakım eforu kriter",
