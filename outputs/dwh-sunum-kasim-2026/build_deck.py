@@ -623,8 +623,7 @@ options = [
         "**Zayıf**",
         ("-", "DBT Core için üretici desteği yok"),
         ("-", "Kendi veri çekme / akış yeteneği yok"),
-    ], "**Ön koşul:** Bilgi Güvenliği ve İç Denetim'in, Türkiye'deki DBT destek firmasıyla "
-       "SLA'lı sözleşmeli destek modelini BDDK dış hizmet düzenlemesi kapsamında kabul etmesi"),
+    ]),
     ("B — ODI 14c (Exadata üzerinde)", "Düzenleyici rahatlık, üretici desteği", TEAL, [
         "**Güçlü**",
         ("-", "Üretici desteği ve SLA; en güçlü erişim kontrolü, denetim izi ve HA/DR"),
@@ -635,17 +634,14 @@ options = [
               "kullanımını sınırlar"),
         ("-", "Öğrenme eğrisi daha dik; EDW PostgreSQL'e taşınırsa yatırımın çoğu değer "
               "kaybeder"),
-    ], "**Ön koşul:** Oracle'dan lisans konusunda yazılı görüş (Exadata çekirdek sayımı) ve "
-       "EDW'nin Oracle'da kalacağı beklentisi"),
+    ]),
 ]
-for i, (title, sub, fill, pts, pre) in enumerate(options):
+for i, (title, sub, fill, pts) in enumerate(options):
     x = Inches(0.55 + i * 6.2)
     box(s, x, Inches(1.15), Inches(6.0), Inches(0.72), fill=fill, text=[f"**{title}**", sub],
         size=14, color=WHITE)
-    box(s, x, Inches(1.87), Inches(6.0), Inches(3.05), fill=LIGHT, shape=MSO_SHAPE.RECTANGLE)
+    box(s, x, Inches(1.87), Inches(6.0), Inches(3.83), fill=LIGHT, shape=MSO_SHAPE.RECTANGLE)
     bullets(s, x + Inches(0.08), Inches(1.9), Inches(5.85), Inches(3.0), pts, size=13.5, gap=6)
-    box(s, x, Inches(4.98), Inches(6.0), Inches(0.72), fill=WHITE, line=fill, text=pre,
-        size=12, align=PP_ALIGN.LEFT)
 box(s, Inches(0.55), Inches(5.82), Inches(12.2), Inches(0.62), fill=RGBColor(0xFD, 0xF3, 0xE4),
     line=GOLD, text="**Seçimden önce netleşecekler:** A için BDDK dış hizmet uygunluğu · B için "
     "ODI lisans pozisyonu · PL/SQL rapor envanteri ve ölçülmüş dönüşüm eforu · PostgreSQL'e "
