@@ -626,8 +626,7 @@ options = [
     ("B — ODI 14c (Exadata üzerinde)", "Düzenleyici rahatlık, üretici desteği", TEAL, [
         "**Güçlü:** üretici desteği ve SLA; en güçlü erişim kontrolü, denetim izi ve HA/DR",
         "Exadata'ya yerel pushdown",
-        "PL/SQL raporlar ODI prosedürü / load plan adımı olarak değişmeden çalışır; Türk "
-        "bankacılığında güçlü konum",
+        "Yerel firmalar arasında bilinirliği güçlü",
         "**Zayıf:** ULA dışında yeni lisans; depo tabanlı GUI geliştirme yerel LLM ve "
         "Git / CI kullanımını sınırlar",
         "Öğrenme eğrisi daha dik; EDW PostgreSQL'e taşınırsa yatırımın çoğu değer kaybeder",
