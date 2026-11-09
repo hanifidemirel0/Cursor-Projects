@@ -652,8 +652,8 @@ textbox(s, Inches(0.6), Inches(1.15), Inches(5.9), Inches(0.4), "Değerlendirile
 table(s, Inches(0.6), Inches(1.55), Inches(5.9), [
     ["Araç", "Tür"],
     ["ODI 14c", "ELT entegrasyon aracı (ticari, Oracle)"],
-    ["Informatica 10.5", "Motor tabanlı ETL aracı (ticari)"],
-    ["DBT Core", "SQL dönüşüm çerçevesi (açık kaynak)"],
+    ["Informatica 10.5", "ETL aracı (ticari)"],
+    ["DBT Core", "SQL tabanlı ELT aracı (açık kaynak)"],
     ["Cloudera Data Platform", "Entegre veri platformu (ticari)"],
     ["Apache Spark", "Dağıtık işlem motoru (açık kaynak)"],
 ], [2.3, 3.6], size=12.5, header_size=13, row_h=0.36)
@@ -663,8 +663,6 @@ bullets(s, Inches(0.6), Inches(4.25), Inches(5.9), Inches(2.2), [
     "**15 kategori, 64 kriter**; her kriter 1–5 puan, kategori puanı kriterlerin ortalaması",
     "Toplam puan, kategori ağırlıklarıyla ağırlıklı ortalama; **6 ağırlık profili** ile "
     "duyarlılık analizi",
-    "Maliyet, öğrenme eğrisi, bakım ve dönüşüm eforu ters puanlanır (yüksek puan = düşük "
-    "maliyet / efor)",
     "Her araç tüm ihtiyacı tek başına karşılama üzerinden puanlandı; Exadata ve GoldenGate "
     "tüm seçeneklerde var",
 ], size=13, gap=4)
