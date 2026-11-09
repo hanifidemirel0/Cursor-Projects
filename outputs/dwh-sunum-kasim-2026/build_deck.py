@@ -642,11 +642,6 @@ for i, (title, sub, fill, pts) in enumerate(options):
         size=14, color=WHITE)
     box(s, x, Inches(1.87), Inches(6.0), Inches(3.83), fill=LIGHT, shape=MSO_SHAPE.RECTANGLE)
     bullets(s, x + Inches(0.08), Inches(1.9), Inches(5.85), Inches(3.0), pts, size=13.5, gap=6)
-box(s, Inches(0.55), Inches(5.82), Inches(12.2), Inches(0.62), fill=RGBColor(0xFD, 0xF3, 0xE4),
-    line=GOLD, text="**Seçimden önce netleşecekler:** A için BDDK dış hizmet uygunluğu · B için "
-    "ODI lisans pozisyonu · PL/SQL rapor envanteri ve ölçülmüş dönüşüm eforu · PostgreSQL'e "
-    "geçiş olasılığı · Oracle dışı kaynaklar için GoldenGate ek paketi fiyatı",
-    size=12, align=PP_ALIGN.LEFT)
 
 # 14b — ETL: yöntem ve karar kısıtları
 s = content_slide("ETL ARACI DEĞERLENDİRMESİ: YÖNTEM VE KISITLAR",
