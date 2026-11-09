@@ -618,7 +618,7 @@ options = [
         "oluşturma konularında LLM araçları kullanılabilir. Bu sayede iş devreye alma süreci "
         "oldukça hızlandırılabilir",
         "Tüm işlem Exadata içinde; lisans yok, en düşük maliyet ve dönüşüm eforu; "
-        "PostgreSQL'e dbt-postgres ile taşınabilir",
+        "PostgreSQL'e adaptasyonu güçlü",
         "**Zayıf:** DBT Core için üretici desteği yok",
         "Kendi veri çekme / akış yeteneği yok",
     ], "**Ön koşul:** Bilgi Güvenliği ve İç Denetim'in, Türkiye'deki DBT destek firmasıyla "
