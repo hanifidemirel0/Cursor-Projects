@@ -620,8 +620,7 @@ options = [
         "Tüm işlem Exadata içinde; lisans yok, en düşük maliyet ve dönüşüm eforu; "
         "PostgreSQL'e dbt-postgres ile taşınabilir",
         "**Zayıf:** DBT Core için üretici desteği yok",
-        "Kendi veri çekme / akış yeteneği yok (GoldenGate, external table); PL/SQL prosedürleri "
-        "yeniden yazılana kadar model akışının dışında koşar",
+        "Kendi veri çekme / akış yeteneği yok",
     ], "**Ön koşul:** Bilgi Güvenliği ve İç Denetim'in, Türkiye'deki DBT destek firmasıyla "
        "SLA'lı sözleşmeli destek modelini BDDK dış hizmet düzenlemesi kapsamında kabul etmesi"),
     ("B — ODI 14c (Exadata üzerinde)", "Düzenleyici rahatlık, üretici desteği", TEAL, [
