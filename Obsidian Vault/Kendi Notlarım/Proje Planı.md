@@ -17,7 +17,7 @@ Başlangıç duruşu, faz amaçları, yönlendirme kararları ve risk kaydı: [[
 
 Sahiplik, karar yetkileri, uyuşmazlık ve işletim sorumlulukları için önerilen standart: [[DWH Ownership Operating Model]] (kurum onayı bekleyen taslak).
 
-ETL aracı karşılaştırması: [Takasbank_ETL_Comparison.xlsx](../../outputs/etl-comparison/Takasbank_ETL_Comparison.xlsx) (v2.7) · canvas `outputs/etl-comparison/takasbank_etl_evaluation.canvas.tsx`. Öneri komiteye iki seçenek, dbt Core veya ODI 14c. PoC'ler tamamlandı, değerlendirme sürüyor; nihai ürün seçimi yapılmadı.
+ETL aracı karşılaştırması: [Takasbank_ETL_Comparison_TR.xlsx](../../outputs/etl-comparison/Takasbank_ETL_Comparison_TR.xlsx) (Türkçe, güncel; 09.11.2026 güncellemesi: ODI lisansı 1,5 milyon USD satın alma + yıllık 330 bin USD destek, 5 yılda 3,15 milyon USD; ODI temel puanı 3,35) · İngilizce kopya [Takasbank_ETL_Comparison.xlsx](../../outputs/etl-comparison/Takasbank_ETL_Comparison.xlsx) · canvas `outputs/etl-comparison/takasbank_etl_evaluation.canvas.tsx`. Öneri komiteye iki seçenek, dbt Core veya ODI 14c. PoC'ler tamamlandı, değerlendirme sürüyor; nihai ürün seçimi yapılmadı.
 
 > [!info] Teslimat ilkesi
 > Her faz **dikey** ilerler ve çalışan bir iş sonucu bırakır. Kurumsal `party`, hesap veya araç modeli tek başına aylar süren ön proje yapılmaz; seçilen veri ürününün ihtiyaç duyduğu kapsamda kurulup sonraki dilimlerde genişletilir.

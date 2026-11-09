@@ -343,7 +343,7 @@ footnote(s, "Turuncu: son sunumdan (Temmuz 2025) bu yana gerçekleşen veya sür
 # 3b — Eylül–Ekim 2026 çalışmaları
 s = content_slide("EYLÜL – EKİM 2026 ÇALIŞMALARI", pill="Son sunumdan bu yana", pill_fill=GOLD,
                   sources="Kullanıcı aktarımı (02.11.2026); Toplantı Notları (Eylül 2026); "
-                  "Takasbank_ETL_Comparison.xlsx (v2.7); DWH Hedef Mimarisi v2; DWH Logical Data "
+                  "Takasbank_ETL_Comparison_TR.xlsx; DWH Hedef Mimarisi v2; DWH Logical Data "
                   "Model; Başlangıç Yaklaşımı; Proje Planı")
 months = [
     ("EYLÜL 2026", [
@@ -532,14 +532,14 @@ footnote(s, "Disk ve CPU değerleri Aralık 2024 kapasite görüntüsüdür (11�
 
 # 14 — ETL değerlendirmesi
 s = content_slide("ETL ARACI DEĞERLENDİRMESİ: ÖZET", pill="Öneri — iki seçenek",
-                  pill_fill=TEAL, sources="Takasbank_ETL_Comparison.xlsx v2.7, 16.10.2026 "
-                  "(Executive Summary, Scoring Matrix, Scenario Analysis, TCO); "
+                  pill_fill=TEAL, sources="Takasbank_ETL_Comparison_TR.xlsx, 09.11.2026 güncellemesi "
+                  "(Yönetici Özeti, Puanlama Matrisi, Senaryo Analizi, TCO); "
                   "takasbank_etl_evaluation.canvas.tsx")
 textbox(s, Inches(0.6), Inches(1.15), Inches(5.6), Inches(0.4),
         "Ağırlıklı puan (1–5), Takasbank temel senaryosu", size=15, color=NAVY, bold=True)
 cd = CategoryChartData()
 cd.categories = ["Spark", "Informatica", "Cloudera", "ODI 14c", "DBT Core"]
-cd.add_series("Puan", (2.93, 3.26, 3.30, 3.36, 3.71))
+cd.add_series("Puan", (2.93, 3.26, 3.30, 3.35, 3.71))
 gf = s.shapes.add_chart(XL_CHART_TYPE.BAR_CLUSTERED, Inches(0.5), Inches(1.5), Inches(5.8),
                         Inches(3.6), cd)
 ch = gf.chart
@@ -569,7 +569,7 @@ ca.tick_labels.font.name = FONT
 ca.format.line.color.rgb = LINE
 textbox(s, Inches(0.6), Inches(5.15), Inches(5.6), Inches(1.2), [
     "**Ağırlık profillerine göre:** DBT 6 profilin 4'ünde önde. Düzenleyici öncelikli "
-    "profilde ODI önde (ODI 3.70, DBT 3.64); gerçek zaman öncelikli profilde Cloudera önde "
+    "profilde ODI önde (ODI 3.69, DBT 3.64); gerçek zaman öncelikli profilde Cloudera önde "
     "(3.54, DBT 3.25)",
 ], size=12, color=INK)
 textbox(s, Inches(6.75), Inches(1.15), Inches(6), Inches(0.4), "Öneri", size=17, color=NAVY,
@@ -584,7 +584,7 @@ bullets(s, Inches(6.75), Inches(1.5), Inches(6.0), Inches(4.9), [
 footnote(s, "Puanlar masa başı değerlendirmedir (15 kategori, 64 kriter). Banka testi, fiyat "
             "teklifi veya satın alma onayı değildir. Ayrıntı sonraki beş slayttadır.", y=6.45)
 
-ETL_SRC = "Takasbank_ETL_Comparison.xlsx v2.7, 16.10.2026"
+ETL_SRC = "Takasbank_ETL_Comparison_TR.xlsx, 09.11.2026 güncellemesi"
 ETL_TOOLS = ["ODI 14c", "Informatica", "DBT Core", "Cloudera", "Spark"]
 
 
@@ -609,7 +609,7 @@ def center_cols(t, cols):
 
 # 14e — ETL: iki seçenek
 s = content_slide("ETL ARACI DEĞERLENDİRMESİ: İKİ SEÇENEK", pill="Değerlendirme sürüyor",
-                  pill_fill=TEAL, sources=f"{ETL_SRC} (Executive Summary, Risks)")
+                  pill_fill=TEAL, sources=f"{ETL_SRC} (Yönetici Özeti, Riskler)")
 options = [
     ("A — DBT Core (Exadata üzerinde)", "Teslim hızı, maliyet, taşınabilirlik", NAVY, [
         "**Güçlü**",
@@ -645,8 +645,8 @@ for i, (title, sub, fill, pts) in enumerate(options):
 
 # 14b — ETL: yöntem ve karar kısıtları
 s = content_slide("ETL ARACI DEĞERLENDİRMESİ: YÖNTEM VE KISITLAR",
-                  sources=f"{ETL_SRC} (Executive Summary: Decision constraints; Tool Profiles; "
-                  "Assumptions & Sources)")
+                  sources=f"{ETL_SRC} (Yönetici Özeti: Karar kısıtları; Araç Profilleri; "
+                  "Varsayımlar ve Kaynaklar)")
 textbox(s, Inches(0.6), Inches(1.15), Inches(5.9), Inches(0.4), "Değerlendirilen adaylar",
         size=17, color=NAVY, bold=True)
 table(s, Inches(0.6), Inches(1.55), Inches(5.9), [
@@ -686,7 +686,7 @@ bullets(s, Inches(6.95), Inches(1.7), Inches(5.7), Inches(4.65), [
 
 # 14c — ETL: kategori puanları
 s = content_slide("ETL ARACI DEĞERLENDİRMESİ: KATEGORİ PUANLARI",
-                  sources=f"{ETL_SRC} (Scoring Matrix, Criteria & Weights)")
+                  sources=f"{ETL_SRC} (Puanlama Matrisi, Kriterler ve Ağırlıklar)")
 cat_rows = [
     ("Toplu ETL/ELT yeteneği", 8, (4.4, 4.4, 3.6, 3.4, 3.0)),
     ("CDC ve gerçek zamanlı veri alımı", 13, (1.67, 3.33, 1.33, 4.67, 3.67)),
@@ -702,9 +702,9 @@ cat_rows = [
     ("DevOps ve mühendislik pratikleri", 3, (3.0, 2.5, 4.75, 3.75, 4.0)),
     ("Üretici ve yol haritası", 6, (3.8, 2.8, 3.6, 3.6, 4.4)),
     ("Türkiye'de yetkinlik ve yerel destek", 3, (4.5, 4.0, 3.0, 3.0, 3.0)),
-    ("5 yıllık toplam maliyet", 5, (3.33, 2.33, 4.67, 1.67, 3.0)),
+    ("5 yıllık toplam maliyet", 5, (3.0, 2.33, 4.67, 1.67, 3.0)),
 ]
-totals = (3.36, 3.26, 3.71, 3.30, 2.93)
+totals = (3.35, 3.26, 3.71, 3.30, 2.93)
 
 
 def one_dec(v):
@@ -747,16 +747,16 @@ footnote(s, "Ağırlıklar Takasbank temel profilidir. Lacivert: satırdaki en y
 
 # 14d — ETL: ağırlık senaryoları ve maliyet
 s = content_slide("ETL ARACI DEĞERLENDİRMESİ: SENARYOLAR VE MALİYET",
-                  sources=f"{ETL_SRC} (Scenario Analysis, TCO (5-yr))")
+                  sources=f"{ETL_SRC} (Senaryo Analizi, TCO (5 yıl))")
 textbox(s, Inches(0.55), Inches(1.15), Inches(6.2), Inches(0.4),
         "Ağırlık profiline göre toplam puan (1–5)", size=16, color=NAVY, bold=True)
 scen = [
-    ("Takasbank temel", (3.36, 3.26, 3.71, 3.30, 2.93)),
-    ("Önce gerçek zaman", (3.13, 3.33, 3.25, 3.54, 3.04)),
-    ("Önce yapay zekâ ve SQL verimliliği", (3.32, 3.08, 3.93, 3.33, 2.94)),
-    ("Önce düzenleyici uyum ve üretici desteği", (3.70, 3.50, 3.64, 3.36, 2.83)),
-    ("Önce taşınabilirlik (PostgreSQL)", (3.28, 3.27, 3.76, 3.38, 3.07)),
-    ("Modern veri yığını", (3.18, 2.97, 4.10, 3.37, 3.14)),
+    ("Takasbank temel", (3.35, 3.26, 3.71, 3.30, 2.93)),
+    ("Önce gerçek zaman", (3.12, 3.33, 3.25, 3.54, 3.04)),
+    ("Önce yapay zekâ ve SQL verimliliği", (3.31, 3.08, 3.93, 3.33, 2.94)),
+    ("Önce düzenleyici uyum ve üretici desteği", (3.69, 3.50, 3.64, 3.36, 2.83)),
+    ("Önce taşınabilirlik (PostgreSQL)", (3.26, 3.27, 3.76, 3.38, 3.07)),
+    ("Modern veri yığını", (3.17, 2.97, 4.10, 3.37, 3.14)),
 ]
 rows = [["Profil"] + ETL_TOOLS] + [[n] + [f"{v:.2f}" for v in vals] for n, vals in scen]
 t = table(s, Inches(0.55), Inches(1.55), Inches(6.2), rows, [1.95, 0.85, 0.85, 0.85, 0.85, 0.85],
@@ -767,7 +767,7 @@ for i, (_, vals) in enumerate(scen, start=1):
     style_cell(t.cell(i, k + 1), fill=NAVY, color=WHITE, bold=True)
 bullets(s, Inches(0.55), Inches(4.65), Inches(6.2), Inches(1.75), [
     "DBT 6 profilin 4'ünde önde; en geniş fark modern veri yığınında (4.10 / 3.37)",
-    "Düzenleyici öncelikli profilde **ODI önde** (3.70 / 3.64): ODI'nin eşit seçenek olarak "
+    "Düzenleyici öncelikli profilde **ODI önde** (3.69 / 3.64): ODI'nin eşit seçenek olarak "
     "sunulma nedeni",
     "ODI ULA'ya ücretsiz eklense bile temel profilde **3.40** (DBT 3.71)",
     "Informatica ve Spark hiçbir profilde önde değil",
@@ -775,7 +775,7 @@ bullets(s, Inches(0.55), Inches(4.65), Inches(6.2), Inches(1.75), [
 textbox(s, Inches(7.0), Inches(1.15), Inches(5.78), Inches(0.4),
         "5 yıllık maliyet (bin USD) ve rapor dönüşüm eforu", size=16, color=NAVY, bold=True)
 tco = [
-    ("ODI 14c", 1250, 300, 2250, 900, "400–700"),
+    ("ODI 14c", 3150, 300, 2250, 900, "400–700"),
     ("Informatica", 2600, 700, 2250, 1100, "500–800"),
     ("DBT Core", 300, 150, 1800, 700, "150–300"),
     ("Cloudera", 3500, 1800, 3150, 1300, "600–1.000"),
@@ -800,7 +800,8 @@ for i in (1, 3):
     style_cell(t.cell(i, 0), color=NAVY)
 bullets(s, Inches(7.0), Inches(4.25), Inches(5.78), Inches(2.1), [
     "DBT: lisans yok; tutar yerel destek sözleşmesidir",
-    "ODI: ULA dışında yeni lisans, yıllık **250 bin USD** varsayımı (5 yılda 1,25 milyon)",
+    "ODI: ULA dışında yeni lisans; **1,5 milyon USD** satın alma ve yıllık **330 bin USD** "
+    "destek (5 yılda 3,15 milyon)",
     "Dönüşüm eforu ~**200 PL/SQL rapor** için; DBT'de yerel LLM her modelin taslağını çıkarır, "
     "eşitlik testleri sonucu doğrular",
 ], size=12.5, gap=4)
@@ -996,7 +997,7 @@ box(s, Inches(6.85), Inches(4.0), Inches(5.9), Inches(2.2), fill=RGBColor(0xFD, 
 
 # 19 — Riskler
 s = content_slide("RİSKLER", sources="Başlangıç Yaklaşımı (Risk kaydı); Firmalarla Yapılan DWH "
-                  "Görüşmeleri (GoldenGate 7/24); Takasbank_ETL_Comparison.xlsx (Risks)")
+                  "Görüşmeleri (GoldenGate 7/24); Takasbank_ETL_Comparison_TR.xlsx (Riskler)")
 table(s, Inches(0.55), Inches(1.2), W - Inches(1.1), [
     ["Risk", "Etki", "Önlem"],
     ["GoldenGate işletim yükü (7/24 ekip yok)", "ODS_ beslemesi durursa operasyonel raporlar etkilenir",
