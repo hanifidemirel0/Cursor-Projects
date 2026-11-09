@@ -769,8 +769,6 @@ bullets(s, Inches(0.55), Inches(4.65), Inches(6.2), Inches(1.75), [
     "DBT 6 profilin 4'ünde önde; en geniş fark modern veri yığınında (4.10 / 3.37)",
     "Düzenleyici öncelikli profilde **ODI önde** (3.69 / 3.64): ODI'nin eşit seçenek olarak "
     "sunulma nedeni",
-    "ODI ULA'ya ücretsiz eklense bile temel profilde **3.40** (DBT 3.71)",
-    "Informatica ve Spark hiçbir profilde önde değil",
 ], size=12.5, gap=4)
 textbox(s, Inches(7.0), Inches(1.15), Inches(5.78), Inches(0.4),
         "5 yıllık maliyet (bin USD) ve rapor dönüşüm eforu", size=16, color=NAVY, bold=True)
