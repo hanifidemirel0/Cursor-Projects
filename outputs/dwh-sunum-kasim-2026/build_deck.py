@@ -617,6 +617,8 @@ options = [
         "LLM entegrasyonu çok yüksek. SQL yazma, YAML oluşturma, test ve dokümantasyon "
         "oluşturma konularında LLM araçları kullanılabilir. Bu sayede iş devreye alma süreci "
         "oldukça hızlandırılabilir",
+        "Tüm işlem Exadata içinde; lisans yok, en düşük maliyet ve dönüşüm eforu; "
+        "PostgreSQL'e dbt-postgres ile taşınabilir",
         "**Zayıf:** DBT Core için üretici desteği yok",
         "Kendi veri çekme / akış yeteneği yok (GoldenGate, external table); PL/SQL prosedürleri "
         "yeniden yazılana kadar model akışının dışında koşar",
