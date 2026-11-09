@@ -771,7 +771,7 @@ bullets(s, Inches(0.55), Inches(4.65), Inches(6.2), Inches(1.75), [
     "sunulma nedeni",
 ], size=12.5, gap=4)
 textbox(s, Inches(7.0), Inches(1.15), Inches(5.78), Inches(0.4),
-        "5 yıllık maliyet (bin USD) ve rapor dönüşüm eforu", size=16, color=NAVY, bold=True)
+        "5 yıllık maliyet (USD) ve rapor dönüşüm eforu", size=16, color=NAVY, bold=True)
 tco = [
     ("ODI 14c", 3150, 300, 2250, 900, "400–700"),
     ("Informatica", 2600, 700, 2250, 1100, "500–800"),
@@ -787,10 +787,10 @@ def tr_int(v):
 
 rows = [["Araç", "Lisans / destek", "Altyapı", "İnsan", "Hizmet", "Toplam", "Dönüşüm (adam-gün)"]]
 for name, lic, infra, ppl, svc, conv in tco:
-    rows.append([name, tr_int(lic), tr_int(infra), tr_int(ppl), tr_int(svc),
-                 tr_int(lic + infra + ppl + svc), conv])
+    rows.append([name, tr_int(lic * 1000), tr_int(infra * 1000), tr_int(ppl * 1000),
+                 tr_int(svc * 1000), tr_int((lic + infra + ppl + svc) * 1000), conv])
 t = table(s, Inches(7.0), Inches(1.55), Inches(5.78), rows,
-          [1.18, 0.82, 0.7, 0.7, 0.7, 0.75, 0.93], size=12, header_size=10.5, row_h=0.42)
+          [1.05, 0.85, 0.78, 0.78, 0.78, 0.84, 0.88], size=10.5, header_size=10, row_h=0.42)
 center_cols(t, range(1, 7))
 for i in range(1, len(rows)):
     style_cell(t.cell(i, 5), bold=True)
