@@ -612,24 +612,29 @@ s = content_slide("ETL ARACI DEĞERLENDİRMESİ: İKİ SEÇENEK", pill="Değerle
                   pill_fill=TEAL, sources=f"{ETL_SRC} (Executive Summary, Risks)")
 options = [
     ("A — DBT Core (Exadata üzerinde)", "Teslim hızı, maliyet, taşınabilirlik", NAVY, [
-        "**Güçlü:** SQL tabanlı olduğu için ekibin adaptasyonu çok hızlı olur",
-        "SQL ve YAML dosyaları Git üzerinde saklanabilir",
-        "LLM entegrasyonu çok yüksek. SQL yazma, YAML oluşturma, test ve dokümantasyon "
-        "oluşturma konularında LLM araçları kullanılabilir. Bu sayede iş devreye alma süreci "
-        "oldukça hızlandırılabilir",
-        "Tüm işlem Exadata içinde; lisans yok, en düşük maliyet ve dönüşüm eforu; "
-        "PostgreSQL'e adaptasyonu güçlü",
-        "**Zayıf:** DBT Core için üretici desteği yok",
-        "Kendi veri çekme / akış yeteneği yok",
+        "**Güçlü**",
+        ("-", "SQL tabanlı olduğu için ekibin adaptasyonu çok hızlı olur"),
+        ("-", "SQL ve YAML dosyaları Git üzerinde saklanabilir"),
+        ("-", "LLM entegrasyonu çok yüksek. SQL yazma, YAML oluşturma, test ve dokümantasyon "
+              "oluşturma konularında LLM araçları kullanılabilir. Bu sayede iş devreye alma "
+              "süreci oldukça hızlandırılabilir"),
+        ("-", "Tüm işlem Exadata içinde; lisans yok, en düşük maliyet ve dönüşüm eforu; "
+              "PostgreSQL'e adaptasyonu güçlü"),
+        "**Zayıf**",
+        ("-", "DBT Core için üretici desteği yok"),
+        ("-", "Kendi veri çekme / akış yeteneği yok"),
     ], "**Ön koşul:** Bilgi Güvenliği ve İç Denetim'in, Türkiye'deki DBT destek firmasıyla "
        "SLA'lı sözleşmeli destek modelini BDDK dış hizmet düzenlemesi kapsamında kabul etmesi"),
     ("B — ODI 14c (Exadata üzerinde)", "Düzenleyici rahatlık, üretici desteği", TEAL, [
-        "**Güçlü:** üretici desteği ve SLA; en güçlü erişim kontrolü, denetim izi ve HA/DR",
-        "Exadata'ya yerel pushdown",
-        "Yerel firmalar arasında bilinirliği güçlü",
-        "**Zayıf:** ULA dışında yeni lisans; depo tabanlı GUI geliştirme yerel LLM ve "
-        "Git / CI kullanımını sınırlar",
-        "Öğrenme eğrisi daha dik; EDW PostgreSQL'e taşınırsa yatırımın çoğu değer kaybeder",
+        "**Güçlü**",
+        ("-", "Üretici desteği ve SLA; en güçlü erişim kontrolü, denetim izi ve HA/DR"),
+        ("-", "Exadata'ya yerel pushdown"),
+        ("-", "Yerel firmalar arasında bilinirliği güçlü"),
+        "**Zayıf**",
+        ("-", "ULA dışında yeni lisans; depo tabanlı GUI geliştirme yerel LLM ve Git / CI "
+              "kullanımını sınırlar"),
+        ("-", "Öğrenme eğrisi daha dik; EDW PostgreSQL'e taşınırsa yatırımın çoğu değer "
+              "kaybeder"),
     ], "**Ön koşul:** Oracle'dan lisans konusunda yazılı görüş (Exadata çekirdek sayımı) ve "
        "EDW'nin Oracle'da kalacağı beklentisi"),
 ]
