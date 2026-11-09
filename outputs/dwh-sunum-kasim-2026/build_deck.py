@@ -671,15 +671,15 @@ box(s, Inches(6.85), Inches(1.15), Inches(5.9), Inches(0.5), fill=NAVY,
 box(s, Inches(6.85), Inches(1.65), Inches(5.9), Inches(4.75), fill=LIGHT,
     shape=MSO_SHAPE.RECTANGLE)
 bullets(s, Inches(6.95), Inches(1.7), Inches(5.7), Inches(4.65), [
+    "**Kurum içi:** Tüm araçlar on-prem çalışmalı. Bulut servisleri Takasbank için uygun "
+    "değil",
     "**Hedef:** Veri ambarının nihai verileri **Oracle Exadata** üzerinde tutulacak ancak "
     "gelecekte PostgreSQL gibi farklı veritabanları da kullanılabilir",
     "**Lisans:** Mevcut Oracle sözleşmesi kapsamında **GoldenGate** yalnızca Oracle → Oracle "
     "akışları için kullanılabilir. Diğer kaynaklar için ek lisans gerekir",
     "**Mevcut raporlar:** Mevcut raporların hepsi **PL/SQL** paketi. Migration eforu göz önünde "
     "bulundurulmalı",
-    "**Gelecek hedef:** ileride **PostgreSQL**'e geçiş olasılığı; Oracle'a kilitlenmemeli",
-    "**Kurum içi:** tüm araçlar on-premises; bulut servisi yok",
-    "**Ekip:** SQL'de güçlü; SQL öncelikli geliştirme. Öğrenme eğrisi ve bakım eforu kriter",
+    "**Ekip:** Ekipte hali hazırda SQL yetkinliği güçlü",
     "**Yapay zekâ:** kurum içi (yerel) LLM ile pipeline geliştirme, dokümantasyon, test ve "
     "inceleme hedefleniyor",
 ], size=13.5, gap=6)
