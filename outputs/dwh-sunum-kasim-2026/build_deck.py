@@ -580,9 +580,6 @@ bullets(s, Inches(6.75), Inches(1.5), Inches(6.0), Inches(4.9), [
     ("-", "**B — ODI 14c**"),
     "~200 rapor sorgusunun dönüşümü (tahmin): DBT **150–300**, ODI **400–700**, "
     "Cloudera/Spark 600–1.000 adam-gün",
-    "**PoC'ler tamamlandı**, değerlendirme sürüyor; araç henüz seçilmedi",
-    "Informatica ve tek başına Spark önerilmiyor; Cloudera yalnızca saniye altı akış "
-    "zorunlu olursa",
 ], size=13.5, gap=5)
 footnote(s, "Puanlar masa başı değerlendirmedir (15 kategori, 64 kriter). Banka testi, fiyat "
             "teklifi veya satın alma onayı değildir. Ayrıntı sonraki beş slayttadır.", y=6.45)
