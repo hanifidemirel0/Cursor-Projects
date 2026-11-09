@@ -630,10 +630,10 @@ options = [
         ("-", "Exadata'ya yerel pushdown"),
         ("-", "Yerel firmalar arasında bilinirliği güçlü"),
         "**Zayıf**",
-        ("-", "ULA dışında yeni lisans; depo tabanlı GUI geliştirme yerel LLM ve Git / CI "
-              "kullanımını sınırlar"),
-        ("-", "Öğrenme eğrisi daha dik; EDW PostgreSQL'e taşınırsa yatırımın çoğu değer "
-              "kaybeder"),
+        ("-", "Lisans ücreti yüksek"),
+        ("-", "Git desteği zayıf"),
+        ("-", "LLM entegrasyonu zayıf"),
+        ("-", "Öğrenme süreci daha uzun"),
     ]),
 ]
 for i, (title, sub, fill, pts) in enumerate(options):
