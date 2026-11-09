@@ -727,28 +727,21 @@ rows = [["Kategori", "Ağırlık %"] + ETL_TOOLS]
 for name, wt, vals in cat_rows:
     rows.append([name, str(wt)] + [one_dec(v) for v in vals])
 rows.append(["Ağırlıklı toplam (1–5)", "100"] + [f"{v:.2f}" for v in totals])
-t = table(s, Inches(0.55), Inches(1.15), Inches(8.75), rows,
-          [3.05, 0.95, 0.95, 0.95, 0.95, 0.95, 0.95], size=11.5, header_size=11.5, row_h=0.295)
+t = table(s, Inches(0.55), Inches(1.15), Inches(12.25), rows,
+          [4.15, 1.3, 1.36, 1.36, 1.36, 1.36, 1.36], size=11.5, header_size=11.5, row_h=0.295)
 center_cols(t, range(1, 7))
 for i, (_, _, vals) in enumerate(cat_rows, start=1):
     best = max(vals)
     for j, v in enumerate(vals):
-        style_cell(t.cell(i, j + 2), fill=heat(v), bold=(v == best))
+        if v == best:
+            style_cell(t.cell(i, j + 2), fill=NAVY, color=WHITE, bold=True)
+        else:
+            style_cell(t.cell(i, j + 2), fill=heat(v), bold=False)
 last = len(rows) - 1
 for j in range(7):
     style_cell(t.cell(last, j), fill=NAVY, color=WHITE, bold=True)
 style_cell(t.cell(last, 4), fill=GOLD, color=WHITE, bold=True)
-textbox(s, Inches(9.55), Inches(1.15), Inches(3.25), Inches(0.4), "Öne çıkanlar", size=17,
-        color=NAVY, bold=True)
-bullets(s, Inches(9.55), Inches(1.5), Inches(3.25), Inches(4.9), [
-    "**DBT** SQL ekip uyumu, yerel LLM, DevOps, dönüşüm eforu ve maliyette en yüksek",
-    "**ODI** Exadata uyumu, toplu ETL ve operasyonda önde; güvenlikte güçlü",
-    "DBT'nin zayıf yanı **CDC** (GoldenGate'e bağlı) ve **güvenlik** (üretici desteği yok)",
-    "ODI'nin zayıf yanı **CDC**, **yerel LLM** ve **taşınabilirlik**",
-    "**Cloudera** yalnızca CDC / gerçek zamanda belirgin önde; Exadata uyumu ve maliyette en "
-    "düşük",
-], size=12.5, gap=5)
-footnote(s, "Ağırlıklar Takasbank temel profilidir. Kalın: satırdaki en yüksek puan. Yeşil ≥ 3.5, "
+footnote(s, "Ağırlıklar Takasbank temel profilidir. Lacivert: satırdaki en yüksek puan. Yeşil ≥ 3.5, "
             "kırmızı < 2.75. Maliyet ve efor kategorilerinde yüksek puan düşük maliyet / efor "
             "demektir.", y=6.45)
 
