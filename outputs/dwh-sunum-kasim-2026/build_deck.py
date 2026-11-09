@@ -617,8 +617,7 @@ options = [
         "LLM entegrasyonu çok yüksek. SQL yazma, YAML oluşturma, test ve dokümantasyon "
         "oluşturma konularında LLM araçları kullanılabilir. Bu sayede iş devreye alma süreci "
         "oldukça hızlandırılabilir",
-        "**Zayıf:** DBT Core için üretici desteği yok; erişim kontrolü ve görevler ayrılığı "
-        "aracın çevresinde kurulur",
+        "**Zayıf:** DBT Core için üretici desteği yok",
         "Kendi veri çekme / akış yeteneği yok (GoldenGate, external table); PL/SQL prosedürleri "
         "yeniden yazılana kadar model akışının dışında koşar",
     ], "**Ön koşul:** Bilgi Güvenliği ve İç Denetim'in, Türkiye'deki DBT destek firmasıyla "
