@@ -625,7 +625,7 @@ options = [
        "SLA'lı sözleşmeli destek modelini BDDK dış hizmet düzenlemesi kapsamında kabul etmesi"),
     ("B — ODI 14c (Exadata üzerinde)", "Düzenleyici rahatlık, üretici desteği", TEAL, [
         "**Güçlü:** üretici desteği ve SLA; en güçlü erişim kontrolü, denetim izi ve HA/DR",
-        "Exadata'ya yerel pushdown ve GoldenGate ile yerel entegrasyon",
+        "Exadata'ya yerel pushdown",
         "PL/SQL raporlar ODI prosedürü / load plan adımı olarak değişmeden çalışır; Türk "
         "bankacılığında güçlü konum",
         "**Zayıf:** ULA dışında yeni lisans; depo tabanlı GUI geliştirme yerel LLM ve "
