@@ -17,7 +17,7 @@ Başlangıç duruşu, faz amaçları, yönlendirme kararları ve risk kaydı: [[
 
 Sahiplik, karar yetkileri, uyuşmazlık ve işletim sorumlulukları için önerilen standart: [[DWH Ownership Operating Model]] (kurum onayı bekleyen taslak).
 
-ETL aracı karşılaştırması: [Takasbank_ETL_Comparison_TR.xlsx](../../outputs/etl-comparison/Takasbank_ETL_Comparison_TR.xlsx) (Türkçe, güncel; 09.11.2026 güncellemesi: ODI lisansı 1,5 milyon USD satın alma + yıllık 330 bin USD destek, 5 yılda 3,15 milyon USD; ODI temel puanı 3,35) · İngilizce kopya [Takasbank_ETL_Comparison.xlsx](../../outputs/etl-comparison/Takasbank_ETL_Comparison.xlsx) · canvas `outputs/etl-comparison/takasbank_etl_evaluation.canvas.tsx`. Öneri komiteye iki seçenek, dbt Core veya ODI 14c. PoC'ler tamamlandı, değerlendirme sürüyor; nihai ürün seçimi yapılmadı.
+ETL aracı karşılaştırması: [Takasbank_ETL_Comparison_TR.xlsx](../../outputs/etl-comparison/Takasbank_ETL_Comparison_TR.xlsx) (Türkçe, ana sürüm; 10.11.2026 güncellemesi: temel profilde toplu ETL ağırlığı %13, CDC %8; temel puanlar dbt 3,84, ODI 3,48, Informatica 3,29; TCO tablosu yalnızca lisans, altyapı ve hizmeti kapsar, ODI 4.350.000 USD, dbt 1.150.000 USD) · İngilizce kopya [Takasbank_ETL_Comparison.xlsx](../../outputs/etl-comparison/Takasbank_ETL_Comparison.xlsx) 09.11.2026 hâlindedir, bu güncellemeyi içermez · canvas (10.11.2026 puanları ve maliyetleriyle) `outputs/etl-comparison/takasbank_etl_evaluation.canvas.tsx`. Öneri komiteye iki seçenek, dbt Core veya ODI 14c. PoC'ler tamamlandı, değerlendirme sürüyor; nihai ürün seçimi yapılmadı.
 
 > [!info] Teslimat ilkesi
 > Her faz **dikey** ilerler ve çalışan bir iş sonucu bırakır. Kurumsal `party`, hesap veya araç modeli tek başına aylar süren ön proje yapılmaz; seçilen veri ürününün ihtiyaç duyduğu kapsamda kurulup sonraki dilimlerde genişletilir.
@@ -85,7 +85,7 @@ Ocak 2025 – Mayıs 2026 arasında deneyimli personel alımı için arayış ya
 ### Araç ve kapasite
 
 - [x] ETL aracı PoC'lerini tamamla: **ODI PoC** Ondata ile (Aralık 2025 – Mart 2026), **Informatica PoC** Komtaş ile (Nisan–Mayıs 2026), **dbt PoC** (Eylül 2026).
-- [ ] ETL aracı değerlendirmesini sonuçlandır ve aracı seç: dbt Core veya ODI 14c ([ETL karşılaştırması](../../outputs/etl-comparison/Takasbank_ETL_Comparison.xlsx)); kararı ve gerekçesini kayda geçir. **Pilot bu karardan sonra başlar.**
+- [ ] ETL aracı değerlendirmesini sonuçlandır ve aracı seç: dbt Core veya ODI 14c ([ETL karşılaştırması](../../outputs/etl-comparison/Takasbank_ETL_Comparison_TR.xlsx)); kararı ve gerekçesini kayda geçir. **Pilot bu karardan sonra başlar.**
 - [ ] DWH veritabanı yerleşimi için `sur` ve `hisar` IO/CPU izolasyon testini DBA ile planla; sonuç [[Fiziksel Topoloji - Teknik Taraf]]'a işlenir.
 - [ ] GoldenGate ile `ODS_` beslemesini planla: sürüm/destek kontrolü ve 336 CPU lisansın sunuculara dağılımı, extract kaynağı (prod Kale / `sur` standby) ve supplemental logging etkisi, şema/tablo kapsamı, lag izleme ve DBA işletme sahipliği. Sorular: [[Aktif Sorular]] madde 4.4–4.7, 14.2.
 - [ ] Borsa İstanbul ile kurumlar arası GoldenGate akışını değerlendir: BIST DB / Replica BIDB tabloları, extract/replicat sorumluluğu, ağ ve güvenlik onayı. Pilot B kaynağı ve kaynakta 5 gün tutulan fon sözleşme verisi için öncelikli aday. Sorular: [[Aktif Sorular]] madde 4.6, 15.2.

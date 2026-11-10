@@ -33,7 +33,7 @@ tags:
 | 7 | Temel tespitler | [[DWH Sunum Aralık 2024]], [[Başlangıç Yaklaşımı]] |
 | 8 | Hedef mimari | [[Sistemler ve Servisler#4.1 Karar\|ODS ve landing kararları]], [[Başlangıç Yaklaşımı]], [[DWH Hedef Mimarisi v2]] |
 | 9 | Fiziksel yerleşim ve kapasite | [[Fiziksel Topoloji - Teknik Taraf#DWH yerleşim adayları]] |
-| 10 | ETL aracı değerlendirmesi: özet (puanlar, iki seçenek önerisi) | [Takasbank_ETL_Comparison_TR.xlsx](../../outputs/etl-comparison/Takasbank_ETL_Comparison_TR.xlsx) (09.11.2026 güncellemesi) · canvas `outputs/etl-comparison/takasbank_etl_evaluation.canvas.tsx` |
+| 10 | ETL aracı değerlendirmesi: özet (puanlar, iki seçenek önerisi) | [Takasbank_ETL_Comparison_TR.xlsx](../../outputs/etl-comparison/Takasbank_ETL_Comparison_TR.xlsx) (10.11.2026 güncellemesi) · canvas `outputs/etl-comparison/takasbank_etl_evaluation.canvas.tsx` |
 | 11 | ETL: iki seçenek (dbt Core / ODI 14c), ön koşullar | Aynı çalışma kitabı (Executive Summary, Risks) |
 | 12 | ETL: yöntem, adaylar ve karar kısıtları | Aynı çalışma kitabı (Executive Summary, Tool Profiles) |
 | 13 | ETL: kategori puanları (15 kategori × 5 araç) | Aynı çalışma kitabı (Scoring Matrix, Criteria & Weights) |
