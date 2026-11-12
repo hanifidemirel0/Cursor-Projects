@@ -695,7 +695,7 @@ cat_rows = [
     ("Güvenlik ve regülasyon uyumu", 8, (4.33, 4.33, 3.0, 4.67, 2.17)),
     ("Yerel LLM ile geliştirme", 8, (2.25, 1.5, 4.75, 3.75, 3.25)),
     ("Öğrenme eğrisi", 7, (3.25, 3.75, 4.5, 2.5, 2.75)),
-    ("SQL güçlü ekiple uyum", 6, (4.0, 2.5, 5.0, 3.0, 2.5)),
+    ("SQL uyumluluğu", 6, (4.0, 2.5, 5.0, 3.0, 2.5)),
     ("Üretici ve yol haritası", 6, (3.8, 2.8, 3.6, 3.6, 4.4)),
     ("Exadata ve Oracle uyumu", 5, (5.0, 4.0, 4.0, 1.5, 2.0)),
     ("PostgreSQL'e taşınabilirlik", 5, (2.2, 3.6, 4.2, 3.6, 3.8)),
