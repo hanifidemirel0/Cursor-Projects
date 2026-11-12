@@ -532,14 +532,14 @@ footnote(s, "Disk ve CPU değerleri Aralık 2024 kapasite görüntüsüdür (11�
 
 # 14 — ETL değerlendirmesi
 s = content_slide("ETL ARACI DEĞERLENDİRMESİ: ÖZET", pill="Öneri — iki seçenek",
-                  pill_fill=TEAL, sources="Takasbank_ETL_Comparison_TR.xlsx, 10.11.2026 güncellemesi "
+                  pill_fill=TEAL, sources="Takasbank_ETL_Comparison_TR.xlsx, 12.11.2026 güncellemesi "
                   "(Yönetici Özeti, Puanlama Matrisi, Senaryo Analizi, TCO); "
                   "takasbank_etl_evaluation.canvas.tsx")
 textbox(s, Inches(0.6), Inches(1.15), Inches(5.6), Inches(0.4),
         "Ağırlıklı puan (1–5), Takasbank temel senaryosu", size=15, color=NAVY, bold=True)
 cd = CategoryChartData()
 cd.categories = ["Spark", "Cloudera", "Informatica", "ODI 14c", "DBT Core"]
-cd.add_series("Puan", (2.88, 3.25, 3.29, 3.48, 3.84))
+cd.add_series("Puan", (2.86, 3.24, 3.27, 3.52, 3.86))
 gf = s.shapes.add_chart(XL_CHART_TYPE.BAR_CLUSTERED, Inches(0.5), Inches(1.5), Inches(5.8),
                         Inches(3.6), cd)
 ch = gf.chart
@@ -584,7 +584,7 @@ bullets(s, Inches(6.75), Inches(1.5), Inches(6.0), Inches(4.9), [
 footnote(s, "Puanlar masa başı değerlendirmedir (15 kategori, 64 kriter). Banka testi, fiyat "
             "teklifi veya satın alma onayı değildir. Ayrıntı sonraki beş slayttadır.", y=6.45)
 
-ETL_SRC = "Takasbank_ETL_Comparison_TR.xlsx, 10.11.2026 güncellemesi"
+ETL_SRC = "Takasbank_ETL_Comparison_TR.xlsx, 12.11.2026 güncellemesi"
 ETL_TOOLS = ["ODI 14c", "Informatica", "DBT Core", "Cloudera", "Spark"]
 
 
@@ -694,17 +694,17 @@ cat_rows = [
     ("CDC ve gerçek zamanlı veri alımı", 8, (1.67, 3.33, 1.33, 4.67, 3.67)),
     ("Güvenlik ve regülasyon uyumu", 8, (4.33, 4.33, 3.0, 4.67, 2.17)),
     ("Yerel LLM ile geliştirme", 8, (2.25, 1.5, 4.75, 3.75, 3.25)),
+    ("SQL uyumluluğu", 8, (4.0, 2.5, 5.0, 3.0, 2.5)),
     ("Öğrenme eğrisi", 7, (3.25, 3.75, 4.5, 2.5, 2.75)),
-    ("SQL uyumluluğu", 6, (4.0, 2.5, 5.0, 3.0, 2.5)),
     ("Üretici ve yol haritası", 6, (3.8, 2.8, 3.6, 3.6, 4.4)),
     ("Exadata ve Oracle uyumu", 5, (5.0, 4.0, 4.0, 1.5, 2.0)),
-    ("PostgreSQL'e taşınabilirlik", 5, (2.2, 3.6, 4.2, 3.6, 3.8)),
     ("5 yıllık toplam maliyet", 5, (3.0, 1.67, 4.67, 2.0, 2.67)),
     ("Metadata, lineage ve veri kalitesi", 4, (3.0, 3.75, 4.25, 3.5, 2.25)),
+    ("PostgreSQL'e taşınabilirlik", 3, (2.2, 3.6, 4.2, 3.6, 3.8)),
     ("DevOps ve mühendislik pratikleri", 3, (3.0, 2.5, 4.75, 3.75, 4.0)),
     ("Türkiye'de yetkinlik ve yerel destek", 3, (4.5, 4.0, 3.0, 3.0, 3.0)),
 ]
-totals = (3.48, 3.29, 3.84, 3.25, 2.88)
+totals = (3.52, 3.27, 3.86, 3.24, 2.86)
 
 
 def one_dec(v):
@@ -760,7 +760,7 @@ s = content_slide("ETL ARACI DEĞERLENDİRMESİ: SENARYOLAR VE MALİYET",
 textbox(s, Inches(0.55), Inches(1.15), Inches(6.2), Inches(0.4),
         "Ağırlık profiline göre toplam puan (1–5)", size=16, color=NAVY, bold=True)
 scen = [
-    ("Takasbank temel", (3.48, 3.29, 3.84, 3.25, 2.88)),
+    ("Takasbank temel", (3.52, 3.27, 3.86, 3.24, 2.86)),
     ("Önce gerçek zaman", (3.12, 3.31, 3.26, 3.55, 3.02)),
     ("Önce yapay zekâ ve SQL verimliliği", (3.31, 3.07, 3.94, 3.34, 2.93)),
     ("Önce regülasyon ve üretici desteği", (3.69, 3.50, 3.65, 3.37, 2.82)),
