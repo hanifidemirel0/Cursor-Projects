@@ -504,10 +504,9 @@ machines = [
     ("KALE EXADATA", "KALE, ARSIV, CEKDB, tvsods", "~%90", "~%25 (günlük tepe)",
      "ODS burada", "Hedef değil — boşaltılmak istenen makine", RED),
     ("SUR EXADATA", "DSS, PREPROD, TRUVA, LAMBDA, EFES + ~9 DB; KALE replikası", "~%77", "~%6–12",
-     "DWH burada", "Aday — test/preprod yükü ve 04:00–07:00 snapshot penceresiyle çakışma riski",
-     GOLD),
+     "DWH burada", None, None),
     ("HİSAR EXADATA", "HİSAR, TABYA, CEKDB, ARSIVDB", "~%81", "~%2–3",
-     "ODVM ODS/DWH", "Aday — tarihçeyi ARSIVDB ile aynı makinede toplama avantajı", GREEN),
+     "ODVM ODS/DWH", None, None),
 ]
 for i, (name, dbs, disk, cpu, prev, now, c) in enumerate(machines):
     x = Inches(0.6 + i * 4.1)
@@ -525,8 +524,9 @@ for i, (name, dbs, disk, cpu, prev, now, c) in enumerate(machines):
             bold=True)
     textbox(s, x + Inches(0.1), Inches(3.75), Inches(3.7), Inches(0.5),
             f"**Önceki öneri:** {prev}", size=13)
-    box(s, x, Inches(4.25), Inches(3.9), Inches(1.0), fill=WHITE, line=c, line_w=2, text=now,
-        size=13)
+    if now:
+        box(s, x, Inches(4.25), Inches(3.9), Inches(1.0), fill=WHITE, line=c, line_w=2, text=now,
+            size=13)
 footnote(s, "Disk ve CPU değerleri Aralık 2024 kapasite görüntüsüdür (11–17 Aralık 2024); güncel "
             "ölçümle yenilenmelidir.", y=6.4)
 
