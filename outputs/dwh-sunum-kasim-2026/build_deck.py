@@ -282,8 +282,7 @@ items = [
     "Hedef Mimari ve Araç Seti",
     "Fiziksel Yerleşim ve Kapasite",
     "ETL Aracı Değerlendirmesi",
-    "Pilot Önerisi",
-    "Yol Haritası ve İlk 30 Gün",
+    "Pilot, Yol Haritası ve İlk 30 Gün",
     "Ekip ve Danışmanlık Modeli",
     "Riskler",
     "Karar Beklenen Konular ve Açık Sorular",
@@ -937,116 +936,59 @@ box(s, Inches(0.55), Inches(6.0), Inches(12.2), Inches(0.48), fill=RGBColor(0xFD
     "grup içi referans; MKK'nın Informatica deneyimi, değerlendirmede önerilmeyen ürün için "
     "saha görüşü", size=12, align=PP_ALIGN.LEFT)
 
-# 15 — Pilot önerisi
-s = content_slide("PİLOT ÖNERİSİ", pill="Öneri — puanlama bekliyor",
-                  sources="DWH Sunum Temmuz 2025 (slayt 10–24); Proje Planı (Pilot seçimi); "
-                  "Başlangıç Yaklaşımı (Faz 1, Faz 2); Takasbank Genel Bilgilendirme 2 (üye-dosya)")
-cards = [
-    ("PİLOT A — SWIFT YASAL RAPORLAR", "Platform temelini kanıtlar", [
-        "Tek kaynak şema, **T-1 yeterli**; net düzenleyici tüketici",
-        "~2 milyar satır / 170 GB; mesaj başına tek satır özetle **~24 milyon satır**",
-        "Ortak üye/piyasa modeli gerektirmez; modelleme tartışmasına girmeden tesisatı kanıtlar",
-        "Kanıtlar: ODS_ beslemesi, SCN-tutarlı çıkarım, replay, zamanlayıcı zinciri, Publish snapshot, "
-        "erişim ve audit (serbest alanda kimlik no)",
-    ]),
-    ("PİLOT B — BISTECH SPK 13 RAPOR", "Entegrasyonu kanıtlar", [
-        "İki kaynak: KALE NOMX + Replica BIDB (5 + 7 + 1 rapor); gün sonu sinyaline bağlı",
-        "İlk **kurumsal core** paketi: taraf, üyelik, hesap, araç, piyasa × hizmet, takvim, "
-        "versiyonlu takas kuralı",
-        "DB_ARSIV view + dblink erişimini sürümlü Publish katmanıyla değiştirir",
-        "İlk MSTR yıldız şeması",
-    ]),
-]
-for i, (title, sub, pts) in enumerate(cards):
-    x = Inches(0.6 + i * 6.15)
-    box(s, x, Inches(1.2), Inches(5.95), Inches(0.75), fill=NAVY, text=[f"**{title}**", sub],
-        size=14, color=WHITE)
-    box(s, x, Inches(1.95), Inches(5.95), Inches(2.9), fill=LIGHT, shape=MSO_SHAPE.RECTANGLE)
-    bullets(s, x + Inches(0.1), Inches(2.0), Inches(5.75), Inches(2.85), pts, size=13.5, gap=4)
-box(s, Inches(0.6), Inches(5.0), Inches(5.95), Inches(1.1), fill=RGBColor(0xFD, 0xF3, 0xE4),
-    line=GOLD, text=["**Hemen başlanacak:** BIST fon sözleşme verisinin ham olarak ODS_'e "
-                     "alınması — 9 milyon kayıt/gün, kaynakta 5 gün sonra siliniyor"],
-    size=13, align=PP_ALIGN.LEFT)
-box(s, Inches(6.75), Inches(5.0), Inches(5.95), Inches(1.1), fill=WHITE, line=LINE,
-    text=["**Sonraki dilimler (Faz 4):** Fon işlem defterleri (Verda teslimatı) ve Fon "
-          "Bilgilendirme Platformu (gün içi düzeltme, 10 yıllık CSV/web servis)"],
-    size=13, align=PP_ALIGN.LEFT)
-footnote(s, "Pilot, ETL aracı seçildikten sonra başlar. Kesin değildir: üye-dosya projesi dahil "
-            "adaylar iş değeri, hazır olma, mutabakat referansı, SLA ve 6–12 haftada teslim "
-            "edilebilirlikle 1–5 arası puanlanacak.", y=6.3)
-
-# 16 — Yol haritası
-s = content_slide("YOL HARİTASI", pill="Öneri — onay bekliyor",
-                  sources="Başlangıç Yaklaşımı (Fazlar); Proje Planı (Faz 0–5, Definition of Done)")
+# 15 — Pilot, yol haritası ve ilk 30 gün
+s = content_slide("PİLOT, YOL HARİTASI VE İLK 30 GÜN", pill="Öneri — onay bekliyor",
+                  sources="DWH Sunum Temmuz 2025 (slayt 10–24); Proje Planı (Pilot seçimi, Faz 0–5, "
+                  "Definition of Done); Başlangıç Yaklaşımı (Fazlar); Aktif Sorular 12, 14, 15")
 phases = [
-    ("FAZ 0", "Keşif ve karar kapıları", "İlk 30 gün: mandat, ölçüm, rapor envanteri, GoldenGate "
-     "/ ODS_ planı, gün sonu sinyali, ETL aracı değerlendirmesinin sonuçlanması",
-     "**ETL aracı seçimi**, rapor envanteri, puanlı pilot listesi, yerleşim testi"),
-    ("FAZ 1", "Pilot A: platform temeli", "CTL/ODS_, SCN-tutarlı çıkarım, replay, Publish, güvenlik",
-     "Ölçülmüş KALE yük azalması, paralel koşum onayı, runbook"),
-    ("FAZ 2", "Pilot B: entegrasyon", "İlk CORE paketi, UG gün sonu prosedürlerinin DWH'a "
-     "taşınması, ilk MSTR yıldızı", "CORE paketi ve MSTR yıldızının paralel koşum kabulü"),
-    ("FAZ 3", "Operasyonel rapor göçü", "Raporların ODS_ / DWH / kaynakta kalır olarak "
-     "yerleştirilmesi; Team Developer kullanıma göre emeklilik", "Rapor bazında kabul"),
-    ("FAZ 4", "Konu alanı yayılımı", "Fon platformları, risk/teminat/MKT, ödeme, saklama, "
-     "enerji, çek/kredi, ücretler", "Her dilimde core'un tekrar kullanımı"),
-    ("FAZ 5", "Kritik ve yasal raporlar", "As-reported / as-corrected sürümler, paralel koşum",
-     "Düzenleyici/iş sahibi yazılı kabulü"),
+    ("FAZ 0", "Keşif ve karar kapıları", "ETL aracı seçimi, rapor envanteri, puanlı pilot listesi"),
+    ("FAZ 1", "Pilot A: platform temeli", "Ölçülmüş KALE yük azalması, paralel koşum, runbook"),
+    ("FAZ 2", "Pilot B: entegrasyon", "CORE paketi ve MSTR yıldızının paralel koşum kabulü"),
+    ("FAZ 3", "Operasyonel rapor göçü", "Rapor bazında kabul; Team Developer emekliliği"),
+    ("FAZ 4", "Konu alanı yayılımı", "Her dilimde core'un tekrar kullanımı"),
+    ("FAZ 5", "Kritik ve yasal raporlar", "Regülasyon / iş sahibi yazılı kabulü"),
 ]
 pw = Inches(2.03)
-for i, (code, name, work, gate) in enumerate(phases):
+for i, (code, name, gate) in enumerate(phases):
     x = Inches(0.55) + (pw + Inches(0.03)) * i
-    box(s, x, Inches(1.25), pw, Inches(0.9), fill=GOLD if i == 0 else NAVY,
-        shape=MSO_SHAPE.CHEVRON if i else MSO_SHAPE.PENTAGON, text=[f"**{code}**"], size=16,
+    box(s, x, Inches(1.15), pw, Inches(0.6), fill=GOLD if i == 0 else NAVY,
+        shape=MSO_SHAPE.CHEVRON if i else MSO_SHAPE.PENTAGON, text=[f"**{code}**"], size=14,
         color=WHITE)
-    textbox(s, x + Inches(0.05), Inches(2.3), pw - Inches(0.1), Inches(0.65), name, size=14.5,
+    textbox(s, x + Inches(0.05), Inches(1.82), pw - Inches(0.1), Inches(0.35), name, size=12.5,
             color=NAVY, bold=True)
-    box(s, x + Inches(0.05), Inches(2.95), pw - Inches(0.15), Inches(1.75), fill=LIGHT, text=work,
-        size=12, anchor=MSO_ANCHOR.TOP, align=PP_ALIGN.LEFT, shape=MSO_SHAPE.RECTANGLE)
-    textbox(s, x + Inches(0.05), Inches(4.8), pw - Inches(0.1), Inches(0.3), "Çıkış kapısı",
-            size=11, color=RED, bold=True)
-    textbox(s, x + Inches(0.05), Inches(5.08), pw - Inches(0.15), Inches(1.0), gate, size=12)
-footnote(s, "Her faz dikey ilerler ve çalışan bir iş sonucu bırakır. Fazların takvimi Faz 0 "
-            "çıktıları (envanter, ekip, erişim, satın alma) ile netleşecektir.", y=6.3)
+    textbox(s, x + Inches(0.05), Inches(2.17), pw - Inches(0.15), Inches(0.75),
+            f"**Çıkış:** {gate}", size=11, color=INK)
 
-# 17 — İlk 30 gün
-s = content_slide("FAZ 0: İLK 30 GÜN", pill="Öneri — onay bekliyor",
-                  sources="Proje Planı (Faz 0); Başlangıç Yaklaşımı (Faz 0); Aktif Sorular 12, 14, 15")
-cols = [
-    ("Mandat ve ölçüm", [
-        "İsimli sponsor ve yönlendirme komitesi kadansı",
-        "Konu alanı bazında “hangi sayı doğru” karar hakkı",
-        "Birincil KPI: raporlamaya atfedilen **KALE DB-time** azalması ve gün sonu süresi",
-        "4 haftalık AWR/ASH yük çalışması",
-        "Loglardan rapor envanteri (Team Developer, web, MSTR)",
-    ]),
-    ("DBA ile doğrulama", [
-        "Replika **Active Data Guard** lisanslı ve read-only açık mı?",
-        "**GoldenGate** extract kaynağı: prod KALE mi, standby mı?",
-        "UG gün sonu prosedürleri standby'da çalışabilir mi?",
-        "SUR / HİSAR izolasyon testi planı",
-    ]),
-    ("İki hızlı kazanım", [
-        "Mevcut **gün sonu log kaydı** DWH tetikleyicisi olarak bağlanır; iş tarihi, koşu "
-        "kimliği, SCN içeriği doğrulanır",
-        "**BIST fon sözleşme verisi** hemen ODS_'e (5 günlük saklama süresi nedeniyle)",
-    ]),
-    ("Ekip", [
-        "1 veri modelleyici",
-        "2 Oracle-güçlü veri mühendisi",
-        "Dilim başına UG analisti, DBA irtibat kişisi",
-        "MSTR geliştiricilerine boyutsal modelleme eğitimi",
-    ]),
+textbox(s, Inches(0.55), Inches(3.08), Inches(6.0), Inches(0.35), "Pilot adayları", size=15,
+        color=NAVY, bold=True)
+pilots = [
+    ("PİLOT A — SWIFT YASAL RAPORLAR (FAZ 1)", "Platform temelini kanıtlar: tek kaynak şema, "
+     "**T-1** yeterli, ~24 milyon satırlık özet; ODS_, replay, zamanlayıcı zinciri, Publish"),
+    ("PİLOT B — BISTECH SPK 13 RAPOR (FAZ 2)", "Entegrasyonu kanıtlar: KALE NOMX + Replica BIDB; "
+     "ilk **kurumsal core** paketi ve ilk MSTR yıldız şeması"),
 ]
-for i, (name, pts) in enumerate(cols):
-    x = Inches(0.55 + i * 3.08)
-    box(s, x, Inches(1.25), Inches(2.95), Inches(0.55), fill=GOLD if i == 2 else NAVY, text=name,
-        size=15, color=WHITE, bold=True)
-    box(s, x, Inches(1.8), Inches(2.95), Inches(4.3), fill=LIGHT, shape=MSO_SHAPE.RECTANGLE)
-    bullets(s, x + Inches(0.05), Inches(1.85), Inches(2.85), Inches(4.2), pts, size=13, gap=5)
-box(s, Inches(0.55), Inches(6.2), W - Inches(1.1), Inches(0.42), fill=WHITE, line=RED,
-    text="**Çıkış kapısı:** rapor sahibi, pilot çıktısı, kaynak grain'i, otorite, SLA, hassasiyet ve "
-         "mutabakat referansı belli olmadan fiziksel mart tasarımına başlanmaz.", size=12)
+for i, (title, text) in enumerate(pilots):
+    y = Inches(3.48 + i * 1.38)
+    box(s, Inches(0.55), y, Inches(6.0), Inches(0.42), fill=NAVY, text=f"**{title}**", size=12.5,
+        color=WHITE, shape=MSO_SHAPE.RECTANGLE)
+    box(s, Inches(0.55), y + Inches(0.42), Inches(6.0), Inches(0.82), fill=LIGHT, text=text,
+        size=12.5, align=PP_ALIGN.LEFT, shape=MSO_SHAPE.RECTANGLE)
+
+textbox(s, Inches(6.8), Inches(3.08), Inches(6.0), Inches(0.35), "Faz 0: ilk 30 gün", size=15,
+        color=NAVY, bold=True)
+box(s, Inches(6.8), Inches(3.48), Inches(6.0), Inches(2.62), fill=LIGHT, shape=MSO_SHAPE.RECTANGLE)
+bullets(s, Inches(6.85), Inches(3.5), Inches(5.9), Inches(2.6), [
+    "**Mandat ve ölçüm:** sponsor ve komite; KPI KALE DB-time ve gün sonu süresi; AWR/ASH yük "
+    "çalışması; rapor envanteri",
+    "**DBA ile doğrulama:** Active Data Guard, GoldenGate extract kaynağı, SUR / HİSAR izolasyon "
+    "testi",
+    "**Hızlı kazanımlar:** gün sonu log kaydı DWH tetikleyicisi olur; BIST fon sözleşme verisi "
+    "hemen ODS_'e (5 gün saklama)",
+    "**Ekip:** 1 veri modelleyici, 2 Oracle-güçlü veri mühendisi, UG analisti, DBA irtibatı",
+], size=12.5, gap=5)
+footnote(s, "Pilot, ETL aracı seçildikten sonra başlar; adaylar 1–5 arası puanlanacak. Rapor sahibi, "
+            "grain, SLA ve mutabakat referansı belli olmadan fiziksel mart tasarımına başlanmaz.",
+         y=6.3)
 
 # 18 — Ekip ve danışmanlık
 s = content_slide("EKİP VE DANIŞMANLIK MODELİ", sources="Proje Planı (Ekip); Başlangıç "
