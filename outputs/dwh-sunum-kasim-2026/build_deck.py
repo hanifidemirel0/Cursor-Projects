@@ -498,7 +498,7 @@ arrow(s, Inches(7.4), Inches(2.74), Inches(7.4), Inches(3.1), color=NAVY, width=
 textbox(s, Inches(7.5), Inches(2.78), Inches(1.4), Inches(0.25), "SQL pushdown", size=10,
         color=MUTED)
 arrow(s, Inches(3.325), Inches(1.87), Inches(3.325), Inches(3.5), color=PURPLE, dashed=True,
-      label="gecikme ve gün sonu kontrolü", label_dx=1.0, label_dy=-0.3, label_w=1.7)
+      label="Gecikme ve Gün Sonu Kontrolü", label_dx=1.0, label_dy=-0.3, label_w=1.7)
 arrow(s, Inches(7.4), Inches(1.87), Inches(7.4), Inches(2.02), color=PURPLE, dashed=True)
 arrow(s, Inches(12.45), Inches(1.87), Inches(12.45), Inches(3.0), color=PURPLE, dashed=True,
       label="Küp/Önbellek Yenileme", label_dx=-1.0, label_dy=-0.15, label_w=1.6)
