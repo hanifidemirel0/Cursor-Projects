@@ -280,14 +280,13 @@ items = [
     "Takasbank'ta Mevcut Durum",
     "Temel Tespitler",
     "Hedef Mimari ve Araç Seti",
-    "Fiziksel Yerleşim ve Kapasite",
     "ETL Aracı Değerlendirmesi",
     "Pilot, Yol Haritası ve İlk 30 Gün",
     "Riskler",
     "Karar Beklenen Konular ve Açık Sorular",
 ]
 for i, it in enumerate(items):
-    col, row = divmod(i, 7)
+    col, row = divmod(i, (len(items) + 1) // 2)
     x = Inches(1.3 + col * 5.6)
     y = Inches(1.35 + row * 0.69)
     box(s, x, y, Inches(0.55), Inches(0.55), fill=NAVY, text=str(i + 1),
@@ -372,7 +371,7 @@ for i, (name, pts) in enumerate(months):
 # 6 — Mevcut durum
 s = content_slide("MEVCUT DURUM", pill="Mevcut durum",
                   pill_fill=NAVY, sources="Sistemler ve Servisler; Fiziksel Topoloji - Teknik "
-                  "Taraf; Ortamlar hakkında; Takasbank Genel Bilgilendirme 1-2; DWH Sunum Eylül "
+                  "Taraf (DWH yerleşim adayları); DWH Sunum Aralık 2024 (kapasite); Ortamlar hakkında; Takasbank Genel Bilgilendirme 1-2; DWH Sunum Eylül "
                   "2024; Banka Ug; Kullanıcı aktarımı (04.11.2026)")
 cols = [(0.55, 4.05, "Veri kaynakları"), (4.85, 3.9, "Ortamlar"), (9.0, 3.8, "Raporlama")]
 for x, w, name in cols:
@@ -387,7 +386,12 @@ bullets(s, Inches(0.55), Inches(1.6), Inches(4.05), Inches(4.6), [
     "FTP/CSV dosyaları",
     "Web servisleri",
 ], size=15)
-bullets(s, Inches(4.85), Inches(1.6), Inches(3.9), Inches(4.6), [
+bullets(s, Inches(4.85), Inches(1.6), Inches(3.95), Inches(4.6), [
+    "3 Exadata makinesi:",
+    ("-", "**KALE**: boş disk %90, CPU %25 (günlük tepe). KALE, ARSIV, ÇEKDB, tvsods"),
+    ("-", "**SUR**: boş disk %77, CPU %6–12. DSS, PREPROD, TRUVA, LAMBDA, EFES + ~9 DB, "
+          "KALE replikası"),
+    ("-", "**HİSAR**: boş disk %81, CPU %2–3. HİSAR, TABYA, ÇEKDB, ARSIVDB"),
     "KALE'nin **2 Data Guard replikası** var: biri KALE, biri SUR Exadata üzerinde",
     "PREPROD her sabah 07:00'de KALE'den kopartılıyor; flashback snapshot "
     "04:00\u2060–\u206007:00",
@@ -402,8 +406,8 @@ bullets(s, Inches(9.0), Inches(1.6), Inches(3.8), Inches(4.6), [
     "yoğundur",
     "Ana işlemler ve raporlama sorguları **aynı veritabanında** çalışır",
 ], size=15)
-footnote(s, "Aynı kavram (ör. üye) farklı şemalarda ve piyasa bazında ayrı tablolarda tutulmaktadır.",
-         y=6.25)
+footnote(s, "Aynı kavram (ör. üye) farklı şemalarda ve piyasa bazında ayrı tablolarda tutulmaktadır. "
+            "Disk ve CPU değerleri Aralık 2024 ölçümüdür; güncel ölçümle yenilenmelidir.", y=6.25)
 
 # 9 — Güçlü yönler / kısıtlar
 s = content_slide("TEMEL TESPİTLER", sources="DWH Sunum Aralık 2024 (artı/eksi yönler); "
@@ -517,32 +521,6 @@ for i, (c, text) in enumerate(steps):
     badge(s, x + 0.1, 5.67, i + 1, c)
     textbox(s, Inches(x + 0.5), Inches(5.44), Inches(2.4), Inches(0.81), text, size=11,
             anchor=MSO_ANCHOR.MIDDLE)
-
-# 13 — Fiziksel yerleşim
-s = content_slide("FİZİKSEL YERLEŞİM VE KAPASİTE", sources="DWH Sunum Aralık 2024 (slayt 3, "
-                  "9–14); DWH Sunum Temmuz 2025 (slayt 8); Fiziksel Topoloji - Teknik Taraf "
-                  "(DWH yerleşim adayları)")
-machines = [
-    ("KALE EXADATA", "KALE, ARSIV, CEKDB, tvsods", "~%90", "~%25 (günlük tepe)"),
-    ("SUR EXADATA", "DSS, PREPROD, TRUVA, LAMBDA, EFES + ~9 DB; KALE replikası", "~%77", "~%6–12"),
-    ("HİSAR EXADATA", "HİSAR, TABYA, CEKDB, ARSIVDB", "~%81", "~%2–3"),
-]
-for i, (name, dbs, disk, cpu) in enumerate(machines):
-    x = Inches(0.6 + i * 4.1)
-    box(s, x, Inches(1.2), Inches(3.9), Inches(0.55), fill=NAVY, text=name, size=16, color=WHITE,
-        bold=True)
-    box(s, x, Inches(1.75), Inches(3.9), Inches(0.85), fill=LIGHT, text=dbs, size=12.5,
-        shape=MSO_SHAPE.RECTANGLE)
-    textbox(s, x + Inches(0.1), Inches(2.75), Inches(1.9), Inches(0.3), "Boş disk", size=12,
-            color=MUTED)
-    textbox(s, x + Inches(0.1), Inches(3.02), Inches(1.9), Inches(0.5), disk, size=26, color=NAVY,
-            bold=True)
-    textbox(s, x + Inches(2.0), Inches(2.75), Inches(1.9), Inches(0.3), "CPU", size=12,
-            color=MUTED)
-    textbox(s, x + Inches(2.0), Inches(3.08), Inches(1.9), Inches(0.5), cpu, size=15, color=NAVY,
-            bold=True)
-footnote(s, "Disk ve CPU değerleri Aralık 2024 kapasite görüntüsüdür (11–17 Aralık 2024); güncel "
-            "ölçümle yenilenmelidir.", y=6.4)
 
 # 14 — ETL değerlendirmesi
 s = content_slide("ETL ARACI DEĞERLENDİRMESİ: ÖZET", pill="Öneri — iki seçenek",
