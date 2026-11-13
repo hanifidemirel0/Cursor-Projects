@@ -379,9 +379,8 @@ for x, w, name in cols:
     textbox(s, Inches(x), Inches(1.2), Inches(w), Inches(0.4), name, size=18, color=NAVY,
             bold=True)
 bullets(s, Inches(0.55), Inches(1.6), Inches(4.05), Inches(4.6), [
-    "**KALE**: ana işlem veritabanı; kurum verisinin yaklaşık %90'ı burada (~10 TB). "
-    "Yaklaşık 10.000 tablonun 7.000'i ana tablo, 3.000'i eski dönem verisini tutan yedek "
-    "(backup) tablo",
+    "**KALE**: Ana veritabanı; kurum verisinin yaklaşık %90'ı burada (~10 TB). Yaklaşık "
+    "10.000 tablo bulunmakta",
     "**ARSIV**",
     "**ÇEKDB**",
     "Borsa **Replica BIDB / Borsa DWH**",
