@@ -378,7 +378,9 @@ textbox(s, Inches(0.6), Inches(1.2), Inches(6), Inches(0.4), "Veri kaynakları",
         color=NAVY, bold=True)
 bullets(s, Inches(0.6), Inches(1.55), Inches(6.0), Inches(4.8), [
     "Kaynaklar:",
-    ("-", "**KALE**: verinin ~%90'ı, ~10 TB; ~7.000 ana + ~3.000 backup tablo"),
+    ("-", "**KALE**: ana işlem veritabanı; kurum verisinin yaklaşık %90'ı burada (~10 TB). "
+          "Yaklaşık 10.000 tablonun 7.000'i ana tablo, 3.000'i eski dönem verisini tutan "
+          "yedek (backup) tablo"),
     ("-", "**ARSIV**"),
     ("-", "**ÇEKDB**"),
     ("-", "Borsa **Replica BIDB / Borsa DWH**"),
