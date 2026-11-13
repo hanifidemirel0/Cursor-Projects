@@ -279,7 +279,7 @@ items = [
     "Çalışmanın Tarihçesi",
     "Takasbank'ta Mevcut Durum",
     "Temel Tespitler",
-    "Hedef Mimari",
+    "Hedef Mimari ve Araç Seti",
     "Fiziksel Yerleşim ve Kapasite",
     "ETL Aracı Değerlendirmesi",
     "Pilot Önerisi",
@@ -495,6 +495,90 @@ arrow(s, dwh_x + dwh_w, Inches(3.3), r_x, Inches(3.3), color=GOLD)
 box(s, r_x, Inches(3.95), r_w, Inches(0.9), fill=LIGHT, line=NAVY,
     text=["**SPK, üyeler**", "React, web servis"], size=12)
 arrow(s, dwh_x + dwh_w, Inches(4.4), r_x, Inches(4.4), color=NAVY)
+
+# 10b — Araç seti ve ilişkiler
+s = content_slide("ARAÇ SETİ VE İLİŞKİLERİ", pill="Önerilen araç seti",
+                  sources="Hedef mimari slaytı; Sistemler ve Servisler (GoldenGate kaynak kapsamı, "
+                  "05.11.2026); ETL aracı değerlendirmesi (A seçeneği DBT Core); zamanlama aracı "
+                  "Apache DolphinScheduler ve BI aracı Pusula (MSTR): kullanıcı aktarımı, "
+                  "13.11.2026")
+PURPLE = RGBColor(0x6B, 0x4C, 0x9A)
+PURPLE_LIGHT = RGBColor(0xEF, 0xEA, 0xF6)
+
+
+def badge(slide, x, y, n, fill):
+    box(slide, Inches(x), Inches(y), Inches(0.34), Inches(0.34), fill=fill, text=str(n), size=11,
+        color=WHITE, bold=True, shape=MSO_SHAPE.OVAL)
+
+
+box(s, Inches(2.85), Inches(1.15), Inches(9.9), Inches(0.75), fill=PURPLE,
+    text=["**Apache DolphinScheduler** — zamanlama ve orkestrasyon",
+          "Gün sonu olayına bağlı iş akışları, bağımlılık sırası, yeniden deneme, alarm"],
+    size=12.5, color=WHITE)
+textbox(s, Inches(0.6), Inches(2.92), Inches(1.75), Inches(0.3), "KAYNAKLAR", size=12,
+        color=MUTED, bold=True, align=PP_ALIGN.CENTER)
+for i, name in enumerate(["KALE (Prod)", "ARSIV", "ÇEKDB", "Borsa DWH"]):
+    y = 3.3 + i * 0.48
+    box(s, Inches(0.6), Inches(y), Inches(1.75), Inches(0.4), fill=LIGHT, line=NAVY, text=name,
+        size=12, bold=True)
+    arrow(s, Inches(2.35), Inches(y + 0.2), Inches(2.85), Inches(4.225), color=TEAL, width=1.5)
+box(s, Inches(2.85), Inches(3.75), Inches(1.95), Inches(0.95), fill=TEAL,
+    text=["**Oracle GoldenGate**", "veri alımı (CDC)"], size=12.5, color=WHITE)
+box(s, Inches(5.3), Inches(3.3), Inches(4.9), Inches(1.9), fill=RGBColor(0xF7, 0xF8, 0xFC),
+    line=NAVY, radius=0.05, line_w=2)
+textbox(s, Inches(5.4), Inches(3.36), Inches(2.6), Inches(0.3), "VERİ AMBARI (Exadata)",
+        size=11, color=MUTED, bold=True)
+box(s, Inches(5.5), Inches(3.75), Inches(1.3), Inches(0.75), fill=RGBColor(0xE3, 0xF1, 0xF3),
+    line=TEAL, line_w=1.75, text="**ODS**", size=14)
+box(s, Inches(7.1), Inches(3.75), Inches(1.3), Inches(0.75), fill=NAVY, text="**CORE**", size=14,
+    color=WHITE)
+box(s, Inches(8.7), Inches(3.75), Inches(1.3), Inches(0.75), fill=NAVY, text="**Data Mart**",
+    size=14, color=WHITE)
+arrow(s, Inches(6.8), Inches(4.125), Inches(7.1), Inches(4.125))
+arrow(s, Inches(8.4), Inches(4.125), Inches(8.7), Inches(4.125))
+box(s, Inches(5.5), Inches(4.65), Inches(4.5), Inches(0.38), fill=LIGHT, line=LINE,
+    text="**CTL** — çalışma kaydı, test ve mutabakat sonuçları", size=11)
+box(s, Inches(7.0), Inches(2.25), Inches(2.6), Inches(0.75), fill=NAVY,
+    text=["**DBT Core**", "dönüşüm (ELT), test, dokümantasyon"], size=12, color=WHITE)
+box(s, Inches(10.65), Inches(3.65), Inches(2.1), Inches(0.95), fill=GOLD,
+    text=["**PUSULA (MSTR)**", "BI ve semantik katman"], size=12.5, color=WHITE)
+textbox(s, Inches(10.65), Inches(4.68), Inches(2.1), Inches(0.5),
+        "İş birimleri, yönetim, regülasyon raporları", size=10.5, color=MUTED,
+        align=PP_ALIGN.CENTER)
+
+arrow(s, Inches(4.8), Inches(4.125), Inches(5.5), Inches(4.125), color=TEAL, width=2.25,
+      label="CDC", label_dy=-0.32, label_w=0.6)
+arrow(s, Inches(10.0), Inches(4.125), Inches(10.65), Inches(4.125), color=GOLD, width=2.25,
+      label="okur", label_dy=-0.32, label_w=0.6)
+arrow(s, Inches(8.3), Inches(3.0), Inches(8.3), Inches(3.3), color=NAVY, width=2.25,
+      label="SQL pushdown", label_dx=0.85, label_dy=-0.17, label_w=1.4)
+arrow(s, Inches(3.825), Inches(1.9), Inches(3.825), Inches(3.75), color=PURPLE, dashed=True,
+      label="gecikme ve gün sonu kontrolü", label_dx=1.0, label_dy=-0.3, label_w=1.7)
+arrow(s, Inches(8.3), Inches(1.9), Inches(8.3), Inches(2.25), color=PURPLE, dashed=True)
+textbox(s, Inches(8.45), Inches(1.93), Inches(1.6), Inches(0.3), "dbt build çalıştırır", size=10,
+        color=MUTED)
+arrow(s, Inches(11.7), Inches(1.9), Inches(11.7), Inches(3.65), color=PURPLE, dashed=True,
+      label="küp / önbellek yenileme", label_dx=-0.9, label_dy=-0.3, label_w=1.5)
+badge(s, 4.98, 4.2, 1, TEAL)
+badge(s, 3.46, 2.65, 2, PURPLE)
+badge(s, 6.6, 2.45, 3, NAVY)
+badge(s, 11.85, 2.6, 4, GOLD)
+
+steps = [
+    (TEAL, "GoldenGate kaynak verilerini ODS'ye sürekli kopyalar"),
+    (PURPLE, "DolphinScheduler gün sonunu ve GoldenGate gecikmesini kontrol eder, akışı başlatır"),
+    (NAVY, "DBT ODS → CORE → Data Mart dönüşümlerini ve testlerini Exadata'da çalıştırır, "
+           "CTL'ye yazar"),
+    (GOLD, "DolphinScheduler Pusula küplerini yeniler; raporlar güncel veriyle açılır"),
+]
+for i, (c, text) in enumerate(steps):
+    x = 0.6 + i * 3.08
+    box(s, Inches(x), Inches(5.45), Inches(2.95), Inches(0.85), fill=WHITE, line=c, line_w=1.5)
+    badge(s, x + 0.1, 5.7, i + 1, c)
+    textbox(s, Inches(x + 0.5), Inches(5.47), Inches(2.4), Inches(0.81), text, size=11,
+            anchor=MSO_ANCHOR.MIDDLE)
+footnote(s, "ETL aracı seçimi sürüyor (DBT Core veya ODI 14c); bu sayfa DBT seçeneğini gösterir. "
+            "DBT modelleri ve DolphinScheduler iş akışları Git'te tutulur.", y=6.45)
 
 # 13 — Fiziksel yerleşim
 s = content_slide("FİZİKSEL YERLEŞİM VE KAPASİTE", sources="DWH Sunum Aralık 2024 (slayt 3, "

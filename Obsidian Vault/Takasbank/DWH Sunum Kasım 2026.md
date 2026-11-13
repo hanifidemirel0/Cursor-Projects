@@ -32,17 +32,18 @@ tags:
 | 6 | Mevcut durum: raporlama (rapor kanalları; anlık ve geçmiş tarihli sorgu, işlem ve raporlama aynı veritabanında) | [[Takasbank Genel Bilgilendirme]], [[Takasbank Genel Bilgilendirme 2]], Hanifi'nin 04.11.2026 aktarımı |
 | 7 | Temel tespitler | [[DWH Sunum Aralık 2024]], [[Başlangıç Yaklaşımı]] |
 | 8 | Hedef mimari | [[Sistemler ve Servisler#4.1 Karar\|ODS ve landing kararları]], [[Başlangıç Yaklaşımı]], [[DWH Hedef Mimarisi v2]] |
-| 9 | Fiziksel yerleşim ve kapasite | [[Fiziksel Topoloji - Teknik Taraf#DWH yerleşim adayları]] |
-| 10 | ETL aracı değerlendirmesi: özet (puanlar, iki seçenek önerisi) | [Takasbank_ETL_Comparison_TR.xlsx](../../outputs/etl-comparison/Takasbank_ETL_Comparison_TR.xlsx) (12.11.2026 güncellemesi) · canvas `outputs/etl-comparison/takasbank_etl_evaluation.canvas.tsx` |
-| 11 | ETL: iki seçenek (dbt Core / ODI 14c), ön koşullar | Aynı çalışma kitabı (Executive Summary, Risks) |
-| 12 | ETL: yöntem, adaylar ve karar kısıtları | Aynı çalışma kitabı (Executive Summary, Tool Profiles) |
-| 13 | ETL: kategori puanları (15 kategori × 5 araç) | Aynı çalışma kitabı (Scoring Matrix, Criteria & Weights) |
-| 14 | ETL: ağırlık senaryoları, 5 yıllık maliyet, rapor dönüşüm eforu | Aynı çalışma kitabı (Scenario Analysis, TCO) |
-| 15 | ETL: Borsa İstanbul ve MKK görüşmeleri (kullandıkları ürünler: ODI, Informatica PowerCenter; ürün görüşleri) | Hanifi'nin 04.11.2026 aktarımı; [[DWH Sunum Eylül 2024]] (ETL araçları), [[DWH Sunum Aralık 2024#Slayt 5 — Merkezi Kayıt Kuruluşu]], [[DWH Sunum Aralık 2024#Slayt 6 — Borsa İstanbul]]. Görüş içeriği henüz notlarda yok; slaytta yer tutucu var |
-| 16 | Pilot önerisi | [[Proje Planı#Pilot seçimi]] |
-| 17–18 | Yol haritası, Faz 0 ilk 30 gün | [[Proje Planı]], [[Başlangıç Yaklaşımı#Fazlar]] |
-| 19 | Ekip ve danışmanlık modeli | [[Proje Planı]], [[Komtaş Future-Ready Data Platform Teklifi Ağustos 2026]] |
-| 20 | Riskler | [[Başlangıç Yaklaşımı#Risk kaydı (ilk gün)]] |
-| 21 | Karar beklenen konular | [[Başlangıç Yaklaşımı#İlk yönlendirme komitesine götürülecek kararlar]] |
-| 22 | Açık sorular | [[Aktif Sorular]] |
-| 23 | Kapanış | — |
+| 9 | Araç seti ve ilişkileri (GoldenGate veri alımı, Apache DolphinScheduler zamanlama, DBT Core dönüşüm, Pusula/MSTR BI) | Hedef mimari slaytı, [[Sistemler ve Servisler]] (GoldenGate kaynak kapsamı), [[Aktif Sorular]] madde 16 (zamanlayıcı); araç seti kullanıcı aktarımı (13.11.2026) |
+| 10 | Fiziksel yerleşim ve kapasite | [[Fiziksel Topoloji - Teknik Taraf#DWH yerleşim adayları]] |
+| 11 | ETL aracı değerlendirmesi: özet (puanlar, iki seçenek önerisi) | [Takasbank_ETL_Comparison_TR.xlsx](../../outputs/etl-comparison/Takasbank_ETL_Comparison_TR.xlsx) (12.11.2026 güncellemesi) · canvas `outputs/etl-comparison/takasbank_etl_evaluation.canvas.tsx` |
+| 12 | ETL: iki seçenek (dbt Core / ODI 14c), ön koşullar | Aynı çalışma kitabı (Executive Summary, Risks) |
+| 13 | ETL: yöntem, adaylar ve karar kısıtları | Aynı çalışma kitabı (Executive Summary, Tool Profiles) |
+| 14 | ETL: kategori puanları (15 kategori × 5 araç) | Aynı çalışma kitabı (Scoring Matrix, Criteria & Weights) |
+| 15 | ETL: ağırlık senaryoları, 5 yıllık maliyet, rapor dönüşüm eforu | Aynı çalışma kitabı (Scenario Analysis, TCO) |
+| 16 | ETL: Borsa İstanbul ve MKK görüşmeleri (kullandıkları ürünler: ODI, Informatica PowerCenter; ürün görüşleri) | Hanifi'nin 04.11.2026 aktarımı; [[DWH Sunum Eylül 2024]] (ETL araçları), [[DWH Sunum Aralık 2024#Slayt 5 — Merkezi Kayıt Kuruluşu]], [[DWH Sunum Aralık 2024#Slayt 6 — Borsa İstanbul]]. Görüş içeriği henüz notlarda yok; slaytta yer tutucu var |
+| 17 | Pilot önerisi | [[Proje Planı#Pilot seçimi]] |
+| 18–19 | Yol haritası, Faz 0 ilk 30 gün | [[Proje Planı]], [[Başlangıç Yaklaşımı#Fazlar]] |
+| 20 | Ekip ve danışmanlık modeli | [[Proje Planı]], [[Komtaş Future-Ready Data Platform Teklifi Ağustos 2026]] |
+| 21 | Riskler | [[Başlangıç Yaklaşımı#Risk kaydı (ilk gün)]] |
+| 22 | Karar beklenen konular | [[Başlangıç Yaklaşımı#İlk yönlendirme komitesine götürülecek kararlar]] |
+| 23 | Açık sorular | [[Aktif Sorular]] |
+| 24 | Kapanış | — |
