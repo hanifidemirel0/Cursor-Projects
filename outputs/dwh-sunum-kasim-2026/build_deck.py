@@ -537,13 +537,11 @@ s = content_slide("FİZİKSEL YERLEŞİM VE KAPASİTE", sources="DWH Sunum Aral�
                   "9–14); DWH Sunum Temmuz 2025 (slayt 8); Fiziksel Topoloji - Teknik Taraf "
                   "(DWH yerleşim adayları)")
 machines = [
-    ("KALE EXADATA", "KALE, ARSIV, CEKDB, tvsods", "~%90", "~%25 (günlük tepe)",
-     "Hedef değil — boşaltılmak istenen makine", RED),
-    ("SUR EXADATA", "DSS, PREPROD, TRUVA, LAMBDA, EFES + ~9 DB; KALE replikası", "~%77", "~%6–12",
-     None, None),
-    ("HİSAR EXADATA", "HİSAR, TABYA, CEKDB, ARSIVDB", "~%81", "~%2–3", None, None),
+    ("KALE EXADATA", "KALE, ARSIV, CEKDB, tvsods", "~%90", "~%25 (günlük tepe)"),
+    ("SUR EXADATA", "DSS, PREPROD, TRUVA, LAMBDA, EFES + ~9 DB; KALE replikası", "~%77", "~%6–12"),
+    ("HİSAR EXADATA", "HİSAR, TABYA, CEKDB, ARSIVDB", "~%81", "~%2–3"),
 ]
-for i, (name, dbs, disk, cpu, now, c) in enumerate(machines):
+for i, (name, dbs, disk, cpu) in enumerate(machines):
     x = Inches(0.6 + i * 4.1)
     box(s, x, Inches(1.2), Inches(3.9), Inches(0.55), fill=NAVY, text=name, size=16, color=WHITE,
         bold=True)
@@ -557,9 +555,6 @@ for i, (name, dbs, disk, cpu, now, c) in enumerate(machines):
             color=MUTED)
     textbox(s, x + Inches(2.0), Inches(3.08), Inches(1.9), Inches(0.5), cpu, size=15, color=NAVY,
             bold=True)
-    if now:
-        box(s, x, Inches(3.8), Inches(3.9), Inches(1.0), fill=WHITE, line=c, line_w=2, text=now,
-            size=13)
 footnote(s, "Disk ve CPU değerleri Aralık 2024 kapasite görüntüsüdür (11–17 Aralık 2024); güncel "
             "ölçümle yenilenmelidir.", y=6.4)
 
