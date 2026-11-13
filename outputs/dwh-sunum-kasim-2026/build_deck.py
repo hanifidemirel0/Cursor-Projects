@@ -279,7 +279,7 @@ items = [
     "Çalışmanın Tarihçesi",
     "Takasbank'ta Mevcut Durum",
     "Temel Tespitler",
-    "Hedef Mimari ve Araç Seti",
+    "Önerilen Hedef Mimari",
     "ETL Aracı Değerlendirmesi",
     "Pilot, Yol Haritası ve İlk 30 Gün",
     "Riskler",
@@ -433,7 +433,7 @@ bullets(s, Inches(6.85), Inches(1.8), Inches(5.9), Inches(4.6), [
 ], size=16)
 
 # 10 — Hedef mimari ve araç seti
-s = content_slide("HEDEF MİMARİ VE ARAÇ SETİ", pill="Önerilen araç seti",
+s = content_slide("ÖNERİLEN HEDEF MİMARİ",
                   sources="Sistemler ve Servisler (4.1 ODS kararı, 02.11.2026; GoldenGate kaynak "
                   "kapsamı, 05.11.2026); Fiziksel Topoloji - Teknik Taraf (GoldenGate lisansları); "
                   "Başlangıç Yaklaşımı (diyagram); DWH Hedef Mimarisi v2; ETL aracı değerlendirmesi "
