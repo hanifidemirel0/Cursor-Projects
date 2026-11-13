@@ -507,8 +507,6 @@ textbox(s, Inches(7.5), Inches(2.78), Inches(1.4), Inches(0.25), "SQL pushdown",
 arrow(s, Inches(3.325), Inches(1.87), Inches(3.325), Inches(3.5), color=PURPLE, dashed=True,
       label="gecikme ve gün sonu kontrolü", label_dx=1.0, label_dy=-0.3, label_w=1.7)
 arrow(s, Inches(7.4), Inches(1.87), Inches(7.4), Inches(2.02), color=PURPLE, dashed=True)
-textbox(s, Inches(8.8), Inches(2.0), Inches(1.6), Inches(0.3), "dbt build çalıştırır", size=10,
-        color=MUTED)
 arrow(s, Inches(12.45), Inches(1.87), Inches(12.45), Inches(3.0), color=PURPLE, dashed=True,
       label="küp / önbellek yenileme", label_dx=-1.0, label_dy=-0.15, label_w=1.6)
 badge(s, 4.26, 3.52, 1, TEAL)
