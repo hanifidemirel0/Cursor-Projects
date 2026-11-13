@@ -386,8 +386,6 @@ bullets(s, Inches(0.6), Inches(1.55), Inches(6.0), Inches(4.8), [
     ("-", "Borsa **Replica BIDB / Borsa DWH**"),
     ("-", "FTP/CSV dosyaları"),
     ("-", "Web servisleri"),
-    "ERD diyagramları kullanılmamakta; **PowerDesigner**'da tüm tablo ve kolonlar, hassas veri "
-    "bayrağı ve veri sahibi tutuluyor",
 ], size=16)
 textbox(s, Inches(6.9), Inches(1.2), Inches(6), Inches(0.4), "Ortamlar", size=18, color=NAVY,
         bold=True)
