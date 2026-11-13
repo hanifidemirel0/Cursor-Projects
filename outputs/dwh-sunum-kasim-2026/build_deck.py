@@ -444,7 +444,7 @@ s = content_slide("HEDEF MİMARİ VE ARAÇ SETİ", pill="Önerilen araç seti",
                   sources="Sistemler ve Servisler (4.1 ODS kararı, 02.11.2026; GoldenGate kaynak "
                   "kapsamı, 05.11.2026); Fiziksel Topoloji - Teknik Taraf (GoldenGate lisansları); "
                   "Başlangıç Yaklaşımı (diyagram); DWH Hedef Mimarisi v2; ETL aracı değerlendirmesi "
-                  "(A seçeneği DBT Core); zamanlama aracı Apache DolphinScheduler ve BI aracı Pusula "
+                  "(A seçeneği DBT); zamanlama aracı Apache DolphinScheduler ve BI aracı Pusula "
                   "(MSTR): kullanıcı aktarımı, 13.11.2026; Aktif Sorular 16")
 PURPLE = RGBColor(0x6B, 0x4C, 0x9A)
 
@@ -488,7 +488,7 @@ for i, code in enumerate(layers):
             size=13.5, color=WHITE)
         arrow(s, Inches(lx - 0.22), Inches(3.95), Inches(lx), Inches(3.95))
 box(s, Inches(6.1), Inches(2.02), Inches(2.6), Inches(0.72), fill=NAVY,
-    text=["**DBT Core**", "dönüşüm (ELT), test, dokümantasyon"], size=12, color=WHITE)
+    text=["**DBT**", "dönüşüm (ELT), test, dokümantasyon"], size=12, color=WHITE)
 
 textbox(s, Inches(10.9), Inches(2.72), Inches(1.4), Inches(0.3), "RAPORLAMA", size=12,
         color=MUTED, bold=True, align=PP_ALIGN.CENTER)
@@ -531,7 +531,7 @@ for i, (c, text) in enumerate(steps):
     badge(s, x + 0.1, 5.67, i + 1, c)
     textbox(s, Inches(x + 0.5), Inches(5.44), Inches(2.4), Inches(0.81), text, size=11,
             anchor=MSO_ANCHOR.MIDDLE)
-footnote(s, "ETL aracı seçimi sürüyor (DBT Core veya ODI 14c); bu sayfa DBT seçeneğini gösterir. "
+footnote(s, "ETL aracı seçimi sürüyor (DBT veya ODI 14c); bu sayfa DBT seçeneğini gösterir. "
             "Publish: yasal snapshot, üye dosyası, API.", y=6.42)
 
 # 13 — Fiziksel yerleşim
@@ -576,7 +576,7 @@ s = content_slide("ETL ARACI DEĞERLENDİRMESİ: ÖZET", pill="Öneri — iki se
 textbox(s, Inches(0.6), Inches(1.15), Inches(5.6), Inches(0.4),
         "Ağırlıklı puan (1–5), Takasbank temel senaryosu", size=15, color=NAVY, bold=True)
 cd = CategoryChartData()
-cd.categories = ["Spark", "Cloudera", "Informatica", "ODI 14c", "DBT Core"]
+cd.categories = ["Spark", "Cloudera", "Informatica", "ODI 14c", "DBT"]
 cd.add_series("Puan", (2.86, 3.24, 3.27, 3.52, 3.86))
 gf = s.shapes.add_chart(XL_CHART_TYPE.BAR_CLUSTERED, Inches(0.5), Inches(1.5), Inches(5.8),
                         Inches(3.6), cd)
@@ -614,7 +614,7 @@ textbox(s, Inches(6.75), Inches(1.15), Inches(6), Inches(0.4), "Öneri", size=17
         bold=True)
 bullets(s, Inches(6.75), Inches(1.5), Inches(6.0), Inches(4.9), [
     "İki seçenek öne çıkmakta ve ikisi de Exadata üzerinde çalışıyor",
-    ("-", "**A — DBT Core**"),
+    ("-", "**A — DBT**"),
     ("-", "**B — ODI 14c**"),
     "~200 rapor sorgusunun dönüşümü (tahmin): DBT **150–300**, ODI **400–700**, "
     "Cloudera/Spark 600–1.000 adam-gün",
@@ -623,7 +623,7 @@ footnote(s, "Puanlar masa başı değerlendirmedir (15 kategori, 64 kriter). Ban
             "teklifi veya satın alma onayı değildir. Ayrıntı sonraki beş slayttadır.", y=6.45)
 
 ETL_SRC = "Takasbank_ETL_Comparison_TR.xlsx, 12.11.2026 güncellemesi"
-ETL_TOOLS = ["ODI 14c", "Informatica", "DBT Core", "Cloudera", "Spark"]
+ETL_TOOLS = ["ODI 14c", "Informatica", "DBT", "Cloudera", "Spark"]
 
 
 def style_cell(cell, fill=None, color=None, bold=None):
@@ -649,7 +649,7 @@ def center_cols(t, cols):
 s = content_slide("ETL ARACI DEĞERLENDİRMESİ: İKİ SEÇENEK", pill="Değerlendirme sürüyor",
                   pill_fill=TEAL, sources=f"{ETL_SRC} (Yönetici Özeti, Riskler)")
 options = [
-    ("A — DBT Core (Exadata üzerinde)", "Teslim hızı, maliyet, taşınabilirlik", NAVY, [
+    ("A — DBT (Exadata üzerinde)", "Teslim hızı, maliyet, taşınabilirlik", NAVY, [
         "**Güçlü**",
         ("-", "Exadata'ya pushdown şeklinde çalıştığı için ve SQL tabanlı olduğu için ekibin "
               "adaptasyonu ve kurulum maliyeti açısından en hızlı seçenek"),
@@ -659,7 +659,7 @@ options = [
               "süreci oldukça hızlandırılabilir"),
         ("-", "Açık kaynak kodlu olduğu için lisans maliyeti yok ve komünite desteği yüksek"),
         "**Zayıf**",
-        ("-", "DBT Core için üretici desteği yok"),
+        ("-", "DBT için üretici desteği yok"),
         ("-", "Kendi veri çekme / akış yeteneği yok"),
     ]),
     ("B — ODI 14c (Exadata üzerinde)", "Düzenleyici rahatlık, üretici desteği", TEAL, [
@@ -691,7 +691,7 @@ table(s, Inches(0.6), Inches(1.55), Inches(5.9), [
     ["Araç", "Tür"],
     ["ODI 14c", "ELT entegrasyon aracı (ticari, Oracle)"],
     ["Informatica 10.5", "ETL aracı (ticari)"],
-    ["DBT Core", "SQL tabanlı ELT aracı (açık kaynak)"],
+    ["DBT", "SQL tabanlı ELT aracı (açık kaynak)"],
     ["Cloudera Data Platform", "Entegre veri platformu (ticari)"],
     ["Apache Spark", "Dağıtık işlem motoru (açık kaynak)"],
 ], [2.3, 3.6], size=12.5, header_size=13, row_h=0.36)
@@ -822,7 +822,7 @@ textbox(s, Inches(7.0), Inches(1.15), Inches(5.78), Inches(0.4),
 tco = [
     ("ODI 14c", 3150, 300, 900, "400–700"),
     ("Informatica", 2600, 700, 1100, "500–800"),
-    ("DBT Core", 300, 150, 700, "150–300"),
+    ("DBT", 300, 150, 700, "150–300"),
     ("Cloudera", 3500, 1800, 1300, "600–1.000"),
     ("Spark", 200, 1400, 1200, "600–1.000"),
 ]
@@ -997,7 +997,7 @@ decs = [
     "Gün içi operasyonel raporlamada **ODS_** şemaları ile **KALE standby** rol ayrımı",
     "DWH yerleşimi (SUR / HİSAR) **izolasyon testiyle** belirlenir",
     "**Pilot A = SWIFT**, **Pilot B = BISTECH SPK**; fon sözleşme verisi yakalaması şimdi başlar",
-    "ETL aracı seçimi: **DBT Core** veya **ODI 14c**; PoC'ler tamamlandı, pilot karardan sonra "
+    "ETL aracı seçimi: **DBT** veya **ODI 14c**; PoC'ler tamamlandı, pilot karardan sonra "
     "başlar",
     "1 modelleyici + 2 veri mühendisi alınır; dilim başına **UG analist zamanı** ayrılır",
     "Mevcut **gün sonu log kaydı** ilk ay içinde DWH tetikleyicisi olarak doğrulanır",
