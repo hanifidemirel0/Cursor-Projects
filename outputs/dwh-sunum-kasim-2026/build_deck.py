@@ -455,9 +455,7 @@ def badge(slide, x, y, n, fill):
 
 
 box(s, Inches(2.5), Inches(1.15), Inches(10.25), Inches(0.72), fill=PURPLE,
-    text=["**Apache DolphinScheduler** — zamanlama ve orkestrasyon",
-          "Gün sonu olayına bağlı iş akışları, bağımlılık sırası, yeniden deneme, alarm"],
-    size=12.5, color=WHITE)
+    text="**Apache DolphinScheduler**", size=15, color=WHITE)
 
 textbox(s, Inches(0.55), Inches(2.72), Inches(1.65), Inches(0.3), "KAYNAKLAR", size=12,
         color=MUTED, bold=True, align=PP_ALIGN.CENTER)
