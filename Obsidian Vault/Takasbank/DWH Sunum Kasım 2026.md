@@ -28,19 +28,18 @@ tags:
 | 2 | İçerik | — |
 | 3 | Çalışmanın tarihçesi (Haz 2024 – Eki 2026) | [[Firmalarla Yapılan DWH Görüşmeleri]], [[Obase Takasbank Değerlendirme Raporu Ağustos 2024]], önceki sunumlar ([[DWH Sunum Mart 2025]] dahil), [[Komtaş Future-Ready Data Platform Teklifi Ağustos 2026]], [[Proje Planı#Ekip]] (personel arayışı), [[Proje Planı#Araç ve kapasite]] (ODI, Informatica, dbt PoC'leri) |
 | 4 | Eylül–Ekim 2026 çalışmaları | Hanifi'nin 02.11.2026 tarihli aktarımı (UG görüşmeleri, danışman firma görüşmeleri, dbt PoC, Dataspecta workshop, ETL dokümantasyonu, GoldenGate, orkestrasyon, tasarım taslakları) |
-| 5 | Mevcut durum: veri ve ortamlar | [[Fiziksel Topoloji - Teknik Taraf]], [[Ortamlar hakkında]], [[PowerDesigner Bilgilendirme]] |
-| 6 | Mevcut durum: raporlama (rapor kanalları; anlık ve geçmiş tarihli sorgu, işlem ve raporlama aynı veritabanında) | [[Takasbank Genel Bilgilendirme]], [[Takasbank Genel Bilgilendirme 2]], Hanifi'nin 04.11.2026 aktarımı |
-| 7 | Temel tespitler | [[DWH Sunum Aralık 2024]], [[Başlangıç Yaklaşımı]] |
-| 8 | Hedef mimari ve araç seti (kaynaklar, GoldenGate veri alımı, ODS → CORE → Data Mart → Publish, DBT Core dönüşüm, Apache DolphinScheduler zamanlama, Pusula/MSTR ve diğer rapor kanalları; dört adımlı günlük akış) | [[Sistemler ve Servisler#4.1 Karar\|ODS ve landing kararları]], [[Sistemler ve Servisler]] (GoldenGate kaynak kapsamı), [[Başlangıç Yaklaşımı]], [[DWH Hedef Mimarisi v2]], [[Aktif Sorular]] madde 16 (zamanlayıcı); araç seti kullanıcı aktarımı (13.11.2026) |
-| 9 | Fiziksel yerleşim ve kapasite | [[Fiziksel Topoloji - Teknik Taraf#DWH yerleşim adayları]] |
-| 10 | ETL aracı değerlendirmesi: özet (puanlar, iki seçenek önerisi) | [Takasbank_ETL_Comparison_TR.xlsx](../../outputs/etl-comparison/Takasbank_ETL_Comparison_TR.xlsx) (12.11.2026 güncellemesi) · canvas `outputs/etl-comparison/takasbank_etl_evaluation.canvas.tsx` |
-| 11 | ETL: iki seçenek (dbt Core / ODI 14c), ön koşullar | Aynı çalışma kitabı (Executive Summary, Risks) |
-| 12 | ETL: yöntem, adaylar ve karar kısıtları | Aynı çalışma kitabı (Executive Summary, Tool Profiles) |
-| 13 | ETL: kategori puanları (15 kategori × 5 araç) | Aynı çalışma kitabı (Scoring Matrix, Criteria & Weights) |
-| 14 | ETL: ağırlık senaryoları, 5 yıllık maliyet, rapor dönüşüm eforu | Aynı çalışma kitabı (Scenario Analysis, TCO) |
-| 15 | ETL: Borsa İstanbul ve MKK görüşmeleri (kullandıkları ürünler: ODI, Informatica PowerCenter; ürün görüşleri) | Hanifi'nin 04.11.2026 aktarımı; [[DWH Sunum Eylül 2024]] (ETL araçları), [[DWH Sunum Aralık 2024#Slayt 5 — Merkezi Kayıt Kuruluşu]], [[DWH Sunum Aralık 2024#Slayt 6 — Borsa İstanbul]]. Görüş içeriği henüz notlarda yok; slaytta yer tutucu var |
-| 16 | Pilot, yol haritası ve Faz 0 ilk 30 gün (sade: faz şeridi, Pilot A/B, dört Faz 0 maddesi) | [[Proje Planı#Pilot seçimi]], [[Proje Planı]], [[Başlangıç Yaklaşımı#Fazlar]] |
-| 17 | Riskler | [[Başlangıç Yaklaşımı#Risk kaydı (ilk gün)]] |
-| 18 | Karar beklenen konular | [[Başlangıç Yaklaşımı#İlk yönlendirme komitesine götürülecek kararlar]] |
-| 19 | Açık sorular | [[Aktif Sorular]] |
-| 20 | Kapanış | — |
+| 5 | Mevcut durum (tek slayt: veri kaynakları, ortamlar, raporlama kanalları; anlık ve geçmiş tarihli sorgu, işlem ve raporlama aynı veritabanında) | [[Fiziksel Topoloji - Teknik Taraf]], [[Ortamlar hakkında]], Takasbank Genel Bilgilendirme 1-2, Banka Ug, kullanıcı aktarımı (04.11.2026) |
+| 6 | Temel tespitler | [[DWH Sunum Aralık 2024]], [[Başlangıç Yaklaşımı]] |
+| 7 | Hedef mimari ve araç seti (kaynaklar, GoldenGate veri alımı, ODS → CORE → Data Mart → Publish, DBT Core dönüşüm, Apache DolphinScheduler zamanlama, Pusula/MSTR ve diğer rapor kanalları; dört adımlı günlük akış) | [[Sistemler ve Servisler#4.1 Karar\|ODS ve landing kararları]], [[Sistemler ve Servisler]] (GoldenGate kaynak kapsamı), [[Başlangıç Yaklaşımı]], [[DWH Hedef Mimarisi v2]], [[Aktif Sorular]] madde 16 (zamanlayıcı); araç seti kullanıcı aktarımı (13.11.2026) |
+| 8 | Fiziksel yerleşim ve kapasite | [[Fiziksel Topoloji - Teknik Taraf#DWH yerleşim adayları]] |
+| 9 | ETL aracı değerlendirmesi: özet (puanlar, iki seçenek önerisi) | [Takasbank_ETL_Comparison_TR.xlsx](../../outputs/etl-comparison/Takasbank_ETL_Comparison_TR.xlsx) (12.11.2026 güncellemesi) · canvas `outputs/etl-comparison/takasbank_etl_evaluation.canvas.tsx` |
+| 10 | ETL: iki seçenek (dbt Core / ODI 14c), ön koşullar | Aynı çalışma kitabı (Executive Summary, Risks) |
+| 11 | ETL: yöntem, adaylar ve karar kısıtları | Aynı çalışma kitabı (Executive Summary, Tool Profiles) |
+| 12 | ETL: kategori puanları (15 kategori × 5 araç) | Aynı çalışma kitabı (Scoring Matrix, Criteria & Weights) |
+| 13 | ETL: ağırlık senaryoları, 5 yıllık maliyet, rapor dönüşüm eforu | Aynı çalışma kitabı (Scenario Analysis, TCO) |
+| 14 | ETL: Borsa İstanbul ve MKK görüşmeleri (kullandıkları ürünler: ODI, Informatica PowerCenter; ürün görüşleri) | Hanifi'nin 04.11.2026 aktarımı; [[DWH Sunum Eylül 2024]] (ETL araçları), [[DWH Sunum Aralık 2024#Slayt 5 — Merkezi Kayıt Kuruluşu]], [[DWH Sunum Aralık 2024#Slayt 6 — Borsa İstanbul]]. Görüş içeriği henüz notlarda yok; slaytta yer tutucu var |
+| 15 | Pilot, yol haritası ve Faz 0 ilk 30 gün (sade: faz şeridi, Pilot A/B, dört Faz 0 maddesi) | [[Proje Planı#Pilot seçimi]], [[Proje Planı]], [[Başlangıç Yaklaşımı#Fazlar]] |
+| 16 | Riskler | [[Başlangıç Yaklaşımı#Risk kaydı (ilk gün)]] |
+| 17 | Karar beklenen konular | [[Başlangıç Yaklaşımı#İlk yönlendirme komitesine götürülecek kararlar]] |
+| 18 | Açık sorular | [[Aktif Sorular]] |
+| 19 | Kapanış | — |

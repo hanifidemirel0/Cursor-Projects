@@ -369,14 +369,16 @@ for i, (name, pts) in enumerate(months):
     box(s, x, Inches(1.8), Inches(5.95), Inches(4.45), fill=LIGHT, shape=MSO_SHAPE.RECTANGLE)
     bullets(s, x + Inches(0.1), Inches(1.9), Inches(5.75), Inches(4.3), pts, size=16, gap=10)
 
-# 6 — Mevcut durum: veri ve ortamlar
-s = content_slide("MEVCUT DURUM: VERİ VE ORTAMLAR", pill="Mevcut durum",
+# 6 — Mevcut durum
+s = content_slide("MEVCUT DURUM", pill="Mevcut durum",
                   pill_fill=NAVY, sources="Sistemler ve Servisler; Fiziksel Topoloji - Teknik "
-                  "Taraf; Ortamlar hakkında; Takasbank Genel Bilgilendirme 1-2; PowerDesigner "
-                  "Bilgilendirme; DWH Sunum Eylül 2024; Banka Ug")
-textbox(s, Inches(0.6), Inches(1.2), Inches(6), Inches(0.4), "Veri kaynakları", size=18,
-        color=NAVY, bold=True)
-bullets(s, Inches(0.6), Inches(1.55), Inches(6.0), Inches(4.8), [
+                  "Taraf; Ortamlar hakkında; Takasbank Genel Bilgilendirme 1-2; DWH Sunum Eylül "
+                  "2024; Banka Ug; Kullanıcı aktarımı (04.11.2026)")
+cols = [(0.55, 4.05, "Veri kaynakları"), (4.85, 3.9, "Ortamlar"), (9.0, 3.8, "Raporlama")]
+for x, w, name in cols:
+    textbox(s, Inches(x), Inches(1.2), Inches(w), Inches(0.4), name, size=18, color=NAVY,
+            bold=True)
+bullets(s, Inches(0.55), Inches(1.6), Inches(4.05), Inches(4.6), [
     "Kaynaklar:",
     ("-", "**KALE**: ana işlem veritabanı; kurum verisinin yaklaşık %90'ı burada (~10 TB). "
           "Yaklaşık 10.000 tablonun 7.000'i ana tablo, 3.000'i eski dönem verisini tutan "
@@ -386,32 +388,24 @@ bullets(s, Inches(0.6), Inches(1.55), Inches(6.0), Inches(4.8), [
     ("-", "Borsa **Replica BIDB / Borsa DWH**"),
     ("-", "FTP/CSV dosyaları"),
     ("-", "Web servisleri"),
-], size=16)
-textbox(s, Inches(6.9), Inches(1.2), Inches(6), Inches(0.4), "Ortamlar", size=18, color=NAVY,
-        bold=True)
-bullets(s, Inches(6.9), Inches(1.55), Inches(5.9), Inches(4.8), [
+], size=15)
+bullets(s, Inches(4.85), Inches(1.6), Inches(3.9), Inches(4.6), [
     "KALE'nin **2 Data Guard replikası** var: biri KALE, biri SUR Exadata üzerinde",
     "**PREPROD**: T-1, test ile aynı instance",
-    "PREPROD her sabah 07:00'de KALE'den kopartılıyor; flashback snapshot 04:00–07:00",
+    "PREPROD her sabah 07:00'de KALE'den kopartılıyor; flashback snapshot "
+    "04:00\u2060–\u206007:00",
     "**GoldenGate** lisansı var: 336 CPU (Borsa İstanbul: 975 CPU)",
-], size=16)
+], size=15)
+for i, name in enumerate(["Team Developer", "Web / React", "MSTR (Pusula)"]):
+    box(s, Inches(9.0), Inches(1.7 + i * 0.6), Inches(3.8), Inches(0.48), fill=NAVY, text=name,
+        size=14, color=WHITE, bold=True)
+bullets(s, Inches(9.0), Inches(3.5), Inches(3.8), Inches(2.7), [
+    "Raporlar hem **anlık** hem de **geçmiş tarihli** veriyi sorgular; anlık sorgulama daha "
+    "yoğundur",
+    "Ana işlemler ve raporlama sorguları **aynı veritabanında** çalışır",
+], size=15)
 footnote(s, "Aynı kavram (ör. üye) farklı şemalarda ve piyasa bazında ayrı tablolarda tutulmaktadır.",
          y=6.25)
-
-# 7 — Mevcut durum: raporlama
-s = content_slide("MEVCUT DURUM: RAPORLAMA", pill="Mevcut durum",
-                  pill_fill=NAVY, sources="Takasbank Genel Bilgilendirme 1-2; Banka Ug; "
-                  "Kullanıcı aktarımı (04.11.2026)")
-lanes = ["Team Developer", "Web / React", "MSTR (Pusula)"]
-for i, name in enumerate(lanes):
-    x = Inches(0.6 + i * 4.1)
-    box(s, x, Inches(1.35), Inches(3.9), Inches(0.75), fill=NAVY, text=name, size=18, color=WHITE,
-        bold=True)
-bullets(s, Inches(0.6), Inches(2.6), Inches(12.1), Inches(3.3), [
-    "Takasbank'ta raporlar hem **anlık** hem de **geçmiş tarihli** veriyi sorgular. Anlık "
-    "sorgulama daha yoğundur.",
-    "Ana işlemler ve raporlama sorguları **aynı veritabanında** çalışır.",
-], size=18, gap=14)
 
 # 9 — Güçlü yönler / kısıtlar
 s = content_slide("TEMEL TESPİTLER", sources="DWH Sunum Aralık 2024 (artı/eksi yönler); "
