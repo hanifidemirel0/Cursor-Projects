@@ -466,7 +466,7 @@ for i, name in enumerate(["KALE (Prod)", "ARSIV", "ÇEKDB", "Borsa DWH"]):
     box(s, Inches(0.55), Inches(y), Inches(1.65), Inches(0.36), fill=LIGHT, line=NAVY, text=name,
         size=11.5, bold=True)
     arrow(s, Inches(2.2), Inches(y + 0.18), Inches(2.5), Inches(3.95), color=TEAL, width=1.5)
-box(s, Inches(0.55), Inches(4.81), Inches(1.65), Inches(0.36), fill=WHITE, line=MUTED,
+box(s, Inches(0.55), Inches(4.81), Inches(1.65), Inches(0.36), fill=LIGHT, line=NAVY,
     text="FTP / CSV / Web servis", size=10.5, bold=True)
 arrow(s, Inches(2.2), Inches(4.99), Inches(4.95), Inches(4.35), color=MUTED, width=1.25,
       dashed=True)
