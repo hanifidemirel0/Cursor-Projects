@@ -389,10 +389,9 @@ bullets(s, Inches(0.55), Inches(1.6), Inches(4.05), Inches(4.6), [
 ], size=15)
 bullets(s, Inches(4.85), Inches(1.6), Inches(3.9), Inches(4.6), [
     "KALE'nin **2 Data Guard replikası** var: biri KALE, biri SUR Exadata üzerinde",
-    "**PREPROD**: T-1, test ile aynı instance",
     "PREPROD her sabah 07:00'de KALE'den kopartılıyor; flashback snapshot "
     "04:00\u2060–\u206007:00",
-    "**GoldenGate** lisansı var: 336 CPU (Borsa İstanbul: 975 CPU)",
+    "**GoldenGate** lisansı var",
 ], size=15)
 channels = [("Team Developer", "İş birimlerinin operasyonel raporları"),
             ("Web / React", "UG'nin web ekranları; raporlar buraya taşınıyor"),
