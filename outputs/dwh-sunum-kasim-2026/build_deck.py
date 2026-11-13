@@ -531,8 +531,6 @@ for i, (c, text) in enumerate(steps):
     badge(s, x + 0.1, 5.67, i + 1, c)
     textbox(s, Inches(x + 0.5), Inches(5.44), Inches(2.4), Inches(0.81), text, size=11,
             anchor=MSO_ANCHOR.MIDDLE)
-footnote(s, "ETL aracı seçimi sürüyor (DBT veya ODI 14c); bu sayfa DBT seçeneğini gösterir. "
-            "Publish: yasal snapshot, üye dosyası, API.", y=6.42)
 
 # 13 — Fiziksel yerleşim
 s = content_slide("FİZİKSEL YERLEŞİM VE KAPASİTE", sources="DWH Sunum Aralık 2024 (slayt 3, "
