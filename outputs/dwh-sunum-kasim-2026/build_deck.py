@@ -379,15 +379,14 @@ for x, w, name in cols:
     textbox(s, Inches(x), Inches(1.2), Inches(w), Inches(0.4), name, size=18, color=NAVY,
             bold=True)
 bullets(s, Inches(0.55), Inches(1.6), Inches(4.05), Inches(4.6), [
-    "Kaynaklar:",
-    ("-", "**KALE**: ana işlem veritabanı; kurum verisinin yaklaşık %90'ı burada (~10 TB). "
-          "Yaklaşık 10.000 tablonun 7.000'i ana tablo, 3.000'i eski dönem verisini tutan "
-          "yedek (backup) tablo"),
-    ("-", "**ARSIV**"),
-    ("-", "**ÇEKDB**"),
-    ("-", "Borsa **Replica BIDB / Borsa DWH**"),
-    ("-", "FTP/CSV dosyaları"),
-    ("-", "Web servisleri"),
+    "**KALE**: ana işlem veritabanı; kurum verisinin yaklaşık %90'ı burada (~10 TB). "
+    "Yaklaşık 10.000 tablonun 7.000'i ana tablo, 3.000'i eski dönem verisini tutan yedek "
+    "(backup) tablo",
+    "**ARSIV**",
+    "**ÇEKDB**",
+    "Borsa **Replica BIDB / Borsa DWH**",
+    "FTP/CSV dosyaları",
+    "Web servisleri",
 ], size=15)
 bullets(s, Inches(4.85), Inches(1.6), Inches(3.9), Inches(4.6), [
     "KALE'nin **2 Data Guard replikası** var: biri KALE, biri SUR Exadata üzerinde",
