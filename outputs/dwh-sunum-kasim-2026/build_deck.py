@@ -940,55 +940,35 @@ box(s, Inches(0.55), Inches(6.0), Inches(12.2), Inches(0.48), fill=RGBColor(0xFD
 s = content_slide("PİLOT, YOL HARİTASI VE İLK 30 GÜN", pill="Öneri — onay bekliyor",
                   sources="DWH Sunum Temmuz 2025 (slayt 10–24); Proje Planı (Pilot seçimi, Faz 0–5, "
                   "Definition of Done); Başlangıç Yaklaşımı (Fazlar); Aktif Sorular 12, 14, 15")
-phases = [
-    ("FAZ 0", "Keşif ve karar kapıları", "ETL aracı seçimi, rapor envanteri, puanlı pilot listesi"),
-    ("FAZ 1", "Pilot A: platform temeli", "Ölçülmüş KALE yük azalması, paralel koşum, runbook"),
-    ("FAZ 2", "Pilot B: entegrasyon", "CORE paketi ve MSTR yıldızının paralel koşum kabulü"),
-    ("FAZ 3", "Operasyonel rapor göçü", "Rapor bazında kabul; Team Developer emekliliği"),
-    ("FAZ 4", "Konu alanı yayılımı", "Her dilimde core'un tekrar kullanımı"),
-    ("FAZ 5", "Kritik ve yasal raporlar", "Regülasyon / iş sahibi yazılı kabulü"),
-]
+phases = ["Keşif ve karar kapıları", "Pilot A: platform temeli", "Pilot B: entegrasyon",
+          "Operasyonel rapor göçü", "Konu alanı yayılımı", "Kritik ve yasal raporlar"]
 pw = Inches(2.03)
-for i, (code, name, gate) in enumerate(phases):
+for i, name in enumerate(phases):
     x = Inches(0.55) + (pw + Inches(0.03)) * i
-    box(s, x, Inches(1.15), pw, Inches(0.6), fill=GOLD if i == 0 else NAVY,
-        shape=MSO_SHAPE.CHEVRON if i else MSO_SHAPE.PENTAGON, text=[f"**{code}**"], size=14,
+    box(s, x, Inches(1.25), pw, Inches(0.75), fill=GOLD if i == 0 else NAVY,
+        shape=MSO_SHAPE.CHEVRON if i else MSO_SHAPE.PENTAGON, text=f"**FAZ {i}**", size=16,
         color=WHITE)
-    textbox(s, x + Inches(0.05), Inches(1.82), pw - Inches(0.1), Inches(0.35), name, size=12.5,
-            color=NAVY, bold=True)
-    textbox(s, x + Inches(0.05), Inches(2.17), pw - Inches(0.15), Inches(0.75),
-            f"**Çıkış:** {gate}", size=11, color=INK)
+    textbox(s, x + Inches(0.1), Inches(2.1), pw - Inches(0.2), Inches(0.6), name, size=14,
+            color=NAVY, bold=True, align=PP_ALIGN.CENTER)
 
-textbox(s, Inches(0.55), Inches(3.08), Inches(6.0), Inches(0.35), "Pilot adayları", size=15,
+textbox(s, Inches(0.55), Inches(3.05), Inches(6.0), Inches(0.4), "Pilot adayları", size=17,
         color=NAVY, bold=True)
-pilots = [
-    ("PİLOT A — SWIFT YASAL RAPORLAR (FAZ 1)", "Platform temelini kanıtlar: tek kaynak şema, "
-     "**T-1** yeterli, ~24 milyon satırlık özet; ODS_, replay, zamanlayıcı zinciri, Publish"),
-    ("PİLOT B — BISTECH SPK 13 RAPOR (FAZ 2)", "Entegrasyonu kanıtlar: KALE NOMX + Replica BIDB; "
-     "ilk **kurumsal core** paketi ve ilk MSTR yıldız şeması"),
-]
-for i, (title, text) in enumerate(pilots):
-    y = Inches(3.48 + i * 1.38)
-    box(s, Inches(0.55), y, Inches(6.0), Inches(0.42), fill=NAVY, text=f"**{title}**", size=12.5,
-        color=WHITE, shape=MSO_SHAPE.RECTANGLE)
-    box(s, Inches(0.55), y + Inches(0.42), Inches(6.0), Inches(0.82), fill=LIGHT, text=text,
-        size=12.5, align=PP_ALIGN.LEFT, shape=MSO_SHAPE.RECTANGLE)
+pilots = [("Pilot A — SWIFT yasal raporlar", "Platform temelini kanıtlar"),
+          ("Pilot B — BISTECH SPK raporları", "Entegrasyonu kanıtlar")]
+for i, (title, sub) in enumerate(pilots):
+    box(s, Inches(0.55), Inches(3.55 + i * 1.2), Inches(6.0), Inches(1.0), fill=LIGHT, line=NAVY,
+        text=[f"**{title}**", sub], size=15)
 
-textbox(s, Inches(6.8), Inches(3.08), Inches(6.0), Inches(0.35), "Faz 0: ilk 30 gün", size=15,
+textbox(s, Inches(6.8), Inches(3.05), Inches(6.0), Inches(0.4), "Faz 0: ilk 30 gün", size=17,
         color=NAVY, bold=True)
-box(s, Inches(6.8), Inches(3.48), Inches(6.0), Inches(2.62), fill=LIGHT, shape=MSO_SHAPE.RECTANGLE)
-bullets(s, Inches(6.85), Inches(3.5), Inches(5.9), Inches(2.6), [
-    "**Mandat ve ölçüm:** sponsor ve komite; KPI KALE DB-time ve gün sonu süresi; AWR/ASH yük "
-    "çalışması; rapor envanteri",
-    "**DBA ile doğrulama:** Active Data Guard, GoldenGate extract kaynağı, SUR / HİSAR izolasyon "
-    "testi",
-    "**Hızlı kazanımlar:** gün sonu log kaydı DWH tetikleyicisi olur; BIST fon sözleşme verisi "
-    "hemen ODS_'e (5 gün saklama)",
-    "**Ekip:** 1 veri modelleyici, 2 Oracle-güçlü veri mühendisi, UG analisti, DBA irtibatı",
-], size=12.5, gap=5)
-footnote(s, "Pilot, ETL aracı seçildikten sonra başlar; adaylar 1–5 arası puanlanacak. Rapor sahibi, "
-            "grain, SLA ve mutabakat referansı belli olmadan fiziksel mart tasarımına başlanmaz.",
-         y=6.3)
+box(s, Inches(6.8), Inches(3.55), Inches(6.0), Inches(2.2), fill=LIGHT, shape=MSO_SHAPE.RECTANGLE)
+bullets(s, Inches(6.9), Inches(3.6), Inches(5.8), Inches(2.1), [
+    "Sponsor, başarı ölçütü ve rapor envanteri",
+    "DBA ile GoldenGate ve Data Guard doğrulaması",
+    "BIST fon sözleşme verisi hemen ODS'ye",
+    "Ekip: 1 veri modelleyici, 2 veri mühendisi",
+], size=16, gap=14)
+footnote(s, "Pilot, ETL aracı seçildikten sonra başlar.", y=6.3)
 
 # 18 — Ekip ve danışmanlık
 s = content_slide("EKİP VE DANIŞMANLIK MODELİ", sources="Proje Planı (Ekip); Başlangıç "
