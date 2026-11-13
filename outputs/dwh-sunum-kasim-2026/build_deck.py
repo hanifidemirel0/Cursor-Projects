@@ -377,15 +377,15 @@ s = content_slide("MEVCUT DURUM: VERİ VE ORTAMLAR", pill="Mevcut durum",
 textbox(s, Inches(0.6), Inches(1.2), Inches(6), Inches(0.4), "Veri kaynakları", size=18,
         color=NAVY, bold=True)
 bullets(s, Inches(0.6), Inches(1.55), Inches(6.0), Inches(4.8), [
-    "**KALE**: verinin ~%90'ı, ~10 TB; ~7.000 ana + ~3.000 backup tablo",
-    "ERD diyagramları kullanılmamakta; **PowerDesigner**'da tüm tablo ve kolonlar, hassas veri "
-    "bayrağı ve veri sahibi tutuluyor",
-    "Uydu kaynaklar:",
+    "Kaynaklar:",
+    ("-", "**KALE**: verinin ~%90'ı, ~10 TB; ~7.000 ana + ~3.000 backup tablo"),
     ("-", "**ARSIV**"),
     ("-", "**ÇEKDB**"),
     ("-", "Borsa **Replica BIDB / Borsa DWH**"),
     ("-", "FTP/CSV dosyaları"),
     ("-", "Web servisleri"),
+    "ERD diyagramları kullanılmamakta; **PowerDesigner**'da tüm tablo ve kolonlar, hassas veri "
+    "bayrağı ve veri sahibi tutuluyor",
 ], size=16)
 textbox(s, Inches(6.9), Inches(1.2), Inches(6), Inches(0.4), "Ortamlar", size=18, color=NAVY,
         bold=True)
