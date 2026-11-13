@@ -524,7 +524,7 @@ for i, name in enumerate(["KALE (Prod)", "ARSIV", "ÇEKDB", "Borsa DWH"]):
     arrow(s, Inches(2.35), Inches(y + 0.2), Inches(2.85), Inches(4.225), color=TEAL, width=1.5)
 box(s, Inches(2.85), Inches(3.75), Inches(1.95), Inches(0.95), fill=TEAL,
     text=["**Oracle GoldenGate**", "veri alımı (CDC)"], size=12.5, color=WHITE)
-box(s, Inches(5.3), Inches(3.3), Inches(4.9), Inches(1.9), fill=RGBColor(0xF7, 0xF8, 0xFC),
+box(s, Inches(5.3), Inches(3.3), Inches(4.9), Inches(1.4), fill=RGBColor(0xF7, 0xF8, 0xFC),
     line=NAVY, radius=0.05, line_w=2)
 textbox(s, Inches(5.4), Inches(3.36), Inches(2.6), Inches(0.3), "VERİ AMBARI (Exadata)",
         size=11, color=MUTED, bold=True)
@@ -536,8 +536,6 @@ box(s, Inches(8.7), Inches(3.75), Inches(1.3), Inches(0.75), fill=NAVY, text="**
     size=14, color=WHITE)
 arrow(s, Inches(6.8), Inches(4.125), Inches(7.1), Inches(4.125))
 arrow(s, Inches(8.4), Inches(4.125), Inches(8.7), Inches(4.125))
-box(s, Inches(5.5), Inches(4.65), Inches(4.5), Inches(0.38), fill=LIGHT, line=LINE,
-    text="**CTL** — çalışma kaydı, test ve mutabakat sonuçları", size=11)
 box(s, Inches(7.0), Inches(2.25), Inches(2.6), Inches(0.75), fill=NAVY,
     text=["**DBT Core**", "dönüşüm (ELT), test, dokümantasyon"], size=12, color=WHITE)
 box(s, Inches(10.65), Inches(3.65), Inches(2.1), Inches(0.95), fill=GOLD,
@@ -567,8 +565,7 @@ badge(s, 11.85, 2.6, 4, GOLD)
 steps = [
     (TEAL, "GoldenGate kaynak verilerini ODS'ye sürekli kopyalar"),
     (PURPLE, "DolphinScheduler gün sonunu ve GoldenGate gecikmesini kontrol eder, akışı başlatır"),
-    (NAVY, "DBT ODS → CORE → Data Mart dönüşümlerini ve testlerini Exadata'da çalıştırır, "
-           "CTL'ye yazar"),
+    (NAVY, "DBT ODS → CORE → Data Mart dönüşümlerini ve testlerini Exadata'da çalıştırır"),
     (GOLD, "DolphinScheduler Pusula küplerini yeniler; raporlar güncel veriyle açılır"),
 ]
 for i, (c, text) in enumerate(steps):
