@@ -381,9 +381,9 @@ for x, w, name in cols:
 bullets(s, Inches(0.55), Inches(1.6), Inches(4.05), Inches(4.6), [
     "**KALE**: Ana veritabanı; kurum verisinin yaklaşık %90'ı burada (~10 TB). Yaklaşık "
     "10.000 tablo bulunmakta",
-    "**ARSIV**",
-    "**ÇEKDB**",
-    "Borsa **Replica BIDB / Borsa DWH**",
+    "ARSIV",
+    "ÇEKDB",
+    "Borsa Replica BIDB / Borsa DWH",
     "FTP/CSV dosyaları",
     "Web servisleri",
 ], size=15)
