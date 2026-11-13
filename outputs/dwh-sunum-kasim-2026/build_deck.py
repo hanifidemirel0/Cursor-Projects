@@ -283,7 +283,6 @@ items = [
     "Fiziksel Yerleşim ve Kapasite",
     "ETL Aracı Değerlendirmesi",
     "Pilot, Yol Haritası ve İlk 30 Gün",
-    "Ekip ve Danışmanlık Modeli",
     "Riskler",
     "Karar Beklenen Konular ve Açık Sorular",
 ]
@@ -913,41 +912,6 @@ bullets(s, Inches(6.9), Inches(3.6), Inches(5.8), Inches(2.1), [
     "Ekip: 1 veri modelleyici, 2 veri mühendisi",
 ], size=16, gap=14)
 footnote(s, "Pilot, ETL aracı seçildikten sonra başlar.", y=6.3)
-
-# 18 — Ekip ve danışmanlık
-s = content_slide("EKİP VE DANIŞMANLIK MODELİ", sources="Proje Planı (Ekip); Başlangıç "
-                  "Yaklaşımı; Komtaş Future-Ready Data Platform Teklifi Ağustos 2026; kullanıcı aktarımı "
-                  "(02.11.2026, firma görüşmeleri); DWH Sunum "
-                  "Aralık 2024 (Vakıfbank, çalışılması gereken yönler); DWH Ownership Operating Model")
-textbox(s, Inches(0.6), Inches(1.15), Inches(6), Inches(0.4), "Ekip ve sahiplik", size=18,
-        color=NAVY, bold=True)
-bullets(s, Inches(0.6), Inches(1.5), Inches(5.9), Inches(4.9), [
-    "Aralık 2024'te tespit edildiği gibi **DWH, ETL ve modelleme deneyimli personel** ihtiyacı "
-    "hâlâ karşılanmadı",
-    "Öneri: 1 veri modelleyici + 2 Oracle-güçlü veri mühendisi; dilim başına dönüşümlü UG analisti; "
-    "DBA irtibat kişisi",
-    "**UG analistleri modelleri birlikte sahiplenir** — Vakıfbank dersi: bilgi birikimi tek "
-    "ekipte toplanmamalı",
-    "Kod Git'te, operasyona teslim edilen runbook'larla; işletim sahibi baştan belli",
-    "Sahiplik, karar yetkileri ve uyuşmazlık çözümü için işletim modeli taslağı hazır "
-    "(kurum onayı bekliyor)",
-], size=14.5)
-textbox(s, Inches(6.85), Inches(1.15), Inches(6), Inches(0.4), "Danışman firmalar",
-        size=18, color=NAVY, bold=True)
-box(s, Inches(6.85), Inches(1.55), Inches(5.9), Inches(2.3), fill=LIGHT, radius=0.04)
-bullets(s, Inches(6.9), Inches(1.58), Inches(5.8), Inches(2.25), [
-    "**Eylül:** Ab Initio, Oredata, Cloudera, Dataspecta, GTech, Global Maksimum ile görüşüldü",
-    "**Ekim:** Dataspecta ile workshop yapıldı",
-    "**Komtaş teklifi (17.08.2026):** ~3 ay; mevcut durum, hedef mimari, kavramsal model, yol "
-    "haritası ve **RFP**. Çıktısı dokümanlar; çalışan bir veri ürünü değil",
-], size=13, gap=4)
-box(s, Inches(6.85), Inches(4.0), Inches(5.9), Inches(2.2), fill=RGBColor(0xFD, 0xF3, 0xE4),
-    line=GOLD, radius=0.04, text=[
-        "**Öneri**",
-        "Danışmanlık, pilotta ekiple birlikte inşa eden **sınırlı kapsamlı bir ortak** olarak "
-        "konumlansın. Yalnızca kâğıt tasarım ve RFP üreten bir çalışma pilotu geciktirir; tasarım "
-        "kararlarını pilot kanıtı versin.",
-    ], size=13.5, align=PP_ALIGN.LEFT, anchor=MSO_ANCHOR.TOP)
 
 # 19 — Riskler
 s = content_slide("RİSKLER", sources="Başlangıç Yaklaşımı (Risk kaydı); Firmalarla Yapılan DWH "
