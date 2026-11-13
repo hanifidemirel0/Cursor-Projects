@@ -394,10 +394,13 @@ bullets(s, Inches(4.85), Inches(1.6), Inches(3.9), Inches(4.6), [
     "04:00\u2060–\u206007:00",
     "**GoldenGate** lisansı var: 336 CPU (Borsa İstanbul: 975 CPU)",
 ], size=15)
-for i, name in enumerate(["Team Developer", "Web / React", "MSTR (Pusula)"]):
-    box(s, Inches(9.0), Inches(1.7 + i * 0.6), Inches(3.8), Inches(0.48), fill=NAVY, text=name,
-        size=14, color=WHITE, bold=True)
-bullets(s, Inches(9.0), Inches(3.5), Inches(3.8), Inches(2.7), [
+channels = [("Team Developer", "İş birimlerinin operasyonel raporları"),
+            ("Web / React", "UG'nin web ekranları; raporlar buraya taşınıyor"),
+            ("MSTR (Pusula)", "Hedef BI aracı; raporların %10–20'si taşındı")]
+for i, (name, desc) in enumerate(channels):
+    box(s, Inches(9.0), Inches(1.65 + i * 0.78), Inches(3.8), Inches(0.68), fill=NAVY,
+        text=[f"**{name}**", desc], size=12.5, color=WHITE)
+bullets(s, Inches(9.0), Inches(4.05), Inches(3.8), Inches(2.1), [
     "Raporlar hem **anlık** hem de **geçmiş tarihli** veriyi sorgular; anlık sorgulama daha "
     "yoğundur",
     "Ana işlemler ve raporlama sorguları **aynı veritabanında** çalışır",
