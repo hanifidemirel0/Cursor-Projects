@@ -283,22 +283,29 @@ notes(s, "Seri: 1 - Eylül 2024, 2 - Aralık 2024, 3 - Mart 2025, 4 - Temmuz 202
 # 2 — İçerik
 s = content_slide("İÇERİK")
 items = [
-    "Çalışmanın Tarihçesi",
-    "Mevcut Durum ve Temel Tespitler",
-    "ETL Aracı Değerlendirmesi",
-    "Önerilen Hedef Mimari",
-    "Pilot, Yol Haritası ve İlk 30 Gün",
-    "Riskler",
-    "Karar Beklenen Konular ve Açık Sorular",
+    ("Çalışmanın Tarihçesi", []),
+    ("Takasbank'ta Mevcut Durum", ["Temel Tespitler", "ETL Aracı Değerlendirmesi"]),
+    ("Önerilen Hedef Mimari", []),
+    ("Pilot, Yol Haritası ve İlk 30 Gün", []),
+    ("Riskler", []),
+    ("Karar Beklenen Konular ve Açık Sorular", []),
 ]
-for i, it in enumerate(items):
-    col, row = divmod(i, (len(items) + 1) // 2)
+per_col = (len(items) + 1) // 2
+for i, (it, subs) in enumerate(items):
+    col = i // per_col
+    if i % per_col == 0:
+        y = 1.35
     x = Inches(1.3 + col * 5.6)
-    y = Inches(1.35 + row * 0.69)
-    box(s, x, y, Inches(0.55), Inches(0.55), fill=NAVY, text=str(i + 1),
+    box(s, x, Inches(y), Inches(0.55), Inches(0.55), fill=NAVY, text=str(i + 1),
         size=15 if i < 9 else 13, color=WHITE, bold=True, shape=MSO_SHAPE.OVAL)
-    textbox(s, x + Inches(0.65), y + Inches(0.04), Inches(4.8), Inches(0.45), it, size=18,
+    textbox(s, x + Inches(0.65), Inches(y + 0.04), Inches(4.8), Inches(0.45), it, size=18,
             color=INK, anchor=MSO_ANCHOR.MIDDLE)
+    y += 0.62
+    for sub in subs:
+        textbox(s, x + Inches(0.85), Inches(y), Inches(4.6), Inches(0.36), f"–  {sub}", size=15,
+                color=MUTED, anchor=MSO_ANCHOR.MIDDLE)
+        y += 0.4
+    y += 0.07 + (0.08 if subs else 0)
 
 # 3 — Tarihçe
 s = content_slide("ÇALIŞMANIN TARİHÇESİ", sources="Firmalarla Yapılan DWH Görüşmeleri; "

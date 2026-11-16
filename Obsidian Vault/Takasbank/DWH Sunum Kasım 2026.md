@@ -22,7 +22,7 @@ tags:
 
 ## Slayt akışı
 
-Mevcut durum (5) ve temel tespitlerin (6) ardından ETL aracı değerlendirmesi slaytları (7–12) gelir; içindekilerde "Mevcut Durum ve Temel Tespitler" ve "ETL Aracı Değerlendirmesi" iki madde. PPTX'te her detay sayfasından (GoldenGate 14, DBT 15, DolphinScheduler 16, Pusula 17) sonra mimari sayfasının birer kopyası daha vardır: Morph ile mimariye geri uzaklaşan geçiş slaytları; Pusula'dan sonraki kopya, pilot bölümüne geçmeden önce mimariyi yeniden gösterir. Sayfa numarası 13 olarak kalır ve PDF'e alınmazlar; tablo PDF numaralarını izler.
+Mevcut durum (5) ve temel tespitlerin (6) ardından ETL aracı değerlendirmesi slaytları (7–12) gelir; içindekilerde ikisi de "Takasbank'ta Mevcut Durum" maddesinin alt başlığıdır. PPTX'te her detay sayfasından (GoldenGate 14, DBT 15, DolphinScheduler 16, Pusula 17) sonra mimari sayfasının birer kopyası daha vardır: Morph ile mimariye geri uzaklaşan geçiş slaytları; Pusula'dan sonraki kopya, pilot bölümüne geçmeden önce mimariyi yeniden gösterir. Sayfa numarası 13 olarak kalır ve PDF'e alınmazlar; tablo PDF numaralarını izler.
 
 | # | Slayt | Kaynak |
 |---|---|---|
