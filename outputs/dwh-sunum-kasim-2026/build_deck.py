@@ -592,37 +592,32 @@ def zoom_slide(title, focus, focus_name, band_text, fill, sources):
                       "solma).")
     zoom_copies(arch, arch_start, s, focus, focus_name)
     box(s, Inches(0.55), Inches(1.15), Inches(12.23), Inches(0.95), fill=fill, text=band_text,
-        size=20, color=WHITE).name = focus_name
+        size=15, color=WHITE).name = focus_name
     morph_transition(s)
     return s
 
 
-def definition(s, text):
-    textbox(s, Inches(0.55), Inches(2.17), Inches(12.23), Inches(0.5), text, size=13.5, color=INK,
-            align=PP_ALIGN.CENTER)
-
-
-def detail_columns(s, why_title, why, how, todo, how_h=1.33):
-    box(s, Inches(4.7), Inches(2.75), Inches(4.05), Inches(3.75), fill=RGBColor(0xF2, 0xF8, 0xF4),
+def detail_columns(s, why_title, why, how, todo, how_h=1.43):
+    box(s, Inches(4.7), Inches(2.3), Inches(4.05), Inches(4.0), fill=RGBColor(0xF2, 0xF8, 0xF4),
         line=GREEN, radius=0.04, line_w=1.5)
-    textbox(s, Inches(4.85), Inches(2.8), Inches(3.8), Inches(0.35), why_title, size=15,
+    textbox(s, Inches(4.85), Inches(2.36), Inches(3.8), Inches(0.35), why_title, size=15,
             color=GREEN, bold=True)
-    bullets(s, Inches(4.85), Inches(3.1), Inches(3.8), Inches(3.35), why, size=13.5, gap=5)
-    textbox(s, Inches(9.05), Inches(2.75), Inches(3.75), Inches(0.35), "Nasıl çalışır", size=15,
+    bullets(s, Inches(4.85), Inches(2.66), Inches(3.8), Inches(3.6), why, size=13.5, gap=8)
+    textbox(s, Inches(9.05), Inches(2.3), Inches(3.75), Inches(0.35), "Nasıl çalışır", size=15,
             color=NAVY, bold=True)
-    bullets(s, Inches(9.05), Inches(3.07), Inches(3.75), Inches(how_h), how, size=13, gap=4)
-    y = 3.07 + how_h
+    bullets(s, Inches(9.05), Inches(2.62), Inches(3.75), Inches(how_h), how, size=13, gap=4)
+    y = 2.62 + how_h
     textbox(s, Inches(9.05), Inches(y), Inches(3.75), Inches(0.35), "Netleşecek konular",
             size=15, color=NAVY, bold=True)
     bullets(s, Inches(9.05), Inches(y + 0.32), Inches(3.75), Inches(2.0), todo, size=13, gap=4)
 
 
 def flow_column(s, title, steps, fill):
-    textbox(s, Inches(0.55), Inches(2.75), Inches(3.9), Inches(0.35), title, size=15, color=NAVY,
+    textbox(s, Inches(0.55), Inches(2.3), Inches(3.9), Inches(0.35), title, size=15, color=NAVY,
             bold=True)
-    gap = 3.3 / len(steps)
+    gap = 3.55 / len(steps)
     for i, (head, sub) in enumerate(steps):
-        y = 3.2 + i * gap
+        y = 2.78 + i * gap
         box(s, Inches(0.55), Inches(y), Inches(3.85), Inches(gap - 0.22), fill=LIGHT, line=fill,
             text=[f"**{head}**", sub] if sub else f"**{head}**", size=12)
         if i:
@@ -633,38 +628,38 @@ arch, arch_start = architecture_slide()
 
 # 8 — GoldenGate
 s = zoom_slide("ORACLE GOLDENGATE", GG_BOX, "!!goldengate",
-               ["**GoldenGate**", "*Replikasyon, CDC*"], TEAL,
+               "**Oracle GoldenGate**, Oracle'ın veri replikasyon ürünüdür. Kaynak veritabanındaki "
+               "ekleme, güncelleme ve silmeleri transaction log'dan okuyup hedef veritabanına "
+               "neredeyse anlık aktarır; hedef böylece kaynağın güncel bir kopyası olarak kalır.",
+               TEAL,
                "Sistemler ve Servisler (2. Goldengate: 2.2, 2.4 GoldenGate vs ODI, 2.5, 2.6, 2.8 "
                "yapılmayacaklar; 4.1 ODS kararı 02.11.2026, landing kararı 04.11.2026, GG kaynak "
                "kapsamı kararı 05.11.2026; 4.2 kararın sonuçları); Fiziksel Topoloji - Teknik "
                "Taraf (GoldenGate lisansları; Kale replikası - doğrulanacak gerçekler); Aktif "
                "Sorular 4.4, 4.6, 4.7, 14.2")
-definition(s, "**Oracle GoldenGate**, Oracle'ın veri replikasyon ürünüdür. Kaynak veritabanındaki "
-           "ekleme, güncelleme ve silmeleri transaction log'dan okuyup hedef veritabanına "
-           "neredeyse anlık aktarır; hedef böylece kaynağın güncel bir kopyası olarak kalır.")
-textbox(s, Inches(0.55), Inches(2.75), Inches(3.9), Inches(0.35), "Kapsam: kaynak → ODS_ şeması",
+textbox(s, Inches(0.55), Inches(2.3), Inches(3.9), Inches(0.35), "Kapsam: kaynak → ODS_ şeması",
         size=15, color=NAVY, bold=True)
 for i, (src, dst) in enumerate([("KALE", "ODS_BANKA, …"), ("ARSIV", "ODS_<şema>"),
                                 ("ÇEKDB", "ODS_<şema>"), ("Borsa DWH", "ODS_<şema>")]):
-    y = 3.2 + i * 0.58
+    y = 2.8 + i * 0.58
     box(s, Inches(0.55), Inches(y), Inches(1.4), Inches(0.44), fill=LIGHT, line=NAVY,
         text=f"**{src}**", size=12)
     arrow(s, Inches(1.95), Inches(y + 0.22), Inches(2.35), Inches(y + 0.22), color=TEAL, width=2)
     box(s, Inches(2.35), Inches(y), Inches(2.05), Inches(0.44), fill=RGBColor(0xE3, 0xF1, 0xF3),
         line=TEAL, text=dst, size=12)
-textbox(s, Inches(0.55), Inches(5.52), Inches(3.85), Inches(0.3),
+textbox(s, Inches(0.55), Inches(5.12), Inches(3.85), Inches(0.3),
         "Borsa DWH akışı kurumlar arasıdır", size=11, color=MUTED, align=PP_ALIGN.RIGHT)
-box(s, Inches(0.55), Inches(5.88), Inches(1.4), Inches(0.6), fill=WHITE, line=MUTED,
+box(s, Inches(0.55), Inches(5.5), Inches(1.4), Inches(0.6), fill=WHITE, line=MUTED,
     text="FTP / CSV / Web servis", size=10.5)
-arrow(s, Inches(1.95), Inches(6.18), Inches(2.35), Inches(6.18), color=MUTED, dashed=True)
-box(s, Inches(2.35), Inches(5.88), Inches(2.05), Inches(0.6), fill=WHITE, line=MUTED,
+arrow(s, Inches(1.95), Inches(5.8), Inches(2.35), Inches(5.8), color=MUTED, dashed=True)
+box(s, Inches(2.35), Inches(5.5), Inches(2.05), Inches(0.6), fill=WHITE, line=MUTED,
     text="GoldenGate kapsamı dışında; yükleme yolu açık", size=10.5, color=MUTED)
 
-box(s, Inches(4.7), Inches(2.75), Inches(4.05), Inches(3.75), fill=RGBColor(0xF2, 0xF8, 0xF4),
+box(s, Inches(4.7), Inches(2.3), Inches(4.05), Inches(4.0), fill=RGBColor(0xF2, 0xF8, 0xF4),
     line=GREEN, radius=0.04, line_w=1.5)
-textbox(s, Inches(4.85), Inches(2.8), Inches(3.8), Inches(0.35), "Neden GoldenGate ideal seçim",
+textbox(s, Inches(4.85), Inches(2.36), Inches(3.8), Inches(0.35), "Neden GoldenGate ideal seçim",
         size=15, color=GREEN, bold=True)
-bullets(s, Inches(4.85), Inches(3.1), Inches(3.8), Inches(3.35), [
+bullets(s, Inches(4.85), Inches(2.66), Inches(3.8), Inches(3.6), [
     "**Lisans mevcut:** Takasbank'ta ve Borsa İstanbul'da var; yeni satın alma gerekmez, "
     "Borsa DWH akışı doğrudan kurulabilir",
     "**Kaynağa yük bindirmez:** log tabanlı okur; prod KALE'ye trigger veya dblink gerekmez",
@@ -672,17 +667,17 @@ bullets(s, Inches(4.85), Inches(3.1), Inches(3.8), Inches(3.35), [
     "alınır; tarih kolonuna dayalı çekim KALE'de güvenilir değil",
     "**Düşük gecikme:** ODS gün içinde güncel kalır",
     "**Oracle ile tam uyum:** kaynak ve hedef Oracle/Exadata; DBA ekibinin bildiği ekosistem",
-], size=13.5, gap=5)
+], size=13.5, gap=8)
 
-textbox(s, Inches(9.05), Inches(2.75), Inches(3.75), Inches(0.35), "Nasıl çalışır", size=15,
+textbox(s, Inches(9.05), Inches(2.3), Inches(3.75), Inches(0.35), "Nasıl çalışır", size=15,
         color=NAVY, bold=True)
-bullets(s, Inches(9.05), Inches(3.07), Inches(3.75), Inches(1.5), [
+bullets(s, Inches(9.05), Inches(2.62), Inches(3.75), Inches(1.5), [
     "Transaction log'daki değişen satırları ODS_ şemasına taşır; tablo bazında filtrelenebilir",
     "Dönüşüm yapmaz; dönüşümler DBT ile DWH içinde çalışır",
 ], size=13, gap=4)
-textbox(s, Inches(9.05), Inches(4.4), Inches(3.75), Inches(0.35), "Netleşecek konular", size=15,
+textbox(s, Inches(9.05), Inches(4.05), Inches(3.75), Inches(0.35), "Netleşecek konular", size=15,
         color=NAVY, bold=True)
-bullets(s, Inches(9.05), Inches(4.72), Inches(3.75), Inches(2.0), [
+bullets(s, Inches(9.05), Inches(4.37), Inches(3.75), Inches(2.0), [
     "Sürüm, destek sözleşmesi ve lisansın sunuculara dağılımı",
     "Extract prod KALE'den mi, Data Guard replikasından mı okuyacak",
     "İşletim sahipliği ve 7/24 destek",
@@ -692,13 +687,13 @@ bullets(s, Inches(9.05), Inches(4.72), Inches(3.75), Inches(2.0), [
 architecture_slide(repeat=True)
 
 # 9 — DBT
-s = zoom_slide("DBT", DBT_BOX, "!!dbt", ["**DBT**", "dönüşüm (ELT), test, dokümantasyon"], NAVY,
+s = zoom_slide("DBT", DBT_BOX, "!!dbt",
+               "**DBT (data build tool)**, SQL ile veri dönüşümü yapan açık kaynak bir araçtır. "
+               "Dönüşümler SQL sorgusu olarak yazılır; DBT bunları bağımlılık sırasıyla doğrudan "
+               "veritabanında (Exadata) çalıştırır, test eder ve dokümante eder.", NAVY,
                "Takasbank_ETL_Comparison_TR.xlsx ve takasbank_etl_evaluation.canvas.tsx (dbt "
                "profili, riskler, maliyet); DWH Hedef Mimarisi v2 (katmanlar); Sistemler ve "
                "Servisler 4.3 katman sınırları; DBT PoC (Eylül–Ekim 2026)")
-definition(s, "**DBT (data build tool)**, SQL ile veri dönüşümü yapan açık kaynak bir araçtır. "
-           "Dönüşümler SQL sorgusu olarak yazılır; DBT bunları bağımlılık sırasıyla doğrudan "
-           "veritabanında (Exadata) çalıştırır, test eder ve dokümante eder.")
 flow_column(s, "Katmanlar (Exadata içinde)", [
     ("ODS", "GoldenGate ile gelen kaynak kopyası"),
     ("CORE", "entegre model ve tarihçe"),
@@ -724,14 +719,13 @@ architecture_slide(repeat=True)
 
 # 10 — Apache DolphinScheduler
 s = zoom_slide("APACHE DOLPHINSCHEDULER", DOLPHIN_BOX, "!!dolphin",
-               ["**Apache DolphinScheduler**", "*Zamanlama ve orkestrasyon*"], PURPLE,
+               "**Apache DolphinScheduler**, açık kaynak bir iş akışı zamanlama ve orkestrasyon "
+               "aracıdır. Birbirine bağlı işleri doğru sırada ve doğru zamanda çalıştırır; hata "
+               "olursa yeniden dener ve alarm üretir.", PURPLE,
                "Zamanlama aracı Apache DolphinScheduler: kullanıcı aktarımı, 13.11.2026; Fiziksel "
                "Topoloji - Teknik Taraf (Zamanlayıcı: Automic lisans nedeniyle seçenek değil; gün "
                "sonu tamamlanma kaydı); Aktif Sorular 12, 16; DWH Mimari Hafıza - Temmuz 2025 "
                "Sunumu (piyasa olayına bağlı orkestrasyon)")
-definition(s, "**Apache DolphinScheduler**, açık kaynak bir iş akışı zamanlama ve orkestrasyon "
-           "aracıdır. Birbirine bağlı işleri doğru sırada ve doğru zamanda çalıştırır; hata olursa "
-           "yeniden dener ve alarm üretir.")
 flow_column(s, "Günlük akış", [
     ("Gün sonu tamamlandı", "veritabanındaki tamamlanma kaydı"),
     ("GoldenGate gecikme kontrolü", "ODS güncel mi"),
