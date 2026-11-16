@@ -288,7 +288,7 @@ items = [
     ("Önerilen Hedef Mimari", []),
     ("Pilot, Yol Haritası ve İlk 30 Gün", []),
     ("Riskler", []),
-    ("Karar Beklenen Konular ve Açık Sorular", []),
+    ("Karar Beklenen Konular", []),
 ]
 per_col = (len(items) + 1) // 2
 for i, (it, subs) in enumerate(items):
@@ -1178,32 +1178,7 @@ for i, d in enumerate(decs):
     box(s, x + Inches(0.8), y - Inches(0.1), Inches(5.15), Inches(0.9), fill=LIGHT, text=d,
         size=15, align=PP_ALIGN.LEFT)
 
-# 21 — Açık sorular
-s = content_slide("AÇIK SORULAR", sources="Aktif Sorular (madde 1, 3, 4, 6, 7, 8, 14, 15, 16)")
-box(s, Inches(0.6), Inches(1.2), Inches(5.9), Inches(0.5), fill=NAVY, text="DBA ve altyapı ile",
-    size=16, color=WHITE, bold=True)
-bullets(s, Inches(0.6), Inches(1.75), Inches(5.9), Inches(4.7), [
-    "SUR'daki KALE replikası **Active Data Guard** lisanslı mı, read-only açık mı, apply "
-    "gecikmesi ne kadar?",
-    "**GoldenGate** extract prod KALE'den mi standby'dan mı; supplemental logging redo yükü ne?",
-    "UG gün sonu prosedürleri standby üzerinde read-only çalışabilir mi; hangileri KALE'ye "
-    "yazmak zorunda?",
-    "Tarihçe DWH'a geçince KALE saklama penceresi ne olacak; ~3.000 backup tablosu ne zaman "
-    "emekli edilecek?",
-    "Borsa İstanbul ile GoldenGate akışı: hangi tablolar (Replica BIDB, fon sözleşmeleri)?",
-    "DWH zamanlayıcısı ne olacak? (Automic lisans nedeniyle seçenek değil; diğer araçlar değerlendiriliyor)",
-], size=16)
-box(s, Inches(6.85), Inches(1.2), Inches(5.9), Inches(0.5), fill=NAVY,
-    text="İş birimleri ve UG ile", size=16, color=WHITE, bold=True)
-bullets(s, Inches(6.85), Inches(1.75), Inches(5.9), Inches(4.7), [
-    "Kritik yasal raporlar (SPK, MASAK) DWH'dan mı verilecek; SLA'ları ve kesim saatleri ne?",
-    "Hangi rapor ODS_'den, hangisi DWH mart'tan verilecek? (rapor envanteri)",
-    "Mutabakatta otorite: farklı raporlar farklı sayı verirse hangisi doğru, kim karar verir?",
-    "Hassas veri politikası: prod'da erişim kontrollü açık veri, non-prod'da maskeleme onaylanıyor mu?",
-    "Tarihsel veriye hangi durumlarda update geliyor?",
-], size=16)
-
-# 22 — Kapanış
+# 21 — Kapanış
 s = prs.slides.add_slide(BLANK)
 box(s, 0, 0, W, H, fill=NAVY, shape=MSO_SHAPE.RECTANGLE)
 box(s, Inches(5.67), Inches(1.6), Inches(2.0), Inches(1.9), fill=WHITE, radius=0.12)

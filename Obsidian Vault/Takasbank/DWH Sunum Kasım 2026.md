@@ -46,5 +46,4 @@ Mevcut durum (5) ve temel tespitlerin (6) ardından ETL aracı değerlendirmesi 
 | 18 | Pilot, yol haritası ve Faz 0 ilk 30 gün (sade: faz şeridi, Pilot A/B, dört Faz 0 maddesi) | [[Proje Planı#Pilot seçimi]], [[Proje Planı]], [[Başlangıç Yaklaşımı#Fazlar]] |
 | 19 | Riskler | [[Başlangıç Yaklaşımı#Risk kaydı (ilk gün)]] |
 | 20 | Karar beklenen konular | [[Başlangıç Yaklaşımı#İlk yönlendirme komitesine götürülecek kararlar]] |
-| 21 | Açık sorular | [[Aktif Sorular]] |
-| 22 | Kapanış | — |
+| 21 | Kapanış | — |
