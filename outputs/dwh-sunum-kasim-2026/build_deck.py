@@ -988,11 +988,11 @@ arrow(s, Inches(1.95), Inches(5.8), Inches(2.35), Inches(5.8), color=MUTED, dash
 box(s, Inches(2.35), Inches(5.5), Inches(2.05), Inches(0.6), fill=WHITE, line=MUTED,
     text="GoldenGate kapsamı dışında; yükleme yolu açık", size=10.5, color=MUTED)
 
-box(s, Inches(4.7), Inches(2.3), Inches(4.05), Inches(4.0), fill=RGBColor(0xF2, 0xF8, 0xF4),
+box(s, Inches(4.7), Inches(2.3), Inches(8.08), Inches(4.0), fill=RGBColor(0xF2, 0xF8, 0xF4),
     line=GREEN, radius=0.04, line_w=1.5)
-textbox(s, Inches(4.85), Inches(2.36), Inches(3.8), Inches(0.35), "Neden GoldenGate ideal seçim",
-        size=15, color=GREEN, bold=True)
-bullets(s, Inches(4.85), Inches(2.66), Inches(3.8), Inches(3.6), [
+textbox(s, Inches(4.9), Inches(2.4), Inches(7.7), Inches(0.35), "Neden GoldenGate ideal seçim",
+        size=16, color=GREEN, bold=True)
+bullets(s, Inches(4.9), Inches(2.85), Inches(7.7), Inches(3.35), [
     "**Lisans mevcut:** Takasbank'ta ve Borsa İstanbul'da var; yeni satın alma gerekmez, "
     "Borsa DWH akışı doğrudan kurulabilir",
     "**Kaynağa yük bindirmez:** log tabanlı okur; prod KALE'ye trigger veya dblink gerekmez",
@@ -1000,22 +1000,7 @@ bullets(s, Inches(4.85), Inches(2.66), Inches(3.8), Inches(3.6), [
     "alınır; tarih kolonuna dayalı çekim KALE'de güvenilir değil",
     "**Düşük gecikme:** ODS gün içinde güncel kalır",
     "**Oracle ile tam uyum:** kaynak ve hedef Oracle/Exadata; DBA ekibinin bildiği ekosistem",
-], size=13.5, gap=8)
-
-textbox(s, Inches(9.05), Inches(2.3), Inches(3.75), Inches(0.35), "Nasıl çalışır", size=15,
-        color=NAVY, bold=True)
-bullets(s, Inches(9.05), Inches(2.62), Inches(3.75), Inches(1.5), [
-    "Transaction log'daki değişen satırları ODS_ şemasına taşır; tablo bazında filtrelenebilir",
-    "Dönüşüm yapmaz; dönüşümler DBT ile DWH içinde çalışır",
-], size=13, gap=4)
-textbox(s, Inches(9.05), Inches(4.05), Inches(3.75), Inches(0.35), "Netleşecek konular", size=15,
-        color=NAVY, bold=True)
-bullets(s, Inches(9.05), Inches(4.37), Inches(3.75), Inches(2.0), [
-    "Sürüm, destek sözleşmesi ve lisansın sunuculara dağılımı",
-    "Extract prod KALE'den mi, Data Guard replikasından mı okuyacak",
-    "İşletim sahipliği ve 7/24 destek",
-    "Silme / güncelleme izi ve geçmiş günün yeniden üretimi",
-], size=13, gap=4)
+], size=15, gap=14)
 
 architecture_slide(repeat=True)
 
