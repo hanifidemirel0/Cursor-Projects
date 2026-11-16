@@ -4,6 +4,7 @@
 İçerik kaynakları her slaydın konuşmacı notunda listelenir.
 """
 
+import copy
 import re
 from pathlib import Path
 
@@ -441,6 +442,7 @@ s = content_slide("ÖNERİLEN HEDEF MİMARİ",
                   "Başlangıç Yaklaşımı (diyagram); DWH Hedef Mimarisi v2; ETL aracı değerlendirmesi "
                   "(A seçeneği DBT); zamanlama aracı Apache DolphinScheduler ve BI aracı Pusula "
                   "(MSTR): kullanıcı aktarımı, 13.11.2026; Aktif Sorular 16")
+arch_slide, arch_start = s, len(s.shapes)
 PURPLE = RGBColor(0x6B, 0x4C, 0x9A)
 
 
@@ -463,8 +465,10 @@ box(s, Inches(0.55), Inches(4.81), Inches(1.65), Inches(0.36), fill=LIGHT, line=
     text="FTP / CSV / Web servis", size=10.5, bold=True)
 arrow(s, Inches(2.2), Inches(4.99), Inches(4.95), Inches(4.35), color=MUTED, width=1.25,
       dashed=True)
-box(s, Inches(2.5), Inches(3.5), Inches(1.65), Inches(0.9), fill=TEAL,
-    text=["**GoldenGate**", "*Replikasyon, CDC*"], size=12, color=WHITE)
+GG_BOX = (2.5, 3.5, 1.65, 0.9)
+gg = box(s, *map(Inches, GG_BOX), fill=TEAL, text=["**GoldenGate**", "*Replikasyon, CDC*"],
+         size=12, color=WHITE)
+gg.name = "!!goldengate"
 
 box(s, Inches(4.55), Inches(3.1), Inches(5.85), Inches(1.55), fill=RGBColor(0xF7, 0xF8, 0xFC),
     line=NAVY, radius=0.05, line_w=2)
@@ -522,6 +526,95 @@ for i, (c, text) in enumerate(steps):
     badge(s, x + 0.1, 5.67, i + 1, c)
     textbox(s, Inches(x + 0.5), Inches(5.44), Inches(2.4), Inches(0.81), text, size=11,
             anchor=MSO_ANCHOR.MIDDLE)
+
+
+
+def morph_transition(slide, ms=1600):
+    """Morph in PowerPoint 2019/365; other viewers fall back to fade."""
+    xml = (
+        '<mc:AlternateContent xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006">'
+        '<mc:Choice xmlns:p159="http://schemas.microsoft.com/office/powerpoint/2015/09/main" '
+        'Requires="p159"><p:transition xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main" '
+        'xmlns:p14="http://schemas.microsoft.com/office/powerpoint/2010/main" spd="slow" '
+        f'p14:dur="{ms}"><p159:morph option="byObject"/></p:transition></mc:Choice>'
+        '<mc:Fallback><p:transition xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main" '
+        'spd="slow"><p:fade/></p:transition></mc:Fallback></mc:AlternateContent>'
+    )
+    sld = slide._element
+    anchor = sld.find(qn("p:clrMapOvr"))
+    if anchor is None:
+        anchor = sld.find(qn("p:cSld"))
+    anchor.addnext(etree.fromstring(xml))
+
+
+def zoom_copies(src, start, dst, focus, k):
+    """Copies src diagram shapes to dst, scaled k times around the focus box centre and
+    recentred on the slide, so Morph plays them as a camera zoom into that box. The copies
+    land outside the slide and are not visible in the static page."""
+    fx, fy = Inches(focus[0] + focus[2] / 2), Inches(focus[1] + focus[3] / 2)
+    for i, shp in enumerate(list(src.shapes)[start:]):
+        if shp.name == "!!goldengate":
+            continue
+        shp.name = f"!!arch{i}"
+        el = copy.deepcopy(shp._element)
+        dst.shapes._spTree.append(el)
+        c = dst.shapes[-1]
+        c.left = int(W / 2 + (shp.left - fx) * k)
+        c.top = int(H / 2 + (shp.top - fy) * k)
+        c.width, c.height = int(shp.width * k), int(shp.height * k)
+        for r in el.iter(qn("a:rPr"), qn("a:endParaRPr")):
+            if r.get("sz"):
+                r.set("sz", str(int(int(r.get("sz")) * k)))
+
+
+# 8 — GoldenGate (sayfa 7'den Morph ile yakınlaşma)
+s = content_slide("ORACLE GOLDENGATE",
+                  sources="Sistemler ve Servisler (2. Goldengate: 2.4 GoldenGate vs ODI, 2.8 "
+                  "yapılmayacaklar; 4.1 ODS kararı 02.11.2026, landing kararı 04.11.2026, GG kaynak "
+                  "kapsamı kararı 05.11.2026; 4.2 kararın sonuçları); Fiziksel Topoloji - Teknik "
+                  "Taraf (GoldenGate lisansları; Kale replikası - doğrulanacak gerçekler); Aktif "
+                  "Sorular 4.4, 4.6, 4.7, 14.2. Sayfa 7'den bu sayfaya Morph geçişi GoldenGate "
+                  "kutusuna yakınlaşır (PowerPoint 2019/365; diğer görüntüleyicilerde solma).")
+zoom_copies(arch_slide, arch_start, s, GG_BOX, k=9)
+gg = box(s, Inches(0.55), Inches(1.15), Inches(12.23), Inches(0.95), fill=TEAL,
+         text=["**GoldenGate**", "*Replikasyon, CDC*"], size=20, color=WHITE)
+gg.name = "!!goldengate"
+morph_transition(s)
+
+textbox(s, Inches(0.55), Inches(2.35), Inches(5.9), Inches(0.35), "Kapsam: kaynak şema → ODS_ şeması",
+        size=15, color=NAVY, bold=True)
+for i, (src, dst) in enumerate([("KALE", "ODS_BANKA, ODS_SAKLAMA, …"), ("ARSIV", "ODS_<şema>"),
+                                ("ÇEKDB", "ODS_<şema>"), ("Borsa DWH", "ODS_<şema>")]):
+    y = 2.85 + i * 0.58
+    box(s, Inches(0.55), Inches(y), Inches(1.75), Inches(0.44), fill=LIGHT, line=NAVY,
+        text=f"**{src}**", size=12.5)
+    arrow(s, Inches(2.3), Inches(y + 0.22), Inches(3.1), Inches(y + 0.22), color=TEAL, width=2)
+    box(s, Inches(3.1), Inches(y), Inches(3.35), Inches(0.44), fill=RGBColor(0xE3, 0xF1, 0xF3),
+        line=TEAL, text=dst, size=12.5)
+textbox(s, Inches(3.1), Inches(5.17), Inches(3.35), Inches(0.3),
+        "Borsa DWH akışı kurumlar arasıdır", size=11, color=MUTED)
+box(s, Inches(0.55), Inches(5.55), Inches(1.75), Inches(0.44), fill=WHITE, line=MUTED,
+    text="FTP / CSV / Web servis", size=11)
+arrow(s, Inches(2.3), Inches(5.77), Inches(3.1), Inches(5.77), color=MUTED, dashed=True)
+box(s, Inches(3.1), Inches(5.55), Inches(3.35), Inches(0.44), fill=WHITE, line=MUTED,
+    text="GoldenGate kapsamı dışında; yükleme yolu açık", size=11, color=MUTED)
+
+textbox(s, Inches(6.9), Inches(2.35), Inches(5.9), Inches(0.35), "Nasıl çalışır", size=15,
+        color=NAVY, bold=True)
+bullets(s, Inches(6.9), Inches(2.7), Inches(5.9), Inches(1.6), [
+    "Kaynak veritabanının **transaction log**'unu okur; değişen satırları düşük gecikmeyle "
+    "ODS_ şemasına taşır",
+    "Tablo bazında filtreleme yapılabilir; kaynakta trigger veya dblink gerekmez",
+    "Dönüşüm yapmaz; dönüşümler DBT ile DWH içinde çalışır",
+], size=14, gap=4)
+textbox(s, Inches(6.9), Inches(4.4), Inches(5.9), Inches(0.35), "Netleşecek konular", size=15,
+        color=NAVY, bold=True)
+bullets(s, Inches(6.9), Inches(4.75), Inches(5.9), Inches(1.6), [
+    "Sürüm, destek sözleşmesi ve lisansın sunuculara dağılımı",
+    "Extract prod KALE'den mi, Data Guard replikasından mı okuyacak",
+    "İşletim sahipliği ve 7/24 destek",
+    "Silme / güncelleme izi ve geçmiş günün yeniden üretimi",
+], size=14, gap=4)
 
 # 14 — ETL değerlendirmesi
 s = content_slide("ETL ARACI DEĞERLENDİRMESİ: ÖZET", pill="Öneri — iki seçenek",
