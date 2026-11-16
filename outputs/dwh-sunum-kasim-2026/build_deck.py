@@ -451,6 +451,7 @@ PURPLE = RGBColor(0x6B, 0x4C, 0x9A)
 GG_BOX = (2.5, 3.5, 1.65, 0.9)
 DBT_BOX = (6.1, 2.02, 2.6, 0.72)
 DOLPHIN_BOX = (2.5, 1.15, 10.25, 0.72)
+PUSULA_BOX = (10.75, 3.0, 2.0, 0.7)
 transition_slides = []
 
 
@@ -516,8 +517,8 @@ def architecture_slide(repeat=False):
 
     textbox(s, Inches(10.9), Inches(2.72), Inches(1.4), Inches(0.3), "RAPORLAMA", size=12,
             color=MUTED, bold=True, align=PP_ALIGN.CENTER)
-    box(s, Inches(10.75), Inches(3.0), Inches(2.0), Inches(0.7), fill=GOLD,
-        text=["**PUSULA (MSTR)**", "BI ve semantik katman"], size=12, color=WHITE)
+    box(s, *map(Inches, PUSULA_BOX), fill=GOLD, text=["**PUSULA (MSTR)**", "BI ve semantik katman"],
+        size=12, color=WHITE).name = "!!pusula"
     box(s, Inches(10.75), Inches(3.8), Inches(2.0), Inches(0.42), fill=RGBColor(0xE3, 0xF1, 0xF3),
         line=TEAL, text="**Operasyonel Rapor**", size=11.5)
     box(s, Inches(10.75), Inches(4.3), Inches(2.0), Inches(0.42), fill=LIGHT, line=NAVY,
@@ -749,6 +750,39 @@ detail_columns(s, "Neden DolphinScheduler ideal seçim", [
     "Gün sonu tamamlanma kaydının yeri ve içeriği",
     "İşletim sahipliği ve 7/24 destek",
     "Kurum kimlik doğrulaması ve yetki entegrasyonu",
+])
+architecture_slide(repeat=True)
+
+# 11 — Pusula (MSTR)
+s = zoom_slide("Pusula (MSTR)", PUSULA_BOX, "!!pusula",
+               "**Pusula**, Takasbank'ın MicroStrategy (MSTR) üzerinde çalışan kurumsal raporlama ve "
+               "iş zekâsı uygulamasıdır. Raporlar, panolar ve küpler tek bir semantik katman "
+               "üzerinden kullanıcılara sunulur.", GOLD,
+               "DWH Sunum Eylül 2024 (Pusula = MicroStrategy; semantik katman ve sürükle-bırak); "
+               "Takasbank Genel Bilgilendirme 1-2 (UG raporlarının %10–20'si taşındı, cross-check, "
+               "self-servis yok, çok kaynak MSTR'da birleştiriliyor, SPK/MASAK saat SLA'sı, hangi "
+               "rapor nereden); Sistemler ve Servisler 1.1; Başlangıç Yaklaşımı (MSTR Pusula "
+               "semantik katman); DWH Sunum Temmuz 2025 (semantik katman, yapay zekâ)")
+flow_column(s, "Veri akışı", [
+    ("Data Mart / Publish", "DWH'ta modellenmiş tablolar"),
+    ("Semantik katman", "ortak metrik ve boyut tanımları"),
+    ("Küpler", "DolphinScheduler gün sonunda yeniler"),
+    ("Rapor, pano, self-servis", "iş birimleri, yönetim, üyeler"),
+], GOLD)
+detail_columns(s, "Neden Pusula ideal seçim", [
+    "**Kurumda zaten kullanılıyor:** ekip, lisans ve kullanıcı alışkanlığı mevcut",
+    "**Rapor taşıma sürüyor:** UG raporlarının %10\u2060–\u206020'si Pusula'ya taşındı",
+    "**Semantik katman:** her metrik tek yerde tanımlanır; yapay zekâ için hazır zemin",
+    "**Self-servis:** DWH'taki doğru modellenmiş tablolarla sürükle-bırak raporlama mümkün olur",
+    "**Hızlı yanıt:** küp ve önbellek; raporlar KALE'ye yük bindirmez",
+], [
+    "Raporlar KALE yerine DWH'taki Data Mart'tan okur",
+    "Birden çok kaynağın birleştirilmesi Pusula yerine DWH'ta yapılır",
+], [
+    "Hangi rapor KALE'den, ODS'den veya DWH'tan verilecek",
+    "En çok kullanılan raporların belirlenmesi",
+    "SPK / MASAK raporlarının saat bazlı SLA'sı",
+    "Pusula ekibinin kapasitesi",
 ])
 architecture_slide(repeat=True)
 

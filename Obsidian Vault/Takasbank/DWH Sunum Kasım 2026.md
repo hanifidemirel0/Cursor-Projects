@@ -22,7 +22,7 @@ tags:
 
 ## Slayt akışı
 
-PPTX'te her detay sayfasından (GoldenGate 8, DBT 9, DolphinScheduler 10) sonra mimari sayfasının birer kopyası daha vardır: Morph ile mimariye geri uzaklaşan geçiş slaytları; DolphinScheduler'dan sonraki kopya, ETL bölümüne geçmeden önce mimariyi yeniden gösterir. Sayfa numarası 7 olarak kalır ve PDF'e alınmazlar; tablo PDF numaralarını izler.
+PPTX'te her detay sayfasından (GoldenGate 8, DBT 9, DolphinScheduler 10, Pusula 11) sonra mimari sayfasının birer kopyası daha vardır: Morph ile mimariye geri uzaklaşan geçiş slaytları; Pusula'dan sonraki kopya, ETL bölümüne geçmeden önce mimariyi yeniden gösterir. Sayfa numarası 7 olarak kalır ve PDF'e alınmazlar; tablo PDF numaralarını izler.
 
 | # | Slayt | Kaynak |
 |---|---|---|
@@ -36,14 +36,15 @@ PPTX'te her detay sayfasından (GoldenGate 8, DBT 9, DolphinScheduler 10) sonra 
 | 8 | Oracle GoldenGate (sayfa 7'den Morph geçişiyle GoldenGate kutusuna yakınlaşma; renkli bant ürün adını taşır ve sayfa başlığı yerine geçer, altında iki cümlelik tanım; kapsam: KALE, ARSIV, ÇEKDB, Borsa DWH → `ODS_` şemaları; FTP/CSV/web servis kapsam dışı; neden GoldenGate ideal seçim: mevcut lisans, kaynağa yük bindirmeyen log tabanlı okuma, geçmişe gelen güncellemelerin yakalanması, düşük gecikme, Oracle uyumu; nasıl çalışır; netleşecek konular) | [[Sistemler ve Servisler#2. Goldengate\|Goldengate]], [[Sistemler ve Servisler#4.1 Karar\|ODS ve GG kaynak kapsamı kararları]], [[Fiziksel Topoloji - Teknik Taraf#GoldenGate lisansları]], [[Aktif Sorular]] 4.4, 4.6, 4.7, 14.2 |
 | 9 | DBT (sayfa 7'den Morph ile DBT kutusuna yakınlaşma; renkli bant ürün adını taşır ve sayfa başlığı yerine geçer, altında iki cümlelik tanım; katmanlar ODS → CORE → Data Mart → Publish; neden DBT ideal seçim; nasıl çalışır; netleşecek konular: ETL seçimi sürüyor, üretici desteği, dbt-oracle adaptörü, PL/SQL raporların yan yana çalışması) | ETL aracı değerlendirmesi (çalışma kitabı ve canvas: dbt profili, riskler, maliyet), [[DWH Hedef Mimarisi v2]], [[Sistemler ve Servisler#4.3 Katman sınırları]] |
 | 10 | Apache DolphinScheduler (sayfa 7'den Morph ile zamanlayıcı bandına yakınlaşma; renkli bant ürün adını taşır ve sayfa başlığı yerine geçer, altında iki cümlelik tanım; günlük akış: gün sonu kaydı → GoldenGate gecikme kontrolü → DBT → Pusula küp yenileme; neden DolphinScheduler ideal seçim; nasıl çalışır; netleşecek konular) | Kullanıcı aktarımı 13.11.2026, [[Fiziksel Topoloji - Teknik Taraf#Zamanlayıcı]], [[Aktif Sorular]] 12, 16, [[DWH Mimari Hafıza - Temmuz 2025 Sunumu]] |
-| 11 | ETL aracı değerlendirmesi: özet (puanlar, iki seçenek önerisi) | [Takasbank_ETL_Comparison_TR.xlsx](../../outputs/etl-comparison/Takasbank_ETL_Comparison_TR.xlsx) (12.11.2026 güncellemesi) · canvas `outputs/etl-comparison/takasbank_etl_evaluation.canvas.tsx` |
-| 12 | ETL: iki seçenek (dbt Core / ODI 14c), ön koşullar | Aynı çalışma kitabı (Executive Summary, Risks) |
-| 13 | ETL: yöntem, adaylar ve karar kısıtları | Aynı çalışma kitabı (Executive Summary, Tool Profiles) |
-| 14 | ETL: kategori puanları (15 kategori × 5 araç) | Aynı çalışma kitabı (Scoring Matrix, Criteria & Weights) |
-| 15 | ETL: ağırlık senaryoları, 5 yıllık maliyet, rapor dönüşüm eforu | Aynı çalışma kitabı (Scenario Analysis, TCO) |
-| 16 | ETL: Borsa İstanbul ve MKK görüşmeleri (kullandıkları ürünler: ODI, Informatica PowerCenter; ürün görüşleri) | Hanifi'nin 04.11.2026 aktarımı; [[DWH Sunum Eylül 2024]] (ETL araçları), [[DWH Sunum Aralık 2024#Slayt 5 — Merkezi Kayıt Kuruluşu]], [[DWH Sunum Aralık 2024#Slayt 6 — Borsa İstanbul]]. Görüş içeriği henüz notlarda yok; slaytta yer tutucu var |
-| 17 | Pilot, yol haritası ve Faz 0 ilk 30 gün (sade: faz şeridi, Pilot A/B, dört Faz 0 maddesi) | [[Proje Planı#Pilot seçimi]], [[Proje Planı]], [[Başlangıç Yaklaşımı#Fazlar]] |
-| 18 | Riskler | [[Başlangıç Yaklaşımı#Risk kaydı (ilk gün)]] |
-| 19 | Karar beklenen konular | [[Başlangıç Yaklaşımı#İlk yönlendirme komitesine götürülecek kararlar]] |
-| 20 | Açık sorular | [[Aktif Sorular]] |
-| 21 | Kapanış | — |
+| 11 | Pusula (MSTR) (sayfa 7'den Morph ile Pusula kutusuna yakınlaşma; renkli bant ürün adını taşır ve sayfa başlığı yerine geçer, altında iki cümlelik tanım; veri akışı: Data Mart/Publish → semantik katman → küpler → rapor/pano/self-servis; neden Pusula ideal seçim; nasıl çalışır; netleşecek konular) | [[DWH Sunum Eylül 2024]], [[Takasbank Genel Bilgilendirme]], [[Takasbank Genel Bilgilendirme 2]], [[Sistemler ve Servisler#1.1 Amaç]], [[Başlangıç Yaklaşımı]], [[DWH Sunum Temmuz 2025]] |
+| 12 | ETL aracı değerlendirmesi: özet (puanlar, iki seçenek önerisi) | [Takasbank_ETL_Comparison_TR.xlsx](../../outputs/etl-comparison/Takasbank_ETL_Comparison_TR.xlsx) (12.11.2026 güncellemesi) · canvas `outputs/etl-comparison/takasbank_etl_evaluation.canvas.tsx` |
+| 13 | ETL: iki seçenek (dbt Core / ODI 14c), ön koşullar | Aynı çalışma kitabı (Executive Summary, Risks) |
+| 14 | ETL: yöntem, adaylar ve karar kısıtları | Aynı çalışma kitabı (Executive Summary, Tool Profiles) |
+| 15 | ETL: kategori puanları (15 kategori × 5 araç) | Aynı çalışma kitabı (Scoring Matrix, Criteria & Weights) |
+| 16 | ETL: ağırlık senaryoları, 5 yıllık maliyet, rapor dönüşüm eforu | Aynı çalışma kitabı (Scenario Analysis, TCO) |
+| 17 | ETL: Borsa İstanbul ve MKK görüşmeleri (kullandıkları ürünler: ODI, Informatica PowerCenter; ürün görüşleri) | Hanifi'nin 04.11.2026 aktarımı; [[DWH Sunum Eylül 2024]] (ETL araçları), [[DWH Sunum Aralık 2024#Slayt 5 — Merkezi Kayıt Kuruluşu]], [[DWH Sunum Aralık 2024#Slayt 6 — Borsa İstanbul]]. Görüş içeriği henüz notlarda yok; slaytta yer tutucu var |
+| 18 | Pilot, yol haritası ve Faz 0 ilk 30 gün (sade: faz şeridi, Pilot A/B, dört Faz 0 maddesi) | [[Proje Planı#Pilot seçimi]], [[Proje Planı]], [[Başlangıç Yaklaşımı#Fazlar]] |
+| 19 | Riskler | [[Başlangıç Yaklaşımı#Risk kaydı (ilk gün)]] |
+| 20 | Karar beklenen konular | [[Başlangıç Yaklaşımı#İlk yönlendirme komitesine götürülecek kararlar]] |
+| 21 | Açık sorular | [[Aktif Sorular]] |
+| 22 | Kapanış | — |
