@@ -573,7 +573,7 @@ s = content_slide("ORACLE GOLDENGATE",
                   "yapılmayacaklar; 4.1 ODS kararı 02.11.2026, landing kararı 04.11.2026, GG kaynak "
                   "kapsamı kararı 05.11.2026; 4.2 kararın sonuçları); Fiziksel Topoloji - Teknik "
                   "Taraf (GoldenGate lisansları; Kale replikası - doğrulanacak gerçekler); Aktif "
-                  "Sorular 4.4, 4.6, 4.7, 14.2. Sayfa 7'den bu sayfaya Morph geçişi GoldenGate "
+                  "Sorular 4.4, 4.6, 4.7, 14.2; neden GoldenGate: Sistemler ve Servisler 2.2, 2.5, 2.6, 2.8. Sayfa 7'den bu sayfaya Morph geçişi GoldenGate "
                   "kutusuna yakınlaşır (PowerPoint 2019/365; diğer görüntüleyicilerde solma).")
 zoom_copies(arch_slide, arch_start, s, GG_BOX, k=9)
 gg = box(s, Inches(0.55), Inches(1.15), Inches(12.23), Inches(0.95), fill=TEAL,
@@ -581,40 +581,52 @@ gg = box(s, Inches(0.55), Inches(1.15), Inches(12.23), Inches(0.95), fill=TEAL,
 gg.name = "!!goldengate"
 morph_transition(s)
 
-textbox(s, Inches(0.55), Inches(2.35), Inches(5.9), Inches(0.35), "Kapsam: kaynak şema → ODS_ şeması",
+textbox(s, Inches(0.55), Inches(2.3), Inches(3.9), Inches(0.35), "Kapsam: kaynak → ODS_ şeması",
         size=15, color=NAVY, bold=True)
-for i, (src, dst) in enumerate([("KALE", "ODS_BANKA, ODS_SAKLAMA, …"), ("ARSIV", "ODS_<şema>"),
+for i, (src, dst) in enumerate([("KALE", "ODS_BANKA, …"), ("ARSIV", "ODS_<şema>"),
                                 ("ÇEKDB", "ODS_<şema>"), ("Borsa DWH", "ODS_<şema>")]):
-    y = 2.85 + i * 0.58
-    box(s, Inches(0.55), Inches(y), Inches(1.75), Inches(0.44), fill=LIGHT, line=NAVY,
-        text=f"**{src}**", size=12.5)
-    arrow(s, Inches(2.3), Inches(y + 0.22), Inches(3.1), Inches(y + 0.22), color=TEAL, width=2)
-    box(s, Inches(3.1), Inches(y), Inches(3.35), Inches(0.44), fill=RGBColor(0xE3, 0xF1, 0xF3),
-        line=TEAL, text=dst, size=12.5)
-textbox(s, Inches(3.1), Inches(5.17), Inches(3.35), Inches(0.3),
-        "Borsa DWH akışı kurumlar arasıdır", size=11, color=MUTED)
-box(s, Inches(0.55), Inches(5.55), Inches(1.75), Inches(0.44), fill=WHITE, line=MUTED,
-    text="FTP / CSV / Web servis", size=11)
-arrow(s, Inches(2.3), Inches(5.77), Inches(3.1), Inches(5.77), color=MUTED, dashed=True)
-box(s, Inches(3.1), Inches(5.55), Inches(3.35), Inches(0.44), fill=WHITE, line=MUTED,
-    text="GoldenGate kapsamı dışında; yükleme yolu açık", size=11, color=MUTED)
+    y = 2.8 + i * 0.58
+    box(s, Inches(0.55), Inches(y), Inches(1.4), Inches(0.44), fill=LIGHT, line=NAVY,
+        text=f"**{src}**", size=12)
+    arrow(s, Inches(1.95), Inches(y + 0.22), Inches(2.35), Inches(y + 0.22), color=TEAL, width=2)
+    box(s, Inches(2.35), Inches(y), Inches(2.05), Inches(0.44), fill=RGBColor(0xE3, 0xF1, 0xF3),
+        line=TEAL, text=dst, size=12)
+textbox(s, Inches(0.55), Inches(5.12), Inches(3.85), Inches(0.3),
+        "Borsa DWH akışı kurumlar arasıdır", size=11, color=MUTED, align=PP_ALIGN.RIGHT)
+box(s, Inches(0.55), Inches(5.5), Inches(1.4), Inches(0.6), fill=WHITE, line=MUTED,
+    text="FTP / CSV / Web servis", size=10.5)
+arrow(s, Inches(1.95), Inches(5.8), Inches(2.35), Inches(5.8), color=MUTED, dashed=True)
+box(s, Inches(2.35), Inches(5.5), Inches(2.05), Inches(0.6), fill=WHITE, line=MUTED,
+    text="GoldenGate kapsamı dışında; yükleme yolu açık", size=10.5, color=MUTED)
 
-textbox(s, Inches(6.9), Inches(2.35), Inches(5.9), Inches(0.35), "Nasıl çalışır", size=15,
+box(s, Inches(4.7), Inches(2.3), Inches(4.05), Inches(4.0), fill=RGBColor(0xF2, 0xF8, 0xF4),
+    line=GREEN, radius=0.04, line_w=1.5)
+textbox(s, Inches(4.85), Inches(2.36), Inches(3.8), Inches(0.35), "Neden GoldenGate ideal seçim",
+        size=15, color=GREEN, bold=True)
+bullets(s, Inches(4.85), Inches(2.66), Inches(3.8), Inches(3.6), [
+    "**Lisans mevcut:** Takasbank'ta ve Borsa İstanbul'da var; yeni satın alma gerekmez, "
+    "Borsa DWH akışı doğrudan kurulabilir",
+    "**Kaynağa yük bindirmez:** log tabanlı okur; prod KALE'ye trigger veya dblink gerekmez",
+    "**Değişiklikleri eksiksiz yakalar:** geçmiş tarihli kayıtlara gelen güncellemeler de "
+    "alınır; tarih kolonuna dayalı çekim KALE'de güvenilir değil",
+    "**Düşük gecikme:** ODS gün içinde güncel kalır",
+    "**Oracle ile tam uyum:** kaynak ve hedef Oracle/Exadata; DBA ekibinin bildiği ekosistem",
+], size=13.5, gap=8)
+
+textbox(s, Inches(9.05), Inches(2.3), Inches(3.75), Inches(0.35), "Nasıl çalışır", size=15,
         color=NAVY, bold=True)
-bullets(s, Inches(6.9), Inches(2.7), Inches(5.9), Inches(1.6), [
-    "Kaynak veritabanının **transaction log**'unu okur; değişen satırları düşük gecikmeyle "
-    "ODS_ şemasına taşır",
-    "Tablo bazında filtreleme yapılabilir; kaynakta trigger veya dblink gerekmez",
+bullets(s, Inches(9.05), Inches(2.62), Inches(3.75), Inches(1.5), [
+    "Transaction log'daki değişen satırları ODS_ şemasına taşır; tablo bazında filtrelenebilir",
     "Dönüşüm yapmaz; dönüşümler DBT ile DWH içinde çalışır",
-], size=14, gap=4)
-textbox(s, Inches(6.9), Inches(4.4), Inches(5.9), Inches(0.35), "Netleşecek konular", size=15,
+], size=13, gap=4)
+textbox(s, Inches(9.05), Inches(4.05), Inches(3.75), Inches(0.35), "Netleşecek konular", size=15,
         color=NAVY, bold=True)
-bullets(s, Inches(6.9), Inches(4.75), Inches(5.9), Inches(1.6), [
+bullets(s, Inches(9.05), Inches(4.37), Inches(3.75), Inches(2.0), [
     "Sürüm, destek sözleşmesi ve lisansın sunuculara dağılımı",
     "Extract prod KALE'den mi, Data Guard replikasından mı okuyacak",
     "İşletim sahipliği ve 7/24 destek",
     "Silme / güncelleme izi ve geçmiş günün yeniden üretimi",
-], size=14, gap=4)
+], size=13, gap=4)
 
 # 14 — ETL değerlendirmesi
 s = content_slide("ETL ARACI DEĞERLENDİRMESİ: ÖZET", pill="Öneri — iki seçenek",
