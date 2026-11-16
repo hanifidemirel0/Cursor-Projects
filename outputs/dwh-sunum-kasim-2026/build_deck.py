@@ -747,6 +747,7 @@ detail_columns(s, "Neden DolphinScheduler ideal seçim", [
     "İşletim sahipliği ve 7/24 destek",
     "Kurum kimlik doğrulaması ve yetki entegrasyonu",
 ])
+architecture_slide(repeat=True)
 
 # 14 — ETL değerlendirmesi
 s = content_slide("ETL ARACI DEĞERLENDİRMESİ: ÖZET", pill="Öneri — iki seçenek",

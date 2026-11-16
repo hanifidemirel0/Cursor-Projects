@@ -22,7 +22,7 @@ tags:
 
 ## Slayt akışı
 
-PPTX'te GoldenGate (8) ve DBT (9) detay sayfalarından sonra mimari sayfasının birer kopyası daha vardır: Morph ile mimariye geri uzaklaşan geçiş slaytları. Sayfa numarası 7 olarak kalır ve PDF'e alınmazlar; tablo PDF numaralarını izler.
+PPTX'te her detay sayfasından (GoldenGate 8, DBT 9, DolphinScheduler 10) sonra mimari sayfasının birer kopyası daha vardır: Morph ile mimariye geri uzaklaşan geçiş slaytları; DolphinScheduler'dan sonraki kopya, ETL bölümüne geçmeden önce mimariyi yeniden gösterir. Sayfa numarası 7 olarak kalır ve PDF'e alınmazlar; tablo PDF numaralarını izler.
 
 | # | Slayt | Kaynak |
 |---|---|---|
