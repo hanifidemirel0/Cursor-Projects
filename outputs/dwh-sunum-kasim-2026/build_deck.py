@@ -288,7 +288,6 @@ items = [
     ("Önerilen Hedef Mimari", []),
     ("Pilot, Yol Haritası ve İlk 30 Gün", []),
     ("Riskler", []),
-    ("Karar Beklenen Konular", []),
 ]
 per_col = (len(items) + 1) // 2
 for i, (it, subs) in enumerate(items):
@@ -1154,31 +1153,7 @@ table(s, Inches(0.55), Inches(1.2), W - Inches(1.1), [
      "Kararları pilot kanıtı versin"],
 ], [4.3, 3.4, 4.53], size=13.5, header_size=14, row_h=0.6)
 
-# 20 — Karar beklenen konular
-s = content_slide("KARAR BEKLENEN KONULAR", pill="Yönlendirme komitesi",
-                  sources="Başlangıç Yaklaşımı (İlk yönlendirme komitesine götürülecek kararlar)")
-decs = [
-    "Tek platform **Oracle/Exadata**; ayrı büyük veri platformu yok",
-    "ODS kararının uygulanması: **GoldenGate** işletme sahipliği, **Borsa İstanbul** ile GG "
-    "akışı, **tvsods** kapatma takvimi",
-    "Gün içi operasyonel raporlamada **ODS_** şemaları ile **KALE standby** rol ayrımı",
-    "DWH yerleşimi (SUR / HİSAR) **izolasyon testiyle** belirlenir",
-    "**Pilot A = SWIFT**, **Pilot B = BISTECH SPK**; fon sözleşme verisi yakalaması şimdi başlar",
-    "ETL aracı seçimi: **DBT** veya **ODI 14c**; PoC'ler tamamlandı, pilot karardan sonra "
-    "başlar",
-    "1 modelleyici + 2 veri mühendisi alınır; dilim başına **UG analist zamanı** ayrılır",
-    "Mevcut **gün sonu log kaydı** ilk ay içinde DWH tetikleyicisi olarak doğrulanır",
-]
-for i, d in enumerate(decs):
-    col, row = divmod(i, 4)
-    x = Inches(0.6 + col * 6.15)
-    y = Inches(1.3 + row * 1.25)
-    box(s, x, y, Inches(0.65), Inches(0.65), fill=NAVY, text=str(i + 1), size=18, color=WHITE,
-        bold=True, shape=MSO_SHAPE.OVAL)
-    box(s, x + Inches(0.8), y - Inches(0.1), Inches(5.15), Inches(0.9), fill=LIGHT, text=d,
-        size=15, align=PP_ALIGN.LEFT)
-
-# 21 — Kapanış
+# 20 — Kapanış
 s = prs.slides.add_slide(BLANK)
 box(s, 0, 0, W, H, fill=NAVY, shape=MSO_SHAPE.RECTANGLE)
 box(s, Inches(5.67), Inches(1.6), Inches(2.0), Inches(1.9), fill=WHITE, radius=0.12)

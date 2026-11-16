@@ -45,5 +45,4 @@ Mevcut durum (5) ve temel tespitlerin (6) ardından ETL aracı değerlendirmesi 
 | 17 | Pusula (MSTR) (sayfa 13'ten Morph ile Pusula kutusuna yakınlaşma; renkli bant ürün adını taşır ve sayfa başlığı yerine geçer, altında iki cümlelik tanım; veri akışı: Data Mart/Publish → semantik katman → küpler → rapor/pano/self-servis; neden Pusula ideal seçim; nasıl çalışır; netleşecek konular) | [[DWH Sunum Eylül 2024]], [[Takasbank Genel Bilgilendirme]], [[Takasbank Genel Bilgilendirme 2]], [[Sistemler ve Servisler#1.1 Amaç]], [[Başlangıç Yaklaşımı]], [[DWH Sunum Temmuz 2025]] |
 | 18 | Pilot, yol haritası ve Faz 0 ilk 30 gün (sade: faz şeridi, Pilot A/B, dört Faz 0 maddesi) | [[Proje Planı#Pilot seçimi]], [[Proje Planı]], [[Başlangıç Yaklaşımı#Fazlar]] |
 | 19 | Riskler | [[Başlangıç Yaklaşımı#Risk kaydı (ilk gün)]] |
-| 20 | Karar beklenen konular | [[Başlangıç Yaklaşımı#İlk yönlendirme komitesine götürülecek kararlar]] |
-| 21 | Kapanış | — |
+| 20 | Kapanış | — |
