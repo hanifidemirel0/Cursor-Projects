@@ -406,8 +406,7 @@ bullets(s, Inches(9.0), Inches(1.6), Inches(3.8), Inches(4.6), [
     ("-", "Team Developer"),
     ("-", "Web / React"),
     ("-", "MSTR (Pusula)"),
-    "Raporlar hem **anlık** hem de **geçmiş tarihli** veriyi sorgular; anlık sorgulama daha "
-    "yoğundur",
+    "Raporlar hem **anlık** hem de **geçmiş tarihli** veriyi sorgular",
     "Ana işlemler ve raporlama sorguları **aynı veritabanında** çalışır",
 ], size=15)
 footnote(s, "Aynı kavram (ör. üye) farklı şemalarda ve piyasa bazında ayrı tablolarda tutulmaktadır. "
