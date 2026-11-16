@@ -6,6 +6,9 @@
 
 import copy
 import re
+import subprocess
+import sys
+import tempfile
 from pathlib import Path
 
 from lxml import etree
@@ -220,9 +223,10 @@ def notes(slide, text):
     slide.notes_slide.notes_text_frame.text = text
 
 
-def content_slide(title, pill=None, pill_fill=GOLD, sources=None):
+def content_slide(title, pill=None, pill_fill=GOLD, sources=None, repeat=False):
     global page_no
-    page_no += 1
+    if not repeat:
+        page_no += 1
     s = prs.slides.add_slide(BLANK)
     frame = box(s, Inches(0.18), Inches(0.18), W - Inches(0.36), H - Inches(0.36), fill=WHITE,
                 line=NAVY, radius=0.025, line_w=2.5)
@@ -435,98 +439,24 @@ bullets(s, Inches(6.85), Inches(1.8), Inches(5.9), Inches(4.6), [
     "Veri kurum dışına çıkamaz; satın alma süreci uzun",
 ], size=16)
 
-# 10 — Hedef mimari ve araç seti
-s = content_slide("ÖNERİLEN HEDEF MİMARİ",
-                  sources="Sistemler ve Servisler (4.1 ODS kararı, 02.11.2026; GoldenGate kaynak "
-                  "kapsamı, 05.11.2026); Fiziksel Topoloji - Teknik Taraf (GoldenGate lisansları); "
-                  "Başlangıç Yaklaşımı (diyagram); DWH Hedef Mimarisi v2; ETL aracı değerlendirmesi "
-                  "(A seçeneği DBT); zamanlama aracı Apache DolphinScheduler ve BI aracı Pusula "
-                  "(MSTR): kullanıcı aktarımı, 13.11.2026; Aktif Sorular 16")
-arch_slide, arch_start = s, len(s.shapes)
+# 10 — Hedef mimari ve araç seti; GoldenGate, DBT ve DolphinScheduler kutularına Morph ile
+# yakınlaşan detay sayfaları. Detaydan sonraki mimari kopyası Morph ile geri uzaklaşır; bu geçiş
+# slaytları PDF'e alınmaz (--pdf).
+ARCH_SRC = ("Sistemler ve Servisler (4.1 ODS kararı, 02.11.2026; GoldenGate kaynak kapsamı, "
+            "05.11.2026); Fiziksel Topoloji - Teknik Taraf (GoldenGate lisansları); Başlangıç "
+            "Yaklaşımı (diyagram); DWH Hedef Mimarisi v2; ETL aracı değerlendirmesi (A seçeneği "
+            "DBT); zamanlama aracı Apache DolphinScheduler ve BI aracı Pusula (MSTR): kullanıcı "
+            "aktarımı, 13.11.2026; Aktif Sorular 16")
 PURPLE = RGBColor(0x6B, 0x4C, 0x9A)
+GG_BOX = (2.5, 3.5, 1.65, 0.9)
+DBT_BOX = (6.1, 2.02, 2.6, 0.72)
+DOLPHIN_BOX = (2.5, 1.15, 10.25, 0.72)
+transition_slides = []
 
 
 def badge(slide, x, y, n, fill):
     box(slide, Inches(x), Inches(y), Inches(0.34), Inches(0.34), fill=fill, text=str(n), size=11,
         color=WHITE, bold=True, shape=MSO_SHAPE.OVAL)
-
-
-box(s, Inches(2.5), Inches(1.15), Inches(10.25), Inches(0.72), fill=PURPLE,
-    text="**Apache DolphinScheduler**", size=15, color=WHITE)
-
-textbox(s, Inches(0.55), Inches(2.72), Inches(1.65), Inches(0.3), "KAYNAKLAR", size=12,
-        color=MUTED, bold=True, align=PP_ALIGN.CENTER)
-for i, name in enumerate(["KALE (Prod)", "ARSIV", "ÇEKDB", "Borsa DWH"]):
-    y = 3.05 + i * 0.44
-    box(s, Inches(0.55), Inches(y), Inches(1.65), Inches(0.36), fill=LIGHT, line=NAVY, text=name,
-        size=11.5, bold=True)
-    arrow(s, Inches(2.2), Inches(y + 0.18), Inches(2.5), Inches(3.95), color=TEAL, width=1.5)
-box(s, Inches(0.55), Inches(4.81), Inches(1.65), Inches(0.36), fill=LIGHT, line=NAVY,
-    text="FTP / CSV / Web servis", size=10.5, bold=True)
-arrow(s, Inches(2.2), Inches(4.99), Inches(4.95), Inches(4.35), color=MUTED, width=1.25,
-      dashed=True)
-GG_BOX = (2.5, 3.5, 1.65, 0.9)
-gg = box(s, *map(Inches, GG_BOX), fill=TEAL, text=["**GoldenGate**", "*Replikasyon, CDC*"],
-         size=12, color=WHITE)
-gg.name = "!!goldengate"
-
-box(s, Inches(4.55), Inches(3.1), Inches(5.85), Inches(1.55), fill=RGBColor(0xF7, 0xF8, 0xFC),
-    line=NAVY, radius=0.05, line_w=2)
-textbox(s, Inches(4.65), Inches(3.14), Inches(2.6), Inches(0.3), "VERİ AMBARI (Exadata)",
-        size=11, color=MUTED, bold=True)
-layers = ["ODS", "CORE", "Data Mart", "Publish"]
-for i, code in enumerate(layers):
-    lx = 4.7 + i * 1.42
-    if i == 0:
-        box(s, Inches(lx), Inches(3.55), Inches(1.2), Inches(0.8), fill=RGBColor(0xE3, 0xF1, 0xF3),
-            line=TEAL, line_w=1.75, text=f"**{code}**", size=13.5)
-    else:
-        box(s, Inches(lx), Inches(3.55), Inches(1.2), Inches(0.8), fill=NAVY, text=f"**{code}**",
-            size=13.5, color=WHITE)
-        arrow(s, Inches(lx - 0.22), Inches(3.95), Inches(lx), Inches(3.95))
-box(s, Inches(6.1), Inches(2.02), Inches(2.6), Inches(0.72), fill=NAVY,
-    text=["**DBT**", "dönüşüm (ELT), test, dokümantasyon"], size=12, color=WHITE)
-
-textbox(s, Inches(10.9), Inches(2.72), Inches(1.4), Inches(0.3), "RAPORLAMA", size=12,
-        color=MUTED, bold=True, align=PP_ALIGN.CENTER)
-box(s, Inches(10.75), Inches(3.0), Inches(2.0), Inches(0.7), fill=GOLD,
-    text=["**PUSULA (MSTR)**", "BI ve semantik katman"], size=12, color=WHITE)
-box(s, Inches(10.75), Inches(3.8), Inches(2.0), Inches(0.42), fill=RGBColor(0xE3, 0xF1, 0xF3),
-    line=TEAL, text="**Operasyonel Rapor**", size=11.5)
-box(s, Inches(10.75), Inches(4.3), Inches(2.0), Inches(0.42), fill=LIGHT, line=NAVY,
-    text="**SPK, üyeler**", size=11.5)
-arrow(s, Inches(10.4), Inches(3.35), Inches(10.75), Inches(3.35), color=GOLD, width=2)
-arrow(s, Inches(10.4), Inches(4.01), Inches(10.75), Inches(4.01), color=TEAL)
-arrow(s, Inches(10.4), Inches(4.51), Inches(10.75), Inches(4.51), color=NAVY)
-
-arrow(s, Inches(4.15), Inches(3.95), Inches(4.7), Inches(3.95), color=TEAL, width=2.25)
-arrow(s, Inches(7.4), Inches(2.74), Inches(7.4), Inches(3.1), color=NAVY, width=2.25)
-textbox(s, Inches(7.5), Inches(2.78), Inches(1.4), Inches(0.25), "SQL pushdown", size=10,
-        color=MUTED)
-arrow(s, Inches(3.325), Inches(1.87), Inches(3.325), Inches(3.5), color=PURPLE, dashed=True,
-      label="Gecikme ve Gün Sonu Kontrolü", label_dx=1.0, label_dy=-0.3, label_w=1.7)
-arrow(s, Inches(7.4), Inches(1.87), Inches(7.4), Inches(2.02), color=PURPLE, dashed=True)
-arrow(s, Inches(12.45), Inches(1.87), Inches(12.45), Inches(3.0), color=PURPLE, dashed=True,
-      label="Küp/Önbellek Yenileme", label_dx=-1.0, label_dy=-0.15, label_w=1.6)
-badge(s, 4.26, 3.52, 1, TEAL)
-badge(s, 2.96, 2.55, 2, PURPLE)
-badge(s, 5.7, 2.21, 3, NAVY)
-badge(s, 12.55, 2.25, 4, GOLD)
-
-steps = [
-    (TEAL, "GoldenGate kaynak verilerini ODS'ye sürekli kopyalar"),
-    (PURPLE, "DolphinScheduler gün sonunu ve GoldenGate gecikmesini kontrol eder, akışı başlatır"),
-    (NAVY, "DBT ODS → CORE → Data Mart → Publish dönüşümlerini ve testlerini Exadata'da "
-           "çalıştırır"),
-    (GOLD, "DolphinScheduler Pusula küplerini yeniler; raporlar güncel veriyle açılır"),
-]
-for i, (c, text) in enumerate(steps):
-    x = 0.55 + i * 3.08
-    box(s, Inches(x), Inches(5.42), Inches(2.95), Inches(0.85), fill=WHITE, line=c, line_w=1.5)
-    badge(s, x + 0.1, 5.67, i + 1, c)
-    textbox(s, Inches(x + 0.5), Inches(5.44), Inches(2.4), Inches(0.81), text, size=11,
-            anchor=MSO_ANCHOR.MIDDLE)
-
 
 
 def morph_transition(slide, ms=1600):
@@ -547,15 +477,104 @@ def morph_transition(slide, ms=1600):
     anchor.addnext(etree.fromstring(xml))
 
 
-def zoom_copies(src, start, dst, focus, k):
-    """Copies src diagram shapes to dst, scaled k times around the focus box centre and
-    recentred on the slide, so Morph plays them as a camera zoom into that box. The copies
-    land outside the slide and are not visible in the static page."""
+def architecture_slide(repeat=False):
+    s = content_slide("ÖNERİLEN HEDEF MİMARİ", sources=ARCH_SRC, repeat=repeat)
+    start = len(s.shapes)
+    box(s, *map(Inches, DOLPHIN_BOX), fill=PURPLE, text="**Apache DolphinScheduler**", size=15,
+        color=WHITE).name = "!!dolphin"
+
+    textbox(s, Inches(0.55), Inches(2.72), Inches(1.65), Inches(0.3), "KAYNAKLAR", size=12,
+            color=MUTED, bold=True, align=PP_ALIGN.CENTER)
+    for i, name in enumerate(["KALE (Prod)", "ARSIV", "ÇEKDB", "Borsa DWH"]):
+        y = 3.05 + i * 0.44
+        box(s, Inches(0.55), Inches(y), Inches(1.65), Inches(0.36), fill=LIGHT, line=NAVY, text=name,
+            size=11.5, bold=True)
+        arrow(s, Inches(2.2), Inches(y + 0.18), Inches(2.5), Inches(3.95), color=TEAL, width=1.5)
+    box(s, Inches(0.55), Inches(4.81), Inches(1.65), Inches(0.36), fill=LIGHT, line=NAVY,
+        text="FTP / CSV / Web servis", size=10.5, bold=True)
+    arrow(s, Inches(2.2), Inches(4.99), Inches(4.95), Inches(4.35), color=MUTED, width=1.25,
+          dashed=True)
+    box(s, *map(Inches, GG_BOX), fill=TEAL, text=["**GoldenGate**", "*Replikasyon, CDC*"], size=12,
+        color=WHITE).name = "!!goldengate"
+
+    box(s, Inches(4.55), Inches(3.1), Inches(5.85), Inches(1.55), fill=RGBColor(0xF7, 0xF8, 0xFC),
+        line=NAVY, radius=0.05, line_w=2)
+    textbox(s, Inches(4.65), Inches(3.14), Inches(2.6), Inches(0.3), "VERİ AMBARI (Exadata)",
+            size=11, color=MUTED, bold=True)
+    layers = ["ODS", "CORE", "Data Mart", "Publish"]
+    for i, code in enumerate(layers):
+        lx = 4.7 + i * 1.42
+        if i == 0:
+            box(s, Inches(lx), Inches(3.55), Inches(1.2), Inches(0.8), fill=RGBColor(0xE3, 0xF1, 0xF3),
+                line=TEAL, line_w=1.75, text=f"**{code}**", size=13.5)
+        else:
+            box(s, Inches(lx), Inches(3.55), Inches(1.2), Inches(0.8), fill=NAVY, text=f"**{code}**",
+                size=13.5, color=WHITE)
+            arrow(s, Inches(lx - 0.22), Inches(3.95), Inches(lx), Inches(3.95))
+    box(s, *map(Inches, DBT_BOX), fill=NAVY, text=["**DBT**", "dönüşüm (ELT), test, dokümantasyon"],
+        size=12, color=WHITE).name = "!!dbt"
+
+    textbox(s, Inches(10.9), Inches(2.72), Inches(1.4), Inches(0.3), "RAPORLAMA", size=12,
+            color=MUTED, bold=True, align=PP_ALIGN.CENTER)
+    box(s, Inches(10.75), Inches(3.0), Inches(2.0), Inches(0.7), fill=GOLD,
+        text=["**PUSULA (MSTR)**", "BI ve semantik katman"], size=12, color=WHITE)
+    box(s, Inches(10.75), Inches(3.8), Inches(2.0), Inches(0.42), fill=RGBColor(0xE3, 0xF1, 0xF3),
+        line=TEAL, text="**Operasyonel Rapor**", size=11.5)
+    box(s, Inches(10.75), Inches(4.3), Inches(2.0), Inches(0.42), fill=LIGHT, line=NAVY,
+        text="**SPK, üyeler**", size=11.5)
+    arrow(s, Inches(10.4), Inches(3.35), Inches(10.75), Inches(3.35), color=GOLD, width=2)
+    arrow(s, Inches(10.4), Inches(4.01), Inches(10.75), Inches(4.01), color=TEAL)
+    arrow(s, Inches(10.4), Inches(4.51), Inches(10.75), Inches(4.51), color=NAVY)
+
+    arrow(s, Inches(4.15), Inches(3.95), Inches(4.7), Inches(3.95), color=TEAL, width=2.25)
+    arrow(s, Inches(7.4), Inches(2.74), Inches(7.4), Inches(3.1), color=NAVY, width=2.25)
+    textbox(s, Inches(7.5), Inches(2.78), Inches(1.4), Inches(0.25), "SQL pushdown", size=10,
+            color=MUTED)
+    arrow(s, Inches(3.325), Inches(1.87), Inches(3.325), Inches(3.5), color=PURPLE, dashed=True,
+          label="Gecikme ve Gün Sonu Kontrolü", label_dx=1.0, label_dy=-0.3, label_w=1.7)
+    arrow(s, Inches(7.4), Inches(1.87), Inches(7.4), Inches(2.02), color=PURPLE, dashed=True)
+    arrow(s, Inches(12.45), Inches(1.87), Inches(12.45), Inches(3.0), color=PURPLE, dashed=True,
+          label="Küp/Önbellek Yenileme", label_dx=-1.0, label_dy=-0.15, label_w=1.6)
+    badge(s, 4.26, 3.52, 1, TEAL)
+    badge(s, 2.96, 2.55, 2, PURPLE)
+    badge(s, 5.7, 2.21, 3, NAVY)
+    badge(s, 12.55, 2.25, 4, GOLD)
+
+    steps = [
+        (TEAL, "GoldenGate kaynak verilerini ODS'ye sürekli kopyalar"),
+        (PURPLE, "DolphinScheduler gün sonunu ve GoldenGate gecikmesini kontrol eder, akışı başlatır"),
+        (NAVY, "DBT ODS → CORE → Data Mart → Publish dönüşümlerini ve testlerini Exadata'da "
+               "çalıştırır"),
+        (GOLD, "DolphinScheduler Pusula küplerini yeniler; raporlar güncel veriyle açılır"),
+    ]
+    for i, (c, text) in enumerate(steps):
+        x = 0.55 + i * 3.08
+        box(s, Inches(x), Inches(5.42), Inches(2.95), Inches(0.85), fill=WHITE, line=c, line_w=1.5)
+        badge(s, x + 0.1, 5.67, i + 1, c)
+        textbox(s, Inches(x + 0.5), Inches(5.44), Inches(2.4), Inches(0.81), text, size=11,
+                anchor=MSO_ANCHOR.MIDDLE)
+
+
+    for i, shp in enumerate(list(s.shapes)[start:]):
+        if not shp.name.startswith("!!"):
+            shp.name = f"!!arch{i}"
+    if repeat:
+        morph_transition(s)
+        transition_slides.append(len(prs.slides._sldIdLst))
+        notes(s, "Geçiş slaytı: önceki detay sayfasından mimariye Morph ile geri uzaklaşır. "
+                 "PDF'e alınmaz.")
+    return s, start
+
+
+def zoom_copies(src, start, dst, focus, focus_name):
+    """Copies src diagram shapes to dst, scaled around the focus box centre until the box covers
+    the slide, so Morph plays them as a camera zoom into that box. The copies land outside the
+    slide and are not visible in the static page."""
+    k = 1.1 * max(13.333 / focus[2], 7.5 / focus[3])
     fx, fy = Inches(focus[0] + focus[2] / 2), Inches(focus[1] + focus[3] / 2)
-    for i, shp in enumerate(list(src.shapes)[start:]):
-        if shp.name == "!!goldengate":
+    for shp in list(src.shapes)[start:]:
+        if shp.name == focus_name:
             continue
-        shp.name = f"!!arch{i}"
         el = copy.deepcopy(shp._element)
         dst.shapes._spTree.append(el)
         c = dst.shapes[-1]
@@ -567,20 +586,54 @@ def zoom_copies(src, start, dst, focus, k):
                 r.set("sz", str(int(int(r.get("sz")) * k)))
 
 
-# 8 — GoldenGate (sayfa 7'den Morph ile yakınlaşma)
-s = content_slide("ORACLE GOLDENGATE",
-                  sources="Sistemler ve Servisler (2. Goldengate: 2.4 GoldenGate vs ODI, 2.8 "
-                  "yapılmayacaklar; 4.1 ODS kararı 02.11.2026, landing kararı 04.11.2026, GG kaynak "
-                  "kapsamı kararı 05.11.2026; 4.2 kararın sonuçları); Fiziksel Topoloji - Teknik "
-                  "Taraf (GoldenGate lisansları; Kale replikası - doğrulanacak gerçekler); Aktif "
-                  "Sorular 4.4, 4.6, 4.7, 14.2; neden GoldenGate: Sistemler ve Servisler 2.2, 2.5, 2.6, 2.8. Sayfa 7'den bu sayfaya Morph geçişi GoldenGate "
-                  "kutusuna yakınlaşır (PowerPoint 2019/365; diğer görüntüleyicilerde solma).")
-zoom_copies(arch_slide, arch_start, s, GG_BOX, k=9)
-gg = box(s, Inches(0.55), Inches(1.15), Inches(12.23), Inches(0.95), fill=TEAL,
-         text=["**GoldenGate**", "*Replikasyon, CDC*"], size=20, color=WHITE)
-gg.name = "!!goldengate"
-morph_transition(s)
+def zoom_slide(title, focus, focus_name, band_text, fill, sources):
+    s = content_slide(title, sources=sources + ". Önceki mimari sayfasından bu sayfaya Morph "
+                      "geçişi kutuya yakınlaşır (PowerPoint 2019/365; diğer görüntüleyicilerde "
+                      "solma).")
+    zoom_copies(arch, arch_start, s, focus, focus_name)
+    box(s, Inches(0.55), Inches(1.15), Inches(12.23), Inches(0.95), fill=fill, text=band_text,
+        size=20, color=WHITE).name = focus_name
+    morph_transition(s)
+    return s
 
+
+def detail_columns(s, why_title, why, how, todo, how_h=1.43):
+    box(s, Inches(4.7), Inches(2.3), Inches(4.05), Inches(4.0), fill=RGBColor(0xF2, 0xF8, 0xF4),
+        line=GREEN, radius=0.04, line_w=1.5)
+    textbox(s, Inches(4.85), Inches(2.36), Inches(3.8), Inches(0.35), why_title, size=15,
+            color=GREEN, bold=True)
+    bullets(s, Inches(4.85), Inches(2.66), Inches(3.8), Inches(3.6), why, size=13.5, gap=8)
+    textbox(s, Inches(9.05), Inches(2.3), Inches(3.75), Inches(0.35), "Nasıl çalışır", size=15,
+            color=NAVY, bold=True)
+    bullets(s, Inches(9.05), Inches(2.62), Inches(3.75), Inches(how_h), how, size=13, gap=4)
+    y = 2.62 + how_h
+    textbox(s, Inches(9.05), Inches(y), Inches(3.75), Inches(0.35), "Netleşecek konular",
+            size=15, color=NAVY, bold=True)
+    bullets(s, Inches(9.05), Inches(y + 0.32), Inches(3.75), Inches(2.0), todo, size=13, gap=4)
+
+
+def flow_column(s, title, steps, fill):
+    textbox(s, Inches(0.55), Inches(2.3), Inches(3.9), Inches(0.35), title, size=15, color=NAVY,
+            bold=True)
+    gap = 3.55 / len(steps)
+    for i, (head, sub) in enumerate(steps):
+        y = 2.78 + i * gap
+        box(s, Inches(0.55), Inches(y), Inches(3.85), Inches(gap - 0.22), fill=LIGHT, line=fill,
+            text=[f"**{head}**", sub] if sub else f"**{head}**", size=12)
+        if i:
+            arrow(s, Inches(2.475), Inches(y - 0.22), Inches(2.475), Inches(y), color=fill, width=2)
+
+
+arch, arch_start = architecture_slide()
+
+# 8 — GoldenGate
+s = zoom_slide("ORACLE GOLDENGATE", GG_BOX, "!!goldengate",
+               ["**GoldenGate**", "*Replikasyon, CDC*"], TEAL,
+               "Sistemler ve Servisler (2. Goldengate: 2.2, 2.4 GoldenGate vs ODI, 2.5, 2.6, 2.8 "
+               "yapılmayacaklar; 4.1 ODS kararı 02.11.2026, landing kararı 04.11.2026, GG kaynak "
+               "kapsamı kararı 05.11.2026; 4.2 kararın sonuçları); Fiziksel Topoloji - Teknik "
+               "Taraf (GoldenGate lisansları; Kale replikası - doğrulanacak gerçekler); Aktif "
+               "Sorular 4.4, 4.6, 4.7, 14.2")
 textbox(s, Inches(0.55), Inches(2.3), Inches(3.9), Inches(0.35), "Kapsam: kaynak → ODS_ şeması",
         size=15, color=NAVY, bold=True)
 for i, (src, dst) in enumerate([("KALE", "ODS_BANKA, …"), ("ARSIV", "ODS_<şema>"),
@@ -627,6 +680,65 @@ bullets(s, Inches(9.05), Inches(4.37), Inches(3.75), Inches(2.0), [
     "İşletim sahipliği ve 7/24 destek",
     "Silme / güncelleme izi ve geçmiş günün yeniden üretimi",
 ], size=13, gap=4)
+
+architecture_slide(repeat=True)
+
+# 9 — DBT
+s = zoom_slide("DBT", DBT_BOX, "!!dbt", ["**DBT**", "dönüşüm (ELT), test, dokümantasyon"], NAVY,
+               "Takasbank_ETL_Comparison_TR.xlsx ve takasbank_etl_evaluation.canvas.tsx (dbt "
+               "profili, riskler, maliyet); DWH Hedef Mimarisi v2 (katmanlar); Sistemler ve "
+               "Servisler 4.3 katman sınırları; DBT PoC (Eylül–Ekim 2026)")
+flow_column(s, "Katmanlar (Exadata içinde)", [
+    ("ODS", "GoldenGate ile gelen kaynak kopyası"),
+    ("CORE", "entegre model ve tarihçe"),
+    ("Data Mart", "rapor ve analiz modelleri"),
+    ("Publish", "dışa açılan kontrollü çıktılar"),
+], NAVY)
+detail_columns(s, "Neden DBT ideal seçim", [
+    "**SQL tabanlı:** her model bir Oracle SQL sorgusu; ekip hemen uyum sağlar",
+    "**Exadata'da çalışır:** SQL pushdown; ikinci bir işlem platformu gerekmez",
+    "**Her şey Git'te:** kod, test ve dokümantasyon birlikte sürümlenir",
+    "**LLM ile hızlı geliştirme:** SQL, YAML, test ve dokümantasyon taslakları üretilebilir",
+    "**Lisans maliyeti yok;** ETL değerlendirmesinde en yüksek puan (3.86)",
+], [
+    "Modeller bağımlılık sırasıyla derlenip Exadata'da çalışır",
+    "Her modelde otomatik testler; lineage ve dokümantasyon otomatik çıkar",
+], [
+    "ETL aracı seçimi sürüyor (DBT veya ODI 14c)",
+    "Üretici desteği yok; yerel destek firmasıyla sözleşme",
+    "dbt-oracle adaptörünün kapsamı (incremental, snapshot)",
+    "Mevcut PL/SQL raporlar dönüşene kadar yan yana çalışır",
+])
+architecture_slide(repeat=True)
+
+# 10 — Apache DolphinScheduler
+s = zoom_slide("APACHE DOLPHINSCHEDULER", DOLPHIN_BOX, "!!dolphin",
+               ["**Apache DolphinScheduler**", "*Zamanlama ve orkestrasyon*"], PURPLE,
+               "Zamanlama aracı Apache DolphinScheduler: kullanıcı aktarımı, 13.11.2026; Fiziksel "
+               "Topoloji - Teknik Taraf (Zamanlayıcı: Automic lisans nedeniyle seçenek değil; gün "
+               "sonu tamamlanma kaydı); Aktif Sorular 12, 16; DWH Mimari Hafıza - Temmuz 2025 "
+               "Sunumu (piyasa olayına bağlı orkestrasyon)")
+flow_column(s, "Günlük akış", [
+    ("Gün sonu tamamlandı", "veritabanındaki tamamlanma kaydı"),
+    ("GoldenGate gecikme kontrolü", "ODS güncel mi"),
+    ("DBT çalıştırma", "ODS → CORE → Data Mart → Publish"),
+    ("Pusula küp yenileme", "ve bildirim / alarm"),
+], PURPLE)
+detail_columns(s, "Neden DolphinScheduler ideal seçim", [
+    "**Açık kaynak (Apache 2.0):** lisans maliyeti yok; Automic lisans nedeniyle seçenek değil",
+    "**Kurum içinde çalışır:** veri ve iş tanımları dışarı çıkmaz",
+    "**Görsel iş akışı:** bağımlılıklar arayüzde çizilir ve izlenir",
+    "**Hazır işletim özellikleri:** yeniden deneme, alarm, takvim, geçmiş koşular",
+    "**Aynı akışta farklı adımlar:** SQL, Shell ve Python görevleri; DBT ve PL/SQL birlikte",
+], [
+    "Saate değil gün sonu olayına bağlı tetiklenir",
+    "Master / worker yapısı; yük dağıtılır, yüksek erişilebilirlik",
+], [
+    "Zamanlayıcı kararı henüz verilmedi (öneri)",
+    "Gün sonu tamamlanma kaydının yeri ve içeriği",
+    "İşletim sahipliği ve 7/24 destek",
+    "Kurum kimlik doğrulaması ve yetki entegrasyonu",
+])
 
 # 14 — ETL değerlendirmesi
 s = content_slide("ETL ARACI DEĞERLENDİRMESİ: ÖZET", pill="Öneri — iki seçenek",
@@ -1077,3 +1189,15 @@ textbox(s, Inches(4.5), H - Inches(0.45), Inches(4.33), Inches(0.28),
 
 prs.save(OUT)
 print(f"saved {OUT} ({len(prs.slides)} slides)")
+
+if "--pdf" in sys.argv:
+    # Geçiş slaytları yalnızca gösterimde anlamlı; PDF'te sayfa 7'nin tekrarı olurdu.
+    with tempfile.TemporaryDirectory() as tmp:
+        subprocess.run(["soffice", "--headless", "--convert-to", "pdf", "--outdir", tmp, str(OUT)],
+                       check=True, capture_output=True)
+        full = Path(tmp) / OUT.with_suffix(".pdf").name
+        subprocess.run(["pdfseparate", str(full), f"{tmp}/p-%03d.pdf"], check=True)
+        keep = [f"{tmp}/p-{i:03d}.pdf" for i in range(1, len(prs.slides) + 1)
+                if i not in transition_slides]
+        subprocess.run(["pdfunite", *keep, str(OUT.with_suffix(".pdf"))], check=True)
+    print(f"saved {OUT.with_suffix('.pdf')} ({len(keep)} pages)")
