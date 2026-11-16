@@ -416,8 +416,7 @@ bullets(s, Inches(9.0), Inches(1.6), Inches(3.8), Inches(4.6), [
     "Raporlar hem **anlık** hem de **geçmiş tarihli** veriyi sorgular",
     "Ana işlemler ve raporlama sorguları **aynı veritabanında** çalışır",
 ], size=15)
-footnote(s, "Aynı kavram (ör. üye) farklı şemalarda ve piyasa bazında ayrı tablolarda tutulmaktadır. "
-            "Disk ve CPU değerleri Aralık 2024 ölçümüdür; güncel ölçümle yenilenmelidir.", y=6.25)
+footnote(s, "Disk ve CPU değerleri Aralık 2024 ölçümüdür; güncel ölçümle yenilenmelidir.", y=6.25)
 
 # 9 — Güçlü yönler / kısıtlar
 s = content_slide("TEMEL TESPİTLER", sources="DWH Sunum Aralık 2024 (artı/eksi yönler); "
