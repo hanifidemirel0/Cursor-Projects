@@ -370,7 +370,7 @@ months = [
         "Veri aktarım ve replikasyon aracı olarak **Oracle GoldenGate**'in kullanılabilirliğiyle ilgili ön çalışma "
         "yapıldı",
         "**Orkestrasyon** gereksinimi için farklı seçeneklerin değerlendirmesi yapıldı",
-        "**Tasarım taslakları** belirlendi: hedef mimari, mantıksal veri modeli, başlangıç "
+        "**Tasarım taslakları** belirlendi: hedef mimari, başlangıç "
         "yaklaşımı, proje planı",
     ]),
 ]
