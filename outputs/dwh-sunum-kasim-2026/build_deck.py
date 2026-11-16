@@ -358,7 +358,7 @@ s = content_slide("EYLÜL – EKİM 2026 ÇALIŞMALARI", pill="Son sunumdan bu y
 months = [
     ("EYLÜL 2026", [
         "**Tüm UG ekipleriyle** görüşüldü; **talep ve ihtiyaç analizi** yapıldı",
-        "**PowerDesigner** ve **veritabanları / ortamlar** hakkında bilgilendirme toplantıları yapıldı",
+        "**Veritabanları**, **ortamlar** ve **PowerDesigner** hakkında bilgilendirme toplantıları yapıldı",
         "Danışman firmalarla görüşüldü: **Ab Initio, Oredata, Cloudera, Dataspecta, GTech, "
         "Global Maksimum**; ürünleri ve süreç boyunca nasıl destek verebilecekleri konuşuldu",
         "**DBT** için PoC çalışması tamamlandı ve sunumu yapıldı",
