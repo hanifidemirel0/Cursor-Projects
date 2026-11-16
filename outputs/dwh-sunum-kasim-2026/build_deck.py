@@ -1143,7 +1143,7 @@ table(s, Inches(0.55), Inches(1.2), W - Inches(1.1), [
     ["T+1 takas geçişi", "Takas kuralları program ortasında değişir",
      "Pilot B'den itibaren versiyonlu takas kuralı"],
     ["Tarihsel veriye yerinde update", "Artımlı yüklemeler bozulur",
-     "Önce profil; gerekli yerde bitemporal, aksi hâlde SCN snapshot"],
+     "Etkilenen tablolarda değişiklik tarihçesi tutulur, diğerlerinden günlük kopya alınır"],
     ["Kısa kaynak saklama (fon sözleşmeleri 5 gün)", "Tarihçe kalıcı olarak kaybolur",
      "Faz 0'da hemen ODS_'e alma; kaynaktaki silme ODS_'e yansıtılmamalı"],
     ["Yetkinlik açığı, bilginin tek ekipte toplanması", "Sürdürülebilirlik",
