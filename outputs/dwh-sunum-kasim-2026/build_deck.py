@@ -510,8 +510,8 @@ def architecture_slide(repeat=False):
             box(s, Inches(lx), Inches(3.55), Inches(1.2), Inches(0.8), fill=NAVY, text=f"**{code}**",
                 size=13.5, color=WHITE)
             arrow(s, Inches(lx - 0.22), Inches(3.95), Inches(lx), Inches(3.95))
-    box(s, *map(Inches, DBT_BOX), fill=NAVY, text=["**DBT**", "dönüşüm (ELT), test, dokümantasyon"],
-        size=12, color=WHITE).name = "!!dbt"
+    box(s, *map(Inches, DBT_BOX), fill=NAVY, text="**DBT**",
+        size=14, color=WHITE).name = "!!dbt"
 
     textbox(s, Inches(10.9), Inches(2.72), Inches(1.4), Inches(0.3), "RAPORLAMA", size=12,
             color=MUTED, bold=True, align=PP_ALIGN.CENTER)
