@@ -43,16 +43,18 @@ page_no = 0
 # ---------------------------------------------------------------- helpers
 
 def _runs(paragraph, text, size, color, bold=False):
-    """Adds runs to a paragraph; **text** segments are bold."""
+    """Adds runs to a paragraph; **text** segments are bold, *text* segments italic."""
     for i, part in enumerate(re.split(r"\*\*", text)):
-        if not part:
-            continue
-        r = paragraph.add_run()
-        r.text = part
-        r.font.name = FONT
-        r.font.size = Pt(size)
-        r.font.bold = bold or (i % 2 == 1)
-        r.font.color.rgb = color
+        for j, piece in enumerate(part.split("*")):
+            if not piece:
+                continue
+            r = paragraph.add_run()
+            r.text = piece
+            r.font.name = FONT
+            r.font.size = Pt(size)
+            r.font.bold = bold or (i % 2 == 1)
+            r.font.italic = j % 2 == 1
+            r.font.color.rgb = color
 
 
 def textbox(slide, x, y, w, h, text, size=14, color=INK, bold=False,
@@ -462,7 +464,7 @@ box(s, Inches(0.55), Inches(4.81), Inches(1.65), Inches(0.36), fill=LIGHT, line=
 arrow(s, Inches(2.2), Inches(4.99), Inches(4.95), Inches(4.35), color=MUTED, width=1.25,
       dashed=True)
 box(s, Inches(2.5), Inches(3.5), Inches(1.65), Inches(0.9), fill=TEAL,
-    text=["**GoldenGate**", "veri alımı (CDC)"], size=12, color=WHITE)
+    text=["**GoldenGate**", "*Replikasyon, CDC*"], size=12, color=WHITE)
 
 box(s, Inches(4.55), Inches(3.1), Inches(5.85), Inches(1.55), fill=RGBColor(0xF7, 0xF8, 0xFC),
     line=NAVY, radius=0.05, line_w=2)
