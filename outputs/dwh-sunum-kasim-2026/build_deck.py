@@ -1097,7 +1097,7 @@ detail_columns(s, "Neden Pusula ideal seçim", [
 architecture_slide(repeat=True)
 
 # 15 — Pilot, yol haritası ve ilk 30 gün
-s = content_slide("PİLOT, YOL HARİTASI VE İLK 30 GÜN", pill="Öneri — onay bekliyor",
+s = content_slide("PİLOT PROJE VE YOL HARİTASI", pill="Öneri — onay bekliyor",
                   sources="DWH Sunum Temmuz 2025 (slayt 10–24); Proje Planı (Pilot seçimi, Faz 0–5, "
                   "Definition of Done); Başlangıç Yaklaşımı (Fazlar); Aktif Sorular 12, 14, 15")
 phases = ["Keşif ve karar kapıları", "Pilot A: platform temeli", "Pilot B: entegrasyon",
