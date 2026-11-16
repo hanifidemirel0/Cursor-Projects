@@ -400,8 +400,6 @@ bullets(s, Inches(4.85), Inches(1.6), Inches(3.95), Inches(4.6), [
           "KALE replikası"),
     ("-", "**HİSAR**: boş disk %81, CPU %2–3. HİSAR, TABYA, ÇEKDB, ARSIVDB"),
     "KALE'nin **2 Data Guard replikası** var: biri KALE, biri SUR Exadata üzerinde",
-    "PREPROD her sabah 07:00'de KALE'den kopartılıyor; flashback snapshot "
-    "04:00\u2060–\u206007:00",
 ], size=15)
 bullets(s, Inches(9.0), Inches(1.6), Inches(3.8), Inches(4.6), [
     "Rapor kanalları:",
