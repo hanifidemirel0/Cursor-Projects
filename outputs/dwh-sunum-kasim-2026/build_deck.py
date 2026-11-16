@@ -284,8 +284,8 @@ notes(s, "Seri: 1 - Eylül 2024, 2 - Aralık 2024, 3 - Mart 2025, 4 - Temmuz 202
 s = content_slide("İÇERİK")
 items = [
     "Çalışmanın Tarihçesi",
-    "Mevcut Durum ve ETL Aracı Değerlendirmesi",
-    "Temel Tespitler",
+    "Mevcut Durum ve Temel Tespitler",
+    "ETL Aracı Değerlendirmesi",
     "Önerilen Hedef Mimari",
     "Pilot, Yol Haritası ve İlk 30 Gün",
     "Riskler",
@@ -410,6 +410,31 @@ bullets(s, Inches(9.0), Inches(1.6), Inches(3.8), Inches(4.6), [
 ], size=15)
 footnote(s, "Aynı kavram (ör. üye) farklı şemalarda ve piyasa bazında ayrı tablolarda tutulmaktadır. "
             "Disk ve CPU değerleri Aralık 2024 ölçümüdür; güncel ölçümle yenilenmelidir.", y=6.25)
+
+# 9 — Güçlü yönler / kısıtlar
+s = content_slide("TEMEL TESPİTLER", sources="DWH Sunum Aralık 2024 (artı/eksi yönler); "
+                  "Başlangıç Yaklaşımı (Notların söylediği kurum); Firmalarla Yapılan DWH "
+                  "Görüşmeleri; DWH Sunum Temmuz 2025")
+box(s, Inches(0.6), Inches(1.25), Inches(5.9), Inches(0.5), fill=GREEN, text="Güçlü yönlerimiz",
+    size=16, color=WHITE, bold=True)
+bullets(s, Inches(0.6), Inches(1.8), Inches(5.9), Inches(4.6), [
+    "Verinin büyük kısmı KALE'de; **temiz ve kaliteli** veri",
+    "Exadata üzerinde yeterli donanım bulunuyor. Boş disk %77\u2060–\u206090 ve CPU kullanımı düşük",
+    "Piyasa bazında şema ayrımı **aşamalı geçişe** imkân veriyor",
+    "Güçlü Oracle DBA ve PL/SQL yetkinliği",
+    "Veri replikasyonu için **GoldenGate** lisansımız mevcut",
+], size=16)
+box(s, Inches(6.85), Inches(1.25), Inches(5.9), Inches(0.5), fill=RED,
+    text="Kısıtlar ve çözülmesi gerekenler", size=16, color=WHITE, bold=True)
+bullets(s, Inches(6.85), Inches(1.8), Inches(5.9), Inches(4.6), [
+    "Hem operasyonel işlemler hem de raporlama sorguları KALE üzerinde yapıldığı için "
+    "KALE'de fazla yük var",
+    "ERD diyagramları bulunmuyor. Aynı verinin farklı yerlerde tekrarlandığı durumlar mevcut. "
+    "Silolaşma var",
+    "GoldenGate işletimi ve 7/24 destek konusunda DBA çekincesi",
+    "Veri kurum dışına çıkamaz",
+    "Satın alma süreci uzun",
+], size=16)
 
 # 14 — ETL değerlendirmesi
 s = content_slide("ETL ARACI DEĞERLENDİRMESİ: ÖZET", pill="Öneri — iki seçenek",
@@ -736,31 +761,6 @@ box(s, Inches(0.55), Inches(6.0), Inches(12.2), Inches(0.48), fill=RGBColor(0xFD
     line=GOLD, text="**Değerlendirmeye girdi:** Borsa İstanbul'un ODI deneyimi B seçeneği için "
     "grup içi referans; MKK'nın Informatica deneyimi, değerlendirmede önerilmeyen ürün için "
     "saha görüşü", size=12, align=PP_ALIGN.LEFT)
-
-# 9 — Güçlü yönler / kısıtlar
-s = content_slide("TEMEL TESPİTLER", sources="DWH Sunum Aralık 2024 (artı/eksi yönler); "
-                  "Başlangıç Yaklaşımı (Notların söylediği kurum); Firmalarla Yapılan DWH "
-                  "Görüşmeleri; DWH Sunum Temmuz 2025")
-box(s, Inches(0.6), Inches(1.25), Inches(5.9), Inches(0.5), fill=GREEN, text="Güçlü yönlerimiz",
-    size=16, color=WHITE, bold=True)
-bullets(s, Inches(0.6), Inches(1.8), Inches(5.9), Inches(4.6), [
-    "Verinin büyük kısmı KALE'de; **temiz ve kaliteli** veri",
-    "Exadata üzerinde yeterli donanım bulunuyor. Boş disk %77\u2060–\u206090 ve CPU kullanımı düşük",
-    "Piyasa bazında şema ayrımı **aşamalı geçişe** imkân veriyor",
-    "Güçlü Oracle DBA ve PL/SQL yetkinliği",
-    "Veri replikasyonu için **GoldenGate** lisansımız mevcut",
-], size=16)
-box(s, Inches(6.85), Inches(1.25), Inches(5.9), Inches(0.5), fill=RED,
-    text="Kısıtlar ve çözülmesi gerekenler", size=16, color=WHITE, bold=True)
-bullets(s, Inches(6.85), Inches(1.8), Inches(5.9), Inches(4.6), [
-    "Hem operasyonel işlemler hem de raporlama sorguları KALE üzerinde yapıldığı için "
-    "KALE'de fazla yük var",
-    "ERD diyagramları bulunmuyor. Aynı verinin farklı yerlerde tekrarlandığı durumlar mevcut. "
-    "Silolaşma var",
-    "GoldenGate işletimi ve 7/24 destek konusunda DBA çekincesi",
-    "Veri kurum dışına çıkamaz",
-    "Satın alma süreci uzun",
-], size=16)
 
 # 10 — Hedef mimari ve araç seti; GoldenGate, DBT ve DolphinScheduler kutularına Morph ile
 # yakınlaşan detay sayfaları. Detaydan sonraki mimari kopyası Morph ile geri uzaklaşır; bu geçiş
