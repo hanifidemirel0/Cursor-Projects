@@ -27,7 +27,7 @@ Mevcut durum (5) ve temel tespitlerin (6) ardından ETL aracı değerlendirmesi 
 | # | Slayt | Kaynak |
 |---|---|---|
 | 1 | Kapak | — |
-| 2 | İçerik (Mevcut Durum altında Temel Tespitler ve ETL Aracı Değerlendirmesi; Önerilen Hedef Mimari altında Veri Replikasyonu, ETL, Orkestrasyon, Veri Görselleştirme) | — |
+| 2 | İçerik (Mevcut Durum altında Temel Tespitler ve ETL Aracı Değerlendirmesi; Önerilen Hedef Mimari altında Veri Replikasyonu, ETL Aracı, Orkestrasyon, Veri Görselleştirme) | — |
 | 3 | Çalışmanın tarihçesi (Haz 2024 – Eki 2026) | [[Firmalarla Yapılan DWH Görüşmeleri]], [[Obase Takasbank Değerlendirme Raporu Ağustos 2024]], önceki sunumlar ([[DWH Sunum Mart 2025]] dahil), [[Komtaş Future-Ready Data Platform Teklifi Ağustos 2026]], [[Proje Planı#Ekip]] (personel arayışı), [[Proje Planı#Araç ve kapasite]] (ODI, Informatica, dbt PoC'leri) |
 | 4 | Eylül–Ekim 2026 çalışmaları | Hanifi'nin 02.11.2026 tarihli aktarımı (UG görüşmeleri, danışman firma görüşmeleri, dbt PoC, Dataspecta workshop, ETL dokümantasyonu, GoldenGate, orkestrasyon, tasarım taslakları) |
 | 5 | Mevcut durum (tek slayt: veri kaynakları; ortamlar, üç Exadata makinesinin boş disk/CPU değerleri ve veritabanları dahil; raporlama kanalları; anlık ve geçmiş tarihli sorgu, işlem ve raporlama aynı veritabanında) | [[Fiziksel Topoloji - Teknik Taraf]] (DWH yerleşim adayları), [[Ortamlar hakkında]], [[DWH Sunum Aralık 2024]] (kapasite), Takasbank Genel Bilgilendirme 1-2, Banka Ug, kullanıcı aktarımı (04.11.2026) |

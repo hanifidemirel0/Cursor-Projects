@@ -285,7 +285,7 @@ s = content_slide("İÇERİK")
 items = [
     ("Çalışmanın Tarihçesi", []),
     ("Takasbank'ta Mevcut Durum", ["Temel Tespitler", "ETL Aracı Değerlendirmesi"]),
-    ("Önerilen Hedef Mimari", ["Veri Replikasyonu", "ETL", "Orkestrasyon",
+    ("Önerilen Hedef Mimari", ["Veri Replikasyonu", "ETL Aracı", "Orkestrasyon",
                                "Veri Görselleştirme"]),
     ("Pilot, Yol Haritası ve İlk 30 Gün", []),
     ("Riskler", []),
