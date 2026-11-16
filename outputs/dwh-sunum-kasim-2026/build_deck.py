@@ -945,6 +945,14 @@ def detail_columns(s, why_title, why, how, todo, how_h=1.43):
     bullets(s, Inches(9.05), Inches(y + 0.32), Inches(3.75), Inches(2.0), todo, size=13, gap=4)
 
 
+def why_box(s, why_title, why):
+    box(s, Inches(4.7), Inches(2.3), Inches(8.08), Inches(4.0), fill=RGBColor(0xF2, 0xF8, 0xF4),
+        line=GREEN, radius=0.04, line_w=1.5)
+    textbox(s, Inches(4.9), Inches(2.4), Inches(7.7), Inches(0.35), why_title, size=16,
+            color=GREEN, bold=True)
+    bullets(s, Inches(4.9), Inches(2.85), Inches(7.7), Inches(3.35), why, size=15, gap=14)
+
+
 def flow_column(s, title, steps, fill):
     textbox(s, Inches(0.55), Inches(2.3), Inches(3.9), Inches(0.35), title, size=15, color=NAVY,
             bold=True)
@@ -988,11 +996,7 @@ arrow(s, Inches(1.95), Inches(5.8), Inches(2.35), Inches(5.8), color=MUTED, dash
 box(s, Inches(2.35), Inches(5.5), Inches(2.05), Inches(0.6), fill=WHITE, line=MUTED,
     text="GoldenGate kapsamı dışında; yükleme yolu açık", size=10.5, color=MUTED)
 
-box(s, Inches(4.7), Inches(2.3), Inches(8.08), Inches(4.0), fill=RGBColor(0xF2, 0xF8, 0xF4),
-    line=GREEN, radius=0.04, line_w=1.5)
-textbox(s, Inches(4.9), Inches(2.4), Inches(7.7), Inches(0.35), "Neden GoldenGate ideal seçim",
-        size=16, color=GREEN, bold=True)
-bullets(s, Inches(4.9), Inches(2.85), Inches(7.7), Inches(3.35), [
+why_box(s, "Neden GoldenGate ideal seçim", [
     "**Lisans mevcut:** Takasbank'ta ve Borsa İstanbul'da var; yeni satın alma gerekmez, "
     "Borsa DWH akışı doğrudan kurulabilir",
     "**Kaynağa yük bindirmez:** log tabanlı okur; prod KALE'ye trigger veya dblink gerekmez",
@@ -1000,7 +1004,7 @@ bullets(s, Inches(4.9), Inches(2.85), Inches(7.7), Inches(3.35), [
     "alınır; tarih kolonuna dayalı çekim KALE'de güvenilir değil",
     "**Düşük gecikme:** ODS gün içinde güncel kalır",
     "**Oracle ile tam uyum:** kaynak ve hedef Oracle/Exadata; DBA ekibinin bildiği ekosistem",
-], size=15, gap=14)
+])
 
 architecture_slide(repeat=True)
 
@@ -1018,20 +1022,12 @@ flow_column(s, "Katmanlar (Exadata içinde)", [
     ("Data Mart", "rapor ve analiz modelleri"),
     ("Publish", "dışa açılan kontrollü çıktılar"),
 ], NAVY)
-detail_columns(s, "Neden DBT ideal seçim", [
+why_box(s, "Neden DBT ideal seçim", [
     "**SQL tabanlı:** her model bir Oracle SQL sorgusu; ekip hemen uyum sağlar",
     "**Exadata'da çalışır:** SQL pushdown; ikinci bir işlem platformu gerekmez",
     "**Her şey Git'te:** kod, test ve dokümantasyon birlikte sürümlenir",
     "**LLM ile hızlı geliştirme:** SQL, YAML, test ve dokümantasyon taslakları üretilebilir",
     "**Lisans maliyeti yok;** ETL değerlendirmesinde en yüksek puan (4.02)",
-], [
-    "Modeller bağımlılık sırasıyla derlenip Exadata'da çalışır",
-    "Her modelde otomatik testler; lineage ve dokümantasyon otomatik çıkar",
-], [
-    "ETL aracı seçimi sürüyor (DBT veya ODI 14c)",
-    "Destek: yerli firmayla sözleşme; dbt Labs on-prem desteğinin başlangıcı",
-    "dbt-oracle adaptörünün kapsamı (incremental, snapshot)",
-    "Mevcut PL/SQL raporlar dönüşene kadar yan yana çalışır",
 ])
 architecture_slide(repeat=True)
 
