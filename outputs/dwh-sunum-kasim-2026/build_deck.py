@@ -287,7 +287,7 @@ items = [
     ("Takasbank'ta Mevcut Durum", ["Temel Tespitler", "ETL Aracı Değerlendirmesi"]),
     ("Önerilen Hedef Mimari", ["Veri Replikasyonu", "ETL Aracı", "Orkestrasyon",
                                "Veri Görselleştirme"]),
-    ("Pilot, Yol Haritası ve İlk 30 Gün", []),
+    ("Pilot Proje ve Yol Haritası", []),
     ("Riskler", []),
 ]
 per_col = (len(items) + 1) // 2
