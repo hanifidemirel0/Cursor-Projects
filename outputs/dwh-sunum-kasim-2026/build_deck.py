@@ -597,27 +597,32 @@ def zoom_slide(title, focus, focus_name, band_text, fill, sources):
     return s
 
 
-def detail_columns(s, why_title, why, how, todo, how_h=1.43):
-    box(s, Inches(4.7), Inches(2.3), Inches(4.05), Inches(4.0), fill=RGBColor(0xF2, 0xF8, 0xF4),
+def definition(s, text):
+    textbox(s, Inches(0.55), Inches(2.17), Inches(12.23), Inches(0.5), text, size=13.5, color=INK,
+            align=PP_ALIGN.CENTER)
+
+
+def detail_columns(s, why_title, why, how, todo, how_h=1.33):
+    box(s, Inches(4.7), Inches(2.75), Inches(4.05), Inches(3.75), fill=RGBColor(0xF2, 0xF8, 0xF4),
         line=GREEN, radius=0.04, line_w=1.5)
-    textbox(s, Inches(4.85), Inches(2.36), Inches(3.8), Inches(0.35), why_title, size=15,
+    textbox(s, Inches(4.85), Inches(2.8), Inches(3.8), Inches(0.35), why_title, size=15,
             color=GREEN, bold=True)
-    bullets(s, Inches(4.85), Inches(2.66), Inches(3.8), Inches(3.6), why, size=13.5, gap=8)
-    textbox(s, Inches(9.05), Inches(2.3), Inches(3.75), Inches(0.35), "Nasıl çalışır", size=15,
+    bullets(s, Inches(4.85), Inches(3.1), Inches(3.8), Inches(3.35), why, size=13.5, gap=5)
+    textbox(s, Inches(9.05), Inches(2.75), Inches(3.75), Inches(0.35), "Nasıl çalışır", size=15,
             color=NAVY, bold=True)
-    bullets(s, Inches(9.05), Inches(2.62), Inches(3.75), Inches(how_h), how, size=13, gap=4)
-    y = 2.62 + how_h
+    bullets(s, Inches(9.05), Inches(3.07), Inches(3.75), Inches(how_h), how, size=13, gap=4)
+    y = 3.07 + how_h
     textbox(s, Inches(9.05), Inches(y), Inches(3.75), Inches(0.35), "Netleşecek konular",
             size=15, color=NAVY, bold=True)
     bullets(s, Inches(9.05), Inches(y + 0.32), Inches(3.75), Inches(2.0), todo, size=13, gap=4)
 
 
 def flow_column(s, title, steps, fill):
-    textbox(s, Inches(0.55), Inches(2.3), Inches(3.9), Inches(0.35), title, size=15, color=NAVY,
+    textbox(s, Inches(0.55), Inches(2.75), Inches(3.9), Inches(0.35), title, size=15, color=NAVY,
             bold=True)
-    gap = 3.55 / len(steps)
+    gap = 3.3 / len(steps)
     for i, (head, sub) in enumerate(steps):
-        y = 2.78 + i * gap
+        y = 3.2 + i * gap
         box(s, Inches(0.55), Inches(y), Inches(3.85), Inches(gap - 0.22), fill=LIGHT, line=fill,
             text=[f"**{head}**", sub] if sub else f"**{head}**", size=12)
         if i:
@@ -634,11 +639,9 @@ s = zoom_slide("ORACLE GOLDENGATE", GG_BOX, "!!goldengate",
                "kapsamı kararı 05.11.2026; 4.2 kararın sonuçları); Fiziksel Topoloji - Teknik "
                "Taraf (GoldenGate lisansları; Kale replikası - doğrulanacak gerçekler); Aktif "
                "Sorular 4.4, 4.6, 4.7, 14.2")
-textbox(s, Inches(0.55), Inches(2.17), Inches(12.23), Inches(0.5),
-        "**Oracle GoldenGate**, Oracle'ın veri replikasyon ürünüdür. Kaynak veritabanındaki "
-        "ekleme, güncelleme ve silmeleri transaction log'dan okuyup hedef veritabanına neredeyse "
-        "anlık aktarır; hedef böylece kaynağın güncel bir kopyası olarak kalır.",
-        size=13.5, color=INK, align=PP_ALIGN.CENTER)
+definition(s, "**Oracle GoldenGate**, Oracle'ın veri replikasyon ürünüdür. Kaynak veritabanındaki "
+           "ekleme, güncelleme ve silmeleri transaction log'dan okuyup hedef veritabanına "
+           "neredeyse anlık aktarır; hedef böylece kaynağın güncel bir kopyası olarak kalır.")
 textbox(s, Inches(0.55), Inches(2.75), Inches(3.9), Inches(0.35), "Kapsam: kaynak → ODS_ şeması",
         size=15, color=NAVY, bold=True)
 for i, (src, dst) in enumerate([("KALE", "ODS_BANKA, …"), ("ARSIV", "ODS_<şema>"),
@@ -693,6 +696,9 @@ s = zoom_slide("DBT", DBT_BOX, "!!dbt", ["**DBT**", "dönüşüm (ELT), test, do
                "Takasbank_ETL_Comparison_TR.xlsx ve takasbank_etl_evaluation.canvas.tsx (dbt "
                "profili, riskler, maliyet); DWH Hedef Mimarisi v2 (katmanlar); Sistemler ve "
                "Servisler 4.3 katman sınırları; DBT PoC (Eylül–Ekim 2026)")
+definition(s, "**DBT (data build tool)**, SQL ile veri dönüşümü yapan açık kaynak bir araçtır. "
+           "Dönüşümler SQL sorgusu olarak yazılır; DBT bunları bağımlılık sırasıyla doğrudan "
+           "veritabanında (Exadata) çalıştırır, test eder ve dokümante eder.")
 flow_column(s, "Katmanlar (Exadata içinde)", [
     ("ODS", "GoldenGate ile gelen kaynak kopyası"),
     ("CORE", "entegre model ve tarihçe"),
@@ -723,6 +729,9 @@ s = zoom_slide("APACHE DOLPHINSCHEDULER", DOLPHIN_BOX, "!!dolphin",
                "Topoloji - Teknik Taraf (Zamanlayıcı: Automic lisans nedeniyle seçenek değil; gün "
                "sonu tamamlanma kaydı); Aktif Sorular 12, 16; DWH Mimari Hafıza - Temmuz 2025 "
                "Sunumu (piyasa olayına bağlı orkestrasyon)")
+definition(s, "**Apache DolphinScheduler**, açık kaynak bir iş akışı zamanlama ve orkestrasyon "
+           "aracıdır. Birbirine bağlı işleri doğru sırada ve doğru zamanda çalıştırır; hata olursa "
+           "yeniden dener ve alarm üretir.")
 flow_column(s, "Günlük akış", [
     ("Gün sonu tamamlandı", "veritabanındaki tamamlanma kaydı"),
     ("GoldenGate gecikme kontrolü", "ODS güncel mi"),
