@@ -586,13 +586,16 @@ def zoom_copies(src, start, dst, focus, focus_name):
                 r.set("sz", str(int(int(r.get("sz")) * k)))
 
 
-def zoom_slide(title, focus, focus_name, band_text, fill, sources):
-    s = content_slide(title, sources=sources + ". Önceki mimari sayfasından bu sayfaya Morph "
+def zoom_slide(name, focus, focus_name, definition, fill, sources):
+    """The coloured band carries the product name and stands in for the slide title."""
+    s = content_slide("", sources=sources + ". Önceki mimari sayfasından bu sayfaya Morph "
                       "geçişi kutuya yakınlaşır (PowerPoint 2019/365; diğer görüntüleyicilerde "
                       "solma).")
     zoom_copies(arch, arch_start, s, focus, focus_name)
-    box(s, Inches(0.55), Inches(1.15), Inches(12.23), Inches(0.95), fill=fill, text=band_text,
-        size=15, color=WHITE).name = focus_name
+    box(s, Inches(2.2), Inches(0.28), W - Inches(4.4), Inches(0.72), fill=fill,
+        text=f"**{name}**", size=24, color=WHITE).name = focus_name
+    textbox(s, Inches(0.55), Inches(1.25), Inches(12.23), Inches(0.75), definition, size=14.5,
+            color=INK, align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
     morph_transition(s)
     return s
 
@@ -627,7 +630,7 @@ def flow_column(s, title, steps, fill):
 arch, arch_start = architecture_slide()
 
 # 8 — GoldenGate
-s = zoom_slide("ORACLE GOLDENGATE", GG_BOX, "!!goldengate",
+s = zoom_slide("Oracle GoldenGate", GG_BOX, "!!goldengate",
                "**Oracle GoldenGate**, Oracle'ın veri replikasyon ürünüdür. Kaynak veritabanındaki "
                "ekleme, güncelleme ve silmeleri transaction log'dan okuyup hedef veritabanına "
                "neredeyse anlık aktarır; hedef böylece kaynağın güncel bir kopyası olarak kalır.",
@@ -718,7 +721,7 @@ detail_columns(s, "Neden DBT ideal seçim", [
 architecture_slide(repeat=True)
 
 # 10 — Apache DolphinScheduler
-s = zoom_slide("APACHE DOLPHINSCHEDULER", DOLPHIN_BOX, "!!dolphin",
+s = zoom_slide("Apache DolphinScheduler", DOLPHIN_BOX, "!!dolphin",
                "**Apache DolphinScheduler**, açık kaynak bir iş akışı zamanlama ve orkestrasyon "
                "aracıdır. Birbirine bağlı işleri doğru sırada ve doğru zamanda çalıştırır; hata "
                "olursa yeniden dener ve alarm üretir.", PURPLE,
