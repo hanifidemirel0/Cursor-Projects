@@ -284,10 +284,9 @@ notes(s, "Seri: 1 - Eylül 2024, 2 - Aralık 2024, 3 - Mart 2025, 4 - Temmuz 202
 s = content_slide("İÇERİK")
 items = [
     "Çalışmanın Tarihçesi",
-    "Takasbank'ta Mevcut Durum",
+    "Mevcut Durum ve ETL Aracı Değerlendirmesi",
     "Temel Tespitler",
     "Önerilen Hedef Mimari",
-    "ETL Aracı Değerlendirmesi",
     "Pilot, Yol Haritası ve İlk 30 Gün",
     "Riskler",
     "Karar Beklenen Konular ve Açık Sorular",
@@ -411,6 +410,332 @@ bullets(s, Inches(9.0), Inches(1.6), Inches(3.8), Inches(4.6), [
 ], size=15)
 footnote(s, "Aynı kavram (ör. üye) farklı şemalarda ve piyasa bazında ayrı tablolarda tutulmaktadır. "
             "Disk ve CPU değerleri Aralık 2024 ölçümüdür; güncel ölçümle yenilenmelidir.", y=6.25)
+
+# 14 — ETL değerlendirmesi
+s = content_slide("ETL ARACI DEĞERLENDİRMESİ: ÖZET", pill="Öneri — iki seçenek",
+                  pill_fill=TEAL, sources="Takasbank_ETL_Comparison_TR.xlsx, 12.11.2026 güncellemesi "
+                  "(Yönetici Özeti, Puanlama Matrisi, Senaryo Analizi, TCO); "
+                  "takasbank_etl_evaluation.canvas.tsx")
+textbox(s, Inches(0.6), Inches(1.15), Inches(5.6), Inches(0.4),
+        "Ağırlıklı puan (1–5), Takasbank temel senaryosu", size=15, color=NAVY, bold=True)
+cd = CategoryChartData()
+cd.categories = ["Spark", "Cloudera", "Informatica", "ODI 14c", "DBT"]
+cd.add_series("Puan", (2.86, 3.24, 3.27, 3.52, 3.86))
+gf = s.shapes.add_chart(XL_CHART_TYPE.BAR_CLUSTERED, Inches(0.5), Inches(1.5), Inches(5.8),
+                        Inches(3.6), cd)
+ch = gf.chart
+ch.has_legend = False
+ch.has_title = False
+ch.plots[0].gap_width = 60
+ch.plots[0].has_data_labels = True
+dl = ch.plots[0].data_labels
+dl.font.size = Pt(13)
+dl.font.bold = True
+dl.font.name = FONT
+dl.number_format = "0.00"
+dl.number_format_is_linked = False
+dl.position = XL_LABEL_POSITION.OUTSIDE_END
+ser = ch.plots[0].series[0]
+for idx in range(5):
+    pt = ser.points[idx]
+    pt.format.fill.solid()
+    pt.format.fill.fore_color.rgb = NAVY if idx == 4 else (TEAL if idx == 3 else LINE)
+va = ch.value_axis
+va.maximum_scale, va.minimum_scale = 4.5, 0
+va.has_major_gridlines = False
+va.visible = False
+ca = ch.category_axis
+ca.tick_labels.font.size = Pt(13)
+ca.tick_labels.font.name = FONT
+ca.format.line.color.rgb = LINE
+textbox(s, Inches(0.6), Inches(5.15), Inches(5.6), Inches(1.2), [
+    "**Ağırlık profillerine göre:** DBT 6 profilin 4'ünde önde. Regülasyon öncelikli "
+    "profilde ODI önde (ODI 3.69, DBT 3.65); gerçek zaman öncelikli profilde Cloudera önde "
+    "(3.55, DBT 3.26)",
+], size=12, color=INK)
+textbox(s, Inches(6.75), Inches(1.15), Inches(6), Inches(0.4), "Öneri", size=17, color=NAVY,
+        bold=True)
+bullets(s, Inches(6.75), Inches(1.5), Inches(6.0), Inches(4.9), [
+    "İki seçenek öne çıkmakta ve ikisi de Exadata üzerinde çalışıyor",
+    ("-", "**A — DBT**"),
+    ("-", "**B — ODI 14c**"),
+    "~200 rapor sorgusunun dönüşümü (tahmin): DBT **150–300**, ODI **400–700**, "
+    "Cloudera/Spark 600–1.000 adam-gün",
+], size=13.5, gap=5)
+footnote(s, "Puanlar masa başı değerlendirmedir (15 kategori, 64 kriter). Banka testi, fiyat "
+            "teklifi veya satın alma onayı değildir. Ayrıntı sonraki beş slayttadır.", y=6.45)
+
+ETL_SRC = "Takasbank_ETL_Comparison_TR.xlsx, 12.11.2026 güncellemesi"
+ETL_TOOLS = ["ODI 14c", "Informatica", "DBT", "Cloudera", "Spark"]
+
+
+def style_cell(cell, fill=None, color=None, bold=None):
+    if fill is not None:
+        cell.fill.solid()
+        cell.fill.fore_color.rgb = fill
+    for p in cell.text_frame.paragraphs:
+        for r in p.runs:
+            if color is not None:
+                r.font.color.rgb = color
+            if bold is not None:
+                r.font.bold = bold
+
+
+def center_cols(t, cols):
+    for row in t.rows:
+        for j in cols:
+            for p in row.cells[j].text_frame.paragraphs:
+                p.alignment = PP_ALIGN.CENTER
+
+
+# 14e — ETL: iki seçenek
+s = content_slide("ETL ARACI DEĞERLENDİRMESİ: İKİ SEÇENEK", pill="Değerlendirme sürüyor",
+                  pill_fill=TEAL, sources=f"{ETL_SRC} (Yönetici Özeti, Riskler)")
+options = [
+    ("A — DBT (Exadata üzerinde)", "Teslim hızı, maliyet, taşınabilirlik", NAVY, [
+        "**Güçlü**",
+        ("-", "Exadata'ya pushdown şeklinde çalıştığı için ve SQL tabanlı olduğu için ekibin "
+              "adaptasyonu ve kurulum maliyeti açısından en hızlı seçenek"),
+        ("-", "Her şey Git üzerinde saklanabilir"),
+        ("-", "LLM entegrasyonu çok yüksek. SQL yazma, YAML oluşturma, test ve dokümantasyon "
+              "oluşturma konularında LLM araçları kullanılabilir. Bu sayede iş devreye alma "
+              "süreci oldukça hızlandırılabilir"),
+        ("-", "Açık kaynak kodlu olduğu için lisans maliyeti yok ve komünite desteği yüksek"),
+        "**Zayıf**",
+        ("-", "DBT için üretici desteği yok"),
+        ("-", "Kendi veri çekme / akış yeteneği yok"),
+    ]),
+    ("B — ODI 14c (Exadata üzerinde)", "Düzenleyici rahatlık, üretici desteği", TEAL, [
+        "**Güçlü**",
+        ("-", "Üretici desteği ve SLA; en güçlü erişim kontrolü, denetim izi ve HA/DR"),
+        ("-", "Exadata'ya yerel pushdown"),
+        ("-", "Yerel firmalar arasında bilinirliği güçlü"),
+        "**Zayıf**",
+        ("-", "Lisans ücreti yüksek"),
+        ("-", "Git desteği zayıf"),
+        ("-", "LLM entegrasyonu zayıf"),
+        ("-", "Öğrenme süreci daha uzun"),
+    ]),
+]
+for i, (title, sub, fill, pts) in enumerate(options):
+    x = Inches(0.55 + i * 6.2)
+    box(s, x, Inches(1.15), Inches(6.0), Inches(0.72), fill=fill, text=[f"**{title}**", sub],
+        size=14, color=WHITE)
+    box(s, x, Inches(1.87), Inches(6.0), Inches(3.83), fill=LIGHT, shape=MSO_SHAPE.RECTANGLE)
+    bullets(s, x + Inches(0.08), Inches(1.9), Inches(5.85), Inches(3.0), pts, size=13.5, gap=6)
+
+# 14b — ETL: yöntem ve karar kısıtları
+s = content_slide("ETL ARACI DEĞERLENDİRMESİ: YÖNTEM VE KISITLAR",
+                  sources=f"{ETL_SRC} (Yönetici Özeti: Karar kısıtları; Araç Profilleri; "
+                  "Varsayımlar ve Kaynaklar)")
+textbox(s, Inches(0.6), Inches(1.15), Inches(5.9), Inches(0.4), "Değerlendirilen adaylar",
+        size=17, color=NAVY, bold=True)
+table(s, Inches(0.6), Inches(1.55), Inches(5.9), [
+    ["Araç", "Tür"],
+    ["ODI 14c", "ELT entegrasyon aracı (ticari, Oracle)"],
+    ["Informatica 10.5", "ETL aracı (ticari)"],
+    ["DBT", "SQL tabanlı ELT aracı (açık kaynak)"],
+    ["Cloudera Data Platform", "Entegre veri platformu (ticari)"],
+    ["Apache Spark", "Dağıtık işlem motoru (açık kaynak)"],
+], [2.3, 3.6], size=12.5, header_size=13, row_h=0.36)
+textbox(s, Inches(0.6), Inches(3.9), Inches(5.9), Inches(0.4), "Yöntem", size=17, color=NAVY,
+        bold=True)
+bullets(s, Inches(0.6), Inches(4.25), Inches(5.9), Inches(2.2), [
+    "**15 kategori, 64 kriter**; her kriter 1–5 puan, kategori puanı kriterlerin ortalaması",
+    "Toplam puan, kategori ağırlıklarıyla ağırlıklı ortalama; **6 ağırlık profili** ile "
+    "duyarlılık analizi",
+    "Her araç tüm ihtiyacı tek başına karşılama üzerinden puanlandı; Exadata ve GoldenGate "
+    "tüm seçeneklerde var",
+], size=13, gap=4)
+box(s, Inches(6.85), Inches(1.15), Inches(5.9), Inches(0.5), fill=NAVY,
+    text="Takasbank Kısıtları", size=16, color=WHITE, bold=True)
+box(s, Inches(6.85), Inches(1.65), Inches(5.9), Inches(4.75), fill=LIGHT,
+    shape=MSO_SHAPE.RECTANGLE)
+bullets(s, Inches(6.95), Inches(1.7), Inches(5.7), Inches(4.65), [
+    "**Kurum içi:** Tüm araçlar on-prem çalışmalı. Bulut servisleri Takasbank için uygun "
+    "değil",
+    "**Hedef:** Veri ambarının nihai verileri **Oracle Exadata** üzerinde tutulacak ancak "
+    "gelecekte PostgreSQL gibi farklı veritabanları da kullanılabilir",
+    "**Lisans:** Mevcut Oracle sözleşmesi kapsamında **GoldenGate** yalnızca Oracle → Oracle "
+    "akışları için kullanılabilir. Diğer kaynaklar için ek lisans gerekir",
+    "**Mevcut raporlar:** Mevcut raporların hepsi **PL/SQL** paketi. Migration eforu göz önünde "
+    "bulundurulmalı",
+    "**Ekip:** Ekipte hali hazırda SQL yetkinliği güçlü",
+    "**Yapay zekâ:** kurum içi (yerel) LLM ile pipeline geliştirme, dokümantasyon, test ve "
+    "inceleme hedefleniyor",
+], size=13.5, gap=6)
+
+# 14c — ETL: kategori puanları
+s = content_slide("ETL ARACI DEĞERLENDİRMESİ: KATEGORİ PUANLARI",
+                  sources=f"{ETL_SRC} (Puanlama Matrisi, Kriterler ve Ağırlıklar)")
+cat_rows = [
+    ("Toplu ETL/ELT yeteneği", 13, (4.4, 4.4, 3.6, 3.4, 3.0)),
+    ("Operasyon ve bakım", 10, (4.0, 3.89, 3.78, 3.0, 2.56)),
+    ("PL/SQL rapor dönüşüm eforu", 9, (3.33, 2.33, 4.33, 2.17, 2.0)),
+    ("CDC ve gerçek zamanlı veri alımı", 8, (1.67, 3.33, 1.33, 4.67, 3.67)),
+    ("Güvenlik ve regülasyon uyumu", 8, (4.33, 4.33, 3.0, 4.67, 2.17)),
+    ("Yerel LLM ile geliştirme", 8, (2.25, 1.5, 4.75, 3.75, 3.25)),
+    ("SQL uyumluluğu", 8, (4.0, 2.5, 5.0, 3.0, 2.5)),
+    ("Öğrenme eğrisi", 7, (3.25, 3.75, 4.5, 2.5, 2.75)),
+    ("Üretici ve yol haritası", 6, (3.8, 2.8, 3.6, 3.6, 4.4)),
+    ("Exadata ve Oracle uyumu", 5, (5.0, 4.0, 4.0, 1.5, 2.0)),
+    ("5 yıllık toplam maliyet", 5, (3.0, 1.67, 4.67, 2.0, 2.67)),
+    ("Metadata, lineage ve veri kalitesi", 4, (3.0, 3.75, 4.25, 3.5, 2.25)),
+    ("PostgreSQL'e taşınabilirlik", 3, (2.2, 3.6, 4.2, 3.6, 3.8)),
+    ("DevOps ve mühendislik pratikleri", 3, (3.0, 2.5, 4.75, 3.75, 4.0)),
+    ("Türkiye'de yetkinlik ve yerel destek", 3, (4.5, 4.0, 3.0, 3.0, 3.0)),
+]
+totals = (3.52, 3.27, 3.86, 3.24, 2.86)
+
+
+def one_dec(v):
+    return f"{int(v * 10 + 0.5 + 1e-9) / 10:.1f}"
+
+
+def heat(v):
+    if v >= 4.25:
+        return RGBColor(0x9F, 0xD4, 0xB0)
+    if v >= 3.5:
+        return RGBColor(0xD6, 0xEE, 0xDD)
+    if v >= 2.75:
+        return WHITE
+    if v >= 2.0:
+        return RGBColor(0xF8, 0xDD, 0xD9)
+    return RGBColor(0xEE, 0xAF, 0xA7)
+
+
+rows = [["Kategori", "Ağırlık %"] + ETL_TOOLS]
+for name, wt, vals in cat_rows:
+    rows.append([name, str(wt)] + [one_dec(v) for v in vals])
+rows.append(["Ağırlıklı toplam (1–5)", "100"] + [f"{v:.2f}" for v in totals])
+t = table(s, Inches(0.55), Inches(1.15), Inches(8.75), rows,
+          [3.05, 0.95, 0.95, 0.95, 0.95, 0.95, 0.95], size=11.5, header_size=11.5, row_h=0.295)
+center_cols(t, range(1, 7))
+for i, (_, _, vals) in enumerate(cat_rows, start=1):
+    best = max(vals)
+    for j, v in enumerate(vals):
+        if v == best:
+            style_cell(t.cell(i, j + 2), fill=NAVY, color=WHITE, bold=True)
+        else:
+            style_cell(t.cell(i, j + 2), fill=heat(v), bold=False)
+last = len(rows) - 1
+for j in range(7):
+    style_cell(t.cell(last, j), fill=NAVY, color=WHITE, bold=True)
+style_cell(t.cell(last, 4), fill=GOLD, color=WHITE, bold=True)
+textbox(s, Inches(9.55), Inches(1.15), Inches(3.25), Inches(0.4), "Öne çıkanlar", size=17,
+        color=NAVY, bold=True)
+bullets(s, Inches(9.55), Inches(1.5), Inches(3.25), Inches(4.9), [
+    "**DBT** SQL uyumluluğu, yerel LLM, DevOps, dönüşüm eforu ve maliyette en yüksek",
+    "**ODI** Exadata uyumu, toplu ETL ve operasyonda önde; güvenlikte güçlü",
+    "DBT'nin zayıf yanı **CDC** (GoldenGate'e bağlı) ve **güvenlik** (üretici desteği yok)",
+    "ODI'nin zayıf yanı **CDC**, **yerel LLM** ve **taşınabilirlik**",
+    "**Cloudera** yalnızca CDC / gerçek zamanda belirgin önde; Exadata uyumunda en düşük",
+], size=12.5, gap=5)
+footnote(s, "Ağırlıklar Takasbank temel profilidir. Lacivert: satırdaki en yüksek puan. Yeşil ≥ 3.5, "
+            "kırmızı < 2.75. Maliyet ve efor kategorilerinde yüksek puan düşük maliyet / efor "
+            "demektir.", y=6.45)
+
+# 14d — ETL: ağırlık senaryoları ve maliyet
+s = content_slide("ETL ARACI DEĞERLENDİRMESİ: SENARYOLAR VE MALİYET",
+                  sources=f"{ETL_SRC} (Senaryo Analizi, TCO (5 yıl))")
+textbox(s, Inches(0.55), Inches(1.15), Inches(6.2), Inches(0.4),
+        "Ağırlık profiline göre toplam puan (1–5)", size=16, color=NAVY, bold=True)
+scen = [
+    ("Takasbank temel", (3.52, 3.27, 3.86, 3.24, 2.86)),
+    ("Önce gerçek zaman", (3.12, 3.31, 3.26, 3.55, 3.02)),
+    ("Önce yapay zekâ ve SQL verimliliği", (3.31, 3.07, 3.94, 3.34, 2.93)),
+    ("Önce regülasyon ve üretici desteği", (3.69, 3.50, 3.65, 3.37, 2.82)),
+    ("Önce taşınabilirlik (PostgreSQL)", (3.26, 3.25, 3.77, 3.40, 3.05)),
+    ("Modern veri yığını", (3.17, 2.95, 4.11, 3.38, 3.13)),
+]
+rows = [["Profil"] + ETL_TOOLS] + [[n] + [f"{v:.2f}" for v in vals] for n, vals in scen]
+t = table(s, Inches(0.55), Inches(1.55), Inches(6.2), rows, [1.95, 0.85, 0.85, 0.85, 0.85, 0.85],
+          size=12, header_size=10, row_h=0.42)
+center_cols(t, range(1, 6))
+for i, (_, vals) in enumerate(scen, start=1):
+    k = vals.index(max(vals))
+    style_cell(t.cell(i, k + 1), fill=NAVY, color=WHITE, bold=True)
+bullets(s, Inches(0.55), Inches(4.65), Inches(6.2), Inches(1.75), [
+    "DBT 6 profilin 4'ünde önde; en geniş fark modern veri yığınında (4.11 / 3.38)",
+    "Regülasyon öncelikli profilde **ODI önde** (3.69 / 3.65): ODI'nin eşit seçenek olarak "
+    "sunulma nedeni",
+], size=12.5, gap=4)
+textbox(s, Inches(7.0), Inches(1.15), Inches(5.78), Inches(0.4),
+        "5 yıllık maliyet (USD) ve rapor dönüşüm eforu", size=16, color=NAVY, bold=True)
+tco = [
+    ("ODI 14c", 3150, 300, 900, "400–700"),
+    ("Informatica", 2600, 700, 1100, "500–800"),
+    ("DBT", 300, 150, 700, "150–300"),
+    ("Cloudera", 3500, 1800, 1300, "600–1.000"),
+    ("Spark", 200, 1400, 1200, "600–1.000"),
+]
+
+
+def tr_int(v):
+    return f"{v:,}".replace(",", ".")
+
+
+rows = [["Araç", "Lisans / destek", "Altyapı", "Hizmet", "Toplam", "Dönüşüm (adam-gün)"]]
+for name, lic, infra, svc, conv in tco:
+    rows.append([name, tr_int(lic * 1000), tr_int(infra * 1000), tr_int(svc * 1000),
+                 tr_int((lic + infra + svc) * 1000), conv])
+t = table(s, Inches(7.0), Inches(1.55), Inches(5.78), rows,
+          [1.1, 0.95, 0.9, 0.9, 0.95, 0.98], size=11, header_size=10, row_h=0.42)
+center_cols(t, range(1, 6))
+for i in range(1, len(rows)):
+    style_cell(t.cell(i, 4), bold=True)
+for i in (1, 3):
+    style_cell(t.cell(i, 0), color=NAVY)
+bullets(s, Inches(7.0), Inches(4.25), Inches(5.78), Inches(2.1), [
+    "DBT: lisans yok; tutar yerel destek sözleşmesidir",
+    "ODI: ULA dışında yeni lisans; **1.500.000 USD** satın alma ve yıllık **330.000 USD** "
+    "destek (5 yılda 3.150.000 USD)",
+    "Dönüşüm eforu ~**200 PL/SQL rapor** için; DBT'de yerel LLM her modelin taslağını çıkarır, "
+    "eşitlik testleri sonucu doğrular",
+], size=12.5, gap=4)
+footnote(s, "Kaba tahmindir, teklif değildir; yalnızca lisans, altyapı ve hizmeti kapsar. Exadata, "
+            "Oracle Database ve ULA kapsamındaki GoldenGate tüm seçeneklerde ortak olduğu için hariçtir.",
+         y=6.45)
+
+# 14d2 — ETL: Borsa İstanbul ve MKK görüşmeleri
+s = content_slide("ETL ARACI: BORSA İSTANBUL VE MKK GÖRÜŞMELERİ", pill="Kurum görüşmeleri",
+                  sources="Kullanıcı aktarımı (04.11.2026: Borsa İstanbul ve MKK ile ETL ürünleri "
+                  "görüşmesi); DWH Sunum Eylül 2024 (ETL araçları: MKK PowerCenter, Borsa "
+                  "İstanbul ODI); DWH Sunum Aralık 2024 (Slayt 5 MKK, Slayt 6 Borsa İstanbul). "
+                  "Görüşlerin içeriği henüz notlarda yok.")
+peers = [
+    ("BORSA İSTANBUL", "ETL ürünü: **Oracle Data Integrator (ODI)**", TEAL, [
+        "DWH'ta T-1 ve öncesi veri; kaynak veri doğrudan **ODS** katmanında",
+        "Replika veritabanı **Data Guard** ile besleniyor; gün içi raporlar replika ve ana "
+        "veritabanından",
+        "Gün içinde belirli saatlerde çalışan ETL'lerle DWH'a anlık veri yazılan durumlar var",
+    ]),
+    ("MERKEZİ KAYIT KURULUŞU (MKK)", "ETL ürünü: **Informatica PowerCenter**", NAVY, [
+        "Geçmiş tarihli veri DWH'tan raporlanıyor; **ODS** katmanı var",
+        "MicroStrategy raporlarının **%99'u** DWH üzerinden",
+        "Anlık aktarımda replika aracı yok; veri **SQL script'leri** ve ETL aracıyla taşınıyor",
+    ]),
+]
+PLACEHOLDER = RGBColor(0xB0, 0x3A, 0x2E)
+for i, (name, tool, fill, pts) in enumerate(peers):
+    x = Inches(0.55 + i * 6.2)
+    box(s, x, Inches(1.15), Inches(6.0), Inches(0.75), fill=fill, text=[f"**{name}**", tool],
+        size=14, color=WHITE)
+    box(s, x, Inches(1.9), Inches(6.0), Inches(4.0), fill=LIGHT, shape=MSO_SHAPE.RECTANGLE)
+    textbox(s, x + Inches(0.12), Inches(1.98), Inches(5.8), Inches(0.35),
+            "Bilinen yapı (Aralık 2024 görüşmesi)", size=13, color=NAVY, bold=True)
+    bullets(s, x + Inches(0.08), Inches(2.28), Inches(5.85), Inches(1.75), pts, size=12.5, gap=3)
+    textbox(s, x + Inches(0.12), Inches(4.05), Inches(5.8), Inches(0.35),
+            "Ürün hakkındaki görüşleri (son görüşme)", size=13, color=NAVY, bold=True)
+    box(s, x + Inches(0.12), Inches(4.4), Inches(5.76), Inches(1.38), fill=WHITE,
+        line=PLACEHOLDER, text=["[Güçlü yanlar — görüşme notundan eklenecek]",
+                                "[Zorluklar / dikkat edilecekler — eklenecek]",
+                                "[Destek, lisans ve ekip deneyimi — eklenecek]"],
+        size=12, color=PLACEHOLDER, align=PP_ALIGN.LEFT, anchor=MSO_ANCHOR.TOP)
+box(s, Inches(0.55), Inches(6.0), Inches(12.2), Inches(0.48), fill=RGBColor(0xFD, 0xF3, 0xE4),
+    line=GOLD, text="**Değerlendirmeye girdi:** Borsa İstanbul'un ODI deneyimi B seçeneği için "
+    "grup içi referans; MKK'nın Informatica deneyimi, değerlendirmede önerilmeyen ürün için "
+    "saha görüşü", size=12, align=PP_ALIGN.LEFT)
 
 # 9 — Güçlü yönler / kısıtlar
 s = content_slide("TEMEL TESPİTLER", sources="DWH Sunum Aralık 2024 (artı/eksi yönler); "
@@ -784,332 +1109,6 @@ detail_columns(s, "Neden Pusula ideal seçim", [
 ])
 architecture_slide(repeat=True)
 
-# 14 — ETL değerlendirmesi
-s = content_slide("ETL ARACI DEĞERLENDİRMESİ: ÖZET", pill="Öneri — iki seçenek",
-                  pill_fill=TEAL, sources="Takasbank_ETL_Comparison_TR.xlsx, 12.11.2026 güncellemesi "
-                  "(Yönetici Özeti, Puanlama Matrisi, Senaryo Analizi, TCO); "
-                  "takasbank_etl_evaluation.canvas.tsx")
-textbox(s, Inches(0.6), Inches(1.15), Inches(5.6), Inches(0.4),
-        "Ağırlıklı puan (1–5), Takasbank temel senaryosu", size=15, color=NAVY, bold=True)
-cd = CategoryChartData()
-cd.categories = ["Spark", "Cloudera", "Informatica", "ODI 14c", "DBT"]
-cd.add_series("Puan", (2.86, 3.24, 3.27, 3.52, 3.86))
-gf = s.shapes.add_chart(XL_CHART_TYPE.BAR_CLUSTERED, Inches(0.5), Inches(1.5), Inches(5.8),
-                        Inches(3.6), cd)
-ch = gf.chart
-ch.has_legend = False
-ch.has_title = False
-ch.plots[0].gap_width = 60
-ch.plots[0].has_data_labels = True
-dl = ch.plots[0].data_labels
-dl.font.size = Pt(13)
-dl.font.bold = True
-dl.font.name = FONT
-dl.number_format = "0.00"
-dl.number_format_is_linked = False
-dl.position = XL_LABEL_POSITION.OUTSIDE_END
-ser = ch.plots[0].series[0]
-for idx in range(5):
-    pt = ser.points[idx]
-    pt.format.fill.solid()
-    pt.format.fill.fore_color.rgb = NAVY if idx == 4 else (TEAL if idx == 3 else LINE)
-va = ch.value_axis
-va.maximum_scale, va.minimum_scale = 4.5, 0
-va.has_major_gridlines = False
-va.visible = False
-ca = ch.category_axis
-ca.tick_labels.font.size = Pt(13)
-ca.tick_labels.font.name = FONT
-ca.format.line.color.rgb = LINE
-textbox(s, Inches(0.6), Inches(5.15), Inches(5.6), Inches(1.2), [
-    "**Ağırlık profillerine göre:** DBT 6 profilin 4'ünde önde. Regülasyon öncelikli "
-    "profilde ODI önde (ODI 3.69, DBT 3.65); gerçek zaman öncelikli profilde Cloudera önde "
-    "(3.55, DBT 3.26)",
-], size=12, color=INK)
-textbox(s, Inches(6.75), Inches(1.15), Inches(6), Inches(0.4), "Öneri", size=17, color=NAVY,
-        bold=True)
-bullets(s, Inches(6.75), Inches(1.5), Inches(6.0), Inches(4.9), [
-    "İki seçenek öne çıkmakta ve ikisi de Exadata üzerinde çalışıyor",
-    ("-", "**A — DBT**"),
-    ("-", "**B — ODI 14c**"),
-    "~200 rapor sorgusunun dönüşümü (tahmin): DBT **150–300**, ODI **400–700**, "
-    "Cloudera/Spark 600–1.000 adam-gün",
-], size=13.5, gap=5)
-footnote(s, "Puanlar masa başı değerlendirmedir (15 kategori, 64 kriter). Banka testi, fiyat "
-            "teklifi veya satın alma onayı değildir. Ayrıntı sonraki beş slayttadır.", y=6.45)
-
-ETL_SRC = "Takasbank_ETL_Comparison_TR.xlsx, 12.11.2026 güncellemesi"
-ETL_TOOLS = ["ODI 14c", "Informatica", "DBT", "Cloudera", "Spark"]
-
-
-def style_cell(cell, fill=None, color=None, bold=None):
-    if fill is not None:
-        cell.fill.solid()
-        cell.fill.fore_color.rgb = fill
-    for p in cell.text_frame.paragraphs:
-        for r in p.runs:
-            if color is not None:
-                r.font.color.rgb = color
-            if bold is not None:
-                r.font.bold = bold
-
-
-def center_cols(t, cols):
-    for row in t.rows:
-        for j in cols:
-            for p in row.cells[j].text_frame.paragraphs:
-                p.alignment = PP_ALIGN.CENTER
-
-
-# 14e — ETL: iki seçenek
-s = content_slide("ETL ARACI DEĞERLENDİRMESİ: İKİ SEÇENEK", pill="Değerlendirme sürüyor",
-                  pill_fill=TEAL, sources=f"{ETL_SRC} (Yönetici Özeti, Riskler)")
-options = [
-    ("A — DBT (Exadata üzerinde)", "Teslim hızı, maliyet, taşınabilirlik", NAVY, [
-        "**Güçlü**",
-        ("-", "Exadata'ya pushdown şeklinde çalıştığı için ve SQL tabanlı olduğu için ekibin "
-              "adaptasyonu ve kurulum maliyeti açısından en hızlı seçenek"),
-        ("-", "Her şey Git üzerinde saklanabilir"),
-        ("-", "LLM entegrasyonu çok yüksek. SQL yazma, YAML oluşturma, test ve dokümantasyon "
-              "oluşturma konularında LLM araçları kullanılabilir. Bu sayede iş devreye alma "
-              "süreci oldukça hızlandırılabilir"),
-        ("-", "Açık kaynak kodlu olduğu için lisans maliyeti yok ve komünite desteği yüksek"),
-        "**Zayıf**",
-        ("-", "DBT için üretici desteği yok"),
-        ("-", "Kendi veri çekme / akış yeteneği yok"),
-    ]),
-    ("B — ODI 14c (Exadata üzerinde)", "Düzenleyici rahatlık, üretici desteği", TEAL, [
-        "**Güçlü**",
-        ("-", "Üretici desteği ve SLA; en güçlü erişim kontrolü, denetim izi ve HA/DR"),
-        ("-", "Exadata'ya yerel pushdown"),
-        ("-", "Yerel firmalar arasında bilinirliği güçlü"),
-        "**Zayıf**",
-        ("-", "Lisans ücreti yüksek"),
-        ("-", "Git desteği zayıf"),
-        ("-", "LLM entegrasyonu zayıf"),
-        ("-", "Öğrenme süreci daha uzun"),
-    ]),
-]
-for i, (title, sub, fill, pts) in enumerate(options):
-    x = Inches(0.55 + i * 6.2)
-    box(s, x, Inches(1.15), Inches(6.0), Inches(0.72), fill=fill, text=[f"**{title}**", sub],
-        size=14, color=WHITE)
-    box(s, x, Inches(1.87), Inches(6.0), Inches(3.83), fill=LIGHT, shape=MSO_SHAPE.RECTANGLE)
-    bullets(s, x + Inches(0.08), Inches(1.9), Inches(5.85), Inches(3.0), pts, size=13.5, gap=6)
-
-# 14b — ETL: yöntem ve karar kısıtları
-s = content_slide("ETL ARACI DEĞERLENDİRMESİ: YÖNTEM VE KISITLAR",
-                  sources=f"{ETL_SRC} (Yönetici Özeti: Karar kısıtları; Araç Profilleri; "
-                  "Varsayımlar ve Kaynaklar)")
-textbox(s, Inches(0.6), Inches(1.15), Inches(5.9), Inches(0.4), "Değerlendirilen adaylar",
-        size=17, color=NAVY, bold=True)
-table(s, Inches(0.6), Inches(1.55), Inches(5.9), [
-    ["Araç", "Tür"],
-    ["ODI 14c", "ELT entegrasyon aracı (ticari, Oracle)"],
-    ["Informatica 10.5", "ETL aracı (ticari)"],
-    ["DBT", "SQL tabanlı ELT aracı (açık kaynak)"],
-    ["Cloudera Data Platform", "Entegre veri platformu (ticari)"],
-    ["Apache Spark", "Dağıtık işlem motoru (açık kaynak)"],
-], [2.3, 3.6], size=12.5, header_size=13, row_h=0.36)
-textbox(s, Inches(0.6), Inches(3.9), Inches(5.9), Inches(0.4), "Yöntem", size=17, color=NAVY,
-        bold=True)
-bullets(s, Inches(0.6), Inches(4.25), Inches(5.9), Inches(2.2), [
-    "**15 kategori, 64 kriter**; her kriter 1–5 puan, kategori puanı kriterlerin ortalaması",
-    "Toplam puan, kategori ağırlıklarıyla ağırlıklı ortalama; **6 ağırlık profili** ile "
-    "duyarlılık analizi",
-    "Her araç tüm ihtiyacı tek başına karşılama üzerinden puanlandı; Exadata ve GoldenGate "
-    "tüm seçeneklerde var",
-], size=13, gap=4)
-box(s, Inches(6.85), Inches(1.15), Inches(5.9), Inches(0.5), fill=NAVY,
-    text="Takasbank Kısıtları", size=16, color=WHITE, bold=True)
-box(s, Inches(6.85), Inches(1.65), Inches(5.9), Inches(4.75), fill=LIGHT,
-    shape=MSO_SHAPE.RECTANGLE)
-bullets(s, Inches(6.95), Inches(1.7), Inches(5.7), Inches(4.65), [
-    "**Kurum içi:** Tüm araçlar on-prem çalışmalı. Bulut servisleri Takasbank için uygun "
-    "değil",
-    "**Hedef:** Veri ambarının nihai verileri **Oracle Exadata** üzerinde tutulacak ancak "
-    "gelecekte PostgreSQL gibi farklı veritabanları da kullanılabilir",
-    "**Lisans:** Mevcut Oracle sözleşmesi kapsamında **GoldenGate** yalnızca Oracle → Oracle "
-    "akışları için kullanılabilir. Diğer kaynaklar için ek lisans gerekir",
-    "**Mevcut raporlar:** Mevcut raporların hepsi **PL/SQL** paketi. Migration eforu göz önünde "
-    "bulundurulmalı",
-    "**Ekip:** Ekipte hali hazırda SQL yetkinliği güçlü",
-    "**Yapay zekâ:** kurum içi (yerel) LLM ile pipeline geliştirme, dokümantasyon, test ve "
-    "inceleme hedefleniyor",
-], size=13.5, gap=6)
-
-# 14c — ETL: kategori puanları
-s = content_slide("ETL ARACI DEĞERLENDİRMESİ: KATEGORİ PUANLARI",
-                  sources=f"{ETL_SRC} (Puanlama Matrisi, Kriterler ve Ağırlıklar)")
-cat_rows = [
-    ("Toplu ETL/ELT yeteneği", 13, (4.4, 4.4, 3.6, 3.4, 3.0)),
-    ("Operasyon ve bakım", 10, (4.0, 3.89, 3.78, 3.0, 2.56)),
-    ("PL/SQL rapor dönüşüm eforu", 9, (3.33, 2.33, 4.33, 2.17, 2.0)),
-    ("CDC ve gerçek zamanlı veri alımı", 8, (1.67, 3.33, 1.33, 4.67, 3.67)),
-    ("Güvenlik ve regülasyon uyumu", 8, (4.33, 4.33, 3.0, 4.67, 2.17)),
-    ("Yerel LLM ile geliştirme", 8, (2.25, 1.5, 4.75, 3.75, 3.25)),
-    ("SQL uyumluluğu", 8, (4.0, 2.5, 5.0, 3.0, 2.5)),
-    ("Öğrenme eğrisi", 7, (3.25, 3.75, 4.5, 2.5, 2.75)),
-    ("Üretici ve yol haritası", 6, (3.8, 2.8, 3.6, 3.6, 4.4)),
-    ("Exadata ve Oracle uyumu", 5, (5.0, 4.0, 4.0, 1.5, 2.0)),
-    ("5 yıllık toplam maliyet", 5, (3.0, 1.67, 4.67, 2.0, 2.67)),
-    ("Metadata, lineage ve veri kalitesi", 4, (3.0, 3.75, 4.25, 3.5, 2.25)),
-    ("PostgreSQL'e taşınabilirlik", 3, (2.2, 3.6, 4.2, 3.6, 3.8)),
-    ("DevOps ve mühendislik pratikleri", 3, (3.0, 2.5, 4.75, 3.75, 4.0)),
-    ("Türkiye'de yetkinlik ve yerel destek", 3, (4.5, 4.0, 3.0, 3.0, 3.0)),
-]
-totals = (3.52, 3.27, 3.86, 3.24, 2.86)
-
-
-def one_dec(v):
-    return f"{int(v * 10 + 0.5 + 1e-9) / 10:.1f}"
-
-
-def heat(v):
-    if v >= 4.25:
-        return RGBColor(0x9F, 0xD4, 0xB0)
-    if v >= 3.5:
-        return RGBColor(0xD6, 0xEE, 0xDD)
-    if v >= 2.75:
-        return WHITE
-    if v >= 2.0:
-        return RGBColor(0xF8, 0xDD, 0xD9)
-    return RGBColor(0xEE, 0xAF, 0xA7)
-
-
-rows = [["Kategori", "Ağırlık %"] + ETL_TOOLS]
-for name, wt, vals in cat_rows:
-    rows.append([name, str(wt)] + [one_dec(v) for v in vals])
-rows.append(["Ağırlıklı toplam (1–5)", "100"] + [f"{v:.2f}" for v in totals])
-t = table(s, Inches(0.55), Inches(1.15), Inches(8.75), rows,
-          [3.05, 0.95, 0.95, 0.95, 0.95, 0.95, 0.95], size=11.5, header_size=11.5, row_h=0.295)
-center_cols(t, range(1, 7))
-for i, (_, _, vals) in enumerate(cat_rows, start=1):
-    best = max(vals)
-    for j, v in enumerate(vals):
-        if v == best:
-            style_cell(t.cell(i, j + 2), fill=NAVY, color=WHITE, bold=True)
-        else:
-            style_cell(t.cell(i, j + 2), fill=heat(v), bold=False)
-last = len(rows) - 1
-for j in range(7):
-    style_cell(t.cell(last, j), fill=NAVY, color=WHITE, bold=True)
-style_cell(t.cell(last, 4), fill=GOLD, color=WHITE, bold=True)
-textbox(s, Inches(9.55), Inches(1.15), Inches(3.25), Inches(0.4), "Öne çıkanlar", size=17,
-        color=NAVY, bold=True)
-bullets(s, Inches(9.55), Inches(1.5), Inches(3.25), Inches(4.9), [
-    "**DBT** SQL uyumluluğu, yerel LLM, DevOps, dönüşüm eforu ve maliyette en yüksek",
-    "**ODI** Exadata uyumu, toplu ETL ve operasyonda önde; güvenlikte güçlü",
-    "DBT'nin zayıf yanı **CDC** (GoldenGate'e bağlı) ve **güvenlik** (üretici desteği yok)",
-    "ODI'nin zayıf yanı **CDC**, **yerel LLM** ve **taşınabilirlik**",
-    "**Cloudera** yalnızca CDC / gerçek zamanda belirgin önde; Exadata uyumunda en düşük",
-], size=12.5, gap=5)
-footnote(s, "Ağırlıklar Takasbank temel profilidir. Lacivert: satırdaki en yüksek puan. Yeşil ≥ 3.5, "
-            "kırmızı < 2.75. Maliyet ve efor kategorilerinde yüksek puan düşük maliyet / efor "
-            "demektir.", y=6.45)
-
-# 14d — ETL: ağırlık senaryoları ve maliyet
-s = content_slide("ETL ARACI DEĞERLENDİRMESİ: SENARYOLAR VE MALİYET",
-                  sources=f"{ETL_SRC} (Senaryo Analizi, TCO (5 yıl))")
-textbox(s, Inches(0.55), Inches(1.15), Inches(6.2), Inches(0.4),
-        "Ağırlık profiline göre toplam puan (1–5)", size=16, color=NAVY, bold=True)
-scen = [
-    ("Takasbank temel", (3.52, 3.27, 3.86, 3.24, 2.86)),
-    ("Önce gerçek zaman", (3.12, 3.31, 3.26, 3.55, 3.02)),
-    ("Önce yapay zekâ ve SQL verimliliği", (3.31, 3.07, 3.94, 3.34, 2.93)),
-    ("Önce regülasyon ve üretici desteği", (3.69, 3.50, 3.65, 3.37, 2.82)),
-    ("Önce taşınabilirlik (PostgreSQL)", (3.26, 3.25, 3.77, 3.40, 3.05)),
-    ("Modern veri yığını", (3.17, 2.95, 4.11, 3.38, 3.13)),
-]
-rows = [["Profil"] + ETL_TOOLS] + [[n] + [f"{v:.2f}" for v in vals] for n, vals in scen]
-t = table(s, Inches(0.55), Inches(1.55), Inches(6.2), rows, [1.95, 0.85, 0.85, 0.85, 0.85, 0.85],
-          size=12, header_size=10, row_h=0.42)
-center_cols(t, range(1, 6))
-for i, (_, vals) in enumerate(scen, start=1):
-    k = vals.index(max(vals))
-    style_cell(t.cell(i, k + 1), fill=NAVY, color=WHITE, bold=True)
-bullets(s, Inches(0.55), Inches(4.65), Inches(6.2), Inches(1.75), [
-    "DBT 6 profilin 4'ünde önde; en geniş fark modern veri yığınında (4.11 / 3.38)",
-    "Regülasyon öncelikli profilde **ODI önde** (3.69 / 3.65): ODI'nin eşit seçenek olarak "
-    "sunulma nedeni",
-], size=12.5, gap=4)
-textbox(s, Inches(7.0), Inches(1.15), Inches(5.78), Inches(0.4),
-        "5 yıllık maliyet (USD) ve rapor dönüşüm eforu", size=16, color=NAVY, bold=True)
-tco = [
-    ("ODI 14c", 3150, 300, 900, "400–700"),
-    ("Informatica", 2600, 700, 1100, "500–800"),
-    ("DBT", 300, 150, 700, "150–300"),
-    ("Cloudera", 3500, 1800, 1300, "600–1.000"),
-    ("Spark", 200, 1400, 1200, "600–1.000"),
-]
-
-
-def tr_int(v):
-    return f"{v:,}".replace(",", ".")
-
-
-rows = [["Araç", "Lisans / destek", "Altyapı", "Hizmet", "Toplam", "Dönüşüm (adam-gün)"]]
-for name, lic, infra, svc, conv in tco:
-    rows.append([name, tr_int(lic * 1000), tr_int(infra * 1000), tr_int(svc * 1000),
-                 tr_int((lic + infra + svc) * 1000), conv])
-t = table(s, Inches(7.0), Inches(1.55), Inches(5.78), rows,
-          [1.1, 0.95, 0.9, 0.9, 0.95, 0.98], size=11, header_size=10, row_h=0.42)
-center_cols(t, range(1, 6))
-for i in range(1, len(rows)):
-    style_cell(t.cell(i, 4), bold=True)
-for i in (1, 3):
-    style_cell(t.cell(i, 0), color=NAVY)
-bullets(s, Inches(7.0), Inches(4.25), Inches(5.78), Inches(2.1), [
-    "DBT: lisans yok; tutar yerel destek sözleşmesidir",
-    "ODI: ULA dışında yeni lisans; **1.500.000 USD** satın alma ve yıllık **330.000 USD** "
-    "destek (5 yılda 3.150.000 USD)",
-    "Dönüşüm eforu ~**200 PL/SQL rapor** için; DBT'de yerel LLM her modelin taslağını çıkarır, "
-    "eşitlik testleri sonucu doğrular",
-], size=12.5, gap=4)
-footnote(s, "Kaba tahmindir, teklif değildir; yalnızca lisans, altyapı ve hizmeti kapsar. Exadata, "
-            "Oracle Database ve ULA kapsamındaki GoldenGate tüm seçeneklerde ortak olduğu için hariçtir.",
-         y=6.45)
-
-# 14d2 — ETL: Borsa İstanbul ve MKK görüşmeleri
-s = content_slide("ETL ARACI: BORSA İSTANBUL VE MKK GÖRÜŞMELERİ", pill="Kurum görüşmeleri",
-                  sources="Kullanıcı aktarımı (04.11.2026: Borsa İstanbul ve MKK ile ETL ürünleri "
-                  "görüşmesi); DWH Sunum Eylül 2024 (ETL araçları: MKK PowerCenter, Borsa "
-                  "İstanbul ODI); DWH Sunum Aralık 2024 (Slayt 5 MKK, Slayt 6 Borsa İstanbul). "
-                  "Görüşlerin içeriği henüz notlarda yok.")
-peers = [
-    ("BORSA İSTANBUL", "ETL ürünü: **Oracle Data Integrator (ODI)**", TEAL, [
-        "DWH'ta T-1 ve öncesi veri; kaynak veri doğrudan **ODS** katmanında",
-        "Replika veritabanı **Data Guard** ile besleniyor; gün içi raporlar replika ve ana "
-        "veritabanından",
-        "Gün içinde belirli saatlerde çalışan ETL'lerle DWH'a anlık veri yazılan durumlar var",
-    ]),
-    ("MERKEZİ KAYIT KURULUŞU (MKK)", "ETL ürünü: **Informatica PowerCenter**", NAVY, [
-        "Geçmiş tarihli veri DWH'tan raporlanıyor; **ODS** katmanı var",
-        "MicroStrategy raporlarının **%99'u** DWH üzerinden",
-        "Anlık aktarımda replika aracı yok; veri **SQL script'leri** ve ETL aracıyla taşınıyor",
-    ]),
-]
-PLACEHOLDER = RGBColor(0xB0, 0x3A, 0x2E)
-for i, (name, tool, fill, pts) in enumerate(peers):
-    x = Inches(0.55 + i * 6.2)
-    box(s, x, Inches(1.15), Inches(6.0), Inches(0.75), fill=fill, text=[f"**{name}**", tool],
-        size=14, color=WHITE)
-    box(s, x, Inches(1.9), Inches(6.0), Inches(4.0), fill=LIGHT, shape=MSO_SHAPE.RECTANGLE)
-    textbox(s, x + Inches(0.12), Inches(1.98), Inches(5.8), Inches(0.35),
-            "Bilinen yapı (Aralık 2024 görüşmesi)", size=13, color=NAVY, bold=True)
-    bullets(s, x + Inches(0.08), Inches(2.28), Inches(5.85), Inches(1.75), pts, size=12.5, gap=3)
-    textbox(s, x + Inches(0.12), Inches(4.05), Inches(5.8), Inches(0.35),
-            "Ürün hakkındaki görüşleri (son görüşme)", size=13, color=NAVY, bold=True)
-    box(s, x + Inches(0.12), Inches(4.4), Inches(5.76), Inches(1.38), fill=WHITE,
-        line=PLACEHOLDER, text=["[Güçlü yanlar — görüşme notundan eklenecek]",
-                                "[Zorluklar / dikkat edilecekler — eklenecek]",
-                                "[Destek, lisans ve ekip deneyimi — eklenecek]"],
-        size=12, color=PLACEHOLDER, align=PP_ALIGN.LEFT, anchor=MSO_ANCHOR.TOP)
-box(s, Inches(0.55), Inches(6.0), Inches(12.2), Inches(0.48), fill=RGBColor(0xFD, 0xF3, 0xE4),
-    line=GOLD, text="**Değerlendirmeye girdi:** Borsa İstanbul'un ODI deneyimi B seçeneği için "
-    "grup içi referans; MKK'nın Informatica deneyimi, değerlendirmede önerilmeyen ürün için "
-    "saha görüşü", size=12, align=PP_ALIGN.LEFT)
-
 # 15 — Pilot, yol haritası ve ilk 30 gün
 s = content_slide("PİLOT, YOL HARİTASI VE İLK 30 GÜN", pill="Öneri — onay bekliyor",
                   sources="DWH Sunum Temmuz 2025 (slayt 10–24); Proje Planı (Pilot seçimi, Faz 0–5, "
@@ -1235,7 +1234,7 @@ prs.save(OUT)
 print(f"saved {OUT} ({len(prs.slides)} slides)")
 
 if "--pdf" in sys.argv:
-    # Geçiş slaytları yalnızca gösterimde anlamlı; PDF'te sayfa 7'nin tekrarı olurdu.
+    # Geçiş slaytları yalnızca gösterimde anlamlı; PDF'te mimari sayfasının tekrarı olurdu.
     with tempfile.TemporaryDirectory() as tmp:
         subprocess.run(["soffice", "--headless", "--convert-to", "pdf", "--outdir", tmp, str(OUT)],
                        check=True, capture_output=True)
