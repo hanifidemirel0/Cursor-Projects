@@ -433,7 +433,8 @@ bullets(s, Inches(6.85), Inches(1.8), Inches(5.9), Inches(4.6), [
     "ERD diyagramları bulunmuyor. Aynı verinin farklı yerlerde tekrarlandığı durumlar mevcut. "
     "Silolaşma var",
     "GoldenGate işletimi ve 7/24 destek konusunda DBA çekincesi",
-    "Veri kurum dışına çıkamaz; satın alma süreci uzun",
+    "Veri kurum dışına çıkamaz",
+    "Satın alma süreci uzun",
 ], size=16)
 
 # 10 — Hedef mimari ve araç seti; GoldenGate, DBT ve DolphinScheduler kutularına Morph ile
