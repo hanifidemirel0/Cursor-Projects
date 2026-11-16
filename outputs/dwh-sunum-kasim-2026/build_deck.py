@@ -391,7 +391,7 @@ for x, w, name in cols:
     textbox(s, Inches(x), Inches(1.2), Inches(w), Inches(0.4), name, size=18, color=NAVY,
             bold=True)
 bullets(s, Inches(0.55), Inches(1.6), Inches(4.05), Inches(4.6), [
-    "**KALE**",
+    "KALE",
     ("-", "Ana veritabanı; kurum verisinin yaklaşık %90'ı burada"),
     ("-", "Yaklaşık 10.000 tablo bulunmakta"),
     "ARSIV",
