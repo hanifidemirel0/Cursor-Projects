@@ -1128,7 +1128,6 @@ bullets(s, Inches(6.9), Inches(3.6), Inches(5.8), Inches(2.1), [
     "BIST fon sözleşme verisi hemen ODS'ye",
     "Ekip: 1 veri modelleyici, 2 veri mühendisi",
 ], size=16, gap=14)
-footnote(s, "Pilot, ETL aracı seçildikten sonra başlar.", y=6.3)
 
 # 19 — Riskler
 s = content_slide("RİSKLER", sources="Başlangıç Yaklaşımı (Risk kaydı); Firmalarla Yapılan DWH "
