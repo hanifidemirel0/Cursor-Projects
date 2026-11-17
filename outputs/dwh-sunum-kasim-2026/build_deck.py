@@ -1146,8 +1146,6 @@ table(s, Inches(0.55), Inches(1.2), W - Inches(1.1), [
      "Etkilenen tablolarda değişiklik tarihçesi tutulur, diğerlerinden günlük kopya alınır"],
     ["Kısa kaynak saklama (fon sözleşmeleri 5 gün)", "Tarihçe kalıcı olarak kaybolur",
      "Faz 0'da hemen ODS_'e alma; kaynaktaki silme ODS_'e yansıtılmamalı"],
-    ["Yetkinlik açığı, bilginin tek ekipte toplanması", "Sürdürülebilirlik",
-     "UG ortak sahipliği, Git tabanlı kod, runbook, eğitim"],
     ["ETL aracı kararı ve satın alma süresi", "Pilot başlayamaz",
      "Değerlendirmenin takvimle kapatılması; pilot kapsamı ve kaynak erişimi paralel hazırlanır"],
 ], [4.3, 3.4, 4.53], size=13.5, header_size=14, row_h=0.6)
