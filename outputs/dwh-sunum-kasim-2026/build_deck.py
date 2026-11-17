@@ -1150,8 +1150,6 @@ table(s, Inches(0.55), Inches(1.2), W - Inches(1.1), [
      "UG ortak sahipliği, Git tabanlı kod, runbook, eğitim"],
     ["ETL aracı kararı ve satın alma süresi", "Pilot başlayamaz",
      "Değerlendirmenin takvimle kapatılması; pilot kapsamı ve kaynak erişimi paralel hazırlanır"],
-    ["Satıcı biçimli tasarım (önce ODS, 100 konu alanı, yalnızca RFP)", "Gecikme, iş sonucu yok",
-     "Kararları pilot kanıtı versin"],
 ], [4.3, 3.4, 4.53], size=13.5, header_size=14, row_h=0.6)
 
 # 20 — Kapanış
