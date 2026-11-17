@@ -32,7 +32,7 @@ Mevcut durum (5) ve temel tespitlerin (6) ardından ETL aracı değerlendirmesi 
 | 4 | Eylül–Ekim 2026 çalışmaları | Hanifi'nin 02.11.2026 tarihli aktarımı (UG görüşmeleri, danışman firma görüşmeleri, dbt PoC, Dataspecta workshop, ETL dokümantasyonu, GoldenGate, orkestrasyon, tasarım taslakları) |
 | 5 | Mevcut durum (tek slayt: veri kaynakları; ortamlar, üç Exadata makinesinin boş disk/CPU değerleri ve veritabanları dahil; raporlama kanalları; anlık ve geçmiş tarihli sorgu, işlem ve raporlama aynı veritabanında) | [[Fiziksel Topoloji - Teknik Taraf]] (DWH yerleşim adayları), [[Ortamlar hakkında]], [[DWH Sunum Aralık 2024]] (kapasite), Takasbank Genel Bilgilendirme 1-2, Banka Ug, kullanıcı aktarımı (04.11.2026) |
 | 6 | Temel tespitler | [[DWH Sunum Aralık 2024]], [[Başlangıç Yaklaşımı]] |
-| 7 | ETL aracı değerlendirmesi: özet (puanlar, iki seçenek önerisi) | [Takasbank_ETL_Comparison_TR.xlsx](../../outputs/etl-comparison/Takasbank_ETL_Comparison_TR.xlsx) (16.11.2026 güncellemesi) · canvas `outputs/etl-comparison/takasbank_etl_evaluation.canvas.tsx` |
+| 7 | ETL aracı değerlendirmesi: özet (puanlar, iki seçenek önerisi) | [Takasbank_ETL_Comparison_TR.xlsx](../../outputs/etl-comparison/Takasbank_ETL_Comparison_TR.xlsx) (17.11.2026 güncellemesi) · canvas `outputs/etl-comparison/takasbank_etl_evaluation.canvas.tsx` |
 | 8 | ETL: iki seçenek (dbt Core / ODI 14c), ön koşullar | Aynı çalışma kitabı (Executive Summary, Risks) |
 | 9 | ETL: yöntem, adaylar ve karar kısıtları | Aynı çalışma kitabı (Executive Summary, Tool Profiles) |
 | 10 | ETL: kategori puanları (14 kategori × 5 araç) | Aynı çalışma kitabı (Scoring Matrix, Criteria & Weights) |
