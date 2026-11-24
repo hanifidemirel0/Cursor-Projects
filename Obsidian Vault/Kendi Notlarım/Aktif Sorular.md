@@ -75,7 +75,7 @@ Friday, 4 September 2026, 2:41 pm
     3. Restart, HA, alarm ve operasyon sahipliği hangi ekipte olacak?
 17. [[DWH RACI]] taslağının ekiplerle netleşmesi gereken noktaları:
     1. Yönlendirme komitesi ve isimli sponsor kim? † işaretli kararlar (pilot seçimi, orkestrasyon aracı, ETL ürün kararı) bunu bekliyor.
-    2. Raporlama ekibi (MSTR / Pusula) UG'den ayrı bir ekip mi?
+    2. Raporlama ekibi (MSTR / Pusula) UG'den ayrı bir ekip mi? → **Cevap (24.11.2026):** raporlama ve DWH tek ekip; ekipteki herkes hem DWH hem raporlama tarafında sorumlu.
     3. Pilot A (SWIFT) ve Pilot B (BISTECH SPK) için hangi iş birimi veri ve rapor sahibi? Pilot B'de MKT ekibi aday.
     4. Üretim değişikliği onayı (P29, O15) bugün sistem ekibinde mi, ayrı bir değişiklik yönetimi kurulunda mı?
     5. Geçici kontrol istisnasını (O16) ve saklama süresini (P8, O17) onaylama yetkisi kurumda kimde?
