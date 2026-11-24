@@ -41,28 +41,35 @@ Bu not, DWH programında **kimin ne yaptığını** iki tabloda tutar: proje tes
 | P3 | Maskeleme ve erişim politikası | R | I | C |  | A | C | C |
 | P4 | Saklama süresi, RPO ve RTO | C |  | R | R | C | C | A |
 
+### Platform kurulumu
+
+| # | İş | DWH | UG | DBA | SİS | BG | İD | İŞ |
+|---|---|---|---|---|---|---|---|---|
+| P5 | ETL aracı, Git ve CI kurulumu | A/R |  | C | R | C |  |  |
+| P6 | Orkestrasyon kurulumu ve gün sonu kaydına bağlı iş zinciri | A | C | C | R | C |  |  |
+
 ### Geliştirme
 
 | # | İş | DWH | UG | DBA | SİS | BG | İD | İŞ |
 |---|---|---|---|---|---|---|---|---|
-| P5 | `ODS_` şema standardı ve kontrol tabloları (`CTL_`) | A/R |  | C |  |  |  |  |
-| P6 | İş tanımları ve veri otoritesi onayı | R | C |  |  |  |  | A |
-| P7 | Core model ve dönüşümler | A/R | C |  |  |  |  | C |
-| P8 | UG gün sonu prosedürlerinin DWH'a taşınması (Pilot B) | A | R | C |  |  |  | I |
-| P9 | Mart ve MSTR semantik modeli | A/R |  |  |  |  |  | C |
-| P10 | Rapor ve dosya geliştirme (Pusula) | A/R |  |  |  |  |  | C |
+| P7 | `ODS_` şema standardı ve kontrol tabloları (`CTL_`) | A/R |  | C |  |  |  |  |
+| P8 | İş tanımları ve veri otoritesi onayı | R | C |  |  |  |  | A |
+| P9 | Core model ve dönüşümler | A/R | C |  |  |  |  | C |
+| P10 | UG gün sonu prosedürlerinin DWH'a taşınması (Pilot B) | A | R | C |  |  |  | I |
+| P11 | Mart ve MSTR semantik modeli | A/R |  |  |  |  |  | C |
+| P12 | Rapor ve dosya geliştirme (Pusula) | A/R |  |  |  |  |  | C |
 
 ### Test, kabul ve devreye alma
 
 | # | İş | DWH | UG | DBA | SİS | BG | İD | İŞ |
 |---|---|---|---|---|---|---|---|---|
-| P11 | Teknik test (replay, idempotent yükleme, kalite kuralları) | A/R |  | C |  |  |  |  |
-| P12 | Eski çıktıyla mutabakat | R | C |  |  |  |  | A |
-| P13 | Güvenlik testi ve erişim doğrulaması | R |  | C |  | A/R | I |  |
-| P14 | Kontrol ve kanıtların bağımsız gözden geçirilmesi | C |  |  |  | C | A/R |  |
-| P15 | Üretim kabulü | R | C |  |  | C |  | A |
-| P16 | Üretime devreye alma (değişiklik yönetimi) | R |  | R | A | C |  | I |
-| P17 | Eski rapor veya işin kapatılması | R | R |  |  |  | C | A |
+| P13 | Teknik test (replay, idempotent yükleme, kalite kuralları) | A/R |  | C |  |  |  |  |
+| P14 | Eski çıktıyla mutabakat | R | C |  |  |  |  | A |
+| P15 | Güvenlik testi ve erişim doğrulaması | R |  | C |  | A/R | I |  |
+| P16 | Kontrol ve kanıtların bağımsız gözden geçirilmesi | C |  |  |  | C | A/R |  |
+| P17 | Üretim kabulü | R | C |  |  | C |  | A |
+| P18 | Üretime devreye alma (değişiklik yönetimi) | R |  | R | A | C |  | I |
+| P19 | Eski rapor veya işin kapatılması | R | R |  |  |  | C | A |
 
 ## 2. Veri sahipliği ve işletim
 
@@ -89,9 +96,9 @@ Bu not, DWH programında **kimin ne yaptığını** iki tabloda tutar: proje tes
 
 ## Tasarım tercihleri
 
-- **Anlamın sahibi iş birimidir.** Veri tanımı, kalite eşiği, uyuşmazlık ve üretim kabulü İŞ'tedir; DWH uygular ama tanımı tek başına değiştiremez (O1, O3, O5, P15).
-- **DWH ve raporlama tek ekiptir.** Kaynaktan rapora kadar teslimat aynı ekipte uçtan uca: mart, MSTR semantik modeli, Pusula raporları ve rapor hataları DWH'da A/R (P9, P10, O8). Ekip kendi çıktısını kabul edemez; mutabakat ve üretim kabulünde A iş birimidir (P12, P15).
+- **Anlamın sahibi iş birimidir.** Veri tanımı, kalite eşiği, uyuşmazlık ve üretim kabulü İŞ'tedir; DWH uygular ama tanımı tek başına değiştiremez (O1, O3, O5, P17).
+- **DWH ve raporlama tek ekiptir.** Kaynaktan rapora kadar teslimat aynı ekipte uçtan uca: mart, MSTR semantik modeli, Pusula raporları ve rapor hataları DWH'da A/R (P11, P12, O8). Ekip kendi çıktısını kabul edemez; mutabakat ve üretim kabulünde A iş birimidir (P14, P17).
 - **Platform DBA ve sistemdedir.** Yedekleme ve veritabanı DBA'da; sunucu, ağ ve değişiklik yönetimi SİS'te. DWH bu satırlarda C'dir. Yedekleme sahipliği (O12) [[Aktif Sorular]] madde 11.2'ye öneridir.
 - **Yükleme zincirinin işletimi DWH'dadır** (O6). Bu, [[Aktif Sorular]] madde 16.3'e öneridir; araç seçilince SİS ile sınır yeniden konuşulur.
-- **UG kaynak sahibidir.** Kale'nin ürettiği verinin anlamı ve gün sonu sinyali UG sorumluluğudur (O2); DWH'a taşınan prosedürleri UG yazar, DWH sonuçtan hesap verir (P8).
-- **Denetim kontrol işletmez.** İD hiçbir satırda işi yapan değildir; yalnızca bağımsız gözden geçirmede A/R'dir (P14, O18).
+- **UG kaynak sahibidir.** Kale'nin ürettiği verinin anlamı ve gün sonu sinyali UG sorumluluğudur (O2); DWH'a taşınan prosedürleri UG yazar, DWH sonuçtan hesap verir (P10).
+- **Denetim kontrol işletmez.** İD hiçbir satırda işi yapan değildir; yalnızca bağımsız gözden geçirmede A/R'dir (P16, O18).
