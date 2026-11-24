@@ -33,42 +33,51 @@ Bu not, DWH programında **kimin ne yaptığını** iki tabloda tutar: proje tes
 
 ## 1. Proje teslimi
 
+### Envanter ve politikalar
+
+| # | İş | DWH | UG | DBA | SİS | BG | İD | İŞ |
+|---|---|---|---|---|---|---|---|---|
+| P1 | Rapor ve dosya envanteri (sahip, tüketici, SLA, kritiklik) | A/R | R | I |  |  |  | C |
+| P2 | Veri ürünlerinin SLA sınıfı (S0–S4) | R | C | C | C |  |  | A |
+| P3 | Maskeleme ve erişim politikası | R | I | C |  | A | C | C |
+| P4 | Saklama süresi, RPO ve RTO | C |  | R | R | C | C | A |
+
 ### Platform kurulumu
 
 | # | İş | DWH | UG | DBA | SİS | BG | İD | İŞ |
 |---|---|---|---|---|---|---|---|---|
-| P1 | GoldenGate ile `ODS_` beslemesi (extract kaynağı, tablo kapsamı, lag izleme) | C |  | A/R | C | C |  |  |
-| P2 | Borsa İstanbul ile kurumlar arası GoldenGate akışı | C |  | A/R | R | C |  |  |
-| P3 | DWH veritabanı yerleşimi ve kapasite (`hisar` / `sur`) | C |  | A | R |  |  |  |
-| P4 | Sunucu, ağ ve depolama | I |  | C | A/R | C |  |  |
-| P5 | ETL aracı, Git ve CI kurulumu | A/R |  | C | R | C |  |  |
-| P6 | Orkestrasyon aracı seçimi † | A/R | C | C | C | C |  |  |
-| P7 | Orkestrasyon kurulumu ve gün sonu kaydına bağlı iş zinciri | A | C | C | R | C |  |  |
-| P8 | Servis hesapları ve sır kasası | C |  | R | R | A | I |  |
-| P9 | ETL aracı ürün kararı (Pilot B çıkışı) † | A/R | C | C | C | C | C | I |
+| P5 | GoldenGate ile `ODS_` beslemesi (extract kaynağı, tablo kapsamı, lag izleme) | C |  | A/R | C | C |  |  |
+| P6 | Borsa İstanbul ile kurumlar arası GoldenGate akışı | C |  | A/R | R | C |  |  |
+| P7 | DWH veritabanı yerleşimi ve kapasite (`hisar` / `sur`) | C |  | A | R |  |  |  |
+| P8 | Sunucu, ağ ve depolama | I |  | C | A/R | C |  |  |
+| P9 | ETL aracı, Git ve CI kurulumu | A/R |  | C | R | C |  |  |
+| P10 | Orkestrasyon aracı seçimi † | A/R | C | C | C | C |  |  |
+| P11 | Orkestrasyon kurulumu ve gün sonu kaydına bağlı iş zinciri | A | C | C | R | C |  |  |
+| P12 | Servis hesapları ve sır kasası | C |  | R | R | A | I |  |
+| P13 | ETL aracı ürün kararı (Pilot B çıkışı) † | A/R | C | C | C | C | C | I |
 
 ### Geliştirme
 
 | # | İş | DWH | UG | DBA | SİS | BG | İD | İŞ |
 |---|---|---|---|---|---|---|---|---|
-| P10 | `ODS_` şema standardı ve kontrol tabloları (`CTL_`) | A/R |  | C |  |  |  |  |
-| P11 | İş tanımları ve veri otoritesi onayı | R | C |  |  |  |  | A |
-| P12 | Core model ve dönüşümler | A/R | C |  |  |  |  | C |
-| P13 | UG gün sonu prosedürlerinin DWH'a taşınması (Pilot B) | A | R | C |  |  |  | I |
-| P14 | Mart ve MSTR semantik modeli | A/R |  |  |  |  |  | C |
-| P15 | Rapor ve dosya geliştirme (Pusula) | A/R |  |  |  |  |  | C |
+| P14 | `ODS_` şema standardı ve kontrol tabloları (`CTL_`) | A/R |  | C |  |  |  |  |
+| P15 | İş tanımları ve veri otoritesi onayı | R | C |  |  |  |  | A |
+| P16 | Core model ve dönüşümler | A/R | C |  |  |  |  | C |
+| P17 | UG gün sonu prosedürlerinin DWH'a taşınması (Pilot B) | A | R | C |  |  |  | I |
+| P18 | Mart ve MSTR semantik modeli | A/R |  |  |  |  |  | C |
+| P19 | Rapor ve dosya geliştirme (Pusula) | A/R |  |  |  |  |  | C |
 
 ### Test, kabul ve devreye alma
 
 | # | İş | DWH | UG | DBA | SİS | BG | İD | İŞ |
 |---|---|---|---|---|---|---|---|---|
-| P16 | Teknik test (replay, idempotent yükleme, kalite kuralları) | A/R |  | C |  |  |  |  |
-| P17 | Eski çıktıyla mutabakat | R | C |  |  |  |  | A |
-| P18 | Güvenlik testi ve erişim doğrulaması | R |  | C |  | A/R | I |  |
-| P19 | Kontrol ve kanıtların bağımsız gözden geçirilmesi | C |  |  |  | C | A/R |  |
-| P20 | Üretim kabulü | R | C |  |  | C |  | A |
-| P21 | Üretime devreye alma (değişiklik yönetimi) | R |  | R | A | C |  | I |
-| P22 | Eski rapor veya işin kapatılması | R | R |  |  |  | C | A |
+| P20 | Teknik test (replay, idempotent yükleme, kalite kuralları) | A/R |  | C |  |  |  |  |
+| P21 | Eski çıktıyla mutabakat | R | C |  |  |  |  | A |
+| P22 | Güvenlik testi ve erişim doğrulaması | R |  | C |  | A/R | I |  |
+| P23 | Kontrol ve kanıtların bağımsız gözden geçirilmesi | C |  |  |  | C | A/R |  |
+| P24 | Üretim kabulü | R | C |  |  | C |  | A |
+| P25 | Üretime devreye alma (değişiklik yönetimi) | R |  | R | A | C |  | I |
+| P26 | Eski rapor veya işin kapatılması | R | R |  |  |  | C | A |
 
 ## 2. Veri sahipliği ve işletim
 
@@ -95,9 +104,9 @@ Bu not, DWH programında **kimin ne yaptığını** iki tabloda tutar: proje tes
 
 ## Tasarım tercihleri
 
-- **Anlamın sahibi iş birimidir.** Veri tanımı, kalite eşiği, uyuşmazlık ve üretim kabulü İŞ'tedir; DWH uygular ama tanımı tek başına değiştiremez (O1, O3, O5, P20).
-- **DWH ve raporlama tek ekiptir.** Kaynaktan rapora kadar teslimat aynı ekipte uçtan uca: mart, MSTR semantik modeli, Pusula raporları ve rapor hataları DWH'da A/R (P14, P15, O8). Ekip kendi çıktısını kabul edemez; mutabakat ve üretim kabulünde A iş birimidir (P17, P20).
+- **Anlamın sahibi iş birimidir.** Veri tanımı, kalite eşiği, uyuşmazlık ve üretim kabulü İŞ'tedir; DWH uygular ama tanımı tek başına değiştiremez (O1, O3, O5, P24).
+- **DWH ve raporlama tek ekiptir.** Kaynaktan rapora kadar teslimat aynı ekipte uçtan uca: mart, MSTR semantik modeli, Pusula raporları ve rapor hataları DWH'da A/R (P18, P19, O8). Ekip kendi çıktısını kabul edemez; mutabakat ve üretim kabulünde A iş birimidir (P21, P24).
 - **Platform DBA ve sistemdedir.** GoldenGate, yedekleme ve veritabanı DBA'da; sunucu, ağ ve değişiklik yönetimi SİS'te. DWH bu satırlarda C'dir. Yedekleme sahipliği (O12) [[Aktif Sorular]] madde 11.2'ye öneridir.
 - **Yükleme zincirinin işletimi DWH'dadır** (O6). Bu, [[Aktif Sorular]] madde 16.3'e öneridir; araç seçilince SİS ile sınır yeniden konuşulur.
-- **UG kaynak sahibidir.** Kale'nin ürettiği verinin anlamı ve gün sonu sinyali UG sorumluluğudur (O2); DWH'a taşınan prosedürleri UG yazar, DWH sonuçtan hesap verir (P13).
-- **Denetim kontrol işletmez.** İD hiçbir satırda işi yapan değildir; yalnızca bağımsız gözden geçirmede A/R'dir (P19, O18).
+- **UG kaynak sahibidir.** Kale'nin ürettiği verinin anlamı ve gün sonu sinyali UG sorumluluğudur (O2); DWH'a taşınan prosedürleri UG yazar, DWH sonuçtan hesap verir (P17).
+- **Denetim kontrol işletmez.** İD hiçbir satırda işi yapan değildir; yalnızca bağımsız gözden geçirmede A/R'dir (P23, O18).
