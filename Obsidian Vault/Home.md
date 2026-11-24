@@ -8,6 +8,7 @@ title: Home
 - [[Fiziksel Topoloji - Teknik Taraf]]
 - [[Proje Planı]]
 - [[DWH Ownership Operating Model]]
+- [[DWH RACI]] — proje teslimi ve işletim RACI taslağı
 - [[DWH Document Register]]
 - [[DWH Hedef Mimarisi v2]]
 - [[DWH Logical Data Model]]
