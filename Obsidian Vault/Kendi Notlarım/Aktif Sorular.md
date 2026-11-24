@@ -74,10 +74,10 @@ Friday, 4 September 2026, 2:41 pm
     2. Seçilecek ETL aracının kendi zamanlayıcısı (ör. ODI load plan / agent) yeterli mi, yoksa ayrı bir orkestrasyon aracı mı gerekiyor? dbt Core'un kendi zamanlayıcısı yok.
     3. Restart, HA, alarm ve operasyon sahipliği hangi ekipte olacak?
 17. [[DWH RACI]] taslağının ekiplerle netleşmesi gereken noktaları:
-    1. Yönlendirme komitesi ve isimli sponsor kim? † işaretli kararlar (orkestrasyon aracı, ETL ürün kararı) bunu bekliyor.
+    1. Yönlendirme komitesi ve isimli sponsor kim?
     2. Raporlama ekibi (MSTR / Pusula) UG'den ayrı bir ekip mi? → **Cevap (24.11.2026):** raporlama ve DWH tek ekip; ekipteki herkes hem DWH hem raporlama tarafında sorumlu.
     3. Pilot A (SWIFT) ve Pilot B (BISTECH SPK) için hangi iş birimi veri ve rapor sahibi? Pilot B'de MKT ekibi aday.
-    4. Üretim değişikliği onayı (P25, O15) bugün sistem ekibinde mi, ayrı bir değişiklik yönetimi kurulunda mı?
+    4. Üretim değişikliği onayı (P16, O15) bugün sistem ekibinde mi, ayrı bir değişiklik yönetimi kurulunda mı?
     5. Geçici kontrol istisnasını (O16) ve saklama süresini (P4, O17) onaylama yetkisi kurumda kimde?
     6. DWH ekibi kimlerden oluşacak (1 modelleyici, 2 veri mühendisi planı)?
 
