@@ -285,7 +285,7 @@ s = content_slide("İÇERİK")
 items = [
     ("Çalışmanın Tarihçesi", []),
     ("Takasbank'ta Mevcut Durum", ["Temel Tespitler", "ETL Aracı Değerlendirmesi"]),
-    ("Önerilen Hedef Mimari", ["Veri Replikasyonu", "ETL Aracı", "Orkestrasyon",
+    ("Önerilen Hedef Mimari", ["Veri Çekme", "ETL Aracı", "Orkestrasyon",
                                "Veri Görselleştirme"]),
     ("Pilot Proje ve Yol Haritası", []),
     ("Riskler", []),
@@ -767,18 +767,18 @@ box(s, Inches(0.55), Inches(6.0), Inches(12.2), Inches(0.48), fill=RGBColor(0xFD
     "grup içi referans; MKK'nın Informatica deneyimi, değerlendirmede önerilmeyen ürün için "
     "saha görüşü", size=12, align=PP_ALIGN.LEFT)
 
-# 10 — Hedef mimari ve araç seti; GoldenGate, DBT ve DolphinScheduler kutularına Morph ile
+# 10 — Hedef mimari ve araç seti; Ab Initio GDE, DBT ve Control Center kutularına Morph ile
 # yakınlaşan detay sayfaları. Detaydan sonraki mimari kopyası Morph ile geri uzaklaşır; bu geçiş
 # slaytları PDF'e alınmaz (--pdf).
-ARCH_SRC = ("Sistemler ve Servisler (4.1 ODS kararı, 02.11.2026; GoldenGate kaynak kapsamı, "
-            "05.11.2026); Fiziksel Topoloji - Teknik Taraf (GoldenGate lisansları); Başlangıç "
-            "Yaklaşımı (diyagram); DWH Hedef Mimarisi v2; ETL aracı değerlendirmesi (A seçeneği "
-            "DBT); zamanlama aracı Apache DolphinScheduler ve BI aracı Pusula (MSTR): kullanıcı "
-            "aktarımı, 13.11.2026; Aktif Sorular 16")
+ARCH_SRC = ("Sistemler ve Servisler (4.1 ODS kararı, 02.11.2026; kaynak kapsamı, 05.11.2026); "
+            "Başlangıç Yaklaşımı (diyagram); DWH Hedef Mimarisi v2; ETL aracı değerlendirmesi (A "
+            "seçeneği DBT); BI aracı Pusula (MSTR): kullanıcı aktarımı, 13.11.2026; veri çekme "
+            "için Ab Initio GDE ve zamanlama için Ab Initio Control Center: kullanıcı aktarımı, "
+            "25.11.2026; Aktif Sorular 16")
 PURPLE = RGBColor(0x6B, 0x4C, 0x9A)
-GG_BOX = (2.5, 3.5, 1.65, 0.9)
+EXTRACT_BOX = (2.5, 3.5, 1.65, 0.9)
 DBT_BOX = (6.1, 2.02, 2.6, 0.72)
-DOLPHIN_BOX = (2.5, 1.15, 10.25, 0.72)
+SCHED_BOX = (2.5, 1.15, 10.25, 0.72)
 PUSULA_BOX = (10.75, 3.0, 2.0, 0.7)
 transition_slides = []
 
@@ -809,8 +809,8 @@ def morph_transition(slide, ms=1600):
 def architecture_slide(repeat=False):
     s = content_slide("ÖNERİLEN HEDEF MİMARİ", sources=ARCH_SRC, repeat=repeat)
     start = len(s.shapes)
-    box(s, *map(Inches, DOLPHIN_BOX), fill=PURPLE, text="**Apache DolphinScheduler**", size=15,
-        color=WHITE).name = "!!dolphin"
+    box(s, *map(Inches, SCHED_BOX), fill=PURPLE, text="**Ab Initio Control Center**", size=15,
+        color=WHITE).name = "!!controlcenter"
 
     textbox(s, Inches(0.55), Inches(2.72), Inches(1.65), Inches(0.3), "KAYNAKLAR", size=12,
             color=MUTED, bold=True, align=PP_ALIGN.CENTER)
@@ -821,10 +821,9 @@ def architecture_slide(repeat=False):
         arrow(s, Inches(2.2), Inches(y + 0.18), Inches(2.5), Inches(3.95), color=TEAL, width=1.5)
     box(s, Inches(0.55), Inches(4.81), Inches(1.65), Inches(0.36), fill=LIGHT, line=NAVY,
         text="FTP / CSV / Web servis", size=10.5, bold=True)
-    arrow(s, Inches(2.2), Inches(4.99), Inches(4.95), Inches(4.35), color=MUTED, width=1.25,
-          dashed=True)
-    box(s, *map(Inches, GG_BOX), fill=TEAL, text=["**GoldenGate**", "*Replikasyon, CDC*"], size=12,
-        color=WHITE).name = "!!goldengate"
+    arrow(s, Inches(2.2), Inches(4.99), Inches(3.325), Inches(4.4), color=TEAL, width=1.5)
+    box(s, *map(Inches, EXTRACT_BOX), fill=TEAL, text=["**Ab Initio GDE**", "*Veri çekme*"], size=12,
+        color=WHITE).name = "!!abinitio"
 
     box(s, Inches(4.55), Inches(3.1), Inches(5.85), Inches(1.55), fill=RGBColor(0xF7, 0xF8, 0xFC),
         line=NAVY, radius=0.05, line_w=2)
@@ -860,21 +859,21 @@ def architecture_slide(repeat=False):
     textbox(s, Inches(7.5), Inches(2.78), Inches(1.4), Inches(0.25), "SQL pushdown", size=10,
             color=MUTED)
     arrow(s, Inches(3.325), Inches(1.87), Inches(3.325), Inches(3.5), color=PURPLE, dashed=True,
-          label="Gecikme ve Gün Sonu Kontrolü", label_dx=1.0, label_dy=-0.3, label_w=1.7)
+          label="Gün Sonu Kontrolü ve Çekim", label_dx=1.0, label_dy=-0.3, label_w=1.7)
     arrow(s, Inches(7.4), Inches(1.87), Inches(7.4), Inches(2.02), color=PURPLE, dashed=True)
     arrow(s, Inches(12.45), Inches(1.87), Inches(12.45), Inches(3.0), color=PURPLE, dashed=True,
           label="Küp/Önbellek Yenileme", label_dx=-1.0, label_dy=-0.15, label_w=1.6)
-    badge(s, 4.26, 3.52, 1, TEAL)
-    badge(s, 2.96, 2.55, 2, PURPLE)
+    badge(s, 4.26, 3.52, 2, TEAL)
+    badge(s, 2.96, 2.55, 1, PURPLE)
     badge(s, 5.7, 2.21, 3, NAVY)
     badge(s, 12.55, 2.25, 4, GOLD)
 
     steps = [
-        (TEAL, "GoldenGate kaynak verilerini ODS'ye sürekli kopyalar"),
-        (PURPLE, "DolphinScheduler gün sonunu ve GoldenGate gecikmesini kontrol eder, akışı başlatır"),
+        (PURPLE, "Control Center gün sonunu kontrol eder, veri çekme ve dönüşüm akışını başlatır"),
+        (TEAL, "Ab Initio GDE akışları kaynak verilerini ve dosyaları ODS'ye çeker"),
         (NAVY, "DBT ODS → CORE → Data Mart → Publish dönüşümlerini ve testlerini Exadata'da "
                "çalıştırır"),
-        (GOLD, "DolphinScheduler Pusula küplerini yeniler; raporlar güncel veriyle açılır"),
+        (GOLD, "Control Center Pusula küplerini yeniler; raporlar güncel veriyle açılır"),
     ]
     for i, (c, text) in enumerate(steps):
         x = 0.55 + i * 3.08
@@ -966,43 +965,36 @@ def flow_column(s, title, steps, fill):
 
 arch, arch_start = architecture_slide()
 
-# 8 — GoldenGate
-s = zoom_slide("Oracle GoldenGate", GG_BOX, "!!goldengate",
-               "**Oracle GoldenGate**, Oracle'ın veri replikasyon ürünüdür. Kaynak veritabanındaki "
-               "ekleme, güncelleme ve silmeleri transaction log'dan okuyup hedef veritabanına "
-               "neredeyse anlık aktarır; hedef böylece kaynağın güncel bir kopyası olarak kalır.",
+# 8 — Ab Initio GDE
+s = zoom_slide("Ab Initio GDE", EXTRACT_BOX, "!!abinitio",
+               "**Ab Initio GDE (Graphical Development Environment)**, Ab Initio veri entegrasyon "
+               "platformunun görsel geliştirme ortamıdır. Veri akışları grafik olarak tasarlanır; "
+               "Co>Operating System bunları paralel çalıştırarak kaynaklardan veriyi çeker.",
                TEAL,
-               "Sistemler ve Servisler (2. Goldengate: 2.2, 2.4 GoldenGate vs ODI, 2.5, 2.6, 2.8 "
-               "yapılmayacaklar; 4.1 ODS kararı 02.11.2026, landing kararı 04.11.2026, GG kaynak "
-               "kapsamı kararı 05.11.2026; 4.2 kararın sonuçları); Fiziksel Topoloji - Teknik "
-               "Taraf (GoldenGate lisansları; Kale replikası - doğrulanacak gerçekler); Aktif "
-               "Sorular 4.4, 4.6, 4.7, 14.2")
+               "Veri çekme için Ab Initio GDE: kullanıcı aktarımı, 25.11.2026; Sistemler ve "
+               "Servisler (4.1 ODS kararı 02.11.2026, landing kararı 04.11.2026; kaynak kapsamı); "
+               "Firmalarla Yapılan DWH Görüşmeleri (Ab Initio)")
 textbox(s, Inches(0.55), Inches(2.3), Inches(3.9), Inches(0.35), "Kapsam: kaynak → ODS_ şeması",
         size=15, color=NAVY, bold=True)
 for i, (src, dst) in enumerate([("KALE", "ODS_BANKA, …"), ("ARSIV", "ODS_<şema>"),
-                                ("ÇEKDB", "ODS_<şema>"), ("Borsa DWH", "ODS_<şema>")]):
+                                ("ÇEKDB", "ODS_<şema>"), ("Borsa DWH", "ODS_<şema>"),
+                                ("FTP / CSV / Web servis", "ODS_<şema>")]):
     y = 2.8 + i * 0.58
     box(s, Inches(0.55), Inches(y), Inches(1.4), Inches(0.44), fill=LIGHT, line=NAVY,
-        text=f"**{src}**", size=12)
+        text=f"**{src}**", size=12 if i < 4 else 10)
     arrow(s, Inches(1.95), Inches(y + 0.22), Inches(2.35), Inches(y + 0.22), color=TEAL, width=2)
     box(s, Inches(2.35), Inches(y), Inches(2.05), Inches(0.44), fill=RGBColor(0xE3, 0xF1, 0xF3),
         line=TEAL, text=dst, size=12)
-textbox(s, Inches(0.55), Inches(5.12), Inches(3.85), Inches(0.3),
+textbox(s, Inches(0.55), Inches(5.72), Inches(3.85), Inches(0.3),
         "Borsa DWH akışı kurumlar arasıdır", size=11, color=MUTED, align=PP_ALIGN.RIGHT)
-box(s, Inches(0.55), Inches(5.5), Inches(1.4), Inches(0.6), fill=WHITE, line=MUTED,
-    text="FTP / CSV / Web servis", size=10.5)
-arrow(s, Inches(1.95), Inches(5.8), Inches(2.35), Inches(5.8), color=MUTED, dashed=True)
-box(s, Inches(2.35), Inches(5.5), Inches(2.05), Inches(0.6), fill=WHITE, line=MUTED,
-    text="GoldenGate kapsamı dışında; yükleme yolu açık", size=10.5, color=MUTED)
 
-why_box(s, "Neden GoldenGate ideal seçim", [
-    "**Lisans mevcut:** Takasbank'ta ve Borsa İstanbul'da var; yeni satın alma gerekmez, "
-    "Borsa DWH akışı doğrudan kurulabilir",
-    "**Kaynağa yük bindirmez:** log tabanlı okur; prod KALE'ye trigger veya dblink gerekmez",
-    "**Değişiklikleri eksiksiz yakalar:** geçmiş tarihli kayıtlara gelen güncellemeler de "
-    "alınır; tarih kolonuna dayalı çekim KALE'de güvenilir değil",
-    "**Düşük gecikme:** ODS gün içinde güncel kalır",
-    "**Oracle ile tam uyum:** kaynak ve hedef Oracle/Exadata; DBA ekibinin bildiği ekosistem",
+why_box(s, "Neden Ab Initio GDE", [
+    "**Tüm kaynaklar tek araçla:** Oracle veritabanlarının yanında FTP, CSV ve web servis "
+    "kaynakları da aynı akışlarla çekilir",
+    "**Paralel işleme:** büyük hacimler paralel çekilir; gün sonu penceresi kısa tutulur",
+    "**Görsel geliştirme:** akışlar grafik olarak tasarlanır, bileşenler yeniden kullanılır",
+    "**Control Center ile aynı platform:** çekim işleri tek yerden zamanlanır ve izlenir",
+    "**Kurumsal ürün:** üretici desteği; bankacılıkta yaygın kullanım",
 ])
 
 architecture_slide(repeat=True)
@@ -1016,7 +1008,7 @@ s = zoom_slide("DBT", DBT_BOX, "!!dbt",
                "profili, riskler, maliyet); DWH Hedef Mimarisi v2 (katmanlar); Sistemler ve "
                "Servisler 4.3 katman sınırları; DBT PoC (Eylül–Ekim 2026)")
 flow_column(s, "Katmanlar (Exadata içinde)", [
-    ("ODS", "GoldenGate ile gelen kaynak kopyası"),
+    ("ODS", "Ab Initio ile çekilen kaynak verisi"),
     ("CORE", "entegre model ve tarihçe"),
     ("Data Mart", "rapor ve analiz modelleri"),
     ("Publish", "dışa açılan kontrollü çıktılar"),
@@ -1030,35 +1022,34 @@ why_box(s, "Neden DBT ideal seçim", [
 ])
 architecture_slide(repeat=True)
 
-# 10 — Apache DolphinScheduler
-s = zoom_slide("Apache DolphinScheduler", DOLPHIN_BOX, "!!dolphin",
-               "**Apache DolphinScheduler**, açık kaynak bir iş akışı zamanlama ve orkestrasyon "
+# 10 — Ab Initio Control Center
+s = zoom_slide("Ab Initio Control Center", SCHED_BOX, "!!controlcenter",
+               "**Ab Initio Control Center**, Ab Initio platformunun iş zamanlama ve izleme "
                "aracıdır. Birbirine bağlı işleri doğru sırada ve doğru zamanda çalıştırır; hata "
-               "olursa yeniden dener ve alarm üretir.", PURPLE,
-               "Zamanlama aracı Apache DolphinScheduler: kullanıcı aktarımı, 13.11.2026; Fiziksel "
-               "Topoloji - Teknik Taraf (Zamanlayıcı: Automic lisans nedeniyle seçenek değil; gün "
-               "sonu tamamlanma kaydı); Aktif Sorular 12, 16; DWH Mimari Hafıza - Temmuz 2025 "
-               "Sunumu (piyasa olayına bağlı orkestrasyon)")
+               "olursa yeniden çalıştırmayı ve alarmı tek ekrandan yönetir.", PURPLE,
+               "Zamanlama için Ab Initio Control Center: kullanıcı aktarımı, 25.11.2026; Fiziksel "
+               "Topoloji - Teknik Taraf (Zamanlayıcı: gün sonu tamamlanma kaydı); Aktif Sorular "
+               "12, 16; DWH Mimari Hafıza - Temmuz 2025 Sunumu (piyasa olayına bağlı orkestrasyon)")
 flow_column(s, "Günlük akış", [
     ("Gün sonu tamamlandı", "veritabanındaki tamamlanma kaydı"),
-    ("GoldenGate gecikme kontrolü", "ODS güncel mi"),
+    ("Ab Initio veri çekme", "kaynaklar → ODS"),
     ("DBT çalıştırma", "ODS → CORE → Data Mart → Publish"),
     ("Pusula küp yenileme", "ve bildirim / alarm"),
 ], PURPLE)
-detail_columns(s, "Neden DolphinScheduler ideal seçim", [
-    "**Açık kaynak (Apache 2.0):** lisans maliyeti yok; Automic lisans nedeniyle seçenek değil",
-    "**Kurum içinde çalışır:** veri ve iş tanımları dışarı çıkmaz",
-    "**Görsel iş akışı:** bağımlılıklar arayüzde çizilir ve izlenir",
-    "**Hazır işletim özellikleri:** yeniden deneme, alarm, takvim, geçmiş koşular",
-    "**Aynı akışta farklı adımlar:** SQL, Shell ve Python görevleri; DBT ve PL/SQL birlikte",
+detail_columns(s, "Neden Ab Initio Control Center", [
+    "**Ab Initio ile aynı platform:** GDE çekim işleri doğrudan zamanlanır ve izlenir",
+    "**Olaya bağlı tetikleme:** akış saate değil gün sonu tamamlanmasına bağlı başlar",
+    "**Bağımlılık ve takvim:** işler arası bağımlılıklar, iş günü takvimleri",
+    "**Merkezi izleme:** yeniden çalıştırma, alarm ve geçmiş koşular tek ekranda",
+    "**Kurumsal ürün:** üretici desteği",
 ], [
-    "Saate değil gün sonu olayına bağlı tetiklenir",
-    "Master / worker yapısı; yük dağıtılır, yüksek erişilebilirlik",
+    "Gün sonu olayına bağlı tetiklenir",
+    "DBT ve PL/SQL adımları komut olarak aynı akışta çalışır",
 ], [
-    "Zamanlayıcı kararı henüz verilmedi (öneri)",
+    "Lisans kapsamı ve maliyet",
     "Gün sonu tamamlanma kaydının yeri ve içeriği",
+    "DBT işlerinin Control Center'dan çalıştırılması",
     "İşletim sahipliği ve 7/24 destek",
-    "Kurum kimlik doğrulaması ve yetki entegrasyonu",
 ])
 architecture_slide(repeat=True)
 
@@ -1075,7 +1066,7 @@ s = zoom_slide("Pusula (MSTR)", PUSULA_BOX, "!!pusula",
 flow_column(s, "Veri akışı", [
     ("Data Mart / Publish", "DWH'ta modellenmiş tablolar"),
     ("Semantik katman", "ortak metrik ve boyut tanımları"),
-    ("Küpler", "DolphinScheduler gün sonunda yeniler"),
+    ("Küpler", "Control Center gün sonunda yeniler"),
     ("Rapor, pano, self-servis", "iş birimleri, yönetim, üyeler"),
 ], GOLD)
 detail_columns(s, "Neden Pusula ideal seçim", [
@@ -1123,19 +1114,19 @@ textbox(s, Inches(6.8), Inches(3.05), Inches(6.0), Inches(0.4), "Faz 0: ilk 30 g
 box(s, Inches(6.8), Inches(3.55), Inches(6.0), Inches(2.2), fill=LIGHT, shape=MSO_SHAPE.RECTANGLE)
 bullets(s, Inches(6.9), Inches(3.6), Inches(5.8), Inches(2.1), [
     "Sponsor, başarı ölçütü ve rapor envanteri",
-    "DBA ile GoldenGate ve Data Guard doğrulaması",
+    "Ab Initio kurulumu ve kaynak erişimleri",
     "BIST fon sözleşme verisi hemen ODS'ye",
     "Ekip: 1 veri modelleyici, 2 veri mühendisi",
 ], size=16, gap=14)
 
 # 19 — Riskler
-s = content_slide("RİSKLER", sources="Başlangıç Yaklaşımı (Risk kaydı); Firmalarla Yapılan DWH "
-                  "Görüşmeleri (GoldenGate 7/24); Takasbank_ETL_Comparison_TR.xlsx (Riskler)")
+s = content_slide("RİSKLER", sources="Başlangıç Yaklaşımı (Risk kaydı); "
+                  "Takasbank_ETL_Comparison_TR.xlsx (Riskler); veri çekme ve zamanlama için Ab "
+                  "Initio: kullanıcı aktarımı, 25.11.2026")
 table(s, Inches(0.55), Inches(1.2), W - Inches(1.1), [
     ["Risk", "Etki", "Önlem"],
-    ["GoldenGate işletim yükü (7/24 ekip yok)", "ODS_ beslemesi durursa operasyonel raporlar etkilenir",
-     "Lag izleme ve alarm, yeniden senkron prosedürü, DBA sahipliği; extract kaynağı redo etkisi "
-     "ölçülerek seçilir"],
+    ["Toplu veri çekiminin KALE'ye yükü", "Gün sonu penceresi uzar, kaynak performansı etkilenir",
+     "Çekim kaynağı (prod / yedek) ve zaman penceresi pilotta ölçülerek seçilir"],
     ["Kişisel veri yoğunluğu (BES), serbest alanda kimlik no", "Gizlilik ve erişim riski",
      "ODS_ öncesi sınıflandırma, VPD/redaction, audit, non-prod maskeleme (TDM)"],
     ["T+1 takas geçişi", "Takas kuralları program ortasında değişir",
@@ -1144,7 +1135,7 @@ table(s, Inches(0.55), Inches(1.2), W - Inches(1.1), [
      "Etkilenen tablolarda değişiklik tarihçesi tutulur, diğerlerinden günlük kopya alınır"],
     ["Kısa kaynak saklama (fon sözleşmeleri 5 gün)", "Tarihçe kalıcı olarak kaybolur",
      "Faz 0'da hemen ODS_'e alma; kaynaktaki silme ODS_'e yansıtılmamalı"],
-    ["ETL aracı kararı ve satın alma süresi", "Pilot başlayamaz",
+    ["ETL aracı kararı ve Ab Initio lisans süreci", "Pilot başlayamaz",
      "Değerlendirmenin takvimle kapatılması; pilot kapsamı ve kaynak erişimi paralel hazırlanır"],
 ], [4.3, 3.4, 4.53], size=13.5, header_size=14, row_h=0.6)
 
