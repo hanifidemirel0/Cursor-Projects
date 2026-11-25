@@ -49,7 +49,7 @@ Kaynak: Hanifi'nin 02.11.2026 ve 03.11.2026 tarihli aktarımları.
 
 - **Automic DWH zamanlayıcısı seçenekleri arasında değil; sebebi lisans sorunları.** Kurumda Automic kullanan ekipler var ([[Takasbank Genel Bilgilendirme 2]]), ancak lisans nedeniyle DWH için masada değil.
 - DWH zamanlayıcısı/orkestrasyon aracı için **henüz karar verilmedi**; diğer seçenekler **değerlendirilmeye devam ediyor**; Ekim 2026'da orkestrasyon gereksinimi için farklı seçeneklerin değerlendirmesi yapıldı. Açık soru: [[Aktif Sorular]] madde 16.
-- **Plan (25.11.2026, Hanifi'nin aktarımı):** zamanlama için **Ab Initio Control Center**, kaynaklardan veri çekme için **Ab Initio GDE** kullanılması planlanıyor.
+- **Plan (25.11.2026, Hanifi'nin aktarımı):** zamanlama için **Ab Initio Control Center** kullanılması planlanıyor. Veri alma iş bölümü: gerçek zaman ve CDC için **GoldenGate**, toplu çekim için **Ab Initio GDE**.
 
 ## Donanım / yerleşim
 
