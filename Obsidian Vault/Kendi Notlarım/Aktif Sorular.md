@@ -38,7 +38,7 @@ Friday, 4 September 2026, 2:41 pm
     8. Gün içi / operasyonel raporlar `ODS_` şemalarından mı verilecek ([[DWH Hedef Mimarisi v2#Yönetici özeti]] böyle diyor); `sur` standby'ın raporlama rolü kalıyor mu?
     9. `tvsods` hangi tarihte, hangi geçiş koşuluyla kapatılacak?
 5. [[Sistemler ve Servisler#2. Goldengate|Goldengate]] → ODS beslemesi için **GoldenGate kararlaştırıldı** (madde 4). GG'nin alamadığı kaynaklar ve DWH içi dönüşüm/ELT aracı ayrı karar.
-6. Maskeli veriler DWH'e alınmalı mı? ([[PowerDesigner Bilgilendirme]])
+6. Maskeli veriler DWH'e alınmalı mı? ([[PowerDesigner Bilgilendirme]] · [[Veri Maskeleme]])
     1. Üretimde doğruluk için açık ama erişim kontrollü/tokenized veri, non-prod'da Informatica TDM ile maskeleme yaklaşımı onaylanıyor mu?
     2. Gerçek kişi/BES/escrow verilerinin izinli kullanım amacı ve satır/kolon erişim modeli nedir?
     3. İleride bu konuyla ilgili daha detaylı bir doküman oluşturalım. Referans: [dwh-veri-maskeleme.pdf](../../outputs/dwh-veri-maskeleme/dwh-veri-maskeleme.pdf)

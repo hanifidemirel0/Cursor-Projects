@@ -24,6 +24,7 @@ title: Home
 - Onur Karaca · [[Aktarım #1]]
 - Aytaç · [[PowerDesigner Bilgilendirme]]
 - Ozan Yağmuroğlu · [[Ortamlar hakkında]]
+- [[Veri Maskeleme]] — 27 kasım 2026
 
 ## Kavramlar
 
