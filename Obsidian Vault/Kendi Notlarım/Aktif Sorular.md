@@ -41,6 +41,7 @@ Friday, 4 September 2026, 2:41 pm
 6. Maskeli veriler DWH'e alınmalı mı? ([[PowerDesigner Bilgilendirme]])
     1. Üretimde doğruluk için açık ama erişim kontrollü/tokenized veri, non-prod'da Informatica TDM ile maskeleme yaklaşımı onaylanıyor mu?
     2. Gerçek kişi/BES/escrow verilerinin izinli kullanım amacı ve satır/kolon erişim modeli nedir?
+    3. İleride bu konuyla ilgili daha detaylı bir doküman oluşturalım. Referans: [dwh-veri-maskeleme.pdf](../../outputs/dwh-veri-maskeleme/dwh-veri-maskeleme.pdf)
 7. Historic dataya hangi durumlarda update geliyor? İlgili UG'den sorulacak. ([[Ortamlar hakkında]])
 8. Mutabakatın otorite kaynağı ne olacak? Her konu alanı için "sayı bununla tutmak zorunda" denilen rapor/tablo tek tek belirlenmeli; bugün bu rolü hangi raporun oynadığı belli değil. Mekanizma tasarımı: [[DWH Hedef Mimarisi v2]]
     1. Bugünkü raporların kendi arasında farkı varsa hangisi doğru sayılacak?
